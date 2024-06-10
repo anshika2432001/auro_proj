@@ -16,7 +16,7 @@ const FAQ = () => {
         { question: 'What is JSX?', answer: 'JSX is a syntax extension that allows writing HTML-like code within JavaScript.' },
         { question: 'What is a prop in React?', answer: 'Props are inputs to a React component that allow data to be passed from parent to child components.' },
         { question: 'How to handle events in React?', answer: 'Events in React are handled using event handlers like onClick, onChange, etc.' },
-        // Add more questions and answers here
+     
       ];
 
       const [page, setPage] = useState(1);
