@@ -1,5 +1,11 @@
 import React from 'react';
 import { Card, CardContent,Button,Box,Typography,Grid, CardMedia } from '@mui/material';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import GradingIcon from '@mui/icons-material/Grading';
+import GamesIcon from '@mui/icons-material/Games';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import Society from '../../images/Society.png'
+import Scholar from '../../images/Scholar.png'
 
 const AboutAuro = () => {
   return (
@@ -7,39 +13,65 @@ const AboutAuro = () => {
       <Card>
         <CardContent>
         <Grid container spacing={0} sx={{ mt: 3 }}>
-          <Grid item xs={3}>
-            <Typography variant="h6" align="center" gutterBottom>
-              Part 1
+          <Grid item  xs={12} sm={3} md={3} lg={3} display="flex">
+          <AppRegistrationIcon sx={{color:"#4772D9"}}/>
+            <Typography variant="h3" sx={{pl:2}} >
+           
+              1.6Mn+
+              <Typography variant="body1"  >
+              Registrations on App
             </Typography>
-          </Grid>
-          <Grid item xs={3} sx={{ borderLeft: '1px solid #ccc' }}>
-            <Typography variant="h6" align="center" gutterBottom>
-              Part 2
             </Typography>
+            
           </Grid>
-          <Grid item xs={3} sx={{ borderLeft: '1px solid #ccc' }}>
-            <Typography variant="h6" align="center" gutterBottom>
-              Part 3
+          <Grid item xs={12} sm={3} md={3} lg={3} display="flex">
+          <GradingIcon sx={{color:"#4772D9"}}/>
+            <Typography variant="h3" sx={{pl:2}} >
+           
+              10k+
+              <Typography variant="body1"  >
+              Registrations on App
             </Typography>
-          </Grid>
-          <Grid item xs={3} sx={{ borderLeft: '1px solid #ccc' }} >
-            <Typography variant="h6" align="center" gutterBottom>
-              Part 4
             </Typography>
+            
+          </Grid>
+          <Grid item xs={12} sm={3} md={3} lg={3} display="flex">
+          <HandshakeIcon sx={{color:"#4772D9"}}/>
+            <Typography variant="h3" sx={{pl:2}} >
+           
+              175+
+              <Typography variant="body1"  >
+              Registrations on App
+            </Typography>
+            </Typography>
+            
+          </Grid>
+          <Grid item xs={12} sm={3} md={3} lg={3} display="flex">
+          <GamesIcon sx={{color:"#4772D9"}}/>
+            <Typography variant="h3" sx={{pl:2}} >
+           
+              26
+              <Typography variant="body1"  >
+              Registrations on App
+            </Typography>
+            </Typography>
+            
           </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ mt: 5 }}>
-          <Grid item xs={12} sm={3}>
+          <Grid container spacing={2} sx={{ mt: 3 }}>
+          <Grid item  xs={12} sm={4.5} md={4.5} lg={4.5}>
             <CardMedia
               component="img"
-              height="200"
-              image="/path/to/your/image.jpg"
+              height="100px"
+              width="100px"
+              image={Society}
               alt="Image"
+              sx={{mt:5}}
             />
           </Grid>
            
-            <Grid item xs={12} sm={9}>
-              <Typography variant="h4" color="black" sx={{ fontWeight: 'bold',mb:"30px" }}>
+            <Grid item xs={12} sm={7.5} md={7.5} lg={7.5}>
+              <Typography variant="h2" >
                 About Sri Aurobindo Society
               </Typography>
               <Typography variant="body1">
@@ -49,18 +81,25 @@ const AboutAuro = () => {
             
           </Grid>
           
-          <Grid container spacing={2} sx={{ mt: 5 }}>
-          <Grid item xs={12} sm={3}>
-            <CardMedia
-              component="img"
-              height="200"
-              image="/path/to/your/image.jpg"
-              alt="Image"
+          
+        </CardContent>
+        </Card>
+        <Grid container spacing={2} padding="20px 0px">
+          <Grid item xs={12} sm={4} md={4} lg={4}>
+          <Box
+            component = "img"
+            src={Scholar}
+            alt= "Image1"
+            sx={{
+              width:"200px",
+              height:"200px",
+            }}
+
             />
           </Grid>
            
-            <Grid item xs={12} sm={9}>
-              <Typography variant="h4" color="black" sx={{ fontWeight: 'bold',textAlign:"center",mb:"30px" }} >
+            <Grid item xs={12} sm={7} md={7} lg={7}>
+            <Typography variant="h2" align="center">
                 About Auro Scholar
               </Typography>
               <Box sx={{ textAlign: 'center', lineHeight: 1.6, margin: '20px' }}>
@@ -74,7 +113,7 @@ const AboutAuro = () => {
           9 languages
         </Typography>{' '}
         from{' '}
-        <Typography variant="body1" component="span" color="blue">
+        <Typography variant="body1" component="span" color="#2899DB">
           Grade 1 to 12th
         </Typography>{' '}
         covering{' '}
@@ -87,8 +126,6 @@ const AboutAuro = () => {
             </Grid>
             
           </Grid>
-        </CardContent>
-        </Card>
     </div>
   )
 }

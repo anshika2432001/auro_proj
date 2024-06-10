@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Tabs, Tab, TextField, Box, Grid, Card, CardMedia, CardContent, Typography, Pagination } from '@mui/material';
-
+import { AppBar, Toolbar, Tabs, Tab, TextField,Button, Box, Grid, Card, CardMedia, CardContent, Typography, Pagination, useMediaQuery } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'
+import { useTheme } from '@emotion/react';
 
 
 const Blog = () => {
   const [category, setCategory] = useState('All');
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const blogsData = [
     { id: 1, category: 'Research', title: 'Blog Title 1', description: 'This is a description of blog 1.', author: 'Author 1', date: '2023-06-01', image: 'https://via.placeholder.com/150' },
@@ -40,22 +44,40 @@ console.log(blogsData)
   console.log(displayedBlogs)
 
   return (
-    <Box sx={{ padding: '20px' }}>
-      <Card>
+    <div>
+       <Card sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
+        <CardContent>
+          <Typography variant="h1" align="center" sx={{  color: 'white' }}>
+            Blog
+          </Typography>
+          <Typography variant="body1" align="center" sx={{ color: 'white' }}>
+            This is the content below the heading.
+          </Typography>
+        </CardContent>
+      </Card>
+      {/* <Card>
         <CardMedia
           component="img"
           height="300"
           image="https://via.placeholder.com/600x300"
           alt="Main Blog Image"
         />
-      </Card>
-      <AppBar position="static" sx={{ backgroundColor: 'white', marginTop: 2 }}>
+      </Card> */}
+      <Box sx={{ padding: '20px' }}>
+      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
         <Toolbar>
+        <Grid container alignItems="center">
+           
+            <Grid item xs={12} sm={8} md={8} lg={8} > 
           <Tabs
             value={category}
             onChange={handleCategoryChange}
             textColor="primary"
             indicatorColor="primary"
+             variant={isSmallScreen? 'scrollable':'standard'}
+             scrollButtons={isSmallScreen? 'auto':'off'}
+
+             sx={{'& .MuiTab-root': {fontWeight:"bold",fontSize:"13px"} }}
           >
             <Tab label="All" value="All" />
             <Tab label="Research" value="Research" />
@@ -64,40 +86,50 @@ console.log(blogsData)
             <Tab label="Leader's Speak" value="Leader's Speak" />
             <Tab label="Policy" value="Policy" />
           </Tabs>
+          </Grid>
+          <Grid item xs={12} sm={4} md={4} lg={4} > 
+            <Box display="flex" justifyContent="flex-end" alignItems="center">
           <TextField
-            variant="outlined"
+            size="small"
             placeholder="Search..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            sx={{ marginLeft: 'auto', width: 300 }}
+            
           />
+          <Button variant="contained"  size="small" sx={{minWidth:'auto',padding:0}}><SearchIcon/></Button>
+          </Box>
+          </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
-      <Grid container spacing={2} sx={{ marginTop: 2 }}>
+      
+      <Grid container spacing={2} sx={{ marginTop: 1 }}>
         {displayedBlogs.map(blog => (
           <Grid item xs={12} sm={6} md={4} key={blog.id}>
-            <Card sx={{ height: '100%' }}>
+            <Card className='mini-card'>
+              
+              <CardContent>
               <CardMedia
                 component="img"
                 height="140"
                 image={blog.image}
+                
                 alt={blog.title}
               />
-              <CardContent>
-                <Typography variant="subtitle2" color="textSecondary">
+                <Typography variant="body2" color="textSecondary">
                   {blog.category}
                 </Typography>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h4" gutterBottom>
                   {blog.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" paragraph>
+                <Typography variant="body2" color="textSecondary" >
                   {blog.description}
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2">
                     {blog.author}
                   </Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography variant="body2">
                     {blog.date}
                   </Typography>
                 </Box>
@@ -116,7 +148,8 @@ console.log(blogsData)
           />
         </Box>
       )}
-    </Box>
+      </Box>
+    </div>
   );
 };
 

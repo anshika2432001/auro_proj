@@ -40,31 +40,33 @@ const FAQ = () => {
       
   return (
     <div>
-         <Box >
-      <Card sx={{ width: '100%', backgroundColor: 'lightblue', padding: '20px', marginBottom: '20px' }}>
+         
+      
+         <Card sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
         <CardContent>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', color: 'white' }}>
+          <Typography variant="h1" align="center" sx={{  color: 'white' }}>
             FAQ's
           </Typography>
-          <Typography variant="body1" align="center" sx={{ color: 'white', marginTop: '20px' }}>
+          <Typography variant="body1" align="center" sx={{ color: 'white' }}>
             This is the content below the heading.
           </Typography>
         </CardContent>
-        </Card>
-        <Box sx={{ padding: '20px',margin:"40px 20px" }}>
+      </Card>
+
+        <Card>
       <Grid container spacing={3}>
         {displayedQuestions.map((item, index) => (
           <Grid item xs={12} sm={6} key={index}>
-            <Card >
+            <Card  sx={{padding:"0px" }}>
               <CardContent>
-                <Typography  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',fontSize:"18px" }}>
+                <Typography  variant="h4" justifyContent="space-between" display="flex" alignItems="center">
                   {item.question}
                   <IconButton onClick={() => handleExpandClick(index)}>
                     {expandedIndex === index ? <ExpandLess /> : <ExpandMore />}
                   </IconButton>
                 </Typography>
                 <Collapse in={expandedIndex === index} timeout="auto" unmountOnExit>
-                  <Typography variant="body2" color="textSecondary" sx={{ marginTop: 2 }}>
+                  <Typography variant="body1" color="textSecondary">
                     {item.answer}
                   </Typography>
                 </Collapse>
@@ -83,8 +85,8 @@ const FAQ = () => {
           />
         </Box>
       )}
-    </Box>
-        </Box>
+    </Card>
+    
       
     </div>
   )

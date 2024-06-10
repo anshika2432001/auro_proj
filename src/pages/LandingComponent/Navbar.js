@@ -1,9 +1,22 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { AppBar, Toolbar,Grid, Typography, Button, Box } from '@mui/material';
 import { useNavigate} from "react-router-dom";
+import AuroLogo from '../../images/AuroLogo.png'
+
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [activeButton, setActiveButton] = useState(null);
+  const handleButtonClick = (buttonName,path) => {
+    setActiveButton(buttonName);
+    if(path) navigate(path);
+  }
+  const getButtonStyle = (buttonName) => ({
+    color: activeButton === buttonName ? '#2899DB': 'black',
+    marginRight:'10px'
+  })
+
+
   return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: 'white' }}>
@@ -11,7 +24,7 @@ const Navbar = () => {
           <Grid container alignItems="center">
             <Grid item xs={12} sm={3} md={3} lg={3}> 
               <Typography variant="h6">
-                <img src="your-logo-url.png" alt="Logo" height="40" />
+                <img src={AuroLogo} alt="Logo" height="40" />
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6} textAlign="center"> 
@@ -21,17 +34,17 @@ const Navbar = () => {
     flexDirection: { xs: 'column', sm: 'row' },
     alignItems: 'center',
   }}>
-                <Button sx={{ color: 'black', marginRight: '10px' }} onClick={() => navigate('/')}>About Org</Button>
-                <Button sx={{ color: 'black', marginRight: '10px' }} onClick={() => navigate('/blog')}>Blog</Button>
-                <Button sx={{ color: 'black', marginRight: '10px' }} onClick={() => navigate('/news')}>News</Button>
-                <Button sx={{ color: 'black', marginRight: '10px' }} onClick={() => navigate('/faq')}>FAQ</Button>
-                <Button sx={{ color: 'black', marginRight: '10px' }}>Donate</Button>
-                <Button sx={{ color: 'black' }} onClick={() => navigate('/contact')} >Contact</Button>
+                <Button sx={getButtonStyle('about')} onClick={()=> handleButtonClick('about','/')}><Typography variant="h5">About Org</Typography></Button>
+                <Button sx={getButtonStyle('blog')} onClick={()=> handleButtonClick('blog','/blog')}><Typography variant="h5">Blog</Typography></Button>
+                <Button sx={getButtonStyle('news')} onClick={()=> handleButtonClick('news','/news')}><Typography variant="h5">News</Typography></Button>
+                <Button sx={getButtonStyle('faq')} onClick={()=> handleButtonClick('faq','/faq')}><Typography variant="h5">FAQ</Typography></Button>
+                <Button sx={getButtonStyle('donate')}><Typography variant="h5">Donate</Typography></Button>
+                <Button sx={getButtonStyle('contact')} onClick={()=> handleButtonClick('contact','/contact')} ><Typography variant="h5">Contact</Typography></Button>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={3} md={3} lg={3} textAlign="right"z> 
+            <Grid item xs={12} sm={3} md={3} lg={3}  display="flex" justifyContent="flex-end"> 
            
-              <Button variant="filled" sx={{ backgroundColor: "blue", marginRight: '10px' }}>Register</Button>
+              <Button variant="contained" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',}} >Register</Button>
              
               <Button color="primary" variant="outlined">Login</Button>
       

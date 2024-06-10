@@ -19,14 +19,14 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <Card sx={{ backgroundColor: 'lightblue', color: 'white', paddingBottom: '100px',  textAlign: 'center' }}>
+    <Card sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
       <CardContent>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h2" align="center" color="#ffff">
           Testimonials
         </Typography>
-        <div style={{  margin: '0 auto',  }}>
+        <Box sx={{position:'relative',height:'150px'}}>
           {testimonialsData.map((testimonial, index) => (
-            <div
+            <Box
               key={index}
               style={{
                 display: 'flex',
@@ -43,9 +43,10 @@ const Testimonials = () => {
                   <Typography variant="body1">{testimonial}</Typography>
                 </CardContent>
               </Card>
-            </div>
+            </Box>
           ))}
-        </div>
+          </Box>
+     
         
       </CardContent>
     </Card>

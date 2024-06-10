@@ -21,3 +21,9 @@
 .menuItem:last-child {
   margin-right: 0;
 }
+
+.radioLabel {
+ white-space: 'normal';
+ word-break: 'break-word';
+ display: 'inline-block';
+}

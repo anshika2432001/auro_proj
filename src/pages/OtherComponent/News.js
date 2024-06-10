@@ -1,5 +1,6 @@
 import React,{ useState } from 'react';
 import { Card, CardContent,CardMedia, Typography, Grid, TextField, Button, Box, Pagination } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'
 
 const News = () => {
 
@@ -91,41 +92,43 @@ const News = () => {
     
   return (
     <div>
-         <Box >
-      <Card sx={{ width: '100%', backgroundColor: 'lightblue', padding: '20px', marginBottom: '20px' }}>
+        
+       
+        <Card sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
         <CardContent>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', color: 'white' }}>
-            News & Media
+          <Typography variant="h1" align="center" sx={{  color: 'white' }}>
+            News
           </Typography>
-          <Typography variant="body1" align="center" sx={{ color: 'white', marginTop: '20px' }}>
+          <Typography variant="body1" align="center" sx={{ color: 'white' }}>
             This is the content below the heading.
           </Typography>
         </CardContent>
       </Card>
+
       <Box sx={{ padding: '20px' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px',marginRight:'25px' }}>
-        <TextField
-          label="Search"
-          variant="outlined"
-          value={search}
-          onChange={handleSearchChange}
-          size="small"
-          sx={{marginRight:"10px"}}
-        />
-        <Button variant="contained" color="primary">Search</Button>
-      </Box>
+      <Box display="flex" justifyContent="flex-end" alignItems="center" mb={2}>
+          <TextField
+            size="small"
+            placeholder="Search..."
+            onChange={handleSearchChange}
+            
+          />
+          <Button variant="contained" color="primary" size="small" sx={{minWidth:'auto',p:0}}><SearchIcon/></Button>
+          </Box>
       <Grid container spacing={2}>
         {displayedNews.map((news, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ maxWidth: 345, margin: 2,borderTop: '4px solid blue' }}>
+            <Card sx={{ borderTop: '4px solid #2899DB' }} className='mini-card'>
             <CardContent>
-            <Typography variant="subtitle2" color="primary">
-          {news.source} 
-        </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
-           {news.date}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="div">
+            <Box sx={{ display: 'flex', justifyContent: 'space-between',mb:2 }}>
+                  <Typography variant="body1" >
+                    {news.source}
+                  </Typography>
+                  <Typography variant="body1" >
+                    {news.date}
+                  </Typography>
+                </Box>
+        <Typography mb={1} variant="h4" >
           {news.heading}
         </Typography>
       <CardMedia
@@ -133,12 +136,12 @@ const News = () => {
         height="140"
         image={news.image}
         alt={news.heading}
-        sx={{borderRadius:"10px"}}
+        sx={{borderRadius:"5px"}}
       />
       
        
        
-        <Typography variant="body2" color="textSecondary" mt={2}>
+        <Typography variant="body1"  mt={2}>
           {news.description}
         </Typography>
       </CardContent>
@@ -157,7 +160,7 @@ const News = () => {
         </Box>
       )}
     </Box>
-      </Box>
+     
       
     </div>
   )

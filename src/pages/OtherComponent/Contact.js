@@ -3,17 +3,19 @@ import { Card, CardContent, Typography, Grid, TextField, Button, Box, FormContro
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import '../../App.css';
 
 const Contact = () => {
+
   return (
     <div>
-       <Box >
-      <Card sx={{ width: '100%', backgroundColor: 'lightblue', padding: '20px', marginBottom: '20px' }}>
+      
+      <Card sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
         <CardContent>
-          <Typography variant="h4" align="center" sx={{ fontWeight: 'bold', color: 'white' }}>
+          <Typography variant="h1" align="center" sx={{  color: 'white' }}>
             Contact
           </Typography>
-          <Typography variant="body1" align="center" sx={{ color: 'white', marginTop: '20px' }}>
+          <Typography variant="body1" align="center" sx={{ color: 'white' }}>
             This is the content below the heading.
           </Typography>
         </CardContent>
@@ -21,24 +23,24 @@ const Contact = () => {
 
       <Card>
         <CardContent>
-            <Card sx={{padding:"30px 100px",borderRadius:"20px"}} >
+            <Card >
             <CardContent>
           <Grid container spacing={2} >
-            <Grid item xs={12} sm={4} sx={{backgroundColor:"blue",borderRadius:"10px"}}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold',color:"white" }}>
+            <Grid item xs={12} sm={4} sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',borderRadius:"10px"}}>
+              <Typography variant="h3" sx={{ color:"white" }}>
                 Contact Information
               </Typography>
-              <Typography  sx={{ color:"white",fontSize:"15px" }}>
+              <Typography variant="body2" color="white">
                 some info here.
               </Typography>
-              <Box sx={{ marginTop: '40px' }}>
-                <Box display="flex" alignItems="center" mb={5} color="white">
+              <Box sx={{ marginTop: '20px' }}>
+                <Box display="flex" alignItems="center" mb={3} color="white">
                   <PhoneIcon />
                   <Typography variant="body1" sx={{ marginLeft: '10px'}}>
                     Contact No: 123-456-7890
                   </Typography>
                 </Box>
-                <Box display="flex" alignItems="center" mb={5} color="white">
+                <Box display="flex" alignItems="center" mb={3} color="white">
                   <EmailIcon />
                   <Typography variant="body1" sx={{ marginLeft: '10px' }}>
                     Email: info@example.com
@@ -53,47 +55,47 @@ const Contact = () => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={8} sx={{borderRadius:"10px"}}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+              <Typography variant="h4" >
                 Connect with Us
               </Typography>
               <form>
-                <Grid container spacing={2} sx={{ marginTop: '20px' }}>
+                <Grid container spacing={2} sx={{ marginTop: '10px' }}>
                   <Grid item xs={6}>
                     <TextField 
-                     size="small"
+                     
                     fullWidth 
                     label="First Name" 
-                    variant="outlined" />
+                    />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField 
-                      size="small"
+                  
                     fullWidth 
                     label="Last Name" 
-                    variant="outlined" />
+                   />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField 
-                      size="small"
+                     
                     fullWidth 
                     label="Email ID" 
-                    variant="outlined" />
+                     />
                   </Grid>
                   <Grid item xs={6}>
                     <TextField 
-                      size="small"
+                     
                     fullWidth 
                     label="Mobile No"
-                     variant="outlined" />
+                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sm={4} md={4} lg={12}>
                     <FormControl component="fieldset" fullWidth>
                       <FormLabel component="legend">Select Subject?</FormLabel>
                       <RadioGroup row>
-                        <FormControlLabel value="subject1" control={<Radio />} label="Subject 1" />
-                        <FormControlLabel value="subject2" control={<Radio />} label="Subject 2" />
-                        <FormControlLabel value="subject3" control={<Radio />} label="Subject 3" />
-                        <FormControlLabel value="subject4" control={<Radio />} label="Subject 4" />
+                        <FormControlLabel value="donation" control={<Radio />} label={<span className='radioLabel'>Donation</span>} />
+                        <FormControlLabel value="technical" control={<Radio />} label={<span className='radioLabel'>Technical Issue</span>} />
+                        <FormControlLabel value="partnership" control={<Radio />} label={<span className='radioLabel'>Request For Partnership</span>} />
+                        <FormControlLabel value="info" control={<Radio />} label={<span className='radioLabel'>Request For<br></br> More Information</span>} />
                       </RadioGroup>
                     </FormControl>
                   </Grid>
@@ -107,7 +109,7 @@ const Contact = () => {
                     />
                   </Grid>
                   <Grid item xs={12} textAlign="right">
-                    <Button variant="contained" color="primary">
+                    <Button variant="contained" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',}}>
                       Send Message
                     </Button>
                   </Grid>
@@ -119,7 +121,7 @@ const Contact = () => {
           </Card>
         </CardContent>
       </Card>
-    </Box>
+   
     </div>
   )
 }

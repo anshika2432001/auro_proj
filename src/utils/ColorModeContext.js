@@ -1,6 +1,8 @@
 import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { deepPurple, grey, deepOrange, indigo } from "@mui/material/colors";
+import { GlobalStyles } from "@mui/material";
+import "@fontsource/inter";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -28,74 +30,119 @@ export const ColorModeContextProvider = ({ children }) => {
           fontSize:12,
           // Name of the component
           h4: {
-            fontSize:12,
-            marginBottom: 20,
-            borderBottom: "solid 1 px #EAEAEA",
-            fontSize:"20px",
-            fontWeight:"600",
-            fontSize:"16px",
-            lineHeight:"2",
+            fontSize:20,
+          fontFamily:"Inter",
+            fontWeight:"bold",
+            
+           }, 
+           h5: {
+            fontSize:"14px",
+            
+            fontFamily:"Inter",
+            color:"black",
+            fontWeight:"bold",
+            
            }, 
            h6:{
             fontSize:"16px",
             fontWeight:"600",
+            fontFamily:"Inter",
+          
             
            },
            body1:{
               fontWeight: 500,
-              color: "white",
+              fontSize: 14,
+            fontFamily:"Inter",
+       
+              
+            },
+            body2:{
+              fontWeight: 500,
+              fontSize: 14,
+            fontFamily:"Inter",
+            paddingTop:10,
+            paddingBottom:10
+              
             },
           
             h1: {
-              color: "white",
-              fontSize: 35,
-              fontWeight: 600,
+           
+              fontSize: 40,
+              fontWeight: 700,
+              paddingTop: 20,
+              paddingBottom: 20,
+              color:"white",
+              fontFamily:"Inter"
             },
             h2: {
-               color: "white",
+              
               fontSize: 30,
-              fontWeight: 700,
-              // paddingTop: 15,
-              // paddingBottom: 15,
+              fontWeight: "bold",
+               paddingTop: 20,
+               paddingBottom: 20,
+               fontFamily:"Inter"
             },
             h3: {
               // color: "indigo",
-              fontWeight: "500",
-              fontSize: "32px",
+              fontWeight: 700,
+              fontSize: 25,
+              fontFamily:"Inter"
               // paddingTop: 15,
               // paddingBottom: 15,
             },
             
             
           },
-        // Button:{
-        //     contained:{
-        //           fontSize:"250px",
-        //           borderRadius: "20px",
-                  
-                
-        //     }
-            
-        //   },
+        img: {
+          background:'none'
+        },
         components: {
         
-          MuiButtonBase: {
+          MuiButton: {
             styleOverrides: {
               
               root: {
-                fontSize:"250px",
-                borderRadius: 50,
+                fontSize:"13px",
+                borderRadius: 5,
+                margin:"10px"
+            
+                
+              },
+              contained: {
+                
+                fontWeight:"bold"
+              },
+              outlined: {
+                border: 'none',
+                fontWeight:"bold"
+              }
+            },
+          },
+          MuiSvgIcon: {
+            styleOverrides: {
+            
+              root: {
+                padding:"3px",
+                fontSize:"30px"
                 
               },
             },
+
           },
+          
           MuiCard: {
             styleOverrides: {
             
               root: {
-                
-                boxShadow: 2,
-                borderRadius: 5,
+                padding:"30px",
+                border:"none",
+
+                '&.mini-card':{
+                  margin:3,
+                  padding:"20px",
+                  borderRadius:"5px"
+                }
                 
               },
             },
@@ -117,31 +164,7 @@ export const ColorModeContextProvider = ({ children }) => {
                 
               },
             },
-            MuiTextField: {
-              styleOverrides: {
-                root: {
-                  "& .MuiOutlinedInput-root": {
-                    "& > fieldset": {
-                      // borderColor: "indigo",
-                      // borderRadius: 5,
-                    },
-                    "& .MuiInputBase-input.Mui-disabled": {
-                      backgroundColor: "#f0f0f0",
-                    },
-                    // "& label": {
-                    //   color: secondary[400],
-                    //   opacity: 1,
-                    //   fontWeight: 800,
-                    // },
-                    // "& MuiInputBase": {
-                    //   color: secondary[400],
-                    //   opacity: 1,
-                    //   fontWeight: 800,
-                    // },
-                  },
-                },
-              },
-            },
+          
 
          
         },
@@ -191,7 +214,10 @@ export const ColorModeContextProvider = ({ children }) => {
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+       
+        {children}
+        </ThemeProvider>
     </ColorModeContext.Provider>
   );
 };
