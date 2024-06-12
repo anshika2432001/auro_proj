@@ -105,13 +105,14 @@ export const ColorModeContextProvider = ({ children }) => {
               root: {
                 fontSize:"13px",
                 borderRadius: 5,
-                margin:"10px"
-            
+                marginTop:"10px",
+                marginBottom:"10px"
                 
               },
               contained: {
                 
-                fontWeight:"bold"
+                fontWeight:"bold",
+                background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'
               },
               outlined: {
                 border: 'none',

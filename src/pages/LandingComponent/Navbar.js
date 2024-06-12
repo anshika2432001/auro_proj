@@ -2,11 +2,14 @@ import React,{useState} from 'react';
 import { AppBar, Toolbar,Grid, Typography, Button, Box } from '@mui/material';
 import { useNavigate} from "react-router-dom";
 import AuroLogo from '../../images/AuroLogo.png'
+import Login from './Login';
 
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState(null);
+  const [isLoginDialogVisible, setLoginDialogVisible] = useState(false);
+
   const handleButtonClick = (buttonName,path) => {
     setActiveButton(buttonName);
     if(path) navigate(path);
@@ -16,6 +19,12 @@ const Navbar = () => {
     marginRight:'10px'
   })
 
+  const toggleLoginDialog = () => {
+    setLoginDialogVisible(!isLoginDialogVisible);
+  };
+  const handleRegisterForm = ()=> {
+    navigate("/registrationForm")
+  }
 
   return (
     <div>
@@ -44,14 +53,15 @@ const Navbar = () => {
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3}  display="flex" justifyContent="flex-end"> 
            
-              <Button variant="contained" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',}} >Register</Button>
+              <Button variant="contained" onClick={()=> handleRegisterForm()} >Register</Button>
              
-              <Button color="primary" variant="outlined">Login</Button>
+              <Button color="primary" variant="outlined" onClick={toggleLoginDialog}>Login</Button>
       
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+      <Login isOpen={isLoginDialogVisible} onClose={toggleLoginDialog} />
     </div>
   )
 }
