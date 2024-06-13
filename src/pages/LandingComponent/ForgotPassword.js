@@ -1,102 +1,186 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, Container } from '@mui/material';
+import { TextField, Button, Box, Typography, Container, CardContent, Card, Grid } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Login from './Login';
 
 const ForgotPassword = () => {
     const [step, setStep] = useState(1);
-    const [emailOrPhone, setEmailOrPhone] = useState('');
-    const [otp, setOtp] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    const handleSubmitEmailOrPhone = () => {
-        // Implement the API call to send OTP
-        console.log('OTP sent to:', emailOrPhone);
-        setStep(2);
+    const [isLoginDialogVisible, setLoginDialogVisible] = useState(false);
+    const toggleLoginDialog = () => {
+        setLoginDialogVisible(!isLoginDialogVisible);
     };
 
-    const handleSubmitOtp = () => {
-        // Implement the API call to verify OTP
-        console.log('OTP entered:', otp);
-        setStep(3);
-    };
+    // Custom validation for email or phone number
+    const emailOrPhoneSchema = Yup.string()
+        .test(
+            'emailOrPhone',
+            'Invalid email or phone number',
+            value => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) || /^\d{10}$/.test(value)
+        )
+        .required('Required');
 
-    const handleSubmitNewPassword = () => {
-        if (newPassword !== confirmPassword) {
-            alert('Passwords do not match!');
-            return;
-        }
-        // Implement the API call to update the password
-        console.log('New password set:', newPassword);
-        setStep(4);
-    };
+    const formikEmailOrPhone = useFormik({
+        initialValues: { emailOrPhone: '' },
+        validationSchema: Yup.object({
+            emailOrPhone: emailOrPhoneSchema,
+        }),
+        onSubmit: (values) => {
+            console.log('OTP sent to:', values.emailOrPhone);
+            setStep(2);
+        },
+    });
+
+    const formikOtp = useFormik({
+        initialValues: { otp: '' },
+        validationSchema: Yup.object({
+            otp: Yup.string()
+                .required('Required')
+                .matches(/^\d{6}$/, 'Invalid OTP'),
+        }),
+        onSubmit: (values) => {
+            console.log('OTP entered:', values.otp);
+            setStep(3);
+        },
+    });
+
+    const formikNewPassword = useFormik({
+        initialValues: { newPassword: '', confirmPassword: '' },
+        validationSchema: Yup.object({
+            newPassword: Yup.string()
+                .required('Required')
+                .min(8, 'Password must be at least 8 characters long'),
+            confirmPassword: Yup.string()
+                .required('Required')
+                .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
+        }),
+        onSubmit: (values) => {
+            console.log('New password set:', values.newPassword);
+            setStep(4);
+        },
+    });
 
     const renderStep = () => {
         switch (step) {
             case 1:
                 return (
-                    <Box>
-                        <Typography variant="h6">Forgot Password</Typography>
-                        <TextField
-                            label="Email or Phone Number"
-                            value={emailOrPhone}
-                            onChange={(e) => setEmailOrPhone(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Button variant="contained" color="primary" onClick={handleSubmitEmailOrPhone}>
-                            Submit
-                        </Button>
-                    </Box>
+                    <Card className='mini-card1'>
+                        <CardContent>
+                            <Typography variant="h4" gutterBottom textAlign="center">Forgot Password</Typography>
+                            <form onSubmit={formikEmailOrPhone.handleSubmit}>
+                                <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                                        <TextField
+                                            label="Email or Phone Number"
+                                            name="emailOrPhone"
+                                            value={formikEmailOrPhone.values.emailOrPhone}
+                                            onChange={formikEmailOrPhone.handleChange}
+                                            onBlur={formikEmailOrPhone.handleBlur}
+                                            error={formikEmailOrPhone.touched.emailOrPhone && Boolean(formikEmailOrPhone.errors.emailOrPhone)}
+                                            helperText={formikEmailOrPhone.touched.emailOrPhone && formikEmailOrPhone.errors.emailOrPhone}
+                                            fullWidth
+                                            margin="normal"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
+                                        <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }}>
+                                            Submit
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </CardContent>
+                    </Card>
                 );
             case 2:
                 return (
-                    <Box>
-                        <Typography variant="h6">Enter OTP</Typography>
-                        <TextField
-                            label="OTP"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Button variant="contained" color="primary" onClick={handleSubmitOtp}>
-                            Verify OTP
-                        </Button>
-                    </Box>
+                    <Card className='mini-card1'>
+                        <CardContent>
+                            <Typography variant="h4" gutterBottom textAlign="center">Enter OTP</Typography>
+                            <form onSubmit={formikOtp.handleSubmit}>
+                                <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                                        <TextField
+                                            label="OTP"
+                                            name="otp"
+                                            value={formikOtp.values.otp}
+                                            onChange={formikOtp.handleChange}
+                                            onBlur={formikOtp.handleBlur}
+                                            error={formikOtp.touched.otp && Boolean(formikOtp.errors.otp)}
+                                            helperText={formikOtp.touched.otp && formikOtp.errors.otp}
+                                            fullWidth
+                                            margin="normal"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
+                                        <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }}>
+                                            Verify OTP
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </CardContent>
+                    </Card>
                 );
             case 3:
                 return (
-                    <Box>
-                        <Typography variant="h6">Reset Password</Typography>
-                        <TextField
-                            label="New Password"
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            label="Confirm Password"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Button variant="contained" color="primary" onClick={handleSubmitNewPassword}>
-                            Reset Password
-                        </Button>
-                    </Box>
+                    <Card className='mini-card1'>
+                        <CardContent>
+                            <Typography variant="h4" gutterBottom textAlign="center">Reset Password</Typography>
+                            <form onSubmit={formikNewPassword.handleSubmit}>
+                                <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                                        <TextField
+                                            label="New Password"
+                                            type="password"
+                                            name="newPassword"
+                                            value={formikNewPassword.values.newPassword}
+                                            onChange={formikNewPassword.handleChange}
+                                            onBlur={formikNewPassword.handleBlur}
+                                            error={formikNewPassword.touched.newPassword && Boolean(formikNewPassword.errors.newPassword)}
+                                            helperText={formikNewPassword.touched.newPassword && formikNewPassword.errors.newPassword}
+                                            fullWidth
+                                            margin="normal"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                                        <TextField
+                                            label="Confirm Password"
+                                            type="password"
+                                            name="confirmPassword"
+                                            value={formikNewPassword.values.confirmPassword}
+                                            onChange={formikNewPassword.handleChange}
+                                            onBlur={formikNewPassword.handleBlur}
+                                            error={formikNewPassword.touched.confirmPassword && Boolean(formikNewPassword.errors.confirmPassword)}
+                                            helperText={formikNewPassword.touched.confirmPassword && formikNewPassword.errors.confirmPassword}
+                                            fullWidth
+                                            margin="normal"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
+                                        <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }}>
+                                            Reset Password
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </form>
+                        </CardContent>
+                    </Card>
                 );
             case 4:
                 return (
-                    <Box>
-                        <Typography variant="h6">Password Reset Successful!</Typography>
-                        <Button variant="contained" color="primary" href="/login">
-                            Go to Login
-                        </Button>
-                    </Box>
+                    <Card className='mini-card1'>
+                        <CardContent>
+                            <Typography variant="h4" gutterBottom textAlign="center">Password Reset Successful!</Typography>
+                            <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                                <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
+                                    <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }} onClick={toggleLoginDialog}>
+                                        Go to Login
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
                 );
             default:
                 return null;
@@ -105,9 +189,10 @@ const ForgotPassword = () => {
 
     return (
         <Container maxWidth="sm">
-            <Box mt={5}>
+            <Box>
                 {renderStep()}
             </Box>
+            <Login isOpen={isLoginDialogVisible} onClose={toggleLoginDialog} />
         </Container>
     );
 };

@@ -112,6 +112,7 @@ export const ColorModeContextProvider = ({ children }) => {
               contained: {
                 
                 fontWeight:"bold",
+                
                
               },
               outlined: {
@@ -140,8 +141,19 @@ export const ColorModeContextProvider = ({ children }) => {
                 border:"none",
 
                 '&.mini-card':{
-                  margin:3,
-                  padding:"20px",
+                  marginRight:'auto',
+                  marginLeft: 'auto', 
+                marginTop: '10px',
+                  padding: 3,
+                  borderRadius:"5px"
+                },
+                '&.mini-card1':{
+                  maxWidth: 400, 
+                  marginRight:'auto',
+                  marginLeft: 'auto', 
+                marginTop: '20px',
+                  marginBottom: '20px', 
+                  padding: 3,
                   borderRadius:"5px"
                 }
                 

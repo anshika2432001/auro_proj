@@ -80,7 +80,7 @@ const navigate = useNavigate();
   };
   return (
     <>
-    <Card sx={{ maxWidth: 400, mx: 'auto', mt: 5, mb: 5, p: 3 }}>
+    <Card className='mini-card1'>
       <CardContent>
         <Typography variant="h4" gutterBottom textAlign="center">OTP Verification</Typography>
         
