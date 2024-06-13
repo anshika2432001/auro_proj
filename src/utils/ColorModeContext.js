@@ -112,7 +112,7 @@ export const ColorModeContextProvider = ({ children }) => {
               contained: {
                 
                 fontWeight:"bold",
-                background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'
+               
               },
               outlined: {
                 border: 'none',

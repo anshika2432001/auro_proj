@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Typography, Grid, Link,Box, CardContent,Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import AuroLogo from '../../images/AuroLogo.png';
+import AuroLogo1 from '../../images/AuroLogo1.png';
 import FacebookLogo from '../../images/Facebook.png';
 import InstagramLogo from '../../images/Instagram.png';
 import LinkedinLogo from '../../images/LinkedIn.png';
@@ -57,7 +57,7 @@ const Footer = () => {
          
          
               <Typography variant="h6">
-                <img src={AuroLogo} alt="Logo" height="40" />
+                <img src={AuroLogo1} alt="Logo" height="40" />
               </Typography>
            
             <Typography variant="body2"color="white" sx={{mr:"30px"}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.</Typography>

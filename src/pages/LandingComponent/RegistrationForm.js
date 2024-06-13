@@ -28,7 +28,7 @@ const RegistrationForm = () => {
     name: Yup.string().required('Required'),
     email: Yup.string().required('Required').email("Invalid email address format"),
     mobileNo: Yup.string().required('Required')
-      .matches(/^[6-9]\d{9}$/, "Only digits allowed and should start with 9,8,7 or 6")
+      .matches(/^[6-9]\d{9}$/, "Only 10 digits allowed and should start with 9,8,7 or 6")
       .min(10, 'Must be exactly 10 digits')
       .max(10, 'Must be exactly 10 digits'),
     password: Yup.string().required('Required'),
@@ -322,6 +322,7 @@ const RegistrationForm = () => {
               onClick={(e) => {
                 SaveData(e, formik.values);
               }}
+              sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}
             >
               Sign Up
             </Button>

@@ -44,7 +44,7 @@ const Login = ({ isOpen, onClose }) => {
              
             }}
           >
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>
               Login
             </Button>
           </Box>

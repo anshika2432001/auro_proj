@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { AppBar, Toolbar,Grid, Typography, Button, Box } from '@mui/material';
 import { useNavigate} from "react-router-dom";
-import AuroLogo from '../../images/AuroLogo.png'
+import AuroLogo1 from '../../images/AuroLogo1.png'
 import Login from './Login';
 
 
@@ -33,7 +33,7 @@ const Navbar = () => {
           <Grid container alignItems="center">
             <Grid item xs={12} sm={3} md={3} lg={3}> 
               <Typography variant="h6">
-                <img src={AuroLogo} alt="Logo" height="40" />
+                <img src={AuroLogo1} alt="Logo" height="40" />
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={6} textAlign="center"> 
@@ -53,7 +53,7 @@ const Navbar = () => {
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3}  display="flex" justifyContent="flex-end"> 
            
-              <Button variant="contained" onClick={()=> handleRegisterForm()} >Register</Button>
+              <Button variant="contained" onClick={()=> handleRegisterForm()} sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',mr:2}} >Register</Button>
              
               <Button color="primary" variant="outlined" onClick={toggleLoginDialog}>Login</Button>
       

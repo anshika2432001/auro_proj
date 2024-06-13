@@ -26,9 +26,10 @@ const navigate = useNavigate();
   };
 
   const validationSchemaMobile = Yup.object({
-    mobileNumber: Yup.string()
-      .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
-      .required('Mobile number is required'),
+    mobileNumber: Yup.string().required('Required')
+    .matches(/^[6-9]\d{9}$/, "Only 10 digits allowed and should start with 9,8,7 or 6")
+    .min(10, 'Must be exactly 10 digits')
+    .max(10, 'Must be exactly 10 digits'),
   });
 
   const validationSchemaOtp = Yup.object({
@@ -101,7 +102,7 @@ const navigate = useNavigate();
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
-                <Button variant="contained" color="primary" type="submit">Send OTP</Button>
+                <Button variant="contained"  type="submit" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>Send OTP</Button>
               </Grid>
               </Grid>
             </form>
@@ -127,7 +128,7 @@ const navigate = useNavigate();
                 <Link href="#" onClick={handleResendOtp}>Resend OTP</Link>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
-                <Button variant="contained" color="primary" type="submit">Verify OTP</Button>
+                <Button variant="contained"  type="submit" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}}>Verify OTP</Button>
               </Grid>
               </Grid>
             </form>
@@ -148,7 +149,7 @@ const navigate = useNavigate();
   
                 <DialogContent >
                   <DialogContentText id="alert-dialog-description">
-                    <Typography variant="h4" color="#4772D9">Registration Successfull</Typography>
+                    <Typography variant="h4" color="#4772D9">Registration Successful</Typography>
                    
                   </DialogContentText>
                 </DialogContent>
