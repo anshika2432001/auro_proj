@@ -33,7 +33,7 @@ const Login = ({ isOpen, onClose }) => {
               mt: 1,
             }}
           >
-            <Link href="#" underline="hover" color="primary">
+            <Link href="/forgotPassword" underline="hover" color="primary">
               Forgot Password?
             </Link>
           </Box>

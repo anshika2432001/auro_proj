@@ -13,6 +13,7 @@ import Blog from './pages/OtherComponent/Blog';
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
 import RegistrationForm from './pages/LandingComponent/RegistrationForm';
 import OtpVerification from './pages/LandingComponent/OtpVerification';
+import ForgotPassword from './pages/LandingComponent/ForgotPassword';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route exact path = "/blog" element={<Blog/>}></Route>
             <Route exact path = "/registrationForm" element={<RegistrationForm/>}></Route>
             <Route exact path = "/otpVerify" element={<OtpVerification/>}></Route>
+            <Route exact path = "/forgotPassword" element={<ForgotPassword/>}></Route>
          </Routes>
 
       <Footer/>

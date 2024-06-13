@@ -27,10 +27,10 @@ const RegistrationForm = () => {
   const commonValidationSchema = Yup.object({
     name: Yup.string().required('Required'),
     email: Yup.string().required('Required').email("Invalid email address format"),
-    mobileNo: Yup.string().required('Required')
-      .matches(/^[6-9]\d{9}$/, "Only 10 digits allowed and should start with 9,8,7 or 6")
-      .min(10, 'Must be exactly 10 digits')
-      .max(10, 'Must be exactly 10 digits'),
+    mobileNo: Yup.number()
+    .required('Required')
+    .typeError('Must be a number')
+    .test('len', 'Must be exactly 10 digits', val => val && val.toString().length === 10),
     password: Yup.string().required('Required'),
     roleTypeId: Yup.number().required('Required'),
     designation: Yup.string().required('Required'),
@@ -129,6 +129,7 @@ const RegistrationForm = () => {
     console.log(values);
     navigate("/otpVerify");
   };
+  console.log(formik.values.roleTypeId)
 
   return (
     <div>
@@ -168,18 +169,20 @@ const RegistrationForm = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={4} md={4} lg={4}>
-                <TextField
-                  label="Mobile Number"
-                  name="mobileNo"
-                  value={formik.values.mobileNo}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.mobileNo && Boolean(formik.errors.mobileNo)}
-                  helperText={formik.touched.mobileNo && formik.errors.mobileNo}
-                  fullWidth
-                  margin="normal"
-                  required
-                />
+              <TextField
+              label="Mobile Number"
+              name="mobileNo"
+              type="tel"
+              inputProps={{ maxLength: 10 }}
+              value={formik.values.mobileNo}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.mobileNo && Boolean(formik.errors.mobileNo)}
+              helperText={formik.touched.mobileNo && formik.errors.mobileNo}
+              fullWidth
+              margin="normal"
+              required
+            />
               </Grid>
               <Grid item xs={12} sm={4} md={4} lg={4}>
                 <TextField
@@ -253,21 +256,8 @@ const RegistrationForm = () => {
                   </Grid>
                 </>
               )}
-              <Grid item xs={12} sm={4} md={4} lg={4}>
-                <TextField
-                  label="Designation"
-                  name="designation"
-                  value={formik.values.designation}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.designation && Boolean(formik.errors.designation)}
-                  helperText={formik.touched.designation && formik.errors.designation}
-                  fullWidth
-                  margin="normal"
-                  required
-                />
-              </Grid>
-              {formik.values.roleTypeId !== 1 && (
+              
+              {(formik.values.roleTypeId !== 1 && formik.values.roleTypeId !== "") && (
                 <Grid item xs={12} sm={4} md={4} lg={4}>
                   <TextField
                     label="Company/Organization"
@@ -299,6 +289,22 @@ const RegistrationForm = () => {
                   />
                 </Grid>
               )}
+               {( formik.values.roleTypeId !== "") && (
+              <Grid item xs={12} sm={4} md={4} lg={4}>
+                <TextField
+                  label="Designation"
+                  name="designation"
+                  value={formik.values.designation}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.designation && Boolean(formik.errors.designation)}
+                  helperText={formik.touched.designation && formik.errors.designation}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+              </Grid>
+               )}
               <Grid item xs={12} sm={12} md={12} lg={12}>
                 <FormControlLabel
                   control={

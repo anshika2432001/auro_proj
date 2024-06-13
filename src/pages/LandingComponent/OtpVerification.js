@@ -26,10 +26,10 @@ const navigate = useNavigate();
   };
 
   const validationSchemaMobile = Yup.object({
-    mobileNumber: Yup.string().required('Required')
-    .matches(/^[6-9]\d{9}$/, "Only 10 digits allowed and should start with 9,8,7 or 6")
-    .min(10, 'Must be exactly 10 digits')
-    .max(10, 'Must be exactly 10 digits'),
+    mobileNumber: Yup.number()
+    .required('Required')
+    .typeError('Must be a number')
+    .test('len', 'Must be exactly 10 digits', val => val && val.toString().length === 10),
   });
 
   const validationSchemaOtp = Yup.object({
@@ -82,7 +82,7 @@ const navigate = useNavigate();
     <>
     <Card sx={{ maxWidth: 400, mx: 'auto', mt: 5, mb: 5, p: 3 }}>
       <CardContent>
-        <Typography variant="h4" gutterBottom>OTP Verification</Typography>
+        <Typography variant="h4" gutterBottom textAlign="center">OTP Verification</Typography>
         
           {step === 1 && (
             <form onSubmit={formikMobile.handleSubmit}>
@@ -91,6 +91,8 @@ const navigate = useNavigate();
                 <TextField
                   label="Mobile Number"
                   name="mobileNumber"
+                  type="tel"
+                  inputProps={{ maxLength: 10 }}
                   value={formikMobile.values.mobileNumber}
                   onChange={formikMobile.handleChange}
                   onBlur={formikMobile.handleBlur}
