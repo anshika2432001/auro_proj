@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Tabs, Tab, TextField,Button, Box, Grid, Card, CardMedia, CardContent, Typography, Pagination, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'
 import { useTheme } from '@emotion/react';
+import { useNavigate} from "react-router-dom";
 
 
 const Blog = () => {
+  const navigate = useNavigate();
   const [category, setCategory] = useState('All');
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,6 +44,10 @@ const Blog = () => {
   const displayedBlogs = filteredBlogs.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 console.log(blogsData)
   console.log(displayedBlogs)
+
+  const handleDetails = ()=> {
+    navigate("/blogDetails")
+  }
 
   return (
     <div>
@@ -133,6 +139,7 @@ console.log(blogsData)
                     {blog.date}
                   </Typography>
                 </Box>
+                <Button variant="contained" onClick={()=> handleDetails()} sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)',mr:2}} >Details</Button>
               </CardContent>
             </Card>
           </Grid>

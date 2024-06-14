@@ -15,6 +15,7 @@ import RegistrationForm from './pages/LandingComponent/RegistrationForm';
 import OtpVerification from './pages/LandingComponent/OtpVerification';
 import ForgotPassword from './pages/LandingComponent/ForgotPassword'; 
 import Login from './pages/LandingComponent/Login';
+import BlogDetails from './pages/OtherComponent/BlogDetails';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route exact path = "/news" element={<News/>}></Route>
             <Route exact path = "/faq" element={<FAQ/>}></Route>
             <Route exact path = "/blog" element={<Blog/>}></Route>
+            <Route exact path = "/blogDetails" element={<BlogDetails/>}></Route>
             <Route exact path = "/registrationForm" element={<RegistrationForm/>}></Route>
             <Route exact path = "/login" element={<Login/>}></Route>
             <Route exact path = "/otpVerify" element={<OtpVerification/>}></Route>
