@@ -10,12 +10,13 @@ import Footer from './pages/LandingComponent/Footer';
 import News from './pages/OtherComponent/News';
 import FAQ from './pages/OtherComponent/FAQ';
 import Blog from './pages/OtherComponent/Blog';
+import ArticleDetails from './pages/OtherComponent/ArticleDetails';
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
 import RegistrationForm from './pages/LandingComponent/RegistrationForm';
 import OtpVerification from './pages/LandingComponent/OtpVerification';
 import ForgotPassword from './pages/LandingComponent/ForgotPassword'; 
 import Login from './pages/LandingComponent/Login';
-import BlogDetails from './pages/OtherComponent/BlogDetails';
+
 
 function App() {
   return (
@@ -30,10 +31,12 @@ function App() {
       <Routes>
             <Route exact path = "/" element={<LandingPage/>}></Route>
             <Route exact path = "/contact" element={<Contact/>}></Route>
-            <Route exact path = "/news" element={<News/>}></Route>
+            
             <Route exact path = "/faq" element={<FAQ/>}></Route>
-            <Route exact path = "/blog" element={<Blog/>}></Route>
-            <Route exact path = "/blogDetails" element={<BlogDetails/>}></Route>
+            <Route path="/news" element={<News />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/article/:id" element={<ArticleDetails />} />
+      
             <Route exact path = "/registrationForm" element={<RegistrationForm/>}></Route>
             <Route exact path = "/login" element={<Login/>}></Route>
             <Route exact path = "/otpVerify" element={<OtpVerification/>}></Route>

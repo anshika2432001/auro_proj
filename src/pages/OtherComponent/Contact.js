@@ -90,7 +90,7 @@ const Contact = () => {
                   </Grid>
                   <Grid item xs={12} sm={4} md={4} lg={12}>
                     <FormControl component="fieldset" fullWidth>
-                      <FormLabel component="legend">Select Subject?</FormLabel>
+                      <FormLabel component="legend">Select Category?</FormLabel>
                       <RadioGroup row>
                         <FormControlLabel value="donation" control={<Radio />} label={<span className='radioLabel'>Donation</span>} />
                         <FormControlLabel value="technical" control={<Radio />} label={<span className='radioLabel'>Technical Issue</span>} />

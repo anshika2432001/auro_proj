@@ -171,7 +171,7 @@ const ForgotPassword = () => {
                 return (
                     <Card className='mini-card1'>
                         <CardContent>
-                            <Typography variant="h4" gutterBottom textAlign="center">Password Reset Successful!</Typography>
+                            <Typography variant="h4" marginBottom="20px" textAlign="center">Password Reset Successful!</Typography>
                             <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
                                     <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }} onClick={toggleLoginDialog}>
