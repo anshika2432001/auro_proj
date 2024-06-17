@@ -6,20 +6,27 @@ const ArticleDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const article = location.state?.article || {};
-console.log(article)
+  console.log(article);
+
   return (
     <div>
-     
-      <Card sx={{ padding: '20px', margin: '20px',backgroundColor:"#DFF4FF" }}>
+      <Card sx={{ padding: '10px', margin: '20px', backgroundColor: "#DFF4FF" }}>
         <CardContent>
-          <Typography variant="h3" gutterBottom color="#4772D9">
+          <Typography variant="h2" color="#4772D9" textAlign="center">
             {article.heading || article.title || 'No Title Available'}
           </Typography>
-          {(article.author)  && article.date && (
-            <Typography variant="body2" color="textSecondary" gutterBottom>
-              { article.author} - {article.date}
-            </Typography>
-          )}
+          <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="10px">
+            {(article.author && article.date) && (
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                {article.author} - {article.date}
+              </Typography>
+            )}
+            {article.category && (
+              <Typography variant="body2">
+                {article.category}
+              </Typography>
+            )}
+          </Box>
           {article.image && (
             <CardMedia
               component="img"
@@ -29,16 +36,11 @@ console.log(article)
               sx={{ borderRadius: "5px", marginBottom: '20px' }}
             />
           )}
-          {article.category &&
-          <Typography variant="h4" paragraph>
-          {article.category }
-        </Typography>
-          }
           <Typography variant="body1" paragraph>
             {article.description || 'No description available.'}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="contained" sx={{background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)'}} onClick={() => navigate(-1)}>
+            <Button variant="contained" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }} onClick={() => navigate(-1)}>
               Back
             </Button>
             {article.source && (
