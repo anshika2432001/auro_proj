@@ -6,9 +6,8 @@ import "@fontsource/inter";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
-  mode: "light"
+  mode: "light",
 });
-
 
 export const ColorModeContextProvider = ({ children }) => {
   const [mode, setMode] = React.useState("light");
@@ -18,7 +17,7 @@ export const ColorModeContextProvider = ({ children }) => {
       toggleColorMode: () => {
         setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
       },
-      mode
+      mode,
     }),
     [mode]
   );
@@ -27,161 +26,164 @@ export const ColorModeContextProvider = ({ children }) => {
     () =>
       createTheme({
         typography: {
-          fontSize:12,
-          // Name of the component
-          h4: {
-            fontSize:20,
-          fontFamily:"Inter",
-            fontWeight:"bold",
-            
-           }, 
-           h5: {
-            fontSize:"14px",
-            
-            fontFamily:"Inter",
-            color:"black",
-            fontWeight:"bold",
-            
-           }, 
-           h6:{
-            fontSize:"16px",
-            fontWeight:"600",
-            fontFamily:"Inter",
-          
-            
-           },
-           body1:{
-              fontWeight: 500,
-              fontSize: 14,
-            fontFamily:"Inter",
-       
-              
-            },
-            body2:{
-              fontWeight: 500,
-              fontSize: 14,
-            fontFamily:"Inter",
-            paddingTop:10,
-            paddingBottom:10
-              
-            },
-          
-            h1: {
-           
-              fontSize: 40,
-              fontWeight: 700,
-              paddingTop: 20,
-              paddingBottom: 20,
-              color:"white",
-              fontFamily:"Inter"
-            },
-            h2: {
-              
-              fontSize: 30,
-              fontWeight: "bold",
-               paddingTop: 20,
-               paddingBottom: 20,
-               fontFamily:"Inter"
-            },
-            h3: {
-              // color: "indigo",
-              fontWeight: 700,
-              fontSize: 25,
-              fontFamily:"Inter"
-              // paddingTop: 15,
-              // paddingBottom: 15,
-            },
-            
-            
+          h1: {
+            fontSize: "40px",
+            fontWeight: 800,
+            paddingTop: 10,
+            paddingBottom: 10,
+            color: "white",
+            fontFamily: "Inter",
           },
+          h2: {
+            fontSize: "32px",
+            fontWeight: 700,
+            paddingTop: 20,
+            paddingBottom: 20,
+            fontFamily: "Inter",
+          },
+          h3: {
+            // color: "indigo",
+            fontWeight: "bold",
+            fontSize: "24px",
+            fontFamily: "Inter",
+            // paddingTop: 15,
+            // paddingBottom: 15,
+          },
+          h4: {
+            fontSize: "22px",
+            fontFamily: "Inter",
+            fontWeight: "bold",
+          },
+          h5: {
+            fontSize: "18px",
+
+            fontFamily: "Inter",
+            color: "black",
+            fontWeight: "bold",
+          },
+          h6: {
+            fontSize: "16px",
+            fontWeight: "bold",
+            fontFamily: "Inter",
+          },
+          body1: {
+            fontSize: "15px",
+            fontFamily: "Inter",
+          },
+          body2: {
+            fontWeight: 500,
+            fontSize: "16px",
+            fontFamily: "Inter",
+            paddingTop: 10,
+            paddingBottom: 10,
+          },
+
+         
+        },
         img: {
-          background:'none'
+          background: "none",
         },
         components: {
-        
           MuiButton: {
             styleOverrides: {
-              
               root: {
-                fontSize:"13px",
+                fontSize: "13px",
                 borderRadius: 5,
-                marginTop:"10px",
-                marginBottom:"10px"
-                
+                marginTop: "10px",
+                marginBottom: "10px",
               },
               contained: {
-                
-                fontWeight:"bold",
-                
                
+                padding: "4px 20px 4px 20px",
+                
+                "&.MuiButton-containedPrimary": {
+                  fontWeight: "700",
+                  lineHeight: "27.28px",
+                  fontSize: "16px",
+                  fontFamily: "Inter",
+                  textTransform: "none",
+                },
               },
               outlined: {
-                border: 'none',
-                fontWeight:"bold"
-              }
+                border: "none",
+               
+                "&.MuiButton-outlinedPrimary": {
+                  fontWeight: "700",
+                  lineHeight: "27.28px",
+                  fontSize: "16px",
+                  fontFamily: "Inter",
+                  textTransform: "none",
+                },
+              },
             },
           },
           MuiSvgIcon: {
             styleOverrides: {
-            
               root: {
-                padding:"3px",
-                fontSize:"30px"
-                
+                padding: "3px",
+                fontSize: "30px",
               },
             },
-
           },
-          
+          MuiTextField: {
+            styleOverrides: {
+              root: {
+                "& label": {
+                  opacity: 1,
+                },
+                "& MuiInputBase": {
+                  opacity: 1,
+
+                  padding: "8px 16px ",
+                },
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "22px",
+                },
+              },
+            },
+          },
+
           MuiCard: {
             styleOverrides: {
-            
               root: {
-                padding:"30px",
-                border:"none",
+                padding: "30px",
+                border: "none",
 
-                '&.mini-card':{
-                  marginRight:'auto',
-                  marginLeft: 'auto', 
-                marginTop: '10px',
+                "&.mini-card": {
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                  marginTop: "10px",
                   padding: 3,
-                  borderRadius:"5px"
+                  borderRadius: "5px",
                 },
-                '&.mini-card1':{
-                  maxWidth: 400, 
-                  marginRight:'auto',
-                  marginLeft: 'auto', 
-                marginTop: '20px',
-                  marginBottom: '20px', 
+                "&.mini-card1": {
+                  maxWidth: 400,
+                  marginRight: "auto",
+                  marginLeft: "auto",
+                  marginTop: "20px",
+                  marginBottom: "20px",
                   padding: 3,
-                  borderRadius:"5px"
-                }
-                
+                  borderRadius: "5px",
+                },
               },
             },
           },
-            MuiFormLabel: {
-              styleOverrides: {
-                root: {
-                  display: "flex",
+          MuiFormLabel: {
+            styleOverrides: {
+              root: {
+                display: "flex",
                 width: "max-content",
-               
+              },
+              asterisk: {
+                color: "red",
+                "&$error": {
+                  color: "#db3131",
                 },
-                asterisk: {
-                  color: "red",
-                  "&$error": {
-                    color: "#db3131",
-                  },
-                  
-                },
-                
               },
             },
-          
-
-         
+          },
         },
-        
+
         palette: {
           mode,
 
@@ -189,48 +191,43 @@ export const ColorModeContextProvider = ({ children }) => {
             ? {
                 // palette values for light mode
                 primary: {
-                  main:"#2169B2"
+                  main: "#2169B2",
                 },
-                secondary:{
-                  main:'#f50057'
+                secondary: {
+                  main: "#f50057",
                 },
                 text: {
                   primary: "#000",
-                  hint:"#8a78ea",
-                  secondary: '#000'
+                  hint: "#8a78ea",
+                  secondary: "#000",
                 },
                 background: {
                   default: "#F5FBFC",
                   // default:"#FAFBFC"
                 },
-                
               }
             : {
-                
                 primary: {
-                  main: indigo[300]
+                  main: indigo[300],
                 },
                 divider: indigo[700],
                 background: {
                   default: "#1e1e1e",
-                  paper: "#1e1e1e"
+                  paper: "#1e1e1e",
                 },
                 text: {
                   primary: "#fff",
-                  secondary: grey[500]
-                }
-              })
-        }
+                  secondary: grey[500],
+                },
+              }),
+        },
       }),
     [mode]
   );
 
   return (
     <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-       
-        {children}
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
 };

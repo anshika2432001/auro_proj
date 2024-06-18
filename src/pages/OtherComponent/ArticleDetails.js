@@ -10,19 +10,19 @@ const ArticleDetails = () => {
 
   return (
     <div>
-      <Card sx={{ padding: '10px', margin: '20px', backgroundColor: "#DFF4FF" }}>
+      <Card sx={{ padding: '10px', margin: '20px', background: '#DFF4FF' }}>
         <CardContent>
-          <Typography variant="h2" color="#4772D9" textAlign="center">
+          <Typography variant="h2"  textAlign="center">
             {article.heading || article.title || 'No Title Available'}
           </Typography>
           <Box display="flex" justifyContent="space-between" alignItems="center" marginTop="10px">
             {(article.author && article.date) && (
-              <Typography variant="body2" color="textSecondary" gutterBottom>
+              <Typography variant="body1"  gutterBottom sx={{fontWeight:"bold"}}>
                 {article.author} - {article.date}
               </Typography>
             )}
             {article.category && (
-              <Typography variant="body2">
+              <Typography variant="body1"  sx={{fontWeight:"bold"}}>
                 {article.category}
               </Typography>
             )}
@@ -33,10 +33,10 @@ const ArticleDetails = () => {
               height="300"
               image={article.image}
               alt={article.heading || article.title || 'Article Image'}
-              sx={{ borderRadius: "5px", marginBottom: '20px' }}
+              sx={{ borderRadius: "5px", marginBottom: '20px', marginTop:'10px' }}
             />
           )}
-          <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph  >
             {article.description || 'No description available.'}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -44,7 +44,7 @@ const ArticleDetails = () => {
               Back
             </Button>
             {article.source && (
-              <Button variant="contained" color="secondary" href={article.source} target="_blank" rel="noopener noreferrer">
+              <Button variant="contained" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }} href={article.source} target="_blank" rel="noopener noreferrer">
                 View Source
               </Button>
             )}

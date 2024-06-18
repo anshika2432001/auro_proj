@@ -314,7 +314,7 @@ const RegistrationForm = () => {
                       onChange={handleCheckboxChange}
                     />
                   }
-                  label="I agree to that the Public Data Dashboard is for research purposes. I agree to not republish this data or utilized it for commercial use. For intended research, the platform has to be cited and the organization has to be informed"
+                  label="I understand that the Public Data Dashboard is for research purpose, I agree to not republish this data or utilize it for commercial use. For intended research, the platform has to be cited and the organization has to be informed."
                 />
               </Grid>
             </Grid>

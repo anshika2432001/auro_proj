@@ -76,7 +76,7 @@ const Blog = () => {
                   indicatorColor="primary"
                   variant={isSmallScreen ? 'scrollable' : 'standard'}
                   scrollButtons={isSmallScreen ? 'auto' : 'off'}
-                  sx={{ '& .MuiTab-root': { fontWeight: 'bold', fontSize: '13px' } }}
+                  sx={{ '& .MuiTab-root': { fontWeight: 'bold', fontSize: '13px', fontFamily:"Inter", } }}
                 >
                   <Tab label="All" value="All" />
                   <Tab label="Research" value="Research" />

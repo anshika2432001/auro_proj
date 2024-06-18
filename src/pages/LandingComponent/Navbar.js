@@ -43,12 +43,12 @@ const Navbar = () => {
     flexDirection: { xs: 'column', sm: 'row' },
     alignItems: 'center',
   }}>
-                <Button sx={getButtonStyle('about')} onClick={()=> handleButtonClick('about','/')}><Typography variant="h5">About Org</Typography></Button>
-                <Button sx={getButtonStyle('blog')} onClick={()=> handleButtonClick('blog','/blog')}><Typography variant="h5">Blog</Typography></Button>
-                <Button sx={getButtonStyle('news')} onClick={()=> handleButtonClick('news','/news')}><Typography variant="h5">News</Typography></Button>
-                <Button sx={getButtonStyle('faq')} onClick={()=> handleButtonClick('faq','/faq')}><Typography variant="h5">FAQ</Typography></Button>
-                <Button sx={getButtonStyle('donate')}><Typography variant="h5">Donate</Typography></Button>
-                <Button sx={getButtonStyle('contact')} onClick={()=> handleButtonClick('contact','/contact')} ><Typography variant="h5">Contact</Typography></Button>
+                <Button sx={getButtonStyle('about')} onClick={()=> handleButtonClick('about','/')}><Typography variant="h6">About Org</Typography></Button>
+                <Button sx={getButtonStyle('blog')} onClick={()=> handleButtonClick('blog','/blog')}><Typography variant="h6">Blog</Typography></Button>
+                <Button sx={getButtonStyle('news')} onClick={()=> handleButtonClick('news','/news')}><Typography variant="h6">News</Typography></Button>
+                <Button sx={getButtonStyle('faq')} onClick={()=> handleButtonClick('faq','/faq')}><Typography variant="h6">FAQ</Typography></Button>
+                <Button sx={getButtonStyle('donate')}><Typography variant="h6">Donate</Typography></Button>
+                <Button sx={getButtonStyle('contact')} onClick={()=> handleButtonClick('contact','/contact')} ><Typography variant="h6">Contact</Typography></Button>
               </Box>
             </Grid>
             <Grid item xs={12} sm={3} md={3} lg={3}  display="flex" justifyContent="flex-end"> 

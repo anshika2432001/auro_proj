@@ -59,7 +59,7 @@ const FAQ = () => {
           <Grid item xs={12} sm={6} key={index}>
             <Card  sx={{padding:"0px" }}>
               <CardContent>
-                <Typography  variant="h4" justifyContent="space-between" display="flex" alignItems="center">
+                <Typography  variant="h6" justifyContent="space-between" display="flex" alignItems="center">
                   {item.question}
                   <IconButton onClick={() => handleExpandClick(index)}>
                     {expandedIndex === index ? <ExpandLess /> : <ExpandMore />}

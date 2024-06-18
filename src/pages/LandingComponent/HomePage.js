@@ -32,7 +32,7 @@ const HomePage = () => {
             <Typography variant="body1" gutterBottom sx={{mt:3,color:"white"}}>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.
             </Typography>
-            <Button variant="contained"   onClick={()=> handleRegisterForm()} sx={{backgroundColor:"white",color:"#4772D9",mt:3}}>
+            <Button variant="contained"   onClick={()=> handleRegisterForm()} sx={{backgroundColor:"white",color:"#2899DB",mt:3}}>
               Register Now
             </Button>
             <Button variant="outlined"  sx={{ ml: 1,color:"white",mt:3 }}>

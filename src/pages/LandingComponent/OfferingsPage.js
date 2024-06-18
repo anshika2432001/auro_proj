@@ -45,7 +45,7 @@ const OfferingsPage = () =>{
             <Typography variant="h2"  >
               Our Offerings
             </Typography>
-            <Typography variant="body1"  >
+            <Typography variant="body2"  >
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.
             </Typography>
             <Grid container spacing={2} sx={{mt:2}}>

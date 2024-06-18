@@ -59,16 +59,16 @@ const AboutAuro = () => {
           </Grid>
           </Grid>
           <Grid container spacing={2} sx={{ mt: 3 }}>
-          <Grid item  xs={12} sm={4.5} md={4.5} lg={4.5}>
-            <CardMedia
-              component="img"
-              height="100px"
-              width="100px"
-              image={Society}
-              alt="Image"
-              sx={{mt:5}}
-            />
-          </Grid>
+          <Grid item xs={12} sm={4.5} md={4.5} lg={4.5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <CardMedia
+                component="img"
+                height="80px"
+                width="80px"
+                image={Society}
+                alt="Image"
+                sx={{ mt: 5 }}
+              />
+            </Grid>
            
             <Grid item xs={12} sm={7.5} md={7.5} lg={7.5}>
               <Typography variant="h2" >
