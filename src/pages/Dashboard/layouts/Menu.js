@@ -44,6 +44,39 @@ export const menu = [
         title: "Student Learning Behaviours",
         pageLink: '/studentLearningBehaviours',
         view: <StudentSchoolAttributes_R3 />,
+        items: [
+          {
+            title: "Hours of individual study/practice per day",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Student learning style preferences",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Student collaborative learning style preferences",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+        {
+          title: "Paid Private Tuition Hours",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+        },
+      {
+        title: "Children who read other materials in addition to textbooks",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Paid Private Tuition Subjectwise",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      }
+
+        ]
        
       },
   
