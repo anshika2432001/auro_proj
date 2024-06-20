@@ -37,8 +37,8 @@ export const ColorModeContextProvider = ({ children }) => {
           h2: {
             fontSize: "32px",
             fontWeight: 700,
-            paddingTop: 20,
-            paddingBottom: 20,
+            paddingTop: 10,
+            paddingBottom: 10,
             fontFamily: "Inter",
           },
           h3: {
@@ -137,7 +137,7 @@ export const ColorModeContextProvider = ({ children }) => {
                   padding: "8px 16px ",
                 },
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "22px",
+                  borderRadius: "12px",
                 },
               },
             },
