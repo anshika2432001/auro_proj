@@ -67,7 +67,7 @@ export const ColorModeContextProvider = ({ children }) => {
             fontFamily: "Inter",
           },
           body1: {
-            fontSize: "15px",
+            fontSize: "14px",
             fontFamily: "Inter",
           },
           body2: {
@@ -131,13 +131,15 @@ export const ColorModeContextProvider = ({ children }) => {
                 "& label": {
                   opacity: 1,
                 },
-                "& MuiInputBase": {
+                
+                "& MuiInputBase-input": {
                   opacity: 1,
 
-                  padding: "8px 16px ",
+                 
                 },
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
+                  padding: "auto 0px",
                 },
               },
             },
