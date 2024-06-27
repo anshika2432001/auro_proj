@@ -84,6 +84,7 @@ const RegistrationForm = () => {
   const handleCheckboxChange = () => {
     setAgree(true);
   };
+ 
 
   const getValueFromList = (list, value) => {
     return list.find(option => option.id === value) ?? null;
@@ -134,13 +135,13 @@ const RegistrationForm = () => {
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
-        <Card sx={{ m: "20px 50px", p: 0 }}>
+        <Card sx={{ m: "40px 200px", p: 0 }}>
           <CardContent>
             <Typography variant="h3" textAlign="center" color="#4772D9" gutterBottom>
               Registration Form
             </Typography>
             <Grid container direction="row" rowSpacing={0} columnSpacing={2} justify="flex-end" alignItems="center" sx={{ mb: 2 }}>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <TextField
                   label="Name"
                   name="name"
@@ -154,7 +155,7 @@ const RegistrationForm = () => {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <TextField
                   label="Email"
                   name="email"
@@ -168,7 +169,7 @@ const RegistrationForm = () => {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
               <TextField
               label="Mobile Number"
               name="mobileNo"
@@ -184,7 +185,7 @@ const RegistrationForm = () => {
               required
             />
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <TextField
                   label="Password"
                   name="password"
@@ -199,7 +200,7 @@ const RegistrationForm = () => {
                   required
                 />
               </Grid>
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <Autocomplete
                   disablePortal
                   fullWidth
@@ -226,7 +227,7 @@ const RegistrationForm = () => {
               </Grid>
               {formik.values.roleTypeId === 1 && (
                 <>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
                     <TextField
                       label="Department Name"
                       name="department"
@@ -240,7 +241,7 @@ const RegistrationForm = () => {
                       required
                     />
                   </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={4}>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
                     <TextField
                       label="Ministry Name"
                       name="ministry"
@@ -258,7 +259,7 @@ const RegistrationForm = () => {
               )}
               
               {(formik.values.roleTypeId !== 1 && formik.values.roleTypeId !== "") && (
-                <Grid item xs={12} sm={4} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <TextField
                     label="Company/Organization"
                     name="companyName"
@@ -274,7 +275,7 @@ const RegistrationForm = () => {
                 </Grid>
               )}
               {formik.values.roleTypeId === 2 && (
-                <Grid item xs={12} sm={4} md={4} lg={4}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <TextField
                     label="Company Url"
                     name="companyUrl"
@@ -290,7 +291,7 @@ const RegistrationForm = () => {
                 </Grid>
               )}
                {( formik.values.roleTypeId !== "") && (
-              <Grid item xs={12} sm={4} md={4} lg={4}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
                 <TextField
                   label="Designation"
                   name="designation"
@@ -318,9 +319,7 @@ const RegistrationForm = () => {
                 />
               </Grid>
             </Grid>
-          </CardContent>
-        </Card>
-        <Grid container alignItems="center" justifyContent="center" marginTop="10px" marginBottom="10px">
+            <Grid container alignItems="center" justifyContent="center" marginTop="10px" >
           <Grid item>
             <Button
               type="submit"
@@ -334,6 +333,9 @@ const RegistrationForm = () => {
             </Button>
           </Grid>
         </Grid>
+          </CardContent>
+        </Card>
+        
       </form>
     </div>
   );

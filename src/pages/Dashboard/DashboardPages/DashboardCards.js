@@ -1,13 +1,13 @@
 import React from 'react';
-import { Typography, Card, CardContent } from '@mui/material';
+import { Typography, Card, CardContent,Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import PageTitle from '../layouts/PageTitle';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const useStyles = makeStyles({
   card: {
-    width: '48%',
-    margin: '10px',
+    width: '100%',
+    margin: '5px',
     position: 'relative',
   },
   header: {
@@ -56,7 +56,7 @@ const studentData = [
   { state: "Uttar Pradesh", students: 90 },
   { state: "Uttarakhand", students: 60 },
   { state: "West Bengal", students: 70 },
-  { state: "Andaman and Nicobar Islands", students: 40 },
+  { state: "Andaman", students: 40 },
   { state: "Chandigarh", students: 50 },
   { state: "Daman and Diu", students: 30 },
   { state: "Delhi", students: 60 },
@@ -67,8 +67,7 @@ const studentData = [
 ];
 
 const colors = [
-  "#8884d8", "#82ca9d", "#ffc658", "#d0ed57", "#a4de6c", "#8dd1e1", "#d4a5a5", "#d98b8b", 
-  "#f8c471", "#c0c0c0", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"
+  'rgba(255,99,132,0.6)','rgba(255,159,64,0.6)','rgba(255,205,86,0.6)','rgba(75,192,192,0.6)','rgba(54,162,235,0.6)','rgba(153,102,255,0.6)','rgba(201,203,207,0.6)',
 ];
 
 const coloredStudentData = studentData.map((item, index) => ({
@@ -88,9 +87,9 @@ const ChartCard = ({ title, dataKey, data }) => {
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 20, right: 10, left: 20, bottom: 7 }}
+            margin={{ top: 15, right: 20, bottom: 7 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="0" />
             <XAxis 
               type="number"
               tick={{ fontSize: 12 }}
@@ -108,9 +107,11 @@ const ChartCard = ({ title, dataKey, data }) => {
             <YAxis
               type="category"
               dataKey="state"
-              width={150}
-              tick={{ fontSize: 12 }}
+              width={123}
+              tick={{ fontSize: 12 , textAnchor: 'end'}}
               interval={0}
+              //tickLine={false} 
+              //tickFormatter={(value) => value.length > 18 ? value.slice(0, 8) + '...' : value} 
               label={{
                 value: 'States',
                 angle: -90,
@@ -132,21 +133,28 @@ const ChartCard = ({ title, dataKey, data }) => {
 };
 
 const DashboardCards = () => {
-  const name = "Dashboard";
-
   return (
     <>
-      <PageTitle name={name} />
-      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
-        <ChartCard title="Students" dataKey="students" data={coloredStudentData} />
-        <ChartCard title="Schools" dataKey="students" data={coloredStudentData} />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-around', padding: '20px' }}>
-        <ChartCard title="Teachers" dataKey="students" data={coloredStudentData} />
-        <ChartCard title="Parents" dataKey="students" data={coloredStudentData} />
-      </div>
+      <Typography variant="h4" component="h2" gutterBottom>
+        Dashboard
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <ChartCard title="Students" dataKey="students" data={coloredStudentData} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <ChartCard title="Schools" dataKey="students" data={coloredStudentData} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <ChartCard title="Teachers" dataKey="students" data={coloredStudentData} />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <ChartCard title="Parents" dataKey="students" data={coloredStudentData} />
+        </Grid>
+      </Grid>
     </>
   );
 };
 
 export default DashboardCards;
+

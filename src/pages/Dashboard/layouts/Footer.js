@@ -9,11 +9,9 @@ function Copyright() {
   return (
     <Typography variant="body2"> 
       {'Copyright © '}
-      {/* <Link color="inherit"  */}
-      {/* // href="https://www.ysraarogyasri.ap.gov.in/" target="_blank" */}
-      {/* > */}
+     
       Site Maintained By KPMG Advisory Services Pvt. Ltd. The Contents Are Owned By Govt.Of AP, India
-      {/* </Link> */}
+   
       {' '}
       {new Date().getFullYear()}
       {'.'}

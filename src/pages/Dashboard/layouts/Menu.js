@@ -1,11 +1,7 @@
 import { Route, Navigate, Routes } from "react-router-dom";
 import React, { lazy, Suspense } from "react";
 
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
-import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
-import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
 import NoteAddSharpIcon from "@mui/icons-material/NoteAddSharp";
 import FactCheckSharpIcon from "@mui/icons-material/FactCheckSharp";
@@ -37,7 +33,7 @@ export const menu = [
   },
  
   {
-    icon: <SummarizeSharpIcon sx={{color:"white"}}/>,
+    icon: <AccountBalanceIcon sx={{color:"white"}}/>,
     title: "Student School Attributes(R3)",
     items: [
       {

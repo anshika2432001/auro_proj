@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { menu } from "./Menu";
 import { hasChildren } from "../../../utils/MenuUtils";
 
-import {Routes, Route, useNavigate, Link} from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 export default function DrawerMenu() {
   return menu.map((item, key) => <MenuItem key={key} item={item} />);
@@ -22,11 +22,24 @@ const MenuItem = ({ item }) => {
 };
 
 const SingleLevel = ({ item }) => {
+  const location = useLocation();
+  const isSelected = location.pathname === item.pageLink;
+
   return (
     <ListItem button>
-        <ListItemIcon>{item.icon}</ListItemIcon>
-        <Link to={item.pageLink} style={{textDecoration:'none',display:'block',color:"inherit"}}>
-        <ListItemText primary={item.title} />
+      <ListItemIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }}>
+        {item.icon}
+      </ListItemIcon>
+      <Link to={item.pageLink} style={{ textDecoration: 'none', display: 'block', color: "inherit", width: '100%' }}>
+        <ListItemText
+          primary={item.title}
+          sx={{
+            color: isSelected ? 'lightblue' : 'inherit',
+            '&:hover': {
+              color: 'lightblue',
+            },
+          }}
+        />
       </Link>
     </ListItem>
   );
@@ -34,7 +47,7 @@ const SingleLevel = ({ item }) => {
 
 const MultiLevel = ({ item }) => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { items: children } = item;
   const [open, setOpen] = useState(false);
 
@@ -42,22 +55,30 @@ const MultiLevel = ({ item }) => {
     setOpen((prev) => !prev);
   };
 
-  const handlenavigate = (link) => {
-    navigate(link);
-  };
+  const isSelected = children.some(child => location.pathname === child.pageLink);
 
   return (
-    <React.Fragment >
-      <ListItem button onClick={handleClick} >
-        <ListItemIcon>{item.icon}</ListItemIcon>
-        <ListItemText primary={item.title} />
-        {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+    <React.Fragment>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }}>
+          {item.icon}
+        </ListItemIcon>
+        <ListItemText
+          primary={item.title}
+          sx={{
+            color: isSelected ? 'lightblue' : 'inherit',
+            '&:hover': {
+              color: 'lightblue',
+            },
+          }}
+        />
+        {open ? <ExpandLessIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }} /> : <ExpandMoreIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }} />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding >
+        <List component="div" disablePadding>
           {children.map((child, key) => (
-            <Link to={child.pageLink} style={{textDecoration:'none',display:'block',color:"inherit"}}>
-            <MenuItem key={key} item={child} href={child.pageLink} component={child.pageLink}/>
+            <Link to={child.pageLink} key={key} style={{ textDecoration: 'none', display: 'block', color: "inherit" }}>
+              <MenuItem item={child} />
             </Link>
           ))}
         </List>
