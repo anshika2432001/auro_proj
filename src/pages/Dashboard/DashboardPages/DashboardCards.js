@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Card, CardContent,Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import PageTitle from '../layouts/PageTitle';
+
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const useStyles = makeStyles({
