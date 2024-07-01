@@ -27,8 +27,10 @@ const attributeBasedDropdowns = {
 
 function TableComponent({ title, dropdownOptions }) {
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
-  const [dateRange1, setDateRange1] = useState(null);
-  const [dateRange2, setDateRange2] = useState(null);
+  const [dateRange1Start, setDateRange1Start] = useState(null);
+  const [dateRange1End, setDateRange1End] = useState(null);
+  const [dateRange2Start, setDateRange2Start] = useState(null);
+  const [dateRange2End, setDateRange2End] = useState(null);
   const [tableData, setTableData] = useState([]);
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
@@ -73,7 +75,7 @@ function TableComponent({ title, dropdownOptions }) {
       },
     ];
     setTableData(tableInfo);
-  }, [title, dateRange1, dateRange2]);
+  }, [title, dateRange1Start, dateRange1End, dateRange2Start, dateRange2End]);
 
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
@@ -155,27 +157,49 @@ function TableComponent({ title, dropdownOptions }) {
 
         <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
           <Grid item xs={12} sm={2} md={2} lg={2} textAlign="left">
-            <Typography variant="h6" sx={{ mt: 1 }}>Date Range:</Typography>
+            <Typography variant="h6" sx={{ mt: 1 }}>Date Ranges:</Typography>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Start Date"
-                value={dateRange1}
-                onChange={(newValue) => setDateRange1(newValue)}
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="End Date"
-                value={dateRange2}
-                onChange={(newValue) => setDateRange2(newValue)}
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
-            </LocalizationProvider>
+          <Grid item xs={12} sm={10} md={10} lg={10}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>Date Range 1:</Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                    value={dateRange1Start}
+                    onChange={(newValue) => setDateRange1Start(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                    value={dateRange1End}
+                    onChange={(newValue) => setDateRange1End(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <Typography variant="subtitle1" sx={{ mb: 1 }}>Date Range 2:</Typography>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                    value={dateRange2Start}
+                    onChange={(newValue) => setDateRange2Start(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                    value={dateRange2End}
+                    onChange={(newValue) => setDateRange2End(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
 

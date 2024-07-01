@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     position: 'relative',
   },
   header: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#0948a6',
     padding: '10px',
     position: 'absolute',
     top: 0,
@@ -19,6 +19,7 @@ const useStyles = makeStyles({
     width: '100%',
     boxSizing: 'border-box',
     zIndex: 2,
+    color:'#fff'
   },
   content: {
     paddingTop: '30px',
@@ -135,9 +136,7 @@ const ChartCard = ({ title, dataKey, data }) => {
 const DashboardCards = () => {
   return (
     <>
-      <Typography variant="h4" component="h2" gutterBottom>
-        Dashboard
-      </Typography>
+      
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={6} lg={6}>
           <ChartCard title="Students" dataKey="students" data={coloredStudentData} />

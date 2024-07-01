@@ -62,19 +62,19 @@ const Contact = () => {
                     <Box display="flex" alignItems="center" mb={3} color="white">
                       <PhoneIcon />
                       <Typography variant="body1" sx={{ marginLeft: '10px' }}>
-                        Contact No: 123-456-7890
+                        +91 9667480783
                       </Typography>
                     </Box>
                     <Box display="flex" alignItems="center" mb={3} color="white">
                       <EmailIcon />
                       <Typography variant="body1" sx={{ marginLeft: '10px' }}>
-                        Email: info@example.com
+                        info@auroscholar.com
                       </Typography>
                     </Box>
                     <Box display="flex" alignItems="center" color="white">
                       <LocationOnIcon />
                       <Typography variant="body1" sx={{ marginLeft: '10px' }}>
-                        Address: 123 Main St, City, Country
+                        Plot-1201, Vasundhara, Ghaziabad, Uttar Pradesh 201012
                       </Typography>
                     </Box>
                   </Box>

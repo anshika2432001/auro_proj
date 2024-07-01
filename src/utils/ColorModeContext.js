@@ -132,10 +132,8 @@ export const ColorModeContextProvider = ({ children }) => {
                   opacity: 1,
                 },
                 
-                "& MuiInputBase-input": {
-                  opacity: 1,
-
-                 
+                "& .MuiInputBase-input": {
+                  padding: "15px", 
                 },
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",

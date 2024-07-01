@@ -21,7 +21,7 @@ const attributeOptions = {
 
 const attributeBasedDropdowns = {
   1: ['Gender', 'School Location', 'Age Group'],
-  2: ['Gender', 'Grade'],
+  2: ['Gender', 'Grade','Board of Education'],
   3: ['School Location', 'Age Group', 'Grade'],
   4: ['Grade', 'Gender', 'School Location'],
   5: ['Grade', 'Age Group'],
@@ -39,6 +39,7 @@ const sampleChartData = {
       borderWidth: 2,
       data: [200, 150, 300, 250, 400],
       barThickness: 30,
+      borderRadius: 5, 
       order: 2,
     },
     {
@@ -47,6 +48,7 @@ const sampleChartData = {
       backgroundColor: 'rgba(68,198,212,1)',
       borderColor: 'rgba(68,198,212,1)',
       borderWidth: 2,
+      borderRadius: 5, 
       data: [100, 130, 250, 200, 350],
       barThickness: 30,
       order: 2,
@@ -76,8 +78,10 @@ const sampleChartData = {
 
 function CardComponent({ title, dropdownOptions }) {
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
-  const [dateRange1, setDateRange1] = useState(null);
-  const [dateRange2, setDateRange2] = useState(null);
+  const [dateRange1Start, setDateRange1Start] = useState(null);
+  const [dateRange1End, setDateRange1End] = useState(null);
+  const [dateRange2Start, setDateRange2Start] = useState(null);
+  const [dateRange2End, setDateRange2End] = useState(null);
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
@@ -120,7 +124,7 @@ function CardComponent({ title, dropdownOptions }) {
     <Card className='mini-card'>
       <Typography 
         variant="h6" 
-        sx={{ backgroundColor: '#f0f0f0', padding: '8px', borderRadius: '4px' }}
+        sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px',color:'#fff' }}
       >
         {title.value}
       </Typography>
@@ -169,29 +173,57 @@ function CardComponent({ title, dropdownOptions }) {
           )}
         </Grid>
 
-        <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-          <Grid item xs={12} sm={3} md={3} lg={3} textAlign="center">
-            <Typography variant="h6" sx={{ mt: 1 }}>Date Range:</Typography>
+        <Grid container spacing={2} sx={{ mt: 0 }}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6" sx={{ mt: 1, textAlign: 'center' }}>Date Range 1:</Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                    value={dateRange1Start}
+                    onChange={(newValue) => setDateRange1Start(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                    value={dateRange1End}
+                    onChange={(newValue) => setDateRange1End(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="Start Date"
-                value={dateRange1}
-                onChange={(newValue) => setDateRange1(newValue)}
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
-            </LocalizationProvider>
-          </Grid>
-          <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                label="End Date"
-                value={dateRange2}
-                onChange={(newValue) => setDateRange2(newValue)}
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
-            </LocalizationProvider>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6" sx={{ mt: 1, textAlign: 'center' }}>Date Range 2:</Typography>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                    value={dateRange2Start}
+                    onChange={(newValue) => setDateRange2Start(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                    value={dateRange2End}
+                    onChange={(newValue) => setDateRange2End(newValue)}
+                    renderInput={(params) => <TextField {...params} size="small" />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
 
