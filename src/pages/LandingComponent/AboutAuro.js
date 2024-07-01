@@ -85,7 +85,7 @@ const AboutAuro = () => {
         </CardContent>
         </Card>
         <Grid container spacing={2} padding="20px 0px">
-          <Grid item xs={12} sm={4} md={4} lg={4}>
+          <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
           <Box
             component = "img"
             src={Scholar}
@@ -98,27 +98,28 @@ const AboutAuro = () => {
             />
           </Grid>
            
-            <Grid item xs={12} sm={7} md={7} lg={7}>
-            <Typography variant="h2" align="center">
+            <Grid item xs={12} sm={7.5} md={7.5} lg={7.5}>
+           
+              <Box sx={{  lineHeight: 1.6, margin: '10px' }}>
+              <Typography variant="h2" >
                 About Auro Scholar
               </Typography>
-              <Box sx={{ textAlign: 'center', lineHeight: 1.6, margin: '20px' }}>
       <Typography variant="body1" component="div">
         Welcome Teachers & Parents, receive learning analytics of students to help improve progress. We provide quizzes across{' '}
         <Typography variant="body1" component="span" color="green">
-          5 Subjects
+         <b> 5 Subjects</b>
         </Typography>{' '}
         in{' '}
         <Typography variant="body1" component="span" color="orange">
-          9 languages
+         <b> 9 languages</b>
         </Typography>{' '}
         from{' '}
         <Typography variant="body1" component="span" color="#2899DB">
-          Grade 1 to 12th
+         <b> Grade 1 to 12th</b>
         </Typography>{' '}
         covering{' '}
         <Typography variant="body1" component="span" color="red">
-          Multiple School Brands
+          <b>Multiple School Brands</b>
         </Typography>
         . On this platform a student has to take quizzes to win a scholarship, and can master across 5 subjects by retaking the quiz multiple times if scored less. Students can also win cash prize up to Rs.1000/month.
       </Typography>

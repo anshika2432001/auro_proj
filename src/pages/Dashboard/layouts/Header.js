@@ -32,7 +32,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {useLocation} from 'react-router-dom';
 import { Stack } from '@mui/system';
 // import Footer from '../components/footer/Footer';
-const drawerWidth = 280;
+const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({

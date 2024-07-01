@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Grid, TextField, Button, Box, Pagination, CardActionArea } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import NewsImg from '../../images/NewsImage.png';
 
 const News = () => {
   const [search, setSearch] = useState('');
@@ -13,7 +14,7 @@ const News = () => {
       author: 'BBC News',
       date: '2024-06-06',
       heading: 'Breaking News 1',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -22,7 +23,7 @@ const News = () => {
       author: 'BBC News',
       date: '2024-06-06',
       heading: 'Breaking News 2',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -31,7 +32,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 3',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -40,7 +41,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 4',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -49,7 +50,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 5',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -58,7 +59,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 6',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -67,7 +68,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 7',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },
@@ -76,7 +77,7 @@ const News = () => {
       author: 'ABC News',
       date: '2024-06-15',
       heading: 'Breaking News 8',
-      image: 'https://via.placeholder.com/150',
+      image: NewsImg,
       description: 'This is a two-line description of the news article.',
       source: 'https://example.com'
     },

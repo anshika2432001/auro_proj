@@ -10,64 +10,66 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement);
 
 const attributeOptions = {
-  Gender: ['Male', 'Female', 'Other'],
-  School: ['School A', 'School B', 'School C'],
-  Age: ['10-15', '16-20', '21-25'],
-  Marks: ['0-50', '51-75', '76-100'],
-  Grade: ['A', 'B', 'C'],
+  Gender: ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
+  "School Location": ['All', 'Rural', 'Urban'],
+  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+  "Age Group": ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
+  Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+  "Social Group": ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
+  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board']
 };
 
 const attributeBasedDropdowns = {
-  1: ['Gender', 'School', 'Age'],
-  2: ['Gender', 'Marks', 'Grade'],
-  3: ['School', 'Age', 'Grade'],
-  4: ['Marks', 'Gender', 'School'],
-  5: ['Marks', 'Grade', 'Age'],
-  6: ['Gender', 'School', 'Marks'],
+  1: ['Gender', 'School Location', 'Age Group'],
+  2: ['Gender', 'Grade'],
+  3: ['School Location', 'Age Group', 'Grade'],
+  4: ['Grade', 'Gender', 'School Location'],
+  5: ['Grade', 'Age Group'],
+  6: ['Gender', 'School Location', 'Grade']
 };
 
 const sampleChartData = {
   labels: ['Cant Say', 'Up to 1 hr', '1-3 hrs', '3-5 hrs', 'More than 5 hrs'],
   datasets: [
     {
-      label: 'Dataset 1',
+      label: 'No of Students (Purple)',
       type: 'bar',
-      backgroundColor: 'rgba(128,0,128,0.6)', // Purple color
-      borderColor: 'rgba(128,0,128,1)',
+      backgroundColor: 'rgba(185,102,220,1)',
+      borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
       data: [200, 150, 300, 250, 400],
-      barThickness: 30, // Reduce the bar width
+      barThickness: 30,
+      order: 2,
     },
     {
-      label: 'Dataset 2',
+      label: 'No of Students (Blue)',
       type: 'bar',
-      backgroundColor: 'rgba(173,216,230,0.6)', // Light blue color
-      borderColor: 'rgba(173,216,230,1)',
+      backgroundColor: 'rgba(68,198,212,1)',
+      borderColor: 'rgba(68,198,212,1)',
       borderWidth: 2,
-      data: [180, 130, 250, 200, 350],
-      barThickness: 30, // Reduce the bar width
+      data: [100, 130, 250, 200, 350],
+      barThickness: 30,
+      order: 2,
     },
     {
-      label: 'Average 1',
+      label: 'Average no. of students (Purple)',
       type: 'line',
-      borderColor: 'grey',
-      borderWidth: 2,
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
       fill: false,
-      data: [200, 150, 300, 250, 400].map((value, index) => ({
-        x: index - 0.15, // Offset to the center of the first bar
-        y: value,
-      })),
+      data: [175, 140, 275, 225, 375],
+      spanGaps: true,
+      order: 1,
     },
     {
-      label: 'Average 2',
+      label: 'Average no. of students (Blue)',
       type: 'line',
-      borderColor: 'grey',
-      borderWidth: 2,
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
       fill: false,
-      data: [180, 130, 250, 200, 350].map((value, index) => ({
-        x: index + 0.15, // Offset to the center of the second bar
-        y: value,
-      })),
+      data: [75, 80, 150, 125, 225],
+      spanGaps: true,
+      order: 1,
     },
   ],
 };
@@ -79,10 +81,15 @@ function CardComponent({ title, dropdownOptions }) {
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
+  const [selectedFilters, setSelectedFilters] = useState(
+    attributeBasedDropdowns[selectedAttribute].reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+  );
 
   useEffect(() => {
     setSelectedAttribute(title.id);
-    setDropdowns(attributeBasedDropdowns[title.id] || []);
+    const newDropdowns = attributeBasedDropdowns[title.id] || [];
+    setDropdowns(newDropdowns);
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [title]);
 
   useEffect(() => {
@@ -92,14 +99,21 @@ function CardComponent({ title, dropdownOptions }) {
 
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value.id);
-    setDropdowns(attributeBasedDropdowns[value.id] || []);
+    const newDropdowns = attributeBasedDropdowns[value.id] || [];
+    setDropdowns(newDropdowns);
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   };
 
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
+      setSelectedFilters((prev) => ({ ...prev, [value]: 'All' }));
       setShowAddMore(true);
     }
+  };
+
+  const handleFilterChange = (dropdownLabel) => (event, value) => {
+    setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
   };
 
   return (
@@ -118,14 +132,16 @@ function CardComponent({ title, dropdownOptions }) {
           onChange={handleAttributeChange}
           renderInput={(params) => <TextField {...params} label="Select Attribute" size="small" />}
           sx={{ marginY: 2 }}
-          
         />
         <Grid container spacing={1}>
           {dropdowns.map((dropdownLabel, index) => (
             <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
               <Autocomplete
                 options={attributeOptions[dropdownLabel]}
-                renderInput={(params) => <TextField {...params} label={`Select ${dropdownLabel}`} size="small" />}
+                getOptionLabel={(option) => option}
+                value={selectedFilters[dropdownLabel]}
+                onChange={handleFilterChange(dropdownLabel)}
+                renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
               />
             </Grid>
           ))}
@@ -135,7 +151,7 @@ function CardComponent({ title, dropdownOptions }) {
                 onClick={() => setShowAddMore(false)}
                 color="primary"
                 aria-label="add more filters"
-                sx={{p:0,m:0}}
+                sx={{ p: 0, m: 0 }}
               >
                 <AddCircleIcon />
               </IconButton>
@@ -193,8 +209,29 @@ function CardComponent({ title, dropdownOptions }) {
               } 
             },
             plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function(tooltipItem) {
+                    const datasetIndex = tooltipItem.datasetIndex;
+                    const dataIndex = tooltipItem.dataIndex;
+                    const barWidth = 30; // Assuming bar width is fixed at 30
+
+                    // Calculate x position for tooltip
+                    let xPosition = 0;
+                    if (datasetIndex === 0) {
+                      xPosition = dataIndex * barWidth + barWidth / 2;
+                    } else if (datasetIndex === 1) {
+                      xPosition = dataIndex * barWidth + 3 * barWidth / 2;
+                    }
+
+                    const yPosition = tooltipItem.raw;
+
+                    return `Avg: (${xPosition.toFixed(2)}, ${yPosition.toFixed(2)})`;
+                  }
+                }
+              },
               legend: {
-                display: true
+                display: false
               }
             }
           }} 

@@ -6,14 +6,18 @@ import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
 import { menu } from "./Menu";
 import { hasChildren } from "../../../utils/MenuUtils";
-
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 export default function DrawerMenu() {
-  return menu.map((item, key) => <MenuItem key={key} item={item} />);
+  return (
+    <List>
+      {menu.map((item, key) => (
+        <MenuItem key={key} item={item} />
+      ))}
+    </List>
+  );
 }
 
 const MenuItem = ({ item }) => {
@@ -26,27 +30,24 @@ const SingleLevel = ({ item }) => {
   const isSelected = location.pathname === item.pageLink;
 
   return (
-    <ListItem button>
+    <ListItem button component={Link} to={item.pageLink}>
       <ListItemIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }}>
         {item.icon}
       </ListItemIcon>
-      <Link to={item.pageLink} style={{ textDecoration: 'none', display: 'block', color: "inherit", width: '100%' }}>
-        <ListItemText
-          primary={item.title}
-          sx={{
-            color: isSelected ? 'lightblue' : 'inherit',
-            '&:hover': {
-              color: 'lightblue',
-            },
-          }}
-        />
-      </Link>
+      <ListItemText
+        primary={item.title}
+        sx={{
+          color: isSelected ? 'lightblue' : 'inherit',
+          '&:hover': {
+            color: 'lightblue',
+          },
+        }}
+      />
     </ListItem>
   );
 };
 
 const MultiLevel = ({ item }) => {
-  const navigate = useNavigate();
   const location = useLocation();
   const { items: children } = item;
   const [open, setOpen] = useState(false);
@@ -75,11 +76,9 @@ const MultiLevel = ({ item }) => {
         {open ? <ExpandLessIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }} /> : <ExpandMoreIcon sx={{ color: isSelected ? 'lightblue' : 'inherit' }} />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+        <List component="div" disablePadding sx={{ paddingLeft: 4 }}>
           {children.map((child, key) => (
-            <Link to={child.pageLink} key={key} style={{ textDecoration: 'none', display: 'block', color: "inherit" }}>
-              <MenuItem item={child} />
-            </Link>
+            <MenuItem key={key} item={child} />
           ))}
         </List>
       </Collapse>

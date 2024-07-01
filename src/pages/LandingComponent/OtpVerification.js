@@ -151,7 +151,7 @@ const OtpVerification = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ backgroundColor: "#EFF7FF", alignItems: "center", justifyContent: "center" }}>
-            <Button variant="contained" onClick={handleClose}>Close</Button>
+            <Button variant="contained" onClick={handleClose}>Go to Login</Button>
           </DialogActions>
         </Dialog>
       )}

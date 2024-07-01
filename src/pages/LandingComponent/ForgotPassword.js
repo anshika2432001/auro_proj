@@ -197,7 +197,7 @@ const ForgotPassword = () => {
                 {step === 4 && (
                     <Card className='mini-card1'>
                         <CardContent>
-                            <Typography variant="h4" marginBottom="30px" textAlign="center">Password Reset Successful!</Typography>
+                            <Typography variant="h4" marginBottom="30px" textAlign="center">Password Reset Successful</Typography>
                             <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
                                 <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
                                     <Button

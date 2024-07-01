@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Box, Avatar } from '@mui/material';
+import ProfileImg from '../../images/ProfileImage.png'
 
 const Testimonials = () => {
   const testimonialsData = [
     {
-      photo: 'https://via.placeholder.com/150',
+      photo: {ProfileImg},
       name: 'Divya Pathak',
       designation: 'Designation',
       details: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.'
@@ -68,7 +69,7 @@ const Testimonials = () => {
             >
               <Card className='mini-card' sx={{textAlign:'center'}}>
                 <CardContent>
-                  <Avatar src={testimonial.photo} sx={{ width: 100, height: 100, margin: '0 auto 10px' }} />
+                  <Avatar src={ProfileImg} sx={{ width: 100, height: 100, margin: '0 auto 10px' }} />
                   <Typography variant="h6">{testimonial.name}</Typography>
                   <Typography variant="subtitle1" color="textSecondary">{testimonial.designation}</Typography>
                   <Typography variant="body2">{testimonial.details}</Typography>
