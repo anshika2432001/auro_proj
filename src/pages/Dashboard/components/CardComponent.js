@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -88,6 +88,7 @@ function CardComponent({ title, dropdownOptions }) {
   const [selectedFilters, setSelectedFilters] = useState(
     attributeBasedDropdowns[selectedAttribute].reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
   );
+  const chartRef = useRef(null);
 
   useEffect(() => {
     setSelectedAttribute(title.id);
@@ -120,11 +121,17 @@ function CardComponent({ title, dropdownOptions }) {
     setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
   };
 
+  useEffect(() => {
+    if (chartRef.current) {
+      console.log(chartRef.current); // Check here if chartRef is populated
+    }
+  }, [chartRef]);
+
   return (
     <Card className='mini-card'>
       <Typography 
         variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px',color:'#fff' }}
+        sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px', color: '#fff' }}
       >
         {title.value}
       </Typography>
@@ -173,7 +180,7 @@ function CardComponent({ title, dropdownOptions }) {
           )}
         </Grid>
 
-        <Grid container spacing={2} sx={{ mt: 0 }}>
+        <Grid container spacing={2} sx={{ mt: 1 }}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6" sx={{ mt: 1, textAlign: 'center' }}>Date Range 1:</Typography>
             <Grid container spacing={1}>
@@ -228,6 +235,7 @@ function CardComponent({ title, dropdownOptions }) {
         </Grid>
 
         <Bar 
+          ref={chartRef}
           data={sampleChartData} 
           options={{ 
             responsive: true, 
@@ -241,33 +249,28 @@ function CardComponent({ title, dropdownOptions }) {
               } 
             },
             plugins: {
-              tooltip: {
-                callbacks: {
-                  label: function(tooltipItem) {
-                    const datasetIndex = tooltipItem.datasetIndex;
-                    const dataIndex = tooltipItem.dataIndex;
-                    const barWidth = 30; // Assuming bar width is fixed at 30
-
-                    // Calculate x position for tooltip
-                    let xPosition = 0;
-                    if (datasetIndex === 0) {
-                      xPosition = dataIndex * barWidth + barWidth / 2;
-                    } else if (datasetIndex === 1) {
-                      xPosition = dataIndex * barWidth + 3 * barWidth / 2;
-                    }
-
-                    const yPosition = tooltipItem.raw;
-
-                    return `Avg: (${xPosition.toFixed(2)}, ${yPosition.toFixed(2)})`;
-                  }
-                }
-              },
               legend: {
                 display: false
+              },
+              beforeDatasetDraw: (chart) => {
+                console.log(chartRef)
+                const lineDataset1 = chart.getDatasetMeta(2).data;
+                const lineDataset2 = chart.getDatasetMeta(3).data;
+                const barDataset1 = chart.getDatasetMeta(0).data;
+                const barDataset2 = chart.getDatasetMeta(1).data;
+
+                lineDataset1.forEach((point, index) => {
+                  point.x = (barDataset1[index].x + barDataset2[index].x) / 2;
+                });
+
+                lineDataset2.forEach((point, index) => {
+                  point.x = (barDataset1[index].x + barDataset2[index].x) / 2;
+                });
               }
             }
           }} 
         />
+
       </CardContent>
     </Card>
   );
