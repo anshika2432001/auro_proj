@@ -205,6 +205,50 @@ export const menu = [
         ]
        
       },
+      {
+        title: "Student-Internet Behaviour Patterns",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+        items: [
+          {
+            title: "Students hours spent on mobile phone - social/entertainment",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Children having access to digital devices at home",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Students using learning apps at home",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+        {
+          title: "Edtech Product Type",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+        },
+      {
+        title: "Students having social media accounts",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Types of sites",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Student hours spent on mobile phones - study",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      }
+
+        ]
+       
+      },
   
 
     ]
@@ -368,6 +412,56 @@ export const menu = [
         title: "Student- Higher Education Attributes",
         pageLink: '/studentLearningBehaviours',
         view: <StudentSchoolAttributes_R3 />,
+        items: [
+          {
+            title: "Students taking vocational courses",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Number of students likely to attend higher education",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Students who want to access vocational courses",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+        {
+          title: "Students who are confident that they have knowledge of career options",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+        },
+      {
+        title: "Student career domains",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Student career domains - STEM/Non-STEM",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Students confident in skills- communication skills, problem solving, team building",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Students accessing preparatory classes for higher education",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Students who want to access internship",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+
+      
+
+        ]
         
        
       },
@@ -401,7 +495,82 @@ export const menu = [
         title: "Parental - Student - Household Attributes",
         pageLink: '/studentLearningBehaviours',
         view: <StudentSchoolAttributes_R3 />,
-        
+        items: [
+          {
+            title: "Immigrant background (ie one or both parents born in another state)",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Household with at least one member who completed Std XII",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+          {
+            title: "Parents annual spend on child's education",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+          },
+        {
+          title: "Household with internet connection",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+        },
+      {
+        title: "Mother's level of education",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Households with at least one member who knows how to operate a computer",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "House Type",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Households with other reading material (activity books, reading books, puzzles, newspaper)",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Father's level of education",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+
+      {
+        title: "Average income of household",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "Household with electricity connection",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "My child's teacher and I communicate with each other at least once a month",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "I expect my child will graduate from high school",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+      {
+        title: "I expect my child will go to college one day",
+        pageLink: '/studentLearningBehaviours',
+        view: <StudentSchoolAttributes_R3 />,
+      },
+
+
+        ]
+       
       
        
       },
