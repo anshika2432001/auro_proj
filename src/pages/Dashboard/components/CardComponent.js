@@ -16,16 +16,13 @@ const attributeOptions = {
   "Age Group": ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
   Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   "Social Group": ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
-  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board']
-};
-
-const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group'],
-  2: ['Gender', 'Grade','Board of Education'],
-  3: ['School Location', 'Age Group', 'Grade'],
-  4: ['Grade', 'Gender', 'School Location'],
-  5: ['Grade', 'Age Group'],
-  6: ['Gender', 'School Location', 'Grade']
+  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board'],
+  State: ['All', 'State 1', 'State 2', 'State 3'],
+  District: ['All', 'District 1', 'District 2', 'District 3'],
+  School: ['All', 'School 1', 'School 2', 'School 3'],
+  "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
+  Subject: ['All', 'Math', 'Science', 'History'],
+  "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
 };
 
 const sampleChartData = {
@@ -76,23 +73,23 @@ const sampleChartData = {
   ],
 };
 
-function CardComponent({ title, dropdownOptions }) {
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
   const [dateRange2Start, setDateRange2Start] = useState(null);
   const [dateRange2End, setDateRange2End] = useState(null);
-  const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
+  const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute].slice(0, 3) || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
   const [selectedFilters, setSelectedFilters] = useState(
-    attributeBasedDropdowns[selectedAttribute].reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+    attributeBasedDropdowns[selectedAttribute].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
   );
   const chartRef = useRef(null);
 
   useEffect(() => {
     setSelectedAttribute(title.id);
-    const newDropdowns = attributeBasedDropdowns[title.id] || [];
+    const newDropdowns = attributeBasedDropdowns[title.id].slice(0, 3) || [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [title]);
@@ -104,7 +101,7 @@ function CardComponent({ title, dropdownOptions }) {
 
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value.id);
-    const newDropdowns = attributeBasedDropdowns[value.id] || [];
+    const newDropdowns = attributeBasedDropdowns[value.id].slice(0, 3) || [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   };
@@ -156,7 +153,7 @@ function CardComponent({ title, dropdownOptions }) {
               />
             </Grid>
           ))}
-          {availableFilters.length > 0 && showAddMore && (
+          {attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <IconButton
                 onClick={() => setShowAddMore(false)}
@@ -171,7 +168,7 @@ function CardComponent({ title, dropdownOptions }) {
           {!showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Autocomplete
-                options={availableFilters}
+                options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute].includes(option))}
                 getOptionLabel={(option) => option}
                 onChange={handleAddDropdown}
                 renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
@@ -253,7 +250,6 @@ function CardComponent({ title, dropdownOptions }) {
                 display: false
               },
               beforeDatasetDraw: (chart) => {
-                console.log(chartRef)
                 const lineDataset1 = chart.getDatasetMeta(2).data;
                 const lineDataset2 = chart.getDatasetMeta(3).data;
                 const barDataset1 = chart.getDatasetMeta(0).data;

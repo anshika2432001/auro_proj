@@ -16,6 +16,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SnackbarProvider } from "./pages/uiComponents/Snackbar";
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
 import StudentSchoolAttributes_R3 from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3';
+import BudgetState from './pages/Dashboard/DashboardPages/BudgetState';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
               <Route path="/studentLearningBehaviours" element={<StudentSchoolAttributes_R3 />} />
+              <Route path="/budgetState" element={<BudgetState />} />
             </Route>
           </Routes>
         </Router>
