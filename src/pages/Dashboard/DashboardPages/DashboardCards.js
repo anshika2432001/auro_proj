@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     width: '100%',
     boxSizing: 'border-box',
     zIndex: 2,
-    color: '#fff'
+    color: '#fff',
   },
   content: {
     paddingTop: '30px',
@@ -32,6 +32,8 @@ const colors = [
   'rgba(255,99,132,1)', 'rgba(255,159,64,1)', 'rgba(255,205,86,1)', 'rgba(75,192,192,1)', 'rgba(54,162,235,1)', 'rgba(153,102,255,1)', 'rgba(201,203,207,1)',
 ];
 
+const capitalizeWords = (s) => s.replace(/\b\w/g, char => char.toUpperCase());
+
 const ChartCard = ({ title, dataKey, data }) => {
   const classes = useStyles();
 
@@ -42,7 +44,7 @@ const ChartCard = ({ title, dataKey, data }) => {
       </div>
       <CardContent className={classes.content}>
         <ResponsiveContainer width="100%" height={data.length * 20}>
-        <BarChart
+          <BarChart
             data={data}
             layout="vertical"
             margin={{ top: 15, right: 20, bottom: 7 }}
@@ -64,7 +66,7 @@ const ChartCard = ({ title, dataKey, data }) => {
             <YAxis
               type="category"
               dataKey="state"
-              width={150} // Increase the width to accommodate longer state names
+              width={160} // Increase the width to accommodate longer state names
               tick={{ fontSize: 12, textAnchor: 'end' }}
               interval={0}
               label={{
@@ -104,24 +106,23 @@ const DashboardCards = () => {
       const res = await axios.get(`/dashboard-stats-data`);
       const result = res.data.result;
 
-      
       const studentCount = result.studentCount.map((item, index) => ({
-        state: item.state_name,
+        state: capitalizeWords(item.state_name.toLowerCase()),
         students: item.num_students,
         fill: colors[index % colors.length]
       }));
       const parentCount = result.parentCount.map((item, index) => ({
-        state: item.state_name,
+        state: capitalizeWords(item.state_name.toLowerCase()),
         parents: item.num_parents,
         fill: colors[index % colors.length]
       }));
       const teacherCount = result.teacherCount.map((item, index) => ({
-        state: item.state_name,
+        state: capitalizeWords(item.state_name.toLowerCase()),
         teachers: item.num_teachers,
         fill: colors[index % colors.length]
       }));
       const schoolCount = result.schoolCount.map((item, index) => ({
-        state: item.state_name,
+        state: capitalizeWords(item.state_name.toLowerCase()),
         schools: item.num_schools,
         fill: colors[index % colors.length]
       }));
