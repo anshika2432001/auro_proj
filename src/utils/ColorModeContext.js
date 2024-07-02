@@ -133,7 +133,7 @@ export const ColorModeContextProvider = ({ children }) => {
                 },
                 
                 "& .MuiInputBase-input": {
-                  padding: "15px", 
+                  padding: "15px 10px", 
                 },
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
@@ -168,10 +168,7 @@ export const ColorModeContextProvider = ({ children }) => {
                 "&.dashboard-card": {
                   width: '100%',
                   margin: '2px',
-                  paddingTop:"30px",
-                  paddingBottom:"0px",
-                  paddingLeft:"0px",
-                  paddingRight:"0px",
+                  padding:"0px 5px",
                   position: 'relative',
                   borderRadius: "5px",
                 },

@@ -12,16 +12,27 @@ const dropdownOptions = [
   { id: 6, value: 'Paid Private Tuition Subjectwise' }
 ];
 
-const defaultOptions = dropdownOptions.slice(0, 4);
+const attributeBasedDropdowns = {
+  1: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
+  2: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
+  3: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
+  4: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
+  5: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
+  6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
+};
 
 const StudentSchoolAttributes_R3 = () => {
   return (
     <div>
       <h2>Student Learning Behaviour</h2>
       <Grid container spacing={2}>
-        {defaultOptions.map((option, index) => (
+        {dropdownOptions.map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-            <CardComponent title={option} dropdownOptions={dropdownOptions} />
+            <CardComponent 
+              title={option} 
+              dropdownOptions={dropdownOptions} 
+              attributeBasedDropdowns={attributeBasedDropdowns} 
+            />
           </Grid>
         ))}
         <Grid item xs={12}>

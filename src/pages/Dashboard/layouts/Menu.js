@@ -9,6 +9,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
 
 import PaidIcon from '@mui/icons-material/Paid';
+import BudgetState from "../DashboardPages/BudgetState";
 
 
 const Home = lazy(() => import("../DashboardPages/Home"));
@@ -412,6 +413,8 @@ export const menu = [
   {
     icon: <PaidIcon sx={{color:"white"}}/>,
     title: "Budget State",
+    pageLink: '/budgetState',
+    view: <BudgetState />,
     
 
   },
