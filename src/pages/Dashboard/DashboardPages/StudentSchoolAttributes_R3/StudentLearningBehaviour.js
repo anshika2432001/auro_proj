@@ -26,7 +26,7 @@ const StudentLearningBehaviour = () => {
     <div>
       <h2>Student Learning Behaviour</h2>
       <Grid container spacing={2}>
-        {dropdownOptions.map((option, index) => (
+        {dropdownOptions.slice(0, 4).map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
             <CardComponent 
               title={option} 

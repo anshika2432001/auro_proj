@@ -79,20 +79,20 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
   const [dateRange1End, setDateRange1End] = useState(null);
   const [dateRange2Start, setDateRange2Start] = useState(null);
   const [dateRange2End, setDateRange2End] = useState(null);
-  const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute].slice(0, 3) || []);
+  const initialDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
+  const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const [selectedFilters, setSelectedFilters] = useState(
-    attributeBasedDropdowns[selectedAttribute].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
-  );
+  const initialFilters = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
+  const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const chartRef = useRef(null);
 
   useEffect(() => {
     setSelectedAttribute(title.id);
-    const newDropdowns = attributeBasedDropdowns[title.id].slice(0, 3) || [];
+    const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-  }, [title]);
+  }, [title, attributeBasedDropdowns]);
 
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
@@ -101,7 +101,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
 
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value.id);
-    const newDropdowns = attributeBasedDropdowns[value.id].slice(0, 3) || [];
+    const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   };
@@ -153,7 +153,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
               />
             </Grid>
           ))}
-          {attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
+          {attributeBasedDropdowns[selectedAttribute] && attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <IconButton
                 onClick={() => setShowAddMore(false)}
@@ -168,7 +168,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
           {!showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Autocomplete
-                options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute].includes(option))}
+                options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute]?.includes(option))}
                 getOptionLabel={(option) => option}
                 onChange={handleAddDropdown}
                 renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
@@ -177,96 +177,68 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns }) {
           )}
         </Grid>
 
-        <Grid container spacing={2} sx={{ mt: 1 }}>
+        <Grid container spacing={2} marginTop={2}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" sx={{ mt: 1, textAlign: 'center' }}>Date Range 1:</Typography>
+            <Typography variant="h6" gutterBottom>Date Range 1</Typography>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                    value={dateRange1Start}
-                    onChange={(newValue) => setDateRange1Start(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Start Date"
+                value={dateRange1Start}
+                onChange={(newValue) => setDateRange1Start(newValue)}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+              />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                    value={dateRange1End}
-                    onChange={(newValue) => setDateRange1End(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
-                </LocalizationProvider>
-              </Grid>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="End Date"
+                value={dateRange1End}
+                onChange={(newValue) => setDateRange1End(newValue)}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+            </LocalizationProvider>
+            </Grid>
             </Grid>
           </Grid>
-
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" sx={{ mt: 1, textAlign: 'center' }}>Date Range 2:</Typography>
+            <Typography variant="h6" gutterBottom>Date Range 2</Typography>
             <Grid container spacing={1}>
               <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                    value={dateRange2Start}
-                    onChange={(newValue) => setDateRange2Start(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
-                </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Start Date"
+                value={dateRange2Start}
+                onChange={(newValue) => setDateRange2Start(newValue)}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+              </LocalizationProvider>
               </Grid>
+            
               <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                    value={dateRange2End}
-                    onChange={(newValue) => setDateRange2End(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
-                </LocalizationProvider>
-              </Grid>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="End Date"
+                value={dateRange2End}
+                onChange={(newValue) => setDateRange2End(newValue)}
+                renderInput={(params) => <TextField {...params} fullWidth />}
+              />
+            </LocalizationProvider>
+            </Grid>
             </Grid>
           </Grid>
         </Grid>
-
-        <Bar 
-          ref={chartRef}
-          data={sampleChartData} 
-          options={{ 
-            responsive: true, 
-            scales: { 
-              x: { 
-                type: 'category',
-                stacked: false 
-              }, 
-              y: { 
-                stacked: false 
-              } 
-            },
-            plugins: {
-              legend: {
-                display: false
-              },
-              beforeDatasetDraw: (chart) => {
-                const lineDataset1 = chart.getDatasetMeta(2).data;
-                const lineDataset2 = chart.getDatasetMeta(3).data;
-                const barDataset1 = chart.getDatasetMeta(0).data;
-                const barDataset2 = chart.getDatasetMeta(1).data;
-
-                lineDataset1.forEach((point, index) => {
-                  point.x = (barDataset1[index].x + barDataset2[index].x) / 2;
-                });
-
-                lineDataset2.forEach((point, index) => {
-                  point.x = (barDataset1[index].x + barDataset2[index].x) / 2;
-                });
-              }
+        <Bar ref={chartRef} data={sampleChartData} options={{
+          
+          plugins: {
+            legend: {
+              display: false  
             }
-          }} 
+          }
+        }} 
         />
-
       </CardContent>
     </Card>
   );
