@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     height: '300px',
     overflowY: 'scroll',
   },
+ 
 });
 
 const colors = [
@@ -174,7 +175,7 @@ const ChartCard = ({ title, dataKey, data }) => {
                 style: { textAnchor: 'middle' },
               }}
             />
-            <Tooltip formatter={(value) => `${value}`} />
+            <Tooltip cursor={{fill: 'transparent'}} formatter={(value) => `${value}`} />
             <Bar dataKey={dataKey} isAnimationActive={false}>
               {data.map((entry, index) => (
                 <Bar key={`bar-${index}`} fill={entry.fill} />

@@ -155,6 +155,8 @@ export const ColorModeContextProvider = ({ children }) => {
                   marginTop: "10px",
                   padding: 3,
                   borderRadius: "5px",
+                  height: '500px',
+                  overflowY: 'scroll',
                 },
                 "&.mini-card1": {
                   maxWidth: 400,

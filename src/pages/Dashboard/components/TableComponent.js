@@ -7,86 +7,62 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import "../../../App.css";
 
 const attributeOptions = {
-  "Gender": ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
+  Gender: ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
   "School Location": ['All', 'Rural', 'Urban'],
   "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
   "Age Group": ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
-  "Grade": ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+  Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   "Social Group": ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
-  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board']
+  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board'],
+  State: ['All', 'State 1', 'State 2', 'State 3'],
+  District: ['All', 'District 1', 'District 2', 'District 3'],
+  School: ['All', 'School 1', 'School 2', 'School 3'],
+  "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
+  Subject: ['All', 'Math', 'Science', 'History'],
+  "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
 };
 
-const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group'],
-  2: ['Gender', 'Grade', 'Age Group'],
-  3: ['School Location', 'Age Group', 'Grade'],
-  4: ['Grade', 'Gender', 'School Location'],
-  5: ['Grade', 'Age Group', 'Board of Education'],
-  6: ['Gender', 'School Location', 'Grade']
-};
-
-function TableComponent({ title, dropdownOptions }) {
-  const [selectedAttribute, setSelectedAttribute] = useState(title.id);
+function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings }) {
+  const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[0].id : '';
+  const [selectedAttribute, setSelectedAttribute] = useState(initialAttribute);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
   const [dateRange2Start, setDateRange2Start] = useState(null);
   const [dateRange2End, setDateRange2End] = useState(null);
-  const [tableData, setTableData] = useState([]);
+  const tableData = tableInfo; 
+ 
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const [selectedFilters, setSelectedFilters] = useState(
-    attributeBasedDropdowns[selectedAttribute].reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
-  );
+  const initialFilters = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
+  const [selectedFilters, setSelectedFilters] = useState(initialFilters);
+console.log(initialFilters)
+  useEffect(() => {
+    const newDropdowns = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3) : [];
+    setDropdowns(newDropdowns);
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+  }, [attributeBasedDropdowns, selectedAttribute]);
+console.log(dropdowns)
+  useEffect(() => {
+    const usedFilters = new Set(dropdowns);
+    setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
+     console.log(usedFilters)
+  }, [dropdowns]);
+
+ 
 
   useEffect(() => {
-    setSelectedAttribute(title.id);
-    // Fetch and set table data based on selectedAttribute and date ranges here
-    const tableInfo = [
-      {
-        attributes: "Visual Learners",
-        dateRange: "23/03/23-10/04/24",
-        numStudents: "100",
-        avgScore: "23"
-      },
-      {
-        attributes: "Auditory",
-        dateRange: "23/03/23-10/04/24",
-        numStudents: "350",
-        avgScore: "65"
-      },
-      {
-        attributes: "Kinesthetic",
-        dateRange: "23/03/23-10/04/24",
-        numStudents: "220",
-        avgScore: "34"
-      },
-      {
-        attributes: "Reading/Writing",
-        dateRange: "23/03/23-10/04/24",
-        numStudents: "320",
-        avgScore: "45"
-      },
-      {
-        attributes: "Any Other",
-        dateRange: "21/01/24-10/04/24",
-        numStudents: "280",
-        avgScore: "36"
-      },
-    ];
-    setTableData(tableInfo);
-  }, [title, dateRange1Start, dateRange1End, dateRange2Start, dateRange2End]);
-
-  useEffect(() => {
+    // Updating available filters based on selected dropdowns
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
   const handleAttributeChange = (event, value) => {
-    setSelectedAttribute(value.id);
-    const newDropdowns = attributeBasedDropdowns[value.id] || [];
+    setSelectedAttribute(value);
+    const newDropdowns = attributeBasedDropdowns[value] || [];
     setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+    setSelectedFilters(newDropdowns.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+
   };
 
   const handleAddDropdown = (event, value) => {
@@ -101,10 +77,15 @@ function TableComponent({ title, dropdownOptions }) {
     setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
   };
 
-  const dynamicDropdowns = attributeBasedDropdowns[selectedAttribute] || [];
+  const handleShowMoreFilters = () => {
+    setShowAddMore(false);
+  };
+  console.log(selectedAttribute)
+  console.log(dropdowns)
+  console.log(tableHeadings)
 
   return (
-    <Card className='mini-card'>
+    <Card className='dashboard-card'>
       <CardContent>
         <Typography variant="h6" sx={{ backgroundColor: '#f0f0f0', padding: '8px', borderRadius: '4px', mb: 2 }}>
           Table Format Details
@@ -115,7 +96,7 @@ function TableComponent({ title, dropdownOptions }) {
               options={dropdownOptions}
               getOptionLabel={(option) => option.value}
               value={dropdownOptions.find(option => option.id === selectedAttribute)}
-              onChange={handleAttributeChange}
+              onChange={(event, value) => handleAttributeChange(event, value.id)}
               renderInput={(params) => <TextField {...params} label="Select Attribute" size="small" />}
               size="small"
             />
@@ -131,10 +112,10 @@ function TableComponent({ title, dropdownOptions }) {
               />
             </Grid>
           ))}
-          {availableFilters.length > 0 && showAddMore && (
+          {attributeBasedDropdowns[selectedAttribute] && attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <IconButton
-                onClick={() => setShowAddMore(false)}
+                onClick={handleShowMoreFilters}
                 color="primary"
                 aria-label="add more filters"
                 sx={{ p: 0, m: 0 }}
@@ -146,7 +127,7 @@ function TableComponent({ title, dropdownOptions }) {
           {!showAddMore && (
             <Grid item xs={12} sm={4} md={4} lg={4}>
               <Autocomplete
-                options={availableFilters}
+                options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute]?.includes(option))}
                 getOptionLabel={(option) => option}
                 onChange={handleAddDropdown}
                 renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
@@ -154,15 +135,23 @@ function TableComponent({ title, dropdownOptions }) {
             </Grid>
           )}
         </Grid>
-
         <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
           <Grid item xs={12} sm={2} md={2} lg={2} textAlign="left">
-            <Typography variant="h6" sx={{ mt: 1 }}>Date Ranges:</Typography>
+            <Typography variant="h6" >Date Ranges:</Typography>
           </Grid>
           <Grid item xs={12} sm={10} md={10} lg={10}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Typography variant="subtitle1" sx={{ mb: 1 }}>Date Range 1:</Typography>
+              <Grid item xs={6} sm={6} md={6} lg={6}>
+              <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography
+                  variant="subtitle1"
+                
+                >
+                  Date Range 1:
+                </Typography>
+                </Grid>
+                <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -171,6 +160,8 @@ function TableComponent({ title, dropdownOptions }) {
                     renderInput={(params) => <TextField {...params} size="small" />}
                   />
                 </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -179,9 +170,20 @@ function TableComponent({ title, dropdownOptions }) {
                     renderInput={(params) => <TextField {...params} size="small" />}
                   />
                 </LocalizationProvider>
+                </Grid>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={6}>
-                <Typography variant="subtitle1" sx={{ mb: 1 }}>Date Range 2:</Typography>
+              <Grid item xs={6} sm={6} md={6} lg={6}>
+              <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography
+                  variant="subtitle1"
+                
+                >
+                  Date Range 2:
+                </Typography>
+                </Grid>
+                <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -190,6 +192,8 @@ function TableComponent({ title, dropdownOptions }) {
                     renderInput={(params) => <TextField {...params} size="small" />}
                   />
                 </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -198,6 +202,8 @@ function TableComponent({ title, dropdownOptions }) {
                     renderInput={(params) => <TextField {...params} size="small" />}
                   />
                 </LocalizationProvider>
+                </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -207,18 +213,11 @@ function TableComponent({ title, dropdownOptions }) {
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
             <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
               <TableRow>
-                <TableCell className="TableHeading">
-                  <p className="HeadingData">Attributes</p>
-                </TableCell>
-                <TableCell className="TableHeading">
-                  <p className="HeadingData">Date Range</p>
-                </TableCell>
-                <TableCell className="TableHeading">
-                  <p className="HeadingData">Number of Students</p>
-                </TableCell>
-                <TableCell className="TableHeading">
-                  <p className="HeadingData">Average Score of Students</p>
-                </TableCell>
+              {tableHeadings.map((heading, index) => (
+                  <TableCell key={index} className="TableHeading">
+                    <p className="HeadingData">{heading}</p>
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -231,10 +230,10 @@ function TableComponent({ title, dropdownOptions }) {
                     <p className="TableData">{row.dateRange}</p>
                   </TableCell>
                   <TableCell className="BodyBorder">
-                    <p className="TableData">{row.numStudents}</p>
+                    <p className="TableData">{row.totalValue}</p>
                   </TableCell>
                   <TableCell className="BodyBorder">
-                    <p className="TableData">{row.avgScore}</p>
+                    <p className="TableData">{row.avgValue}</p>
                   </TableCell>
                 </TableRow>
               ))}

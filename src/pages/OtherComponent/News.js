@@ -136,7 +136,7 @@ const News = () => {
           {displayedNews.map((news, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <CardActionArea onClick={() => handleNewsClick(news)} sx={{ '&:hover': { boxShadow: 6 } }}>
-                <Card sx={{ borderTop: '4px solid #2899DB' }} className='mini-card'>
+                <Card sx={{ borderTop: '4px solid #2899DB' }} className='mini-card1'>
                   <CardContent>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                       <Typography variant="body1">
