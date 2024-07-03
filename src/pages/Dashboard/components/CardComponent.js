@@ -85,11 +85,19 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
   return (
     <Card className='mini-card'>
       <Typography 
-        variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px', color: '#fff' }}
-      >
-        {title.value}
-      </Typography>
+  variant="h6" 
+  sx={{ 
+    backgroundColor: '#0948a6', 
+    padding: '8px', 
+    borderRadius: '4px', 
+    color: '#fff', 
+    position: 'sticky', 
+    top: '0',
+    zIndex: 1000 
+  }}
+>
+  {title.value}
+</Typography>
       <CardContent>
         <Autocomplete
           options={dropdownOptions}
