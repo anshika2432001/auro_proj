@@ -13,7 +13,7 @@ import BudgetState from "../DashboardPages/BudgetState";
 
 
 const Home = lazy(() => import("../DashboardPages/Home"));
-const StudentSchoolAttributes_R3 = lazy(() => import("../DashboardPages/StudentSchoolAttributes_R3"));
+const StudentLearningBehaviour = lazy(() => import("../DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour"));
 
 
 export const menu = [
@@ -33,79 +33,79 @@ export const menu = [
         
             title: "Subject Wise - Average Score",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Gradewise - Average Score",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Microscholarship Amount",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Microscholarship Quizzes - Total Quizzes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Total Winning Quizzes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Subject Wise - % improvement",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Gradewise - % improvement",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
       {
         title: "Top Performing Topics",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       }, 
      
       {
         title: "Microscholarship Won",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Topicwise breakdown - Student Attempts",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Topicwise breakdown - No. of Winning Quizzes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Topicwise breakdown - Average Score",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Topicwise breakdown - % improvement",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Weak Performing Topics",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Core-Retake No of Students",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
     ]
@@ -119,43 +119,43 @@ export const menu = [
         
             title: "PrePrimary School",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Student Strength of the Classroom",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Types of Student Clubs",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Academic Stream",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "First or home language is the same as that in the school",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Student with access to Bank Acoount/ UPI ",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Students engagement in extra curricular activities in school",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
       {
         title: "Students in leadership positions in school clubs",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       }, 
      
       
@@ -169,37 +169,37 @@ export const menu = [
       {
         title: "Student Learning Behaviours",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Hours of individual study/practice per day",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Student learning style preferences",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Student collaborative learning style preferences",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Paid Private Tuition Hours",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Children who read other materials in addition to textbooks",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Paid Private Tuition Subjectwise",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       }
 
         ]
@@ -208,42 +208,42 @@ export const menu = [
       {
         title: "Student-Internet Behaviour Patterns",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Students hours spent on mobile phone - social/entertainment",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Children having access to digital devices at home",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Students using learning apps at home",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Edtech Product Type",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Students having social media accounts",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Types of sites",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Student hours spent on mobile phones - study",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       }
 
         ]
@@ -261,42 +261,42 @@ export const menu = [
       {
         title: "Teacher - Attributes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Teacher - Grade",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Teacher - Number of classes ratio",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Teacher - Student score range",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Teacher - Subject",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Average Teacher Salary",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Teacher - Pupil Ratio",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Teacher Qualification",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       }
 
         ]
@@ -305,57 +305,57 @@ export const menu = [
       {
         title: "Teacher - Training Data",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Teachers trained on CCE and Classroom based assessment",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Teacher needs of the teacher",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Nature of employment of teachers",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Time Spent by teacher on school related activities weekly",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Teachers satisfied with trainings by School/ Education Dept",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Teachers with platform to share best practices",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Time spent by teacher in mandatory training annually",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Teachers aware in pedagogical methodologies",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Periodicity of formative assessments in school",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Schools utilising teaching resources by the SCRET / DIETs",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
         ]
@@ -364,37 +364,37 @@ export const menu = [
       {
         title: "Teacher - School - Parent Attributes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Frequency of parent teacher meetings",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "CSRs engaged with school in last academic year",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Schools with SMCs",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Schools registered on Vidyanjali portal =",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Functional SMCs",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "No of Teachers in school",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       
         ]
@@ -411,52 +411,52 @@ export const menu = [
       {
         title: "Student- Higher Education Attributes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Students taking vocational courses",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Number of students likely to attend higher education",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Students who want to access vocational courses",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Students who are confident that they have knowledge of career options",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Student career domains",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Student career domains - STEM/Non-STEM",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Students confident in skills- communication skills, problem solving, team building",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Students accessing preparatory classes for higher education",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Students who want to access internship",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
       
@@ -477,7 +477,7 @@ export const menu = [
       {
         title: "School having handwash facility",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         
       
        
@@ -494,78 +494,78 @@ export const menu = [
       {
         title: "Parental - Student - Household Attributes",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         items: [
           {
             title: "Immigrant background (ie one or both parents born in another state)",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Household with at least one member who completed Std XII",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
           {
             title: "Parents annual spend on child's education",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
           },
         {
           title: "Household with internet connection",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
         },
       {
         title: "Mother's level of education",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Households with at least one member who knows how to operate a computer",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "House Type",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Households with other reading material (activity books, reading books, puzzles, newspaper)",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Father's level of education",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
       {
         title: "Average income of household",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "Household with electricity connection",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "My child's teacher and I communicate with each other at least once a month",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "I expect my child will graduate from high school",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
       {
         title: "I expect my child will go to college one day",
         pageLink: '/studentLearningBehaviours',
-        view: <StudentSchoolAttributes_R3 />,
+        view: <StudentLearningBehaviour />,
       },
 
 

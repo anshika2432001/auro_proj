@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import CardComponent from '../components/CardComponent';
-import TableComponent from '../components/TableComponent';
+import CardComponent from '../../components/CardComponent';
+import TableComponent from '../../components/TableComponent';
 
 const dropdownOptions = [
   { id: 1, value: 'Hours of individual study/practice per day' },
@@ -21,7 +21,7 @@ const attributeBasedDropdowns = {
   6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
 };
 
-const StudentSchoolAttributes_R3 = () => {
+const StudentLearningBehaviour = () => {
   return (
     <div>
       <h2>Student Learning Behaviour</h2>
@@ -43,4 +43,4 @@ const StudentSchoolAttributes_R3 = () => {
   );
 };
 
-export default StudentSchoolAttributes_R3;
+export default StudentLearningBehaviour;

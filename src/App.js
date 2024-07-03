@@ -15,7 +15,7 @@ import LandingPageRoutng from './pages/LandingPageRouting';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SnackbarProvider } from "./pages/uiComponents/Snackbar";
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
-import StudentSchoolAttributes_R3 from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3';
+import StudentLearningBehaviour from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour';
 import BudgetState from './pages/Dashboard/DashboardPages/BudgetState';
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
             {/* Routes with Header */}
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
-              <Route path="/studentLearningBehaviours" element={<StudentSchoolAttributes_R3 />} />
+              <Route path="/studentLearningBehaviours" element={<StudentLearningBehaviour />} />
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
           </Routes>
