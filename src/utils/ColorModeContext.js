@@ -128,17 +128,22 @@ export const ColorModeContextProvider = ({ children }) => {
           MuiTextField: {
             styleOverrides: {
               root: {
-                "& label": {
+                "& .MuiInputLabel-root": {
+                  fontSize:"13px",
+                  marginTop:"-5px",
                   opacity: 1,
                 },
                 
                 "& .MuiInputBase-input": {
-                  padding: "15px 10px", 
+                  paddingLeft: "10px", 
+                  paddingTop: "10px", 
+                  paddingBottom: "10px", 
                 },
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
                   padding: "auto 0px",
                 },
+              
               },
             },
           },

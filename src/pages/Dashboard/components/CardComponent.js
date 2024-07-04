@@ -143,19 +143,24 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
           )}
         </Grid>
 
-        <Grid container spacing={2} marginTop={1}>
+        <Grid container spacing={2} marginTop={0.5}>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6" gutterBottom>Date Range 1</Typography>
-            <Grid container spacing={1}>
+            <Grid container spacing={1.5}>
               <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                    value={dateRange1Start}
-                    onChange={(newValue) => setDateRange1Start(newValue)}
-                    renderInput={(params) => <TextField {...params} fullWidth />}
-                  />
-                </LocalizationProvider>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label="Start Date"
+        value={dateRange1Start}
+        onChange={(newValue) => setDateRange1Start(newValue)}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            size="small"
+          />
+        )}
+      />
+    </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -171,7 +176,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6" gutterBottom>Date Range 2</Typography>
-            <Grid container spacing={1}>
+            <Grid container spacing={1.5}>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker

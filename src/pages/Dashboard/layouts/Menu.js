@@ -10,10 +10,13 @@ import HomeWorkIcon from '@mui/icons-material/HomeWork';
 
 import PaidIcon from '@mui/icons-material/Paid';
 import BudgetState from "../DashboardPages/BudgetState";
+import StudentSchoolAttributes_R2 from "../DashboardPages/StudentSchoolAttributes_R2";
+import StudentLearningBehaviour from "../DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour";
+import Home from "../DashboardPages/Home";
 
 
-const Home = lazy(() => import("../DashboardPages/Home"));
-const StudentLearningBehaviour = lazy(() => import("../DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour"));
+
+
 
 
 export const menu = [
@@ -118,44 +121,44 @@ export const menu = [
       {
         
             title: "PrePrimary School",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+            pageLink: '/studentR2Attributes',
+            view: <StudentSchoolAttributes_R2 />,
           },
           {
             title: "Student Strength of the Classroom",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+            pageLink: '/studentR2Attributes',
+            view: <StudentSchoolAttributes_R2 />,
           },
           {
             title: "Types of Student Clubs",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+            pageLink: '/studentR2Attributes',
+            view: <StudentSchoolAttributes_R2 />,
           },
         {
           title: "Academic Stream",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+          pageLink: '/studentR2Attributes',
+          view: <StudentSchoolAttributes_R2 />,
         },
       {
         title: "First or home language is the same as that in the school",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+        pageLink: '/studentR2Attributes',
+            view: <StudentSchoolAttributes_R2 />,
       },
       {
         title: "Student with access to Bank Acoount/ UPI ",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+        pageLink: '/studentR2Attributes',
+            view: <StudentSchoolAttributes_R2 />,
       },
       {
         title: "Students engagement in extra curricular activities in school",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+        pageLink: '/studentR2Attributes',
+        view: <StudentSchoolAttributes_R2 />,
       },
 
       {
         title: "Students in leadership positions in school clubs",
-        pageLink: '/studentLearningBehaviours',
-        view: <StudentLearningBehaviour />,
+        pageLink: '/studentR2Attributes',
+        view: <StudentSchoolAttributes_R2 />,
       }, 
      
       

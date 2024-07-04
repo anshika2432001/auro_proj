@@ -17,6 +17,7 @@ import { SnackbarProvider } from "./pages/uiComponents/Snackbar";
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
 import StudentLearningBehaviour from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour';
 import BudgetState from './pages/Dashboard/DashboardPages/BudgetState';
+import StudentSchoolAttributes_R2 from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R2';
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
               <Route path="/studentLearningBehaviours" element={<StudentLearningBehaviour />} />
+              <Route path="/studentR2Attributes" element={<StudentSchoolAttributes_R2 />} />
+              
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
           </Routes>
