@@ -71,7 +71,7 @@ function BudgetCardComponent({ title, dropdownOptions, attributeBasedDropdowns, 
       <Typography 
         variant="h6" 
         sx={{ backgroundColor: '#0948a6', padding: '8px',top: '0',
-          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff',marginBottom:"20px" }}
+          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff',}}
       >
   {title.value}
 </Typography>

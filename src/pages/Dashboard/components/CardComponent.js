@@ -83,7 +83,16 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
   const linePosition = {
     id: 'linePosition',
     beforeDatasetsDraw(chart,args,pluginOptions){
-      console.log(chart.getDatasetMeta(0))
+      // console.log(chart.getDatasetMeta(0).data[0].x)
+      // console.log(chart.getDatasetMeta(1).data[0].x)
+      // console.log(chart.getDatasetMeta(2).data[0].x)
+      // console.log(chart.getDatasetMeta(3).data[0].x)
+      chart.getDatasetMeta(2).data.forEach((datapoint,index) => {
+        datapoint.x = chart.getDatasetMeta(0).data[index].x
+      })
+      chart.getDatasetMeta(3).data.forEach((datapoint,index) => {
+        datapoint.x = chart.getDatasetMeta(1).data[index].x
+      })
     }
   }
 
@@ -92,7 +101,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
        <Typography 
         variant="h6" 
         sx={{ backgroundColor: '#0948a6', padding: '8px',top: '0',
-          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff',marginBottom:"20px" }}
+          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff', }}
       >
   {title.value}
 </Typography>
@@ -222,7 +231,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
       }
     },
   }}
-  plugins={linePosition}
+  plugins={[linePosition]}
 />
 
       </CardContent>
