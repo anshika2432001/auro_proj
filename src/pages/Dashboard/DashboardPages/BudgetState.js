@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import CardComponent from '../components/CardComponent';
 import TableComponent from '../components/TableComponent';
+import axios from '../../../utils/axios';
+import BudgetCardComponent from '../components/BudgetCardComponent';
 
 const dropdownOptions = [
   { id: 1, value: 'Funds allocated for Assessment Cell in SCERT' },
@@ -15,54 +17,6 @@ const attributeBasedDropdowns = {
   2: ['State'],
   3: ['State'],
   4: ['State']
-};
-
-const chartData = {
-  labels: ['Rajasthan', 'Uttar Pradesh', 'Bihar', 'Tamil Nadu', 'West Bengal'],
-  datasets: [
-    {
-      label: 'Amount/ Percentage of fund allocated',
-      type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
-      borderWidth: 2,
-      data: [200, 150, 300, 250, 400],
-      barThickness: 30,
-      borderRadius: 5, 
-      order: 2,
-    },
-    {
-      label: 'Amount/ Percentage of fund allocated',
-      type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
-      borderWidth: 2,
-      borderRadius: 5, 
-      data: [100, 130, 250, 200, 350],
-      barThickness: 30,
-      order: 2,
-    },
-    {
-      label: 'Average Amount',
-      type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
-      borderWidth: 4,
-      fill: false,
-      data: [175, 140, 275, 225, 375],
-      spanGaps: true,
-      order: 1,
-    },
-    {
-      label: 'Average Amount',
-      type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
-      borderWidth: 4,
-      fill: false,
-      data: [75, 80, 150, 125, 225],
-      spanGaps: true,
-      order: 1,
-    },
-  ],
 };
 
 const tableInfo = [
@@ -106,26 +60,108 @@ const tableHeadings = [
 ];
 
 const BudgetState = () => {
+  const [chartData, setChartData] = useState({});
+  
+  useEffect(() => {
+    getDashboardInfo();
+  }, []);
+
+  const getDashboardInfo = async () => {
+    try {
+      const res = await axios.get('/budget-state-data');
+      const result = res.data.result;
+
+      const processedChartData = processChartData(result);
+      setChartData(processedChartData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const processChartData = (data) => {
+    const labels = data.fundsAllocated.map(item => item.state_name);
+    
+    const fundsAllocatedData = data.fundsAllocated.map(item => item.funds_allocated);
+    const publicExpenditureData = data.publicExpenditure.map(item => item.education_expenditure_percentage);
+    const samagraSikshaFundsApprovedData = data.samagraSikshaFundsApproved.map(item => item.percentage_of_samagra_shiksha_funds_approved);
+    const samagraSikshaFundsReceivedData = data.samagraSikshaFundsReceived.map(item => item.percentage_of_samagra_shiksha_funds_received);
+
+    return {
+      1: {
+        labels,
+        datasets: [
+          {
+            label: 'Funds Allocated',
+            type: 'bar',
+            backgroundColor: 'rgba(185,102,220,1)',
+            borderColor: 'rgba(185,102,220,1)',
+            borderWidth: 2,
+            data: fundsAllocatedData,
+          }
+        ]
+      },
+      2: {
+        labels,
+        datasets: [
+          {
+            label: 'Public Expenditure on Education',
+            type: 'bar',
+            backgroundColor: 'rgba(185,102,220,1)',
+            borderColor: 'rgba(185,102,220,1)',
+            borderWidth: 2,
+            data: publicExpenditureData,
+          }
+        ]
+      },
+      3: {
+        labels,
+        datasets: [
+          {
+            label: 'Samagra Siksha Funds Approved',
+            type: 'bar',
+            backgroundColor: 'rgba(185,102,220,1)',
+            borderColor: 'rgba(185,102,220,1)',
+            borderWidth: 2,
+            data: samagraSikshaFundsApprovedData,
+          }
+        ]
+      },
+      4: {
+        labels,
+        datasets: [
+          {
+            label: 'Samagra Siksha Funds Received',
+            type: 'bar',
+            backgroundColor: 'rgba(185,102,220,1)',
+            borderColor: 'rgba(185,102,220,1)',
+            borderWidth: 2,
+            data: samagraSikshaFundsReceivedData,
+          }
+        ]
+      }
+    };
+  };
+
   return (
     <div>
       <h2>Budget and Expenditure</h2>
       <Grid container spacing={2}>
-      {dropdownOptions.slice(0, 4).map((option, index) => (
+        {dropdownOptions.map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
-            <CardComponent 
+            <BudgetCardComponent
               title={option} 
               dropdownOptions={dropdownOptions} 
               attributeBasedDropdowns={attributeBasedDropdowns} 
-              chartData={chartData}
+              chartData={chartData[option.id]} 
             />
           </Grid>
         ))}
         <Grid item xs={12}>
           <TableComponent 
-          dropdownOptions={dropdownOptions} 
-          attributeBasedDropdowns={attributeBasedDropdowns}  
-          tableInfo={tableInfo} 
-          tableHeadings={tableHeadings} 
+            dropdownOptions={dropdownOptions} 
+            attributeBasedDropdowns={attributeBasedDropdowns}  
+            tableInfo={tableInfo} 
+            tableHeadings={tableHeadings} 
           />
         </Grid>
       </Grid>

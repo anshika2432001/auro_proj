@@ -36,17 +36,17 @@ function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tab
   const [showAddMore, setShowAddMore] = useState(true);
   const initialFilters = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
-console.log(initialFilters)
+
   useEffect(() => {
     const newDropdowns = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3) : [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [attributeBasedDropdowns, selectedAttribute]);
-console.log(dropdowns)
+
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
-     console.log(usedFilters)
+ 
   }, [dropdowns]);
 
  
@@ -80,9 +80,7 @@ console.log(dropdowns)
   const handleShowMoreFilters = () => {
     setShowAddMore(false);
   };
-  console.log(selectedAttribute)
-  console.log(dropdowns)
-  console.log(tableHeadings)
+  
 
   return (
     <Card className='dashboard-card'>
