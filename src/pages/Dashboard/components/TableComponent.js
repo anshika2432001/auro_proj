@@ -86,10 +86,11 @@ console.log(dropdowns)
 
   return (
     <Card className='dashboard-card'>
-      <CardContent>
-        <Typography variant="h6" sx={{ backgroundColor: '#f0f0f0', padding: '8px', borderRadius: '4px', mb: 2 }}>
+     
+        <Typography variant="h6" sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px', mb: 2,color: '#fff',  }}>
           Table Format Details
         </Typography>
+        <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <Autocomplete
@@ -151,7 +152,7 @@ console.log(dropdowns)
                   Date Range 1:
                 </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6} sm={6} md={6} lg={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -161,7 +162,7 @@ console.log(dropdowns)
                   />
                 </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6} sm={6} md={6} lg={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -183,7 +184,7 @@ console.log(dropdowns)
                   Date Range 2:
                 </Typography>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6} sm={6} md={6} lg={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -193,7 +194,7 @@ console.log(dropdowns)
                   />
                 </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6} sm={6} md={6} lg={6}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
