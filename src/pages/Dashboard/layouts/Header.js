@@ -90,6 +90,7 @@ const Footer = styled('div', {
   position: 'fixed',
   top: 'unset',
   bottom: 0,
+  zIndex: 20,
   color:'white',
   backgroundColor:'black',
   textAlign:'center',

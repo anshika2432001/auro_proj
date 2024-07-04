@@ -67,21 +67,15 @@ function BudgetCardComponent({ title, dropdownOptions, attributeBasedDropdowns, 
 
   return (
     <Card className='mini-card'>
+     
       <Typography 
         variant="h6" 
-        sx={{ 
-          backgroundColor: '#0948a6', 
-          padding: '8px', 
-          borderRadius: '4px', 
-          color: '#fff', 
-          position: 'sticky', 
-          top: '0',
-          zIndex: 1000 
-        }}
+        sx={{ backgroundColor: '#0948a6', padding: '8px',top: '0',
+          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff',marginBottom:"20px" }}
       >
-        {title.value}
-      </Typography>
-      <CardContent>
+  {title.value}
+</Typography>
+<CardContent>
         <Autocomplete
           options={dropdownOptions}
           getOptionLabel={(option) => option.value}

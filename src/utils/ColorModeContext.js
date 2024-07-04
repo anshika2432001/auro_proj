@@ -160,6 +160,8 @@ export const ColorModeContextProvider = ({ children }) => {
                   marginTop: "10px",
                   padding: 3,
                   borderRadius: "5px",
+                  position: 'relative',
+                  overflow: 'hidden',
                   height: '500px',
                   overflowY: 'scroll',
                 },
