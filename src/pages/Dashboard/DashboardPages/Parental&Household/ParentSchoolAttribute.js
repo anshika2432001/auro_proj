@@ -5,12 +5,13 @@ import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Hours of individual study/practice per day' },
-  { id: 2, value: 'Student learning style preferences' },
-  { id: 3, value: 'Student collaborative learning style preferences' },
-  { id: 4, value: 'Paid Private Tuition Hours' },
-  { id: 5, value: 'Children who read other materials in addition to textbooks' },
-  { id: 6, value: 'Paid Private Tuition Subjectwise' }
+  { id: 1, value: 'Frequency of parent teacher meetings' },
+  { id: 2, value: 'Schools having lack of parental support in students learning' },
+  { id: 3, value: 'Schools provide guidance on how parents can support children in learning' },
+  { id: 4, value: '% of schools, where parents have been made aware of learning levels through PTM, Letters, discussion forums' },
+  { id: 5, value: 'Schools informed parents about school activity' },
+  { id: 6, value: 'I attend parent-teacher conferences' },
+  { id: 7, value: 'I regularly participate in events at my childs school' }
 ];
 
 const attributeBasedDropdowns = {
@@ -28,10 +29,10 @@ const chartData = {
     {
       label: 'No of Students (Purple)',
       type: 'bar',
-      backgroundColor: '#AD88F1',
-      borderColor: '#AD88F1',
+      backgroundColor: 'rgba(185,102,220,1)',
+      borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
-      data: [400, 500, 600, 400, 500],
+      data: [200, 150, 300, 250, 400],
       barThickness: 30,
       borderRadius: 5, 
       order: 2,
@@ -39,8 +40,8 @@ const chartData = {
     {
       label: 'No of Students (Blue)',
       type: 'bar',
-      borderColor: '#41B8D5',
-      backgroundColor: '#41B8D5',
+      backgroundColor: 'rgba(68,198,212,1)',
+      borderColor: 'rgba(68,198,212,1)',
       borderWidth: 2,
       borderRadius: 5, 
       data: [100, 130, 250, 200, 350],
@@ -50,22 +51,20 @@ const chartData = {
     {
       label: 'Average no. of students (Purple)',
       type: 'line',
-      borderColor: '#CCCCCC',
-      backgroundColor: '#CCCCCC',
+      borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
       fill: false,
-      data: [200, 250, 300, 200, 250],
+      data: [175, 140, 275, 225, 375],
       spanGaps: true,
       order: 1,
     },
     {
       label: 'Average no. of students (Blue)',
       type: 'line',
-      borderColor: '#CCCCCC',
-      backgroundColor: '#CCCCCC',
+      borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
       fill: false,
-      data: [50, 65, 125, 100, 175],
+      data: [75, 80, 150, 125, 225],
       spanGaps: true,
       order: 1,
     },
@@ -112,10 +111,10 @@ const tableHeadings = [
   'Average Score of Students'
 ];
 
-const StudentLearningBehaviour = () => {
+const ParentSchoolAttribute = () => {
   return (
     <div>
-      <h2>Student Learning Behaviour</h2>
+      <h2>Parent School Attribute</h2>
       <Grid container spacing={2}>
       {dropdownOptions.slice(0, 4).map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -140,4 +139,4 @@ const StudentLearningBehaviour = () => {
   );
 };
 
-export default StudentLearningBehaviour;
+export default ParentSchoolAttribute;

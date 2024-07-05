@@ -5,12 +5,12 @@ import TableComponent from '../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Abac' },
-  { id: 2, value: 'Student learning style preferences' },
-  { id: 3, value: 'Student collaborative learning style preferences' },
-  { id: 4, value: 'Paid Private Tuition Hours' },
-  { id: 5, value: 'Children who read other materials in addition to textbooks' },
-  { id: 6, value: 'Paid Private Tuition Subjectwise' }
+  { id: 1, value: 'Pre-Primary School' },
+  { id: 2, value: 'Student Strength of the Classroom' },
+  { id: 3, value: 'Types of Student Clubs' },
+  { id: 4, value: 'Academic Stream' },
+  { id: 5, value: 'Student with access to Bank Account/ UPI' },
+  { id: 6, value: 'Students engagement in extra curricular activities in school' }
 ];
 
 const attributeBasedDropdowns = {
@@ -23,7 +23,7 @@ const attributeBasedDropdowns = {
 };
 
 const chartData = {
-  labels: ['Cant Say', 'Up to 1 hr', '1-3 hrs', '3-5 hrs', 'More than 5 hrs'],
+  labels: ['Below 15 students', '16-25 students', '26-35 students', '36-45 students', 'Above 45 students'],
   datasets: [
     {
       label: 'No of Students (Purple)',
