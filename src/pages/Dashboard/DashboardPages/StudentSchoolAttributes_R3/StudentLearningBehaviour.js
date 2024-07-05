@@ -28,8 +28,8 @@ const chartData = {
     {
       label: 'No of Students (Purple)',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#AD88F1',
+      borderColor: '#AD88F1',
       borderWidth: 2,
       data: [400, 500, 600, 400, 500],
       barThickness: 30,
@@ -39,8 +39,8 @@ const chartData = {
     {
       label: 'No of Students (Blue)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      borderColor: '#41B8D5',
+      backgroundColor: '#41B8D5',
       borderWidth: 2,
       borderRadius: 5, 
       data: [100, 130, 250, 200, 350],
@@ -50,7 +50,8 @@ const chartData = {
     {
       label: 'Average no. of students (Purple)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#CCCCCC',
+      backgroundColor: '#CCCCCC',
       borderWidth: 4,
       fill: false,
       data: [200, 250, 300, 200, 250],
@@ -60,7 +61,8 @@ const chartData = {
     {
       label: 'Average no. of students (Blue)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#CCCCCC',
+      backgroundColor: '#CCCCCC',
       borderWidth: 4,
       fill: false,
       data: [50, 65, 125, 100, 175],
