@@ -9,11 +9,12 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement);
 
-const attributeOptions = {
-  State: ['All', 'State 1', 'State 2', 'State 3'],
-};
 
-function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attributeBasedDropdowns, chartData, onAttributeChange }) {
+
+function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attributeBasedDropdowns, chartData, filterDropdowns, onCardFilterChange }) {
+  const attributeOptions = {
+    State: filterDropdowns
+  };
   const [currentAttribute, setCurrentAttribute] = useState(selectedAttribute);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
@@ -38,9 +39,10 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
   }, [dropdowns]);
 
   const handleAttributeChange = (event, value) => {
+    console.log(value)
     if (value) {
       setCurrentAttribute(value.id);
-      onAttributeChange(value.id);
+      onCardFilterChange(value.id,"");
     }
   };
 
@@ -54,6 +56,8 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
 
   const handleFilterChange = (dropdownLabel) => (event, value) => {
     setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+    console.log(dropdownLabel,value,currentAttribute)
+    onCardFilterChange(currentAttribute,value)
   };
 
   return (

@@ -6,23 +6,26 @@ import { DatePicker } from "@mui/x-date-pickers";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import "../../../App.css";
 
-const attributeOptions = {
-  Gender: ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
-  "School Location": ['All', 'Rural', 'Urban'],
-  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
-  "Age Group": ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
-  Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-  "Social Group": ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
-  "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board'],
-  State: ['All', 'State 1', 'State 2', 'State 3'],
-  District: ['All', 'District 1', 'District 2', 'District 3'],
-  School: ['All', 'School 1', 'School 2', 'School 3'],
-  "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
-  Subject: ['All', 'Math', 'Science', 'History'],
-  "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
-};
 
-function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings }) {
+
+function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,filterDropdowns,onTableFilterChange }) {
+
+  const attributeOptions = {
+    Gender: ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
+    "School Location": ['All', 'Rural', 'Urban'],
+    "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+    "Age Group": ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
+    Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+    "Social Group": ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
+    "Board of Education": ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board'],
+    State: filterDropdowns,
+    District: ['All', 'District 1', 'District 2', 'District 3'],
+    School: ['All', 'School 1', 'School 2', 'School 3'],
+    "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
+    Subject: ['All', 'Math', 'Science', 'History'],
+    "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
+  };
+
   const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[0].id : '';
   const [selectedAttribute, setSelectedAttribute] = useState(initialAttribute);
   const [dateRange1Start, setDateRange1Start] = useState(null);
@@ -58,11 +61,12 @@ function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tab
   }, [dropdowns]);
 
   const handleAttributeChange = (event, value) => {
+    console.log(value)
     setSelectedAttribute(value);
     const newDropdowns = attributeBasedDropdowns[value] || [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-
+    onTableFilterChange(value,"")
   };
 
   const handleAddDropdown = (event, value) => {
@@ -70,11 +74,15 @@ function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tab
       setDropdowns((prev) => [...prev, value]);
       setSelectedFilters((prev) => ({ ...prev, [value]: 'All' }));
       setShowAddMore(true);
+
     }
   };
 
   const handleFilterChange = (dropdownLabel) => (event, value) => {
+    console.log(selectedAttribute)
+    console.log(value)
     setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+    onTableFilterChange(selectedAttribute,value)
   };
 
   const handleShowMoreFilters = () => {

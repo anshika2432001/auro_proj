@@ -18,38 +18,7 @@ const attributeBasedDropdowns = {
   4: ['State']
 };
 
-const tableInfo = [
-  {
-    attributes: "Rajasthan",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "100",
-    avgValue: "23"
-  },
-  {
-    attributes: "Uttar Pradesh",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "350",
-    avgValue: "65"
-  },
-  {
-    attributes: "Bihar",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "220",
-    avgValue: "34"
-  },
-  {
-    attributes: "Tamil Nadu",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "320",
-    avgValue: "45"
-  },
-  {
-    attributes: "West Bengal",
-    dateRange: "21/01/24-10/04/24",
-    totalValue: "280",
-    avgValue: "36"
-  },
-];
+
 
 const tableHeadings = [
   'Attributes', 
@@ -59,9 +28,11 @@ const tableHeadings = [
 ];
 
 const BudgetState = () => {
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState(dropdownOptions.map(() => ({})));
+  const [filterDropdown, setFilterDropdown] = useState([]);
   const [titles, setTitles] = useState(dropdownOptions.map(option => option.value));
   const [selectedAttributes, setSelectedAttributes] = useState(dropdownOptions.map(option => option.id));
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     getBudgetInfo();
@@ -71,9 +42,10 @@ const BudgetState = () => {
     try {
       const res = await axios.get('/budget-state-data');
       const result = res.data.result;
-
+console.log(result)
       const processedChartData = processChartData(result);
       setChartData(processedChartData);
+      setTableData(processTableData(result, 1));
     } catch (error) {
       console.log(error);
     }
@@ -81,80 +53,149 @@ const BudgetState = () => {
 
   const processChartData = (data) => {
     const labels = data.fundsAllocated.map(item => item.state_name);
-    
+    setFilterDropdown(labels);
     const fundsAllocatedData = data.fundsAllocated.map(item => item.funds_allocated);
     const publicExpenditureData = data.publicExpenditure.map(item => item.education_expenditure_percentage);
     const samagraSikshaFundsApprovedData = data.samagraSikshaFundsApproved.map(item => item.percentage_of_samagra_shiksha_funds_approved);
     const samagraSikshaFundsReceivedData = data.samagraSikshaFundsReceived.map(item => item.percentage_of_samagra_shiksha_funds_received);
 
-    return {
-      1: {
+    return dropdownOptions.map(option => ({
+      [option.id]: {
         labels,
         datasets: [
           {
-            label: 'Funds Allocated',
+            label: option.value,
             type: 'bar',
             backgroundColor: 'rgba(185,102,220,1)',
             borderColor: 'rgba(185,102,220,1)',
             borderWidth: 2,
-            data: fundsAllocatedData,
-          }
-        ]
-      },
-      2: {
-        labels,
-        datasets: [
-          {
-            label: 'Public Expenditure on Education',
-            type: 'bar',
-            backgroundColor: 'rgba(185,102,220,1)',
-            borderColor: 'rgba(185,102,220,1)',
-            borderWidth: 2,
-            data: publicExpenditureData,
-          }
-        ]
-      },
-      3: {
-        labels,
-        datasets: [
-          {
-            label: 'Samagra Siksha Funds Approved',
-            type: 'bar',
-            backgroundColor: 'rgba(185,102,220,1)',
-            borderColor: 'rgba(185,102,220,1)',
-            borderWidth: 2,
-            data: samagraSikshaFundsApprovedData,
-          }
-        ]
-      },
-      4: {
-        labels,
-        datasets: [
-          {
-            label: 'Samagra Siksha Funds Received',
-            type: 'bar',
-            backgroundColor: 'rgba(185,102,220,1)',
-            borderColor: 'rgba(185,102,220,1)',
-            borderWidth: 2,
-            data: samagraSikshaFundsReceivedData,
+            data: option.id === 1 ? fundsAllocatedData
+                : option.id === 2 ? publicExpenditureData
+                : option.id === 3 ? samagraSikshaFundsApprovedData
+                : samagraSikshaFundsReceivedData,
           }
         ]
       }
-    };
+    }));
   };
 
-  const handleAttributeChange = (attributeId, cardIndex) => {
-    const newTitle = dropdownOptions.find(option => option.id === attributeId).value;
+  const processTableData = (data, attributeId) => {
+    console.log(attributeId)
+    console.log(data)
+    const attributeData = data[Object.keys(data)[attributeId - 1]];
+    console.log(attributeData)
+    return attributeData.map(item => ({
+     
+      attributes: item.state_name,
+      dateRange: "23/03/23-10/04/24", // Hardcoded or dummy value
+      totalValue: attributeId === 1 ? item.funds_allocated
+        : attributeId === 2 ? item.education_expenditure_percentage
+        : attributeId === 3 ? item.percentage_of_samagra_shiksha_funds_approved
+        : item.percentage_of_samagra_shiksha_funds_received,
+      avgValue: (attributeId === 1 ? item.funds_allocated
+        : attributeId === 2 ? item.education_expenditure_percentage
+        : attributeId === 3 ? item.percentage_of_samagra_shiksha_funds_approved
+        : item.percentage_of_samagra_shiksha_funds_received) / 10 
+    }));
+  };
+
+  
+
+  const handleCardFilterChange = async (attributeId, filterValue, cardIndex) => {
+      const newTitle = dropdownOptions.find(option => option.id === attributeId).value;
     setTitles(prevTitles => {
       const newTitles = [...prevTitles];
       newTitles[cardIndex] = newTitle;
       return newTitles;
     });
-    setSelectedAttributes(prevAttributes => {
-      const newAttributes = [...prevAttributes];
-      newAttributes[cardIndex] = attributeId;
-      return newAttributes;
+    let payload = {
+      attributeId: attributeId,
+      stateName: filterValue
+    };
+    try {
+      const res = await axios.post('/budget-filter', payload);
+      const result = res.data.result;
+
+      const filteredChartData = processChartDataForFilter(result, attributeId);
+      setChartData(prevChartData => {
+        const newChartData = [...prevChartData];
+        newChartData[cardIndex] = { ...newChartData[cardIndex], [selectedAttributes[cardIndex]]: filteredChartData };
+        return newChartData;
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleTableFilterChange = async (attributeId, filterValue, ) => {
+    
+  let payload = {
+    attributeId: attributeId,
+    stateName: filterValue
+  };
+  console.log(payload)
+  try {
+    const res = await axios.post('/budget-filter', payload);
+    const result = res.data.result;
+console.log(result)
+const newTableData = processTableDataForFilter(result, attributeId);
+console.log(newTableData)
+setTableData(newTableData);
+    
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const processTableDataForFilter = (data,attributeId)=> {
+  console.log(data)
+  console.log(attributeId)
+  let newTableData = [...tableData];
+  return data.map(item => ({
+     
+    attributes: item.state_name,
+    dateRange: "23/03/23-10/04/24", // Hardcoded or dummy value
+    totalValue: attributeId === 1 ? item.funds_allocated
+      : attributeId === 2 ? item.education_expenditure_percentage
+      : attributeId === 3 ? item.percentage_of_samagra_shiksha_funds_approved
+      : item.percentage_of_samagra_shiksha_funds_received,
+    avgValue: (attributeId === 1 ? item.funds_allocated
+      : attributeId === 2 ? item.education_expenditure_percentage
+      : attributeId === 3 ? item.percentage_of_samagra_shiksha_funds_approved
+      : item.percentage_of_samagra_shiksha_funds_received) / 10 
+  }));
+
+}
+
+  const processChartDataForFilter = (data, attributeId) => {
+    const labels = data.map(item => item.state_name);
+    const dataValues = data.map(item => {
+      switch (attributeId) {
+        case 1:
+          return item.funds_allocated;
+        case 2:
+          return item.education_expenditure_percentage;
+        case 3:
+          return item.percentage_of_samagra_shiksha_funds_approved;
+        case 4:
+          return item.percentage_of_samagra_shiksha_funds_received;
+        default:
+          return 0;
+      }
     });
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: dropdownOptions.find(option => option.id === attributeId).value,
+          type: 'bar',
+          backgroundColor: 'rgba(185,102,220,1)',
+          borderColor: 'rgba(185,102,220,1)',
+          borderWidth: 2,
+          data: dataValues,
+        }
+      ]
+    };
   };
 
   return (
@@ -168,8 +209,10 @@ const BudgetState = () => {
               selectedAttribute={selectedAttributes[index]}
               dropdownOptions={dropdownOptions} 
               attributeBasedDropdowns={attributeBasedDropdowns} 
-              chartData={chartData[selectedAttributes[index]] || {}} 
-              onAttributeChange={(attributeId) => handleAttributeChange(attributeId, index)}
+              chartData={chartData[index][selectedAttributes[index]] || {}} 
+              // onAttributeChange={(attributeId) => handleAttributeChange(attributeId, index)}
+              filterDropdowns={filterDropdown}
+              onFilterChange={(attributeId, filterValue) => handleCardFilterChange(attributeId, filterValue, index)}
             />
           </Grid>
         ))}
@@ -177,8 +220,10 @@ const BudgetState = () => {
           <TableComponent 
             dropdownOptions={dropdownOptions} 
             attributeBasedDropdowns={attributeBasedDropdowns}  
-            tableInfo={tableInfo} 
+            tableInfo={tableData} 
             tableHeadings={tableHeadings} 
+            filterDropdowns={filterDropdown}
+            onTableFilterChange={(attributeId, filterValue) => handleTableFilterChange(attributeId, filterValue)}
           />
         </Grid>
       </Grid>
