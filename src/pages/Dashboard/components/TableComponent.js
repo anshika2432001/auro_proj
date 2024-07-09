@@ -135,9 +135,7 @@ function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tab
           )}
         </Grid>
         <Grid container spacing={1} sx={{ mt: 1, mb: 1 }}>
-          <Grid item xs={12} sm={2} md={2} lg={2} textAlign="left">
-            <Typography variant="h6" >Date Ranges:</Typography>
-          </Grid>
+          
           <Grid item xs={12} sm={10} md={10} lg={10}>
             <Grid container spacing={2}>
               <Grid item xs={6} sm={6} md={6} lg={6}>

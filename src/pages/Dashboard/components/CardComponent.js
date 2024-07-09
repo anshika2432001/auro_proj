@@ -115,7 +115,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
           renderInput={(params) => <TextField {...params} label="Select Attribute" size="small" />}
           sx={{ marginY: 2 }}
         />
-        <Grid container spacing={1}>
+        <Grid container rowSpacing={2} columnSpacing={1}>
           {dropdowns.map((dropdownLabel, index) => (
             <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
               <Autocomplete
