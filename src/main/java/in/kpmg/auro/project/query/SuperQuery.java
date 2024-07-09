@@ -10,7 +10,7 @@ public class SuperQuery {
             "    ed.quiz_attempt,\n" +
             "    ed.eklavvya_exam_id,\n" +
             "    ed.subject,\n" +
-            "    ed.attempted ,\n" +
+            "    ed.attempted,\n" +
             "    sm.grade,\n" +
             "    sw.amount_status,\n" +
             "    sw.transaction_date,\n" +
@@ -34,5 +34,5 @@ public class SuperQuery {
             "\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
             "ORDER BY\n" +
             "\ted.user_id " +
-            "limit 1 ;";
+            "limit 100 ;";
 }
