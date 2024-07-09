@@ -1,16 +1,17 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import CardComponent from '../components/CardComponent';
-import TableComponent from '../components/TableComponent';
+import CardComponent from '../../components/CardComponent';
+import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Pre-Primary School' },
-  { id: 2, value: 'Student Strength of the Classroom' },
-  { id: 3, value: 'Types of Student Clubs' },
-  { id: 4, value: 'Academic Stream' },
-  { id: 5, value: 'Student with access to Bank Account/ UPI' },
-  { id: 6, value: 'Students engagement in extra curricular activities in school' }
+  { id: 1, value: 'Frequency of parent teacher meetings' },
+  { id: 2, value: 'Schools having lack of parental support in students learning' },
+  { id: 3, value: 'Schools provide guidance on how parents can support children in learning' },
+  { id: 4, value: '% of schools, where parents have been made aware of learning levels through PTM, Letters, discussion forums' },
+  { id: 5, value: 'Schools informed parents about school activity' },
+  { id: 6, value: 'I attend parent-teacher conferences' },
+  { id: 7, value: 'I regularly participate in events at my childs school' }
 ];
 
 const attributeBasedDropdowns = {
@@ -23,7 +24,7 @@ const attributeBasedDropdowns = {
 };
 
 const chartData = {
-  labels: ['Below 15 students', '16-25 students', '26-35 students', '36-45 students', 'Above 45 students'],
+  labels: ['Cant Say', 'Up to 1 hr', '1-3 hrs', '3-5 hrs', 'More than 5 hrs'],
   datasets: [
     {
       label: 'No of Students (Purple)',
@@ -110,10 +111,10 @@ const tableHeadings = [
   'Average Score of Students'
 ];
 
-const StudentSchoolAttributes_R2 = () => {
+const ParentSchoolAttribute = () => {
   return (
     <div>
-      <h2>Student R2 Attributes</h2>
+      <h2>Parent School Attribute</h2>
       <Grid container spacing={2}>
       {dropdownOptions.slice(0, 4).map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -138,4 +139,4 @@ const StudentSchoolAttributes_R2 = () => {
   );
 };
 
-export default StudentSchoolAttributes_R2;
+export default ParentSchoolAttribute;

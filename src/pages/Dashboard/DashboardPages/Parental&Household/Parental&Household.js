@@ -1,16 +1,16 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import CardComponent from '../components/CardComponent';
-import TableComponent from '../components/TableComponent';
+import CardComponent from '../../components/CardComponent';
+import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Pre-Primary School' },
-  { id: 2, value: 'Student Strength of the Classroom' },
-  { id: 3, value: 'Types of Student Clubs' },
-  { id: 4, value: 'Academic Stream' },
-  { id: 5, value: 'Student with access to Bank Account/ UPI' },
-  { id: 6, value: 'Students engagement in extra curricular activities in school' }
+  { id: 1, value: 'Immigrant background (i.e one or both parents born in another state) ' },
+  { id: 2, value: 'Household with at least one member who completed Std XII' },
+  { id: 3, value: 'Parents monthly spend on childs education' },
+  { id: 4, value: 'Household has internet connection' },
+  { id: 5, value: 'Mothers level of Education' },
+  { id: 6, value: 'Average income of household' }
 ];
 
 const attributeBasedDropdowns = {
@@ -23,7 +23,7 @@ const attributeBasedDropdowns = {
 };
 
 const chartData = {
-  labels: ['Below 15 students', '16-25 students', '26-35 students', '36-45 students', 'Above 45 students'],
+  labels: ['Cant Say', 'Up to 1 hr', '1-3 hrs', '3-5 hrs', 'More than 5 hrs'],
   datasets: [
     {
       label: 'No of Students (Purple)',
@@ -110,10 +110,10 @@ const tableHeadings = [
   'Average Score of Students'
 ];
 
-const StudentSchoolAttributes_R2 = () => {
+const ParentalandHousehold = () => {
   return (
     <div>
-      <h2>Student R2 Attributes</h2>
+      <h2>Parental and Household Engagement</h2>
       <Grid container spacing={2}>
       {dropdownOptions.slice(0, 4).map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
@@ -138,4 +138,4 @@ const StudentSchoolAttributes_R2 = () => {
   );
 };
 
-export default StudentSchoolAttributes_R2;
+export default ParentalandHousehold;

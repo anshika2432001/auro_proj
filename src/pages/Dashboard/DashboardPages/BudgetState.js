@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import CardComponent from '../components/CardComponent';
 import TableComponent from '../components/TableComponent';
 import axios from '../../../utils/axios';
 import BudgetCardComponent from '../components/BudgetCardComponent';
@@ -61,12 +60,14 @@ const tableHeadings = [
 
 const BudgetState = () => {
   const [chartData, setChartData] = useState({});
-  
+  const [titles, setTitles] = useState(dropdownOptions.map(option => option.value));
+  const [selectedAttributes, setSelectedAttributes] = useState(dropdownOptions.map(option => option.id));
+
   useEffect(() => {
-    getDashboardInfo();
+    getBudgetInfo();
   }, []);
 
-  const getDashboardInfo = async () => {
+  const getBudgetInfo = async () => {
     try {
       const res = await axios.get('/budget-state-data');
       const result = res.data.result;
@@ -142,6 +143,20 @@ const BudgetState = () => {
     };
   };
 
+  const handleAttributeChange = (attributeId, cardIndex) => {
+    const newTitle = dropdownOptions.find(option => option.id === attributeId).value;
+    setTitles(prevTitles => {
+      const newTitles = [...prevTitles];
+      newTitles[cardIndex] = newTitle;
+      return newTitles;
+    });
+    setSelectedAttributes(prevAttributes => {
+      const newAttributes = [...prevAttributes];
+      newAttributes[cardIndex] = attributeId;
+      return newAttributes;
+    });
+  };
+
   return (
     <div>
       <h2>Budget and Expenditure</h2>
@@ -149,10 +164,12 @@ const BudgetState = () => {
         {dropdownOptions.map((option, index) => (
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
             <BudgetCardComponent
-              title={option} 
+              title={titles[index]}
+              selectedAttribute={selectedAttributes[index]}
               dropdownOptions={dropdownOptions} 
               attributeBasedDropdowns={attributeBasedDropdowns} 
-              chartData={chartData[option.id]} 
+              chartData={chartData[selectedAttributes[index]] || {}} 
+              onAttributeChange={(attributeId) => handleAttributeChange(attributeId, index)}
             />
           </Grid>
         ))}

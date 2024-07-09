@@ -16,8 +16,17 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { SnackbarProvider } from "./pages/uiComponents/Snackbar";
 import { ColorModeContextProvider } from "./utils/ColorModeContext";
 import StudentLearningBehaviour from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3/StudentLearningBehaviour';
+import StudentInternetBehaviourPatterns from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R3/StudentInternetBehaviourPatterns';
 import BudgetState from './pages/Dashboard/DashboardPages/BudgetState';
 import StudentSchoolAttributes_R2 from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R2';
+import StudentSchoolAttributes_R1 from './pages/Dashboard/DashboardPages/StudentSchoolAttributes_R1';
+import Teacher_Attributes from './pages/Dashboard/DashboardPages/TeacherAttributes/Teacher_Attributes';
+import TeacherTrainingData from './pages/Dashboard/DashboardPages/TeacherAttributes/TeacherTrainingData';
+import TeacherSchoolParent from './pages/Dashboard/DashboardPages/TeacherAttributes/TeacherSchoolParent';
+import StudentCareerGrowth_R4 from './pages/Dashboard/DashboardPages/StudentCareerGrowth_R4/StudentCareerGrowth_R4';
+import SchoolInfrastructure from './pages/Dashboard/DashboardPages/SchoolInfrastructure';
+import ParentalandHousehold from './pages/Dashboard/DashboardPages/Parental&Household/Parental&Household';
+import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Household/ParentSchoolAttribute';
 
 function App() {
   return (
@@ -42,8 +51,16 @@ function App() {
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
               <Route path="/studentLearningBehaviours" element={<StudentLearningBehaviour />} />
+              <Route path="/studentInternetBehaviours" element={<StudentInternetBehaviourPatterns />} />
               <Route path="/studentR2Attributes" element={<StudentSchoolAttributes_R2 />} />
-              
+              <Route path="/studentR1Attributes" element={<StudentSchoolAttributes_R1 />} />
+              <Route path="/teacher_Attributes" element={<Teacher_Attributes />} />
+              <Route path="/teacherTrainingData" element={<TeacherTrainingData />} />
+              <Route path="/teacherSchoolParent" element={<TeacherSchoolParent />} />
+              <Route path="/studentCareerGrowth" element={<StudentCareerGrowth_R4 />} />
+              <Route path="/schoolInfrastructure" element={<SchoolInfrastructure />} />
+              <Route path="/parentalAndHousehold" element={<ParentalandHousehold />} />
+              <Route path="/parentSchoolAttribute" element={<ParentSchoolAttribute />} />
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
           </Routes>
