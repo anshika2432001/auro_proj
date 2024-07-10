@@ -7,10 +7,11 @@ import TableComponent from '../../components/TableComponent';
 const dropdownOptions = [
   { id: 1, value: 'Hours of individual study/practice per day' },
   { id: 2, value: 'Student learning style preferences' },
-  { id: 3, value: 'Student collaborative learning style preferences' },
+  { id: 3, value: 'Student preferences collaborative learning style preferences' },
   { id: 4, value: 'Paid Private Tuition Hours' },
   { id: 5, value: 'Children who read other materials in addition to textbooks' },
-  { id: 6, value: 'Paid Private Tuition Subjectwise' }
+  { id: 6, value: 'Paid Private Tuition - Subject studied' },
+  { id: 7, value: 'Paid Private Tuition - Hours' },
 ];
 
 const attributeBasedDropdowns = {

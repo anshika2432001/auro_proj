@@ -10,7 +10,17 @@ const dropdownOptions = [
   { id: 3, value: 'Parents monthly spend on childs education' },
   { id: 4, value: 'Household has internet connection' },
   { id: 5, value: 'Mothers level of Education' },
-  { id: 6, value: 'Average income of household' }
+  { id: 6, value: 'Average income of household' },
+  { id: 7, value: 'Households with at least one member who knows how to operate a computer' },
+  { id: 8, value: 'House type ' },
+  { id: 9, value: '% Households which have other reading material (activity books, reading books, puzzles, newspaper)' },
+  { id: 10, value: "Father's level of education" },
+  { id: 11, value: 'Household has electricity connection ' },
+  { id: 12, value: 'I (or another adult in the home) read(s) with my child every day or nearly every day' },
+  { id: 13, value: 'My child’s teacher and I communicate with each other at least once a month (in person or by notes, text, email, phone, etc.)' },
+  { id: 14, value: 'I expect my child will graduate from high school ' },
+  { id: 15, value: 'I expect my child will go to college one day' },
+
 ];
 
 const attributeBasedDropdowns = {

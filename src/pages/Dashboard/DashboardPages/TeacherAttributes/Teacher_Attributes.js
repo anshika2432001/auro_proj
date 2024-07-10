@@ -5,12 +5,15 @@ import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Teacher - Grade' },
-  { id: 2, value: 'Teacher to number of classes ratio' },
+  { id: 1, value: 'Teacher - Grade -- how many grades is the teacher teaching?' },
+  { id: 2, value: 'Teacher to number of classes ratio -- how many classrooms is the teacher teaching?' },
   { id: 3, value: 'Teacher - Student Score Range' },
-  { id: 4, value: 'Teacher Subject' },
+  { id: 4, value: 'Teacher - Subject (No. of subjects taught by the teacher)' },
   { id: 5, value: 'Average teacher salary' },
-  { id: 6, value: 'Teacher - pupil ratio' }
+  { id: 6, value: 'Teacher - pupil ratio' },
+  { id: 7, value: 'Qualification of Teacher' },
+  { id: 8, value: 'No. of teachers in school' },
+  
 ];
 
 const attributeBasedDropdowns = {

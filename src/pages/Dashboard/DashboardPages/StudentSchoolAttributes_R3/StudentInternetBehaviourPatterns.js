@@ -5,7 +5,7 @@ import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Student hours spent on mobile phones' },
+  { id: 1, value: 'Student hours spent on mobile phones - social/entertainment/study' },
   { id: 2, value: 'Children having access to digital devices at home' },
   { id: 3, value: 'Students using learning apps at home' },
   { id: 4, value: 'Edtech Product Type' },

@@ -10,7 +10,10 @@ const dropdownOptions = [
   { id: 3, value: 'Students likely to attend higher education' },
   { id: 4, value: 'Number of students who are confident that they have knowledge of career options' },
   { id: 5, value: 'Student career domains' },
-  { id: 6, value: 'Students confident in the communication skills, problem solving, team building' }
+  { id: 6, value: 'Students confident in the communication skills, problem solving, team building' },
+  { id: 7, value: 'Number of students accessing preparatory classes for higher education (college)' },
+  { id: 8, value: 'Students who want to access vocational courses ' },
+  
 ];
 
 const attributeBasedDropdowns = {

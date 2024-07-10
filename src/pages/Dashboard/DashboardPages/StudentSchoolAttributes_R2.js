@@ -10,7 +10,11 @@ const dropdownOptions = [
   { id: 3, value: 'Types of Student Clubs' },
   { id: 4, value: 'Academic Stream' },
   { id: 5, value: 'Student with access to Bank Account/ UPI' },
-  { id: 6, value: 'Students engagement in extra curricular activities in school' }
+  { id: 6, value: 'Students engagement in extra curricular activities in school' },
+  { id: 7, value: 'Children whose first or home language is the same as that in the school ' },
+  { id: 8, value: 'Social Group' },
+  { id: 9, value: 'No. of Students in leadership positions in school clubs in the school ' },
+  
 ];
 
 const attributeBasedDropdowns = {

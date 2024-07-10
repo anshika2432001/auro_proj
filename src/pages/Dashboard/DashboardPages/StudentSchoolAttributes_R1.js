@@ -5,12 +5,22 @@ import TableComponent from '../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Subject Wise - Average Score' },
+  { id: 1, value: 'Subject Wise Breakdown - Average Score' },
   { id: 2, value: 'Gradewise - Average Score' },
   { id: 3, value: 'Microscholarship Amount' },
-  { id: 4, value: 'Microscholarship Quizzes - Total Quizzes' },
+  { id: 4, value: 'Microscholarship Quizzes - Average Score' },
   { id: 5, value: 'Total Quiz Attempted' },
-  { id: 6, value: 'Top Performing Topics' }
+  { id: 6, value: 'Topic wise breakdown - Average Score' },
+  { id: 7, value: 'Topic wise breakdown - No. of Microscholarship Quizzes' },
+  { id: 8, value: 'Top Performing Topics' },
+  { id: 9, value: 'Weak Performing Topics' },
+  { id: 10, value: 'Core-Retake- ( No of Students)' },
+  { id: 11, value: 'Core-Retake- (Average Score)' },
+  { id:12, value: 'Subject Wise Breakdown - % Improvement' },
+  { id: 13, value: 'Grade wise- % Improvement Score' },
+  { id: 14, value: 'Topic wise breakdown - %Improvement' },
+  { id: 15, value: 'LO Reporting (Difficulty level, Competency)' },
+  {id:16,value:'Topic wise breakdown - Student Attempts'}
 ];
 
 const attributeBasedDropdowns = {

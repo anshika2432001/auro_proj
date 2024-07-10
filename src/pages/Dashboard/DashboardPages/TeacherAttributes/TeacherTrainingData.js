@@ -5,12 +5,17 @@ import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: '% of teachers trained on CCE and CBA' },
-  { id: 2, value: '% of teachers are satisfied with trainings held during the academic year' },
+  { id: 1, value: '% Of teachers trained on Continuous and Comprehensive Evaluation (CCE) and Classroom Based Assessment' },
+  { id: 2, value: '% of teachers are satisfied with trainings held during the academic year by school/ Education Dept' },
   { id: 3, value: 'Nature of employment of teachers in the school' },
   { id: 4, value: 'Time spent by teacher on school related activities' },
-  { id: 5, value: 'Teachers have a platform in school to share their best practices with each other' },
+  { id: 5, value: 'Teachers have a platform in school to share their best practices with each other and to brainstorm challenges faced during teaching' },
   { id: 6, value: 'Time spent by teacher in mandatory training actually' },
+  { id: 7, value: '% of Teachers who are aware about pedagogical methodologies in' },
+  { id: 8, value: 'Training needs of the teacher (10 options)' },
+  { id: 9, value: 'Periodicity of formative assessment in school (8 options)' },
+  { id: 10, value: 'Schools having full access to and are utilising Teaching Resources provided by the SCERT/ DIETs  ' },
+  
   
 ];
 
