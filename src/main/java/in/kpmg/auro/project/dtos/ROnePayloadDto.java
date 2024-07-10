@@ -11,18 +11,31 @@ import java.util.List;
 @NoArgsConstructor
 public class ROnePayloadDto {
 
-    private String transactionDateFrom;
-    private String transactionDateTo;
-    private List<Integer> grades;
+//    micro scholarship quiz
+    private String transactionDateFrom1;
+    private String transactionDateTo1;
+    private String transactionDateFrom2;
+    private String transactionDateTo2;
+    private Integer grades;
     private String subject;
     private Integer schoolLocation;
     private Integer stateId;
     private Integer districtId;
     private Integer socialGroup;
     private String gender;
-    private String dob;
+    private Integer ageFrom;
+    private Integer ageTo;
     private String educationBoard;
     private String schoolManagement;
+
+
+//    subjectWiseBreakdown
+
+    private Integer avgScholorFrom;
+    private Integer avgScholorTo;
+
+//    topicWiseBreakDown
+    private Integer languageId;
 
 
 }

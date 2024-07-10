@@ -33,6 +33,6 @@ public class SuperQuery {
             "LEFT JOIN\n" +
             "\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
             "ORDER BY\n" +
-            "\ted.user_id " +
-            "limit 100 ;";
+            "\ted.user_id ;";
+//            "limit 100 ;";
 }
