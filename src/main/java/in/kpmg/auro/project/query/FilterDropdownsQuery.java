@@ -2,13 +2,10 @@ package in.kpmg.auro.project.query;
 
 public class FilterDropdownsQuery {
 
-//    -- Distinct Grades
     public static String grades= "SELECT DISTINCT grade FROM student_master;";
 
-//-- Distinct Subjects
     public static String subjects = "SELECT DISTINCT subject FROM exam_details;";
 
-//-- Distinct School Locations
     public static String schoolLocation ="SELECT DISTINCT \n" +
         "    CASE \n" +
         "        WHEN school_location = 1 THEN 'Rural'\n" +

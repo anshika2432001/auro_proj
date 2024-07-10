@@ -67,7 +67,7 @@ public class MasterServicesR1 {
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
             query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
-            parameters.add("2017-01-01");
+            parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
 
@@ -458,7 +458,6 @@ public class MasterServicesR1 {
 
 
     }
-
 
     public ApiResponse2<?> topicWiseAvgScore(ROnePayloadDto payloadDto) {
 
