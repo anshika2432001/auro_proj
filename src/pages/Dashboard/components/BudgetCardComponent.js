@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton, Checkbox } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -9,12 +9,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement);
 
-
-
 function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attributeBasedDropdowns, chartData, filterDropdowns, onCardFilterChange }) {
   const attributeOptions = {
-    State: filterDropdowns
+    State: ["All", ...filterDropdowns]
   };
+  
   const [currentAttribute, setCurrentAttribute] = useState(selectedAttribute);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
@@ -22,7 +21,13 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const initialFilters = attributeBasedDropdowns[selectedAttribute] ? attributeBasedDropdowns[selectedAttribute].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
+  const initialFilters = attributeBasedDropdowns[selectedAttribute] ? attributeBasedDropdowns[selectedAttribute].slice(0, 3).reduce((acc, curr) => {
+    if (curr === 'State') {
+      return { ...acc, [curr]: ["All"] };
+    } else {
+      return { ...acc, [curr]: [] };
+    }
+  }, {}) : {};
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const chartRef = useRef(null);
 
@@ -30,7 +35,13 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
     setCurrentAttribute(selectedAttribute);
     const newDropdowns = attributeBasedDropdowns[selectedAttribute] ? attributeBasedDropdowns[selectedAttribute].slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => {
+      if (curr === 'State') {
+        return { ...acc, [curr]: ["All"] };
+      } else {
+        return { ...acc, [curr]: [] };
+      }
+    }, {}));
   }, [selectedAttribute, attributeBasedDropdowns]);
 
   useEffect(() => {
@@ -39,33 +50,50 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
   }, [dropdowns]);
 
   const handleAttributeChange = (event, value) => {
-    console.log(value)
     if (value) {
       setCurrentAttribute(value.id);
-      onCardFilterChange(value.id,"");
+      onCardFilterChange(value.id, "");
     }
   };
 
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
-      setSelectedFilters((prev) => ({ ...prev, [value]: 'All' }));
+      if (value === 'State') {
+        setSelectedFilters((prev) => ({ ...prev, [value]: ["All"] }));
+      } else {
+        setSelectedFilters((prev) => ({ ...prev, [value]: [] }));
+      }
       setShowAddMore(true);
     }
   };
 
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-    console.log(dropdownLabel,value,currentAttribute)
-    onCardFilterChange(currentAttribute,value)
+    if (dropdownLabel === 'State') {
+      if (value.includes("All") && value.length > 1) {
+        setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value.filter(v => v !== "All") }));
+        onCardFilterChange(currentAttribute, value.filter(v => v !== "All"));
+      } else if (value.includes("All") && value.length === 1) {
+        setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: ["All"] }));
+        onCardFilterChange(currentAttribute, "All");
+      } else {
+        setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+        onCardFilterChange(currentAttribute, value);
+      }
+    } else {
+      setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+      onCardFilterChange(currentAttribute, value);
+    }
   };
 
   return (
     <Card className='mini-card'>
-      <Typography 
-        variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px',top: '0',
-          zIndex: 10 , borderRadius: '4px',position:"sticky", color: '#fff',}}
+      <Typography
+        variant="h6"
+        sx={{
+          backgroundColor: '#0948a6', padding: '8px', top: '0',
+          zIndex: 10, borderRadius: '4px', position: "sticky", color: '#fff',
+        }}
       >
         {title}
       </Typography>
@@ -80,12 +108,23 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
         />
         <Grid container spacing={1}>
           {dropdowns.map((dropdownLabel, index) => (
-            <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
+            <Grid item xs={12} sm={12} md={12} lg={12} key={index}>
               <Autocomplete
+                multiple
                 options={attributeOptions[dropdownLabel]}
                 getOptionLabel={(option) => option}
                 value={selectedFilters[dropdownLabel]}
                 onChange={handleFilterChange(dropdownLabel)}
+                disableCloseOnSelect
+                renderOption={(props, option, { selected }) => (
+                  <li {...props}>
+                    <Checkbox
+                      style={{ marginRight: 8 }}
+                      checked={selected || (selectedFilters[dropdownLabel].includes("All") && option === "All")}
+                    />
+                    {option}
+                  </li>
+                )}
                 renderInput={(params) => <TextField {...params} label={dropdownLabel} size="small" />}
               />
             </Grid>
@@ -140,15 +179,15 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
           </Grid>
         </Grid>
         {chartData && chartData.labels && chartData.datasets ? (
-          <Chart 
+          <Chart
             ref={chartRef}
             data={chartData}
-            type="bar" 
+            type="bar"
             options={{
               responsive: true,
               plugins: {
                 legend: {
-                  display: false  
+                  display: false
                 },
               },
             }}
