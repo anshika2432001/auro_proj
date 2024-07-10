@@ -212,7 +212,7 @@ const processTableDataForFilter = (data,attributeId)=> {
               chartData={chartData[index][selectedAttributes[index]] || {}} 
               // onAttributeChange={(attributeId) => handleAttributeChange(attributeId, index)}
               filterDropdowns={filterDropdown}
-              onFilterChange={(attributeId, filterValue) => handleCardFilterChange(attributeId, filterValue, index)}
+              onCardFilterChange={(attributeId, filterValue) => handleCardFilterChange(attributeId, filterValue, index)}
             />
           </Grid>
         ))}
