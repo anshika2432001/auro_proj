@@ -26,4 +26,10 @@ public class DashboardController {
     public ApiResponse2<?> queryFetchData(){
         return dashboardServices.queryFetchData();
     }
+
+
+    @GetMapping("/filter-dropdowns")
+    public ApiResponse2<?> filterDropdowns(){
+        return dashboardServices.filterDropdowns();
+    }
 }

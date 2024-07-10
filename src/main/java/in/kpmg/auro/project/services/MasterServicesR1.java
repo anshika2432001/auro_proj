@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +67,7 @@ public class MasterServicesR1 {
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
             query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
-            parameters.add("2023-11-01");
+            parameters.add("2017-01-01");
             parameters.add("2023-11-30");
         }
 
@@ -81,7 +83,10 @@ public class MasterServicesR1 {
                 && payloadDto.getTransactionDateTo2() == null){
             query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters2.add("2023-12-01");
-            parameters2.add("2023-12-31");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters2.add(current);
         }
 
 

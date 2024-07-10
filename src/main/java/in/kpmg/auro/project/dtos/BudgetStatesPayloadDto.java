@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,7 +13,7 @@ public class BudgetStatesPayloadDto {
 
     private Integer attributeId;
 
-    private String stateName;
+    private List<String> stateName;
 
 
 

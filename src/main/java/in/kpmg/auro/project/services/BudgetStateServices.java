@@ -62,7 +62,8 @@ public class BudgetStateServices {
 
             query = BudgetStateQuery.fundsAllocated;
             if (payloadDto.getStateName() !=null && !payloadDto.getStateName().isEmpty()){
-                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().equals(fund.get("state_name"))).collect(Collectors.toList());
+
+                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().contains(fund.get("state_name"))).collect(Collectors.toList());
 
                 return new ApiResponse2<>(true, "Budget State Data Fetched", result, HttpStatus.OK.value());
             }else {
@@ -75,7 +76,7 @@ public class BudgetStateServices {
 
             query = BudgetStateQuery.publicExpenditure;
             if (payloadDto.getStateName() !=null && !payloadDto.getStateName().isEmpty()){
-                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().equals(fund.get("state_name"))).collect(Collectors.toList());
+                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().contains(fund.get("state_name"))).collect(Collectors.toList());
 
                 return new ApiResponse2<>(true, "Budget State Data Fetched", result, HttpStatus.OK.value());
             }else {
@@ -87,7 +88,7 @@ public class BudgetStateServices {
 
             query = BudgetStateQuery.samagraSikshaFundsApproved;
             if (payloadDto.getStateName() !=null && !payloadDto.getStateName().isEmpty()){
-                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().equals(fund.get("state_name"))).collect(Collectors.toList());
+                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().contains(fund.get("state_name"))).collect(Collectors.toList());
 
                 return new ApiResponse2<>(true, "Budget State Data Fetched", result, HttpStatus.OK.value());
             }else {
@@ -99,7 +100,7 @@ public class BudgetStateServices {
 
             query = BudgetStateQuery.samagraSikshaFundsReceived;
             if (payloadDto.getStateName() !=null && !payloadDto.getStateName().isEmpty()){
-                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().equals(fund.get("state_name"))).collect(Collectors.toList());
+                List<Map<String,Object>> result = jdbcTemplate.queryForList(query).stream().filter(fund ->payloadDto.getStateName().contains(fund.get("state_name"))).collect(Collectors.toList());
 
                 return new ApiResponse2<>(true, "Budget State Data Fetched", result, HttpStatus.OK.value());
             }else {
