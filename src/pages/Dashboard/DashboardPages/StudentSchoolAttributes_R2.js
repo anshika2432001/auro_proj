@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import { Grid } from '@mui/material';
 import CardComponent from '../components/CardComponent';
 import TableComponent from '../components/TableComponent';
-
+import axios from '../../../utils/axios';
 
 const dropdownOptions = [
   { id: 1, value: 'Pre-Primary School' },
@@ -14,7 +14,6 @@ const dropdownOptions = [
   { id: 7, value: 'Children whose first or home language is the same as that in the school ' },
   { id: 8, value: 'Social Group' },
   { id: 9, value: 'No. of Students in leadership positions in school clubs in the school ' },
-  
 ];
 
 const attributeBasedDropdowns = {
@@ -117,7 +116,28 @@ const tableHeadings = [
   'Average Score of Students'
 ];
 
+
 const StudentSchoolAttributes_R2 = () => {
+  const [filterOptions,setFilterOptions] = useState({});
+  useEffect(() => {
+   
+   
+    getFilterOptions();
+  }, []);
+
+  
+
+const getFilterOptions = async()=> {
+  try{
+    const res = await axios.get('/filter-dropdowns');
+    const result = res.data.result;
+    console.log(result);
+    setFilterOptions(result)
+  }
+  catch(error){
+    console.log(error)
+  }
+}
   return (
     <div>
       <h2>Student R2 Attributes</h2>
@@ -127,6 +147,7 @@ const StudentSchoolAttributes_R2 = () => {
             <CardComponent 
               title={option} 
               dropdownOptions={dropdownOptions} 
+              filterOptions={filterOptions}
               attributeBasedDropdowns={attributeBasedDropdowns} 
               chartData={chartData} 
             />

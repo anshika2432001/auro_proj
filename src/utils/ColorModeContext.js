@@ -130,7 +130,7 @@ export const ColorModeContextProvider = ({ children }) => {
               root: {
                 "& .MuiInputLabel-root": {
                   fontSize:"13px",
-                  marginTop:"-4px",
+                  marginTop:"-5px",
                   opacity: 1,
                 },
                 
@@ -162,6 +162,7 @@ export const ColorModeContextProvider = ({ children }) => {
                   borderRadius: "5px",
                   position: 'relative',
                   overflow: 'hidden',
+                 
                   height: '500px',
                   overflowY: 'scroll',
                 },

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from '../../../../utils/axios';
 import { Grid } from '@mui/material';
 import CardComponent from '../../components/CardComponent';
 import TableComponent from '../../components/TableComponent';
@@ -121,6 +122,26 @@ const tableHeadings = [
 ];
 
 const TeacherTrainingData = () => {
+  const [filterOptions,setFilterOptions] = useState({});
+  useEffect(() => {
+   
+   
+    getFilterOptions();
+  }, []);
+
+  
+
+const getFilterOptions = async()=> {
+  try{
+    const res = await axios.get('/filter-dropdowns');
+    const result = res.data.result;
+    console.log(result);
+    setFilterOptions(result)
+  }
+  catch(error){
+    console.log(error)
+  }
+}
   return (
     <div>
       <h2>Teacher Training Data</h2>
@@ -130,6 +151,7 @@ const TeacherTrainingData = () => {
             <CardComponent 
               title={option} 
               dropdownOptions={dropdownOptions} 
+              filterOptions={filterOptions}
               attributeBasedDropdowns={attributeBasedDropdowns} 
               chartData={chartData} 
             />

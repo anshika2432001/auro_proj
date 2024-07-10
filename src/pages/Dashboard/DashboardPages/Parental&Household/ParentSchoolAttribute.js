@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from '../../../../utils/axios';
 import { Grid } from '@mui/material';
 import CardComponent from '../../components/CardComponent';
 import TableComponent from '../../components/TableComponent';
@@ -113,6 +114,26 @@ const tableHeadings = [
 ];
 
 const ParentSchoolAttribute = () => {
+  const [filterOptions,setFilterOptions] = useState({});
+  useEffect(() => {
+   
+   
+    getFilterOptions();
+  }, []);
+
+  
+
+const getFilterOptions = async()=> {
+  try{
+    const res = await axios.get('/filter-dropdowns');
+    const result = res.data.result;
+    console.log(result);
+    setFilterOptions(result)
+  }
+  catch(error){
+    console.log(error)
+  }
+}
   return (
     <div>
       <h2>Parent School Attribute</h2>
@@ -121,7 +142,8 @@ const ParentSchoolAttribute = () => {
           <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
             <CardComponent 
               title={option} 
-              dropdownOptions={dropdownOptions} 
+              dropdownOptions={dropdownOptions}
+              filterOptions={filterOptions} 
               attributeBasedDropdowns={attributeBasedDropdowns} 
               chartData={chartData} 
             />
