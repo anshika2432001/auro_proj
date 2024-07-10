@@ -18,12 +18,15 @@ const dropdownOptions = [
 ];
 
 const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  2: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  3: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  4: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  5: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
+  1:['State','District','School'],
+  2:['State','District','School', 'Grade','Social Group','Gender','Annual Income','Subject','Mother Education','Father Education','Aggregate Scholarship'],
+  3:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  4:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  5:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  6:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  7:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  8:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  9:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
 };
 
 const chartData = {

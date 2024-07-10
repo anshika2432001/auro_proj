@@ -7,29 +7,37 @@ import TableComponent from '../components/TableComponent';
 const dropdownOptions = [
   { id: 1, value: 'Subject Wise Breakdown - Average Score' },
   { id: 2, value: 'Gradewise - Average Score' },
-  { id: 3, value: 'Microscholarship Amount' },
-  { id: 4, value: 'Microscholarship Quizzes - Average Score' },
-  { id: 5, value: 'Total Quiz Attempted' },
-  { id: 6, value: 'Topic wise breakdown - Average Score' },
-  { id: 7, value: 'Topic wise breakdown - No. of Microscholarship Quizzes' },
-  { id: 8, value: 'Top Performing Topics' },
-  { id: 9, value: 'Weak Performing Topics' },
-  { id: 10, value: 'Core-Retake- ( No of Students)' },
-  { id: 11, value: 'Core-Retake- (Average Score)' },
-  { id:12, value: 'Subject Wise Breakdown - % Improvement' },
-  { id: 13, value: 'Grade wise- % Improvement Score' },
-  { id: 14, value: 'Topic wise breakdown - %Improvement' },
-  { id: 15, value: 'LO Reporting (Difficulty level, Competency)' },
-  {id:16,value:'Topic wise breakdown - Student Attempts'}
+  { id: 3, value: 'Microscholarship Quizzes - Average Score' },
+  { id: 4, value: 'Total Quiz Attempted' },
+  { id: 5, value: 'Topic wise breakdown - Average Score' },
+  { id: 6, value: 'Topic wise breakdown - No. of Microscholarship Quizzes' },
+  { id: 7, value: 'Top Performing Topics' },
+  { id: 8, value: 'Weak Performing Topics' },
+  { id: 9, value: 'Core-Retake- ( No of Students)' },
+  { id: 10, value: 'Core-Retake- (Average Score)' },
+  { id:11, value: 'Subject Wise Breakdown - % Improvement' },
+  { id: 12, value: 'Grade wise- % Improvement Score' },
+  { id: 13, value: 'Topic wise breakdown - %Improvement' },
+  { id: 14, value: 'LO Reporting (Difficulty level, Competency)' },
+  {id:15,value:'Topic wise breakdown - Student Attempts'}
 ];
 
 const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  2: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  3: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  4: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  5: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
+  1: ['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  2: ['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  3: ['School Location', 'Subject','Learning Level','Grade'],
+  4:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  5:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  6:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  7:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  8:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  9:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  10:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  11:['Gender', 'School Location','Learning Level','Grade','Average Microscholarship'],
+  12:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  13:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  14:[],
+  15:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
 };
 
 const chartData = {

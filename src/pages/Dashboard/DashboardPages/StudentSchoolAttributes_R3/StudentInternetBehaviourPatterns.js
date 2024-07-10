@@ -5,21 +5,23 @@ import TableComponent from '../../components/TableComponent';
 
 
 const dropdownOptions = [
-  { id: 1, value: 'Student hours spent on mobile phones - social/entertainment/study' },
+  { id: 1, value: 'Student hours spent on mobile phones - social/entertainment' },
   { id: 2, value: 'Children having access to digital devices at home' },
   { id: 3, value: 'Students using learning apps at home' },
   { id: 4, value: 'Edtech Product Type' },
   { id: 5, value: 'Students who have one or more social media accounts' },
-  { id: 6, value: 'Types of sites' }
+  { id: 6, value: 'Types of sites' },
+  { id: 7, value: 'Student hours spent on mobile phones - study' },
 ];
 
 const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  2: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  3: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  4: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  5: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
+  1: ['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  2:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  3:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  4:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  5:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  6:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  7:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
 };
 
 const chartData = {

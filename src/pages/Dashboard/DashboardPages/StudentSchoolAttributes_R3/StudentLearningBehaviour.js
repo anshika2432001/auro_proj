@@ -11,16 +11,17 @@ const dropdownOptions = [
   { id: 4, value: 'Paid Private Tuition Hours' },
   { id: 5, value: 'Children who read other materials in addition to textbooks' },
   { id: 6, value: 'Paid Private Tuition - Subject studied' },
-  { id: 7, value: 'Paid Private Tuition - Hours' },
+  
 ];
 
 const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  2: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  3: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  4: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  5: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade'],
-  6: ['Gender', 'School Location', 'Age Group','School Type','Board of Education','Grade']
+  1: ['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  2:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  3:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  4:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  5:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  6:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
+  
 };
 
 const chartData = {
