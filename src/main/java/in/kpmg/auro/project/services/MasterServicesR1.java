@@ -192,10 +192,7 @@ public class MasterServicesR1 {
         response.put("dataOne",jdbcTemplate.queryForList(String.valueOf(query),parameters.toArray()));
         response.put("dataTwo",jdbcTemplate.queryForList(String.valueOf(query2),parameters2.toArray()));
 
-
         return  new ApiResponse2<>(true, "Micro scholarship Quizzes - Average Score Stats Fetched",response, HttpStatus.OK.value());
-
-
 
     }
 

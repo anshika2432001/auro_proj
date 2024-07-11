@@ -76,6 +76,7 @@ public class DashboardServices {
             response.put("classroomStrength",jdbcTemplate.queryForList(FilterDropdownsQuery.classroomStrength));
             response.put("childMotherEducation",jdbcTemplate.queryForList(FilterDropdownsQuery.childMotherEducation));
             response.put("childFatherEducation",jdbcTemplate.queryForList(FilterDropdownsQuery.childFatherEducation));
+            response.put("language",jdbcTemplate.queryForList(FilterDropdownsQuery.language));
 
 
             return  new ApiResponse2<>(true, "Dashboard Stats Fetched",response, HttpStatus.OK.value());
