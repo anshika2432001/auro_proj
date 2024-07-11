@@ -118,25 +118,7 @@ const tableHeadings = [
 
 const Teacher_Attributes = () => {
   const [filterOptions,setFilterOptions] = useState({});
-  useEffect(() => {
-   
-   
-    getFilterOptions();
-  }, []);
-
-  
-
-const getFilterOptions = async()=> {
-  try{
-    const res = await axios.get('/filter-dropdowns');
-    const result = res.data.result;
-    console.log(result);
-    setFilterOptions(result)
-  }
-  catch(error){
-    console.log(error)
-  }
-}
+ 
   return (
     <div>
       <h2>Teacher Attributes</h2>
@@ -146,7 +128,7 @@ const getFilterOptions = async()=> {
             <CardComponent 
               title={option} 
               dropdownOptions={dropdownOptions} 
-              filterOptions={filterOptions}
+          
               attributeBasedDropdowns={attributeBasedDropdowns} 
               chartData={chartData} 
             />

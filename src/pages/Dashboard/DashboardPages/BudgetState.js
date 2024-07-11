@@ -3,6 +3,7 @@ import { Grid } from '@mui/material';
 import TableComponent from '../components/TableComponent';
 import axios from '../../../utils/axios';
 import BudgetCardComponent from '../components/BudgetCardComponent';
+import BudgetTableComponent from '../components/BudgetTableComponent';
 
 const dropdownOptions = [
   { id: 1, value: 'Funds allocated for Assessment Cell in SCERT' },
@@ -217,7 +218,7 @@ const processTableDataForFilter = (data,attributeId)=> {
           </Grid>
         ))}
         <Grid item xs={12}>
-          <TableComponent 
+          <BudgetTableComponent
             dropdownOptions={dropdownOptions} 
             attributeBasedDropdowns={attributeBasedDropdowns}  
             tableInfo={tableData} 

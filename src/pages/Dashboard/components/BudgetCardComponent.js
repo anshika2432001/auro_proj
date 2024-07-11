@@ -75,7 +75,7 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
         onCardFilterChange(currentAttribute, value.filter(v => v !== "All"));
       } else if (value.includes("All") && value.length === 1) {
         setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: ["All"] }));
-        onCardFilterChange(currentAttribute, "All");
+        onCardFilterChange(currentAttribute, null);
       } else {
         setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
         onCardFilterChange(currentAttribute, value);

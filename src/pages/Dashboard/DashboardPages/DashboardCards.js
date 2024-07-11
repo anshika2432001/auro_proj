@@ -45,25 +45,11 @@ const attributeBasedDropdowns = {
 
 const ChartCard = ({ title, dataKey, data }) => {
   const [filterOptions,setFilterOptions] = useState({});
-  useEffect(() => {
-   
-   
-    getFilterOptions();
-  }, []);
+
 
   
 
-const getFilterOptions = async()=> {
-  try{
-    const res = await axios.get('/filter-dropdowns');
-    const result = res.data.result;
-    console.log(result);
-    setFilterOptions(result)
-  }
-  catch(error){
-    console.log(error)
-  }
-}
+
   const classes = useStyles();
   const [selectedAttribute, setSelectedAttribute] = useState(title);
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);

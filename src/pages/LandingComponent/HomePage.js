@@ -35,6 +35,7 @@ const HomePage = () => {
   const handleRegisterForm = () => {
     navigate("/registrationForm");
   };
+ 
 
   return (
     <div>

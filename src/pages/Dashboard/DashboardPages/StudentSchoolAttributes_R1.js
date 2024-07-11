@@ -4,7 +4,6 @@ import { Grid } from '@mui/material';
 import CardComponent from '../components/CardComponent';
 import TableComponent from '../components/TableComponent';
 
-
 const dropdownOptions = [
   { id: 1, value: 'Subject Wise Breakdown - Average Score' },
   { id: 2, value: 'Gradewise - Average Score' },
@@ -23,23 +22,12 @@ const dropdownOptions = [
   { id: 15, value: 'Topic wise breakdown - Student Attempts' }
 ];
 
-const attributeBasedDropdowns = {
-  1: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  2: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  3: ['School Location', 'Subject', 'Learning Level', 'Grade'],
-  4: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  5: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  6: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  7: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  8: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  9: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  10: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  11: ['Gender', 'School Location', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  12: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  13: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-  14: [],
-  15: ['Gender', 'School Location', 'Subject', 'Learning Level', 'Grade', 'Average Microscholarship'],
-};
+const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', 'Pre Primary', 'School From starting class to end class'];
+
+const attributeBasedDropdowns = {};
+dropdownOptions.forEach(option => {
+  attributeBasedDropdowns[option.id] = commonAttributes;
+});
 
 const tableInfo = [
   {
@@ -82,7 +70,8 @@ const tableHeadings = [
 ];
 
 const StudentSchoolAttributes_R1 = () => {
-  const [filterOptions,setFilterOptions] = useState({});
+  const [filterOptions, setFilterOptions] = useState({});
+  const [filters, setFilters] = useState({});
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -132,44 +121,47 @@ const StudentSchoolAttributes_R1 = () => {
   });
 
   useEffect(() => {
-   
     getR1MicroScholarQuizInfo();
-    getFilterOptions();
+    // getFilterOptions();
   }, []);
 
-  
+  // const getFilterOptions = async () => {
+  //   try {
+  //     const res = await axios.get('/filter-dropdowns');
+  //     const result = res.data.result;
+  //     console.log(result);
+  //     setFilterOptions(result);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-const getFilterOptions = async()=> {
-  try{
-    const res = await axios.get('/filter-dropdowns');
-    const result = res.data.result;
-    console.log(result);
-    setFilterOptions(result)
-  }
-  catch(error){
-    console.log(error)
-  }
-}
-console.log(filterOptions)
-  const getR1MicroScholarQuizInfo = async () => {
+  const getR1MicroScholarQuizInfo = async (key, value) => {
+    console.log( value);
+    console.log(filters)
     try {
       let payload = {
-        transactionDateFrom1: null,
-        transactionDateTo1: null,
-        transactionDateFrom2: null,
-        transactionDateTo2: null,
-        grades: null,
-        subject: null,
-        schoolLocation: null,
+        transactionDateFrom1: value? (value.startDateRange1? value.startDateRange1 : null) : null,
+        transactionDateTo1: value? (value.endDateRange1? value.endDateRange1 : null) : null,
+        transactionDateFrom2: value? (value.startDateRange2? value.startDateRange2 : null) : null,
+        transactionDateTo2: value? (value.endDateRange2? value.endDateRange2 : null): null,
+        grades: value? (value.Grade? value.Grade : null) : null,
+        subject: value? (value.Subject? value.Subject : null) : null,
+        schoolLocation: value? (value['School Location'] ?  value['School Location'] : null) : null,
         stateId: null,
         districtId: null,
         socialGroup: null,
-        gender: null,
+        gender: value? (value.Gender? value.Gender: null) : null,
         ageFrom: null,
         ageTo: null,
         educationBoard: null,
-        schoolManagement: null
+        schoolManagement: null,
       };
+
+      if (key && value) {
+        payload[key] = value;
+      }
+
       const res = await axios.post('/r1/micro-scholar-quiz', payload);
       const result = res.data.result;
       console.log(result);
@@ -232,6 +224,16 @@ console.log(filterOptions)
       console.log(error);
     }
   };
+
+  const onFilterChange = (key, value) => {
+    const updatedFilters = {
+      ...filters,
+      [key]: value
+    };
+    setFilters(updatedFilters);
+    getR1MicroScholarQuizInfo(key, value);
+  };
+
   return (
     <div>
       <h2>Student R1 Attributes</h2>
@@ -241,9 +243,10 @@ console.log(filterOptions)
             <CardComponent 
               title={option} 
               dropdownOptions={dropdownOptions} 
-              filterOptions={filterOptions}
+              
               attributeBasedDropdowns={attributeBasedDropdowns} 
               chartData={chartData} 
+              onFilterChange={onFilterChange}
             />
           </Grid>
         ))}

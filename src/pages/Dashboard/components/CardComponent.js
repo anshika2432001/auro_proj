@@ -5,6 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Chart } from 'react-chartjs-2';
 import axios from '../../../utils/axios';
+import { useDispatch, useSelector } from "react-redux";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -12,8 +13,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({ title, dropdownOptions,filterOptions, attributeBasedDropdowns, chartData }) {
-  console.log(filterOptions.states)
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange }) {
+  
+  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+
+  console.log(filterOptions)
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
@@ -59,6 +63,9 @@ function CardComponent({ title, dropdownOptions,filterOptions, attributeBasedDro
   const mapMotherEducation = (motherEducation) => {
     return motherEducation.map(motherEducationObj => motherEducationObj.child_mother_qualification);
   };
+  const mapSchoolManagement = (schoolManagement) => {
+    return schoolManagement.map(schoolManagementObj => schoolManagementObj.school_management);
+  };
   const mapStateNames = (states)=> {
     return states.map(stateObj => stateObj.state_name);
  }
@@ -66,24 +73,38 @@ function CardComponent({ title, dropdownOptions,filterOptions, attributeBasedDro
  const mapDistricts = (districts)=> {
   return districts.map(districtObj => districtObj.district_name);
 }
-
+//['State','District','School','Grade','Social Group','Gender','Annual Income','Subject','Mother Education','Father Education','Age Group','CWSN','Board of Education', 'School Location','School Management','School Category','School Type','Pre Primary' , 'School From starting class to end class']
  
   const attributeOptions = {
     "State": filterOptions.states ? ['All', ...mapStateNames(filterOptions.states)] : ['All'],
-    Gender: filterOptions.genders ? ['All', ...mapGenders(filterOptions.genders)] : ['All'],
-    "School Location": filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All'],
-    "Average Microscholarship": ['All', 'Option1', 'Option2'],
-    "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
-    "Age Group": filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All'],
-    Grade: filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All'],
-    "Social Group": filterOptions.socialGroup ? ['All', ...mapSocialGroup(filterOptions.socialGroup)] : ['All'],
-    "Board of Education": filterOptions.educationalBoard ? ['All', ...mapEducationBoard(filterOptions.educationalBoard)] : ['All'],
-    "Father Education":filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All'],
-    "Mother Education":filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All'],
     District: filterOptions.districts ? ['All', ...mapDistricts(filterOptions.districts)] : ['All'],
     "School": ['All', 'School 1', 'School 2', 'School 3','School 4','School 5','School 6'],
-    "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
+    Grade: filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All'],
+    "Social Group": filterOptions.socialGroup ? ['All', ...mapSocialGroup(filterOptions.socialGroup)] : ['All'],
+    Gender: filterOptions.genders ? ['All', ...mapGenders(filterOptions.genders)] : ['All'],
+    "Annual Income":filterOptions.genders ? ['All', ...mapGenders(filterOptions.genders)] : ['All'],
     Subject: filterOptions.subjects ? ['All', ...mapSubjects(filterOptions.subjects)] : ['All'],
+    "Mother Education":filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All'],
+    "Father Education":filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All'],
+    "Age Group": filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All'],
+    "CWSN": ['All','Yes','No'],
+    "Board of Education": filterOptions.educationalBoard ? ['All', ...mapEducationBoard(filterOptions.educationalBoard)] : ['All'],
+    "School Location": filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All'],
+    "School Management": filterOptions.schoolManagement ? ['All', ...mapSchoolManagement(filterOptions.schoolManagement)] : ['All'],
+    "School Category": filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All'],
+    "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+    "Pre Primary": ['All', 'Not Attached', 'Govt Pre Primary Section','Private','Anganwadi'],
+    "School From starting class to end class": ['All', 'Class I-V','Class I-VIII','Class I-IX','Class I-XII','Class VI-VIII','Class VI-X','Class VI-XII','Class IX-X','Class IX-XII'],
+    
+    
+    
+    
+    
+    
+    
+    
+    "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
+    
     "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
   };
 console.log(attributeBasedDropdowns)
@@ -115,19 +136,51 @@ console.log(attributeBasedDropdowns)
       setShowAddMore(true);
     }
   };
-
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    console.log('DropdownLabel:', dropdownLabel);
-    console.log('Options:', attributeOptions[dropdownLabel]);
-    console.log('Value:', value);
     setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+    // Invoke callback to parent component
+    onFilterChange(selectedAttribute, { ...selectedFilters, [dropdownLabel]: value });
   };
 
-  useEffect(() => {
-    if (chartRef.current) {
-      console.log(chartRef.current); // Check here if chartRef is populated
+  const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
+    let newFilters = {};
+    switch (dateRangeName) {
+      case 'dateRange1':
+        newFilters = {
+          ...selectedFilters,
+          startdateRange1: startDate,
+          endDateRange1: endDate
+        };
+        setDateRange1Start(startDate);
+        setDateRange1End(endDate);
+        break;
+      case 'dateRange2':
+        newFilters = {
+          ...selectedFilters,
+          startDateRange2: startDate,
+          enddaterange2: endDate
+        };
+        setDateRange2Start(startDate);
+        setDateRange2End(endDate);
+        break;
+      default:
+        break;
     }
-  }, [chartRef]);
+    setSelectedFilters(newFilters);
+    onFilterChange(selectedAttribute, newFilters);
+  };
+  // const handleFilterChange = (dropdownLabel) => (event, value) => {
+  //   console.log('DropdownLabel:', dropdownLabel);
+  //   console.log('Options:', attributeOptions[dropdownLabel]);
+  //   console.log('Value:', value);
+  //   setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
+  // };
+
+  // useEffect(() => {
+  //   if (chartRef.current) {
+  //     console.log(chartRef.current); // Check here if chartRef is populated
+  //   }
+  // }, [chartRef]);
 
   const linePosition = {
     id: 'linePosition',
@@ -204,7 +257,7 @@ console.log(attributeBasedDropdowns)
                   <DatePicker
                     label="Start Date"
                     value={dateRange1Start}
-                    onChange={(newValue) => setDateRange1Start(newValue)}
+                    onChange={(newValue) => handleDateRangeChange('dateRange1', newValue, dateRange1End)}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -214,7 +267,7 @@ console.log(attributeBasedDropdowns)
                   <DatePicker
                     label="End Date"
                     value={dateRange1End}
-                    onChange={(newValue) => setDateRange1End(newValue)}
+                    onChange={(newValue) => handleDateRangeChange('dateRange1', dateRange1Start, newValue)}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -230,7 +283,7 @@ console.log(attributeBasedDropdowns)
                   <DatePicker
                     label="Start Date"
                     value={dateRange2Start}
-                    onChange={(newValue) => setDateRange2Start(newValue)}
+                    onChange={(newValue) => handleDateRangeChange('dateRange2', newValue, dateRange2End)}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -240,7 +293,7 @@ console.log(attributeBasedDropdowns)
                   <DatePicker
                     label="End Date"
                     value={dateRange2End}
-                    onChange={(newValue) => setDateRange2End(newValue)}
+                    onChange={(newValue) => handleDateRangeChange('dateRange2', dateRange2Start, newValue)}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -248,7 +301,7 @@ console.log(attributeBasedDropdowns)
             </Grid>
           </Grid>
         </Grid>
-        </CardContent>
+      </CardContent>
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
         <div style={{ minWidth: "800px",minHeight:"400px" }}>
           <Chart
@@ -283,7 +336,7 @@ console.log(attributeBasedDropdowns)
       </div>
      
     </Card>
-  );
+ );
 }
 
 export default CardComponent;
