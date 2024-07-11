@@ -27,15 +27,21 @@ public class ROnePayloadDto {
     private Integer ageTo;
     private String educationBoard;
     private String schoolManagement;
+    private Integer cwsn;
+    private Integer childMotherQualification;
+    private Integer childFatherQualification;
 
 
-//    subjectWiseBreakdown
+//    subjectWiseBreakdown & gradeWiseAvgScore
 
     private Integer avgScholorFrom;
     private Integer avgScholorTo;
 
 //    topicWiseBreakDown
     private Integer languageId;
+
+//    topicWiseBreakdownStudentAttempts
+    private String quizName;
 
 
 }
