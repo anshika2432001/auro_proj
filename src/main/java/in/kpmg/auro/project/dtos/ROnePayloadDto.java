@@ -34,8 +34,8 @@ public class ROnePayloadDto {
 
 //    subjectWiseBreakdown & gradeWiseAvgScore
 
-    private Integer avgScholorFrom;
-    private Integer avgScholorTo;
+//    private Integer avgScholorFrom;
+//    private Integer avgScholorTo;
 
 //    topicWiseBreakDown
     private Integer languageId;

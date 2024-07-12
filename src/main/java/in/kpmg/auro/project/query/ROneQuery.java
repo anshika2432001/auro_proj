@@ -73,17 +73,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -91,7 +80,7 @@ public class ROneQuery {
             "WHERE\n" +
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\tAND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\tAND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\tAND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\tAND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -102,7 +91,6 @@ public class ROneQuery {
             "        AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
             "    \t-- AND ped.child_father_qualification = 1\n" +
@@ -128,17 +116,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -146,7 +123,7 @@ public class ROneQuery {
             "WHERE\n" +
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -157,7 +134,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND sed.cwsn = 1\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "   \t-- AND ped.child_father_qualification = 1\n" +
@@ -211,29 +187,17 @@ public class ROneQuery {
             "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
             "\tJOIN\n" +
             "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
-            "\tJOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
-            "\tuser_master um ON sd.user_id = um.user_id\n" +
+            "\t\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
-            "\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+            "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
             "\tWHERE\n" +
             "\t\ted.attempted = 1\n" +
             "        AND sw.amount_status IN ('2','4','5')\n" +
             "        AND aqn.subject = 'Maths'\n" +
             "        AND sm.grade = 5\n" +
             "        AND lm.language_id = 1\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
-            "\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "        -- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
             "\t\t-- AND sd.state_id = 1 -- Example state filter\n" +
             "        -- AND sd.district_id = 1 -- Example district filter\n" +
@@ -242,7 +206,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND sed.cwsn = 1\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "   \t-- AND ped.child_father_qualification = 1\n" +
@@ -278,17 +241,6 @@ public class ROneQuery {
             "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "\tLEFT JOIN\n" +
             "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "\tJOIN\n" +
             "\t\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -296,7 +248,7 @@ public class ROneQuery {
             "\tWHERE\n" +
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\tAND ed.subject = 'Maths' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -307,7 +259,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "-- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
             "    \t-- AND ped.child_father_qualification = 1\n" +
@@ -351,17 +302,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -370,7 +310,7 @@ public class ROneQuery {
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
             "\t\tAND lm.language_id = 1\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\tAND ed.subject = 'Maths' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -381,7 +321,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND aqn.quiz_name = 'Numbers'\n" +
             "\t-- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
@@ -392,7 +331,7 @@ public class ROneQuery {
             "\taqn.quiz_name;\n";
 
 
-    public static String topicWiseBreakdownNoOfMicroscholarshipQuizzes="SELECT\n" +
+    public static String topicWiseBreakdownNoOfMicroScholarshipQuizzes="SELECT\n" +
             "\taqn.quiz_name AS topic_name,\n" +
             "\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
             "\tAVG(CASE WHEN subquery.state_id = 1 THEN subquery.avg_score ELSE NULL END) AS avg_score_state,\n" +
@@ -420,17 +359,6 @@ public class ROneQuery {
             "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
             "\tJOIN \n" +
             "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
-            "\tJOIN(\n" +
-            "\t\tSELECT\n" +
-            "\t\t\tuser_id,\n" +
-            "        \tAVG(amount) as avg_scholarship\n" +
-            "\t\tFROM\n" +
-            "\t\t\tstudent_wallet\n" +
-            "\t\tWHERE\n" +
-            "\t\t\tamount_status IN ('2','4','5')\n" +
-            "\t\tGROUP BY\n" +
-            "\t\t\tuser_id\n" +
-            "\t) avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\t\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -438,7 +366,7 @@ public class ROneQuery {
             "\n" +
             "\tWHERE\n" +
             "\t\t\ted.attempted = 1\n" +
-            "\t\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
+            "\t\t\tAND sw.amount_status IN ('5') -- Displays only the approved quizzes\n" +
             "\t\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
             "\t\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
@@ -450,7 +378,6 @@ public class ROneQuery {
             "        \t\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "       \t\t \t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        \t\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        \t\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\t\t-- AND sed.cwsn = 1\n" +
             "\t\tAND ped.child_mother_qualification = 1\n" +
             "    \t\t-- AND ped.child_father_qualification = 1\n" +
@@ -499,17 +426,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -517,7 +433,7 @@ public class ROneQuery {
             "\tWHERE\n" +
             "\t\t-- ed.attempted = 1\n" +
             "\t\t-- sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -528,7 +444,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND aqn.quiz_name = 'Numbers' -- Select the topic name as in the db\n" +
             "        -- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
@@ -579,17 +494,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -597,7 +501,7 @@ public class ROneQuery {
             "\t WHERE\n" +
             "\t\t-- ed.attempted = 1\n" +
             "\t\t-- sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -608,7 +512,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND aqn.quiz_name = 'Numbers' -- Select the topic name as in the db\n" +
             "        -- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
@@ -654,17 +557,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -672,7 +564,7 @@ public class ROneQuery {
             "WHERE\n" +
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -683,7 +575,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "        -- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
@@ -718,17 +609,6 @@ public class ROneQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "        AVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -736,7 +616,7 @@ public class ROneQuery {
             "WHERE\n" +
             "\t\ted.attempted = 1\n" +
             "\t\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -747,7 +627,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\t-- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
             "    \t-- AND ped.child_father_qualification = 1\n" +
@@ -797,7 +676,7 @@ public class ROneQuery {
             "    WHERE \n" +
             "        \ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -808,7 +687,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\t-- AND sed.cwsn = 1\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
@@ -861,7 +739,7 @@ public class ROneQuery {
             "    WHERE \n" +
             "        ed.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -872,7 +750,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\t-- AND sed.cwsn = 1\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "-- AND ped.child_father_qualification = 1\n" +
@@ -926,7 +803,7 @@ public class ROneQuery {
             "    WHERE \n" +
             "        ed.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5') -- Displays only the approved quizzes\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31' -- Select the required date range\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -937,7 +814,6 @@ public class ROneQuery {
             "        -- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "        -- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "        -- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "        -- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\t-- AND sed.cwsn = 1\n" +
             "AND ped.child_mother_qualification = 1\n" +
             "    \t-- AND ped.child_father_qualification = 1\n" +
