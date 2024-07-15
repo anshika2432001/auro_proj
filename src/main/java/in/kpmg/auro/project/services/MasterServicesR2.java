@@ -49,17 +49,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -77,14 +66,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -92,14 +81,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -273,17 +262,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -301,14 +279,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -316,14 +294,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -501,17 +479,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -530,14 +497,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -545,14 +512,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -730,17 +697,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -758,14 +714,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -773,14 +729,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -962,17 +918,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -992,14 +937,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -1007,14 +952,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -1194,17 +1139,6 @@ public class MasterServicesR2 {
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-                "JOIN(\n" +
-                "\tSELECT\n" +
-                "\t\tuser_id,\n" +
-                "\t\tAVG(amount) as avg_scholarship\n" +
-                "\tFROM\n" +
-                "\t\tstudent_wallet\n" +
-                "\tWHERE\n" +
-                "\t\tamount_status IN ('2','4','5')\n" +
-                "\tGROUP BY\n" +
-                "\t\tuser_id\n" +
-                ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
                 "JOIN\n" +
                 "\tuser_master um ON sd.user_id = um.user_id\n" +
                 "LEFT JOIN\n" +
@@ -1223,14 +1157,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
@@ -1238,14 +1172,14 @@ public class MasterServicesR2 {
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -1375,14 +1309,14 @@ public class MasterServicesR2 {
 
 
         query.append("GROUP BY \n" +
-                "    sed.extra_curricular_activity\n" +
+                "    sed.is_student_in_leadership_position\n" +
                 "ORDER BY \n" +
-                "    sed.extra_curricular_activity;\n");
+                "    sed.is_student_in_leadership_position;\n");
 
         query2.append("GROUP BY \n" +
-                "    sed.extra_curricular_activity\n" +
+                "    sed.is_student_in_leadership_position\n" +
                 "ORDER BY \n" +
-                "    sed.extra_curricular_activity;\n");
+                "    sed.is_student_in_leadership_position;\n");
 
         System.out.println(parameters);
         System.out.println(query);

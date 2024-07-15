@@ -26,17 +26,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -44,7 +33,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5') \n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -56,7 +45,6 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY\n" +
@@ -84,17 +72,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -102,7 +79,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5')\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -114,7 +91,6 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY \n" +
@@ -142,17 +118,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -160,7 +125,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5')\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -172,7 +137,6 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY \n" +
@@ -199,17 +163,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -217,7 +170,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5')\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -229,7 +182,6 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY \n" +
@@ -257,17 +209,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -275,7 +216,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5')\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -287,7 +228,6 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY \n" +
@@ -314,17 +254,6 @@ public class RTwoQuery {
             "\tstate_master stm ON sd.state_id = stm.state_id\n" +
             "LEFT JOIN\n" +
             "\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
-            "JOIN(\n" +
-            "\tSELECT\n" +
-            "\t\tuser_id,\n" +
-            "\t\tAVG(amount) as avg_scholarship\n" +
-            "\tFROM\n" +
-            "\t\tstudent_wallet\n" +
-            "\tWHERE\n" +
-            "\t\tamount_status IN ('2','4','5')\n" +
-            "\tGROUP BY\n" +
-            "\t\tuser_id\n" +
-            ") avg_sch ON ed.user_id = avg_sch.user_id\n" +
             "JOIN\n" +
             "\tuser_master um ON sd.user_id = um.user_id\n" +
             "LEFT JOIN\n" +
@@ -332,7 +261,7 @@ public class RTwoQuery {
             "WHERE\n" +
             "\ted.attempted = 1\n" +
             "\tAND sw.amount_status IN ('2','4','5')\n" +
-            "\t-- AND sw.transaction_date BETWEEN '2023-01-01' AND '2023-12-31'\n" +
+            "\t-- AND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN '2024-01-01' AND '2024-06-31') -- Select the required date range\n" +
             "\t-- AND sm.grade IN (5,6,7) -- Select the grade from 1-12\n" +
             "\t-- AND ed.subject = 'Mathematics' -- Subjects can be Hindi, English, Mathematics, etc.\n" +
             "\t-- AND sed.school_location = 1 -- here '1' = Rural and '2' = Urban\n" +
@@ -344,13 +273,12 @@ public class RTwoQuery {
             "\t-- AND sd.education_board = 'CBSE' -- Example board (CBSE, State Board, ICSE. International Board, Others, Both CBSE and State Board)\n" +
             "\t-- AND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN 11 and 13 -- Example age group filter (6, 6-10, 11-13, 14-15, 16-17, >17)\n" +
             "\t-- AND sd.school_management = 'Government School' -- Example management (Government School, Private School)\n" +
-            "\t-- AND avg_sch.avg_scholarship BETWEEN 50 AND 100 -- Example average micro scholarhip filter (dynamic range)\n" +
             "\tAND ped.child_mother_qualification = 1\n" +
             "    -- AND ped.child_father_qualification = 1\n" +
             "GROUP BY \n" +
-            "    sed.extra_curricular_activity\n" +
+            "    sed.is_student_in_leadership_position\n" +
             "ORDER BY \n" +
-            "    sed.extra_curricular_activity;\n";
+            "    sed.is_student_in_leadership_position;\n";
 
 
 }

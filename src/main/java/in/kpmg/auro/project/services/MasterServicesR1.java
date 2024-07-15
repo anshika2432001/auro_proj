@@ -205,13 +205,15 @@ public class MasterServicesR1 {
                 "\t\ted.user_id\n" +
                 ") AS exam_stats\n" +
                 "GROUP BY quiz_count\n" +
-                "ORDER BY quiz_count ");
+                "ORDER BY quiz_count \n" +
+                "LIMIT 20");
 
         query2.append("\tGROUP BY\n" +
                 "\t\ted.user_id\n" +
                 ") AS exam_stats\n" +
                 "GROUP BY quiz_count\n" +
-                "ORDER BY quiz_count ");
+                "ORDER BY quiz_count \n" +
+                "LIMIT 20");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -417,10 +419,12 @@ public class MasterServicesR1 {
 
 
         query.append("GROUP BY ed.subject\n" +
-                        "ORDER BY ed.subject ");
+                        "ORDER BY ed.subject \n" +
+                "Limit 12");
 
         query2.append("GROUP BY ed.subject\n" +
-                "ORDER BY ed.subject ");
+                "ORDER BY ed.subject \n" +
+                "Limit 12");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -627,10 +631,12 @@ public class MasterServicesR1 {
 
         }
 
-        query.append("GROUP BY sm.grade\n" +
+        query.append("AND sm.grade BETWEEN 1 AND 12 \n" +
+                "GROUP BY sm.grade\n" +
                 "ORDER BY sm.grade ");
 
-        query2.append("GROUP BY sm.grade\n" +
+        query2.append("AND sm.grade BETWEEN 1 AND 12 \n" +
+                "GROUP BY sm.grade\n" +
                 "ORDER BY sm.grade ");
 
         System.out.println(parameters);
@@ -874,13 +880,15 @@ public class MasterServicesR1 {
                 " GROUP BY \n" +
                 "\tsubquery.quiz_name\n" +
                 " ORDER BY \n" +
-                "\tsubquery.quiz_name");
+                "\tsubquery.quiz_name \n" +
+                "Limit 12 ");
 
         query2.append("\tLIMIT 10000) AS subquery \n" +
                 " GROUP BY \n" +
                 "\tsubquery.quiz_name\n" +
                 " ORDER BY \n" +
-                "\tsubquery.quiz_name");
+                "\tsubquery.quiz_name \n" +
+                "Limit 12 ");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -1099,7 +1107,8 @@ public class MasterServicesR1 {
                 "GROUP BY\n" +
                 "\tquiz_range\n" +
                 "ORDER BY\n" +
-                "\tquiz_range;\n");
+                "\tquiz_range\n" +
+                "Limit 12 ");
 
         query2.append("\tGROUP BY\n" +
                 "\t\ted.user_id\n" +
@@ -1107,7 +1116,8 @@ public class MasterServicesR1 {
                 "GROUP BY\n" +
                 "\tquiz_range\n" +
                 "ORDER BY\n" +
-                "\tquiz_range;\n");
+                "\tquiz_range\n" +
+                "Limit 12 ");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -1342,12 +1352,14 @@ public class MasterServicesR1 {
         query.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
-                "\taqn.quiz_name;\n");
+                "\taqn.quiz_name\n" +
+                "Limit 12 ");
         
         query2.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
-                "\taqn.quiz_name;\n");
+                "\taqn.quiz_name\n" +
+                "Limit 12 ");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -1598,12 +1610,14 @@ public class MasterServicesR1 {
         query.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
-                "\taqn.quiz_name;\n");
+                "\taqn.quiz_name\n" +
+                "Limit 12");
 
         query2.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
-                "\taqn.quiz_name;\n");
+                "\taqn.quiz_name\n" +
+                "Limit 12");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -1866,13 +1880,13 @@ public class MasterServicesR1 {
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
                 "\tavg_score_nation DESC\n" +
-                "LIMIT 12;\n");
+                "LIMIT 12\n");
 
         query2.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
                 "\tavg_score_nation DESC\n" +
-                "LIMIT 12;\n");
+                "LIMIT 12\n");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -2135,13 +2149,13 @@ public class MasterServicesR1 {
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
                 "avg_score_nation\t ASC\n" +
-                "LIMIT 12;\n");
+                "LIMIT 12\n");
 
         query2.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
                 "avg_score_nation\t ASC\n" +
-                "LIMIT 12;\n");
+                "LIMIT 12\n");
 
 
         System.out.println(parameters);
@@ -2354,11 +2368,13 @@ public class MasterServicesR1 {
 
         query.append("\n" +
                 "GROUP BY quiz_attempt\n" +
-                "ORDER BY quiz_attempt;\n");
+                "ORDER BY quiz_attempt\n" +
+                "LIMIT 12");
 
         query2.append("\n" +
                 "GROUP BY quiz_attempt\n" +
-                "ORDER BY quiz_attempt;\n");
+                "ORDER BY quiz_attempt\n" +
+                "LIMIT 12");
 
 
 
@@ -2811,7 +2827,8 @@ public class MasterServicesR1 {
                 "GROUP BY \n" +
                 "    subject\n" +
                 "ORDER BY \n" +
-                "    subject;\n");
+                "    subject\n" +
+                "LIMIT 12");
 
         query2.append("\n" +
                 "    LIMIT 10000\n" +
@@ -2819,7 +2836,8 @@ public class MasterServicesR1 {
                 "GROUP BY \n" +
                 "    subject\n" +
                 "ORDER BY \n" +
-                "    subject;\n");
+                "    subject\n" +
+                "LIMIT 12");
 
         System.out.println(parameters);
         System.out.println(query);
@@ -3040,14 +3058,16 @@ public class MasterServicesR1 {
         }
 
 
-        query.append("    LIMIT 10000\n" +
+        query.append("AND sm.grade BETWEEN 1 AND 12 \n" +
+                "    LIMIT 10000\n" +
                 ") AS subquery\n" +
                 "GROUP BY \n" +
                 "    subquery.grade\n" +
                 "ORDER BY \n" +
                 "    subquery.grade;\n");
 
-        query2.append("    LIMIT 10000\n" +
+        query2.append("AND sm.grade BETWEEN 1 AND 12 \n" +
+                "    LIMIT 10000\n" +
                 ") AS subquery\n" +
                 "GROUP BY \n" +
                 "    subquery.grade\n" +
@@ -3280,7 +3300,8 @@ public class MasterServicesR1 {
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
                 "ORDER BY \n" +
-                "    subquery.quiz_name;\n");
+                "    subquery.quiz_name \n" +
+                "LIMIT 12");
 
         query2.append("\n" +
                 "    LIMIT 10000\n" +
@@ -3288,7 +3309,8 @@ public class MasterServicesR1 {
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
                 "ORDER BY \n" +
-                "    subquery.quiz_name;\n");
+                "    subquery.quiz_name \n" +
+                "LIMIT 12");
 
         System.out.println(parameters);
         System.out.println(query);
