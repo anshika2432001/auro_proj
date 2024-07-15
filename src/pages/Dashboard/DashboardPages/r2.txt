@@ -1,0 +1,26 @@
+localhost:8091/auro/r2/student-strength-classroom
+{
+    "transactionDateFrom1": null,
+    "transactionDateTo1": null,
+    "transactionDateFrom2": null,
+    "transactionDateTo2": null,
+    "grades": null,
+    "subject": null,
+    "schoolLocation": null,
+    "stateId": null,
+    "districtId": null,
+    "socialGroup": null,
+    "gender": null,
+    "ageFrom": null,
+    "ageTo": null,
+    "educationBoard": null,
+    "schoolManagement": null,
+    "cwsn": null,
+    "childMotherQualification": null,
+    "childFatherQualification": null
+}
+localhost:8091/auro/r2/academic-streams
+localhost:8091/auro/r2/social-group
+localhost:8091/auro/r2/student-access-bank
+localhost:8091/auro/r2/student-engagement-activities-school
+localhost:8091/auro/r2/student-leadership-position-school-clubs
