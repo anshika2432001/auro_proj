@@ -16,17 +16,12 @@ const dropdownOptions = [
   { id: 9, value: 'No. of Students in leadership positions in school clubs in the school ' },
 ];
 
-const attributeBasedDropdowns = {
-  1:['State','District','School'],
-  2:['State','District','School', 'Grade','Social Group','Gender','Annual Income','Subject','Mother Education','Father Education','Aggregate Scholarship'],
-  3:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  4:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  5:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  6:['Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  7:['State','District','School','Gender', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  8:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-  9:['State','District','School', 'School Location', 'Subject','Learning Level','Grade','Average Microscholarship'],
-};
+const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', 'Pre Primary', 'School From starting class to end class'];
+
+const attributeBasedDropdowns = {};
+dropdownOptions.forEach(option => {
+  attributeBasedDropdowns[option.id] = commonAttributes;
+});
 
 const chartData = {
   labels: ['Below 15 students', '16-25 students', '26-35 students', '36-45 students', 'Above 45 students'],

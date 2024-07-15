@@ -206,6 +206,7 @@ const DashboardCards = () => {
     getDashboardInfo();
   }, []);
 
+
   const getDashboardInfo = async () => {
     try {
       const res = await axios.get('/dashboard-stats-data');

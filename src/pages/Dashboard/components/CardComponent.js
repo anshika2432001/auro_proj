@@ -13,11 +13,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange }) {
-  
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
+
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
 
-  console.log(filterOptions)
+  
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
@@ -27,20 +27,20 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const initialFilters = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
+  const initialFilters = attributeBasedDropdowns[title.id]
+  ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+  : {};
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
+  const [districtOptions, setDistrictOptions] = useState([]);
   const chartRef = useRef(null);
 
   const mapGenders = (genders) => {
-    return genders.map(genderObj => {
-      if (genderObj.gender === 'M') return 'Male';
-      if (genderObj.gender === 'F') return 'Female';
-      if (genderObj.gender === 'O') return 'Other';
-      if (genderObj.gender === '' ) return 'Prefer not to say';
-    });
+    
+      return genders.map(genderObj => ({ id: genderObj.gender, name: genderObj.gender_name }));
+    
   };
   const mapSchoolLocation = (locations) => {
-    return locations.map(locationObj => locationObj.school_location);
+    return locations.map(locationObj => ({ id: locationObj.school_location, name: locationObj.location_name }));
   };
   const mapSubjects = (subjects) => {
     return subjects.map(subjectObj => subjectObj.subject);
@@ -49,10 +49,10 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     return ageGroups.map(ageGroupObj => ageGroupObj.age_group);
   };
   const mapSocialGroup = (socialGroups) => {
-    return socialGroups.map(socialGroupObj => socialGroupObj.social_group);
+    return socialGroups.map(socialGroupObj => ({ id: socialGroupObj.social_group, name: socialGroupObj.social_group_name }));
   };
   const mapEducationBoard = (educationBoards) => {
-    return educationBoards.map(educationBoardObj => educationBoardObj.education_board);
+    return educationBoards.map(educationBoardObj =>  ({ id: educationBoardObj.education_board_name, name: educationBoardObj.education_board }));
   };
   const mapGrades = (grades) => {
     return grades.map(gradesObj => gradesObj.grade);
@@ -64,38 +64,41 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     return motherEducation.map(motherEducationObj => motherEducationObj.child_mother_qualification);
   };
   const mapSchoolManagement = (schoolManagement) => {
-    return schoolManagement.map(schoolManagementObj => schoolManagementObj.school_management);
+    return schoolManagement.map(schoolManagementObj => ({ id: schoolManagementObj.school_management_name, name: schoolManagementObj.school_management }));
   };
-  const mapStateNames = (states)=> {
-    return states.map(stateObj => stateObj.state_name);
- }
+  const mapStateNames = (states) => {
+    return states.map(stateObj => ({ id: stateObj.state_id, name: stateObj.state_name }));
+  }
 
- const mapDistricts = (districts)=> {
-  return districts.map(districtObj => districtObj.district_name);
-}
-//['State','District','School','Grade','Social Group','Gender','Annual Income','Subject','Mother Education','Father Education','Age Group','CWSN','Board of Education', 'School Location','School Management','School Category','School Type','Pre Primary' , 'School From starting class to end class']
+  const mapDistricts = (districts) => {
+    return districts.map(districtObj => ({
+      id: districtObj.district_id,
+      name: districtObj.district_name,
+      state_id: districtObj.state_id
+    }));
+  };
  
   const attributeOptions = {
-    "State": filterOptions.states ? ['All', ...mapStateNames(filterOptions.states)] : ['All'],
-    District: filterOptions.districts ? ['All', ...mapDistricts(filterOptions.districts)] : ['All'],
+    "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
     "School": ['All', 'School 1', 'School 2', 'School 3','School 4','School 5','School 6'],
-    Grade: filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All'],
-    "Social Group": filterOptions.socialGroup ? ['All', ...mapSocialGroup(filterOptions.socialGroup)] : ['All'],
-    Gender: filterOptions.genders ? ['All', ...mapGenders(filterOptions.genders)] : ['All'],
-    "Annual Income":filterOptions.genders ? ['All', ...mapGenders(filterOptions.genders)] : ['All'],
-    Subject: filterOptions.subjects ? ['All', ...mapSubjects(filterOptions.subjects)] : ['All'],
-    "Mother Education":filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All'],
-    "Father Education":filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All'],
-    "Age Group": filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All'],
+    Grade: filterOptions ? (filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All']) : ['All'],
+    "Social Group": filterOptions ? (filterOptions.socialGroup ? [{ id: 'All', name: 'All' }, ...mapSocialGroup(filterOptions.socialGroup)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    Gender: filterOptions ? (filterOptions.genders ? [{ id: 'All', name: 'All' }, ...mapGenders(filterOptions.genders)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "Annual Income": ['All', '10000', '200000','30000','40000'],
+    Subject: filterOptions ? (filterOptions.subjects ? ['All', ...mapSubjects(filterOptions.subjects)] : ['All']) : ['All'],
+    "Mother Education": filterOptions ? (filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All']) : ['All'],
+    "Father Education": filterOptions ? (filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All']) : ['All'],
+    "Age Group": filterOptions ? (filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All']) : ['All'],
     "CWSN": ['All','Yes','No'],
-    "Board of Education": filterOptions.educationalBoard ? ['All', ...mapEducationBoard(filterOptions.educationalBoard)] : ['All'],
-    "School Location": filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All'],
-    "School Management": filterOptions.schoolManagement ? ['All', ...mapSchoolManagement(filterOptions.schoolManagement)] : ['All'],
-    "School Category": filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All'],
+    "Board of Education": filterOptions ? (filterOptions.educationalBoard ? [{ id: 'All', name: 'All' }, ...mapEducationBoard(filterOptions.educationalBoard)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
+    "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
     "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
     "Pre Primary": ['All', 'Not Attached', 'Govt Pre Primary Section','Private','Anganwadi'],
     "School From starting class to end class": ['All', 'Class I-V','Class I-VIII','Class I-IX','Class I-XII','Class VI-VIII','Class VI-X','Class VI-XII','Class IX-X','Class IX-XII'],
-    
+    "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
     
     
     
@@ -107,7 +110,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     
     "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
   };
-console.log(attributeBasedDropdowns)
+
  
 
   useEffect(() => {
@@ -127,6 +130,7 @@ console.log(attributeBasedDropdowns)
     const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+    onFilterChange(value.id, { ...selectedFilters },cardKey);
   };
 
   const handleAddDropdown = (event, value) => {
@@ -136,19 +140,60 @@ console.log(attributeBasedDropdowns)
       setShowAddMore(true);
     }
   };
-  const handleFilterChange = (dropdownLabel) => (event, value) => {
-    setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-    // Invoke callback to parent component
-    onFilterChange(selectedAttribute, { ...selectedFilters, [dropdownLabel]: value });
+  
+  const getValueFromList = (list, value, key) => {
+    
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === value.name) || null;
+      }
+      return list.find(item => item.name === value) || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === value.id) || null;
+      }
+      return list.find(item => item.id === value) || list.find(item => item === value) || null;
+    }
   };
 
+  const handleFilterChange = (dropdownLabel) => (event, value) => {
+    console.log(selectedFilters)
+    let selectedValue = value;
+    let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+  
+    if (dropdownLabel === 'State') {
+      selectedValue = value && value.id ? value.id : null;
+      newFilters = { 
+        ...selectedFilters, 
+        [dropdownLabel]: selectedValue, 
+         'District': 'All' 
+      };
+  
+      
+      const filteredDistricts = filterOptions.districts.filter(district => district.state_id === selectedValue);
+      setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
+  
+      
+    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender') {
+      selectedValue = value && value.id ? value.id : null;
+      newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+    }
+    else if (dropdownLabel === 'School Management' ||  dropdownLabel === 'Board of Education') {
+      selectedValue = value && value.name ? value.name : null;
+      newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+    }
+    console.log(newFilters)
+  
+    setSelectedFilters(newFilters);
+    onFilterChange(selectedAttribute, newFilters,cardKey);
+  };
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
     switch (dateRangeName) {
       case 'dateRange1':
         newFilters = {
           ...selectedFilters,
-          startdateRange1: startDate,
+          startDateRange1: startDate,
           endDateRange1: endDate
         };
         setDateRange1Start(startDate);
@@ -158,7 +203,7 @@ console.log(attributeBasedDropdowns)
         newFilters = {
           ...selectedFilters,
           startDateRange2: startDate,
-          enddaterange2: endDate
+          endDateRange2: endDate
         };
         setDateRange2Start(startDate);
         setDateRange2End(endDate);
@@ -167,20 +212,9 @@ console.log(attributeBasedDropdowns)
         break;
     }
     setSelectedFilters(newFilters);
-    onFilterChange(selectedAttribute, newFilters);
+    onFilterChange(selectedAttribute, newFilters,cardKey);
   };
-  // const handleFilterChange = (dropdownLabel) => (event, value) => {
-  //   console.log('DropdownLabel:', dropdownLabel);
-  //   console.log('Options:', attributeOptions[dropdownLabel]);
-  //   console.log('Value:', value);
-  //   setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-  // };
-
-  // useEffect(() => {
-  //   if (chartRef.current) {
-  //     console.log(chartRef.current); // Check here if chartRef is populated
-  //   }
-  // }, [chartRef]);
+  
 
   const linePosition = {
     id: 'linePosition',
@@ -216,12 +250,12 @@ console.log(attributeBasedDropdowns)
           {dropdowns.map((dropdownLabel, index) => (
             <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
               <Autocomplete
-                options={attributeOptions[dropdownLabel] || []}
-                getOptionLabel={(option) => option}
-                value={selectedFilters[dropdownLabel]}
-                onChange={handleFilterChange(dropdownLabel)}
-                renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
-              />
+  options={attributeOptions[dropdownLabel] || []}
+  getOptionLabel={(option) => typeof option === 'object' ? option.name : option}
+ value={getValueFromList(attributeOptions[dropdownLabel], selectedFilters[dropdownLabel],dropdownLabel)}
+  onChange={handleFilterChange(dropdownLabel)}
+  renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
+/>
             </Grid>
           ))}
           {attributeBasedDropdowns[selectedAttribute] && attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
@@ -250,14 +284,17 @@ console.log(attributeBasedDropdowns)
 
         <Grid container spacing={2} marginTop={0.5}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6" gutterBottom>Date Range 1</Typography>
+            <Typography variant="h6"  mb={2}>Date Range 1</Typography>
             <Grid container spacing={1.5}>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
                     value={dateRange1Start}
                     onChange={(newValue) => handleDateRangeChange('dateRange1', newValue, dateRange1End)}
+                    maxDate={dateRange1End}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -266,8 +303,11 @@ console.log(attributeBasedDropdowns)
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
                     value={dateRange1End}
                     onChange={(newValue) => handleDateRangeChange('dateRange1', dateRange1Start, newValue)}
+                    minDate={dateRange1Start}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -275,15 +315,18 @@ console.log(attributeBasedDropdowns)
             </Grid>
           </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6" gutterBottom>Date Range 2</Typography>
+          <Grid item xs={12} sm={6} >
+            <Typography variant="h6" mb={2}>Date Range 2</Typography>
             <Grid container spacing={1.5}>
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
                     value={dateRange2Start}
                     onChange={(newValue) => handleDateRangeChange('dateRange2', newValue, dateRange2End)}
+                    maxDate={dateRange2End}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>
@@ -292,8 +335,11 @@ console.log(attributeBasedDropdowns)
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
                     value={dateRange2End}
                     onChange={(newValue) => handleDateRangeChange('dateRange2', dateRange2Start, newValue)}
+                    minDate={dateRange2Start}
                     renderInput={(params) => <TextField {...params} size="small" fullWidth />}
                   />
                 </LocalizationProvider>

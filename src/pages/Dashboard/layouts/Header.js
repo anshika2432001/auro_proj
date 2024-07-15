@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-
+import { useNavigate } from "react-router-dom";
 import AuroLogo1 from '../../../images/AuroLogo1.png'
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -109,6 +109,7 @@ const Footer = styled('div', {
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const [dark, setDark] = React.useState(false);
   // const { toggleColorMode } = React.useContext(ColorModeContext);
@@ -120,6 +121,7 @@ export default function PersistentDrawerLeft() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+    navigate("/")
   };
 
 
