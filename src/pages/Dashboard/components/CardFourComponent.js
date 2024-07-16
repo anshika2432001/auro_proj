@@ -105,7 +105,7 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     
     "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
     
-    "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
+    
   };
 
  
