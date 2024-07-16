@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "1e57812c-b1e9-4969-ad23-aad9d896563f",
+		"name": "AURO PROJ R4 END-POINTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29868156"
+	},
+	"item": [
+		{
+			"name": "1 Students Taking Vocational Courses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/students-taking-vocational-courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"students-taking-vocational-courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2 Students who want access to vocational courses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/students-want-access-vocational-courses",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"students-want-access-vocational-courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3 Students want to access internship",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/students-want-access-internship",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"students-want-access-internship"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4 Students likely to attend higher education",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/students-likely-attend-higher-education",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"students-likely-attend-higher-education"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5 Number of students who are confident that they have knowledge of career options",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/students-confident-knowledge-career-options",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"students-confident-knowledge-career-options"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8 Student career domains",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": null,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8091/auro/r4/student-career-domains",
+					"host": [
+						"localhost"
+					],
+					"port": "8091",
+					"path": [
+						"auro",
+						"r4",
+						"student-career-domains"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
