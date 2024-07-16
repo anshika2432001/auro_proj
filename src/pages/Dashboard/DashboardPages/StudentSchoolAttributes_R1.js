@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { Grid } from '@mui/material';
 import CardComponent from '../components/CardComponent';
+import CardFourComponent from '../components/CardFourComponent';
 import TableComponent from '../components/TableComponent';
 
-let invocationCount = 0;
+
 
 const dropdownOptions = [
   { id: 1, value: 'Subject Wise Breakdown - Average Score' },
@@ -108,6 +109,7 @@ const tableHeadings = [
 ];
 
 const StudentSchoolAttributes_R1 = () => {
+  const [initialCall,setInitialCall] = useState(true);
   const [filters, setFilters] = useState({
     1: {},
     2: {},
@@ -134,18 +136,23 @@ const StudentSchoolAttributes_R1 = () => {
   
 
   useEffect(() => {
-    fetchDataForAllCards();
+   
+   fetchDataForAllCards();
     fetchTableData();
+    
+   
+ 
+
+    
   }, []);
 
+console.log(initialCall)
+
   const fetchDataForAllCards = () => {
-    let count =0;
-    const slicedOptions = dropdownOptions.slice(0, 4);
-  console.log("Sliced Options: ", slicedOptions);
+   
 
     dropdownOptions.slice(0, 4).forEach(option => {
-      // count=count+1;
-      // alert(count)
+      
       fetchData(option.id, filters[option.id],option.id);
       // console.log(count)
     });
@@ -156,7 +163,7 @@ const StudentSchoolAttributes_R1 = () => {
   };
 
   const fetchData = async (key, value,cardKey) => {
-    console.log(key)
+    console.log(cardKey)
     const endpoint = endpointMapping[key];
 
     try {
@@ -374,57 +381,112 @@ const StudentSchoolAttributes_R1 = () => {
         default:
           break;
       }
+      if(cardKey == 4){
+        setCardData(prevCardData => ({
+          ...prevCardData,
+          [cardKey]: {
+            labels: labelsData,
+            datasets: [
+              {
+                label: 'No of Students Pan India(Purple)',
+                type: 'bar',
+                backgroundColor: 'rgba(185,102,220,1)',
+                borderColor: 'rgba(185,102,220,1)',
+                borderWidth: 2,
+                data: dataOne,
+                barThickness: 30,
+                borderRadius: 5,
+                order: 2,
+              },
+              {
+                label: 'No of Students Region(Blue)',
+                type: 'bar',
+                backgroundColor: 'rgba(68,198,212,1)',
+                borderColor: 'rgba(68,198,212,1)',
+                borderWidth: 2,
+                borderRadius: 5,
+                data: dataTwo,
+                barThickness: 30,
+                order: 2,
+              },
+              {
+                label: 'Average score Pan India(Purple)',
+                type: 'line',
+                borderColor: 'rgba(177,185,192,1)',
+                borderWidth: 4,
+                fill: false,
+                data: dataOneAvg,
+                spanGaps: true,
+                order: 1,
+              },
+              {
+                label: 'Average score Region(Blue)',
+                type: 'line',
+                borderColor: 'rgba(177,185,192,1)',
+                borderWidth: 4,
+                fill: false,
+                data: dataTwoAvg,
+                spanGaps: true,
+                order: 1,
+              },
+            ],
+          }
+        }));
+      }
+      else{
+        setCardData(prevCardData => ({
+          ...prevCardData,
+          [cardKey]: {
+            labels: labelsData,
+            datasets: [
+              {
+                label: 'No of Students (Purple)',
+                type: 'bar',
+                backgroundColor: 'rgba(185,102,220,1)',
+                borderColor: 'rgba(185,102,220,1)',
+                borderWidth: 2,
+                data: dataOne,
+                barThickness: 30,
+                borderRadius: 5,
+                order: 2,
+              },
+              {
+                label: 'No of Students (Blue)',
+                type: 'bar',
+                backgroundColor: 'rgba(68,198,212,1)',
+                borderColor: 'rgba(68,198,212,1)',
+                borderWidth: 2,
+                borderRadius: 5,
+                data: dataTwo,
+                barThickness: 30,
+                order: 2,
+              },
+              {
+                label: 'Average score (Purple)',
+                type: 'line',
+                borderColor: 'rgba(177,185,192,1)',
+                borderWidth: 4,
+                fill: false,
+                data: dataOneAvg,
+                spanGaps: true,
+                order: 1,
+              },
+              {
+                label: 'Average score (Blue)',
+                type: 'line',
+                borderColor: 'rgba(177,185,192,1)',
+                borderWidth: 4,
+                fill: false,
+                data: dataTwoAvg,
+                spanGaps: true,
+                order: 1,
+              },
+            ],
+          }
+        }));
+      }
 
-      setCardData(prevCardData => ({
-        ...prevCardData,
-        [cardKey]: {
-          labels: labelsData,
-          datasets: [
-            {
-              label: 'No of Students (Purple)',
-              type: 'bar',
-              backgroundColor: 'rgba(185,102,220,1)',
-              borderColor: 'rgba(185,102,220,1)',
-              borderWidth: 2,
-              data: dataOne,
-              barThickness: 30,
-              borderRadius: 5,
-              order: 2,
-            },
-            {
-              label: 'No of Students (Blue)',
-              type: 'bar',
-              backgroundColor: 'rgba(68,198,212,1)',
-              borderColor: 'rgba(68,198,212,1)',
-              borderWidth: 2,
-              borderRadius: 5,
-              data: dataTwo,
-              barThickness: 30,
-              order: 2,
-            },
-            {
-              label: 'Average score (Purple)',
-              type: 'line',
-              borderColor: 'rgba(177,185,192,1)',
-              borderWidth: 4,
-              fill: false,
-              data: dataOneAvg,
-              spanGaps: true,
-              order: 1,
-            },
-            {
-              label: 'Average score (Blue)',
-              type: 'line',
-              borderColor: 'rgba(177,185,192,1)',
-              borderWidth: 4,
-              fill: false,
-              data: dataTwoAvg,
-              spanGaps: true,
-              order: 1,
-            },
-          ],
-        }
-      }));
+     
       if (cardKey === 0) {
         setTableData(prevData => ({
           ...prevData,
@@ -453,12 +515,16 @@ const StudentSchoolAttributes_R1 = () => {
   };
 
   console.log(tableData)
-  console.log(cardData)
+  dropdownOptions.slice(0, 4).map((option, index) => {
+console.log(option)
+  })
+  
     return (
     <div>
       <h2>Student R1 Attributes</h2>
       <Grid container spacing={2}>
       {dropdownOptions.slice(0, 4).map((option, index) => (
+        option.id != 4 ? (
           <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
             <CardComponent 
              key={option.id}
@@ -473,7 +539,24 @@ const StudentSchoolAttributes_R1 = () => {
               
             />
           </Grid>
+         ):(
+              <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
+            <CardFourComponent 
+              key={option.id}
+             
+           
+              title={cardTitle[option.id]} 
+              dropdownOptions={dropdownOptions} 
+              attributeBasedDropdowns={attributeBasedDropdowns} 
+              chartData={cardData[option.id] || defaultChartData}
+              onFilterChange={onFilterChange}
+              cardKey={option.id}
+              
+            />
+          </Grid>
+         )
         ))}
+       
         <Grid item xs={12}>
           <TableComponent 
           dropdownOptions={dropdownOptions} 

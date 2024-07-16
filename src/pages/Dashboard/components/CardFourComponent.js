@@ -13,11 +13,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
+function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
 
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
 
-  
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(null);
   const [dateRange1End, setDateRange1End] = useState(null);
@@ -104,7 +103,9 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     
     
     
+    "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
     
+    "Learning Level": ['All', 'Beginner', 'Intermediate', 'Advanced']
   };
 
  
@@ -278,11 +279,11 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
           )}
         </Grid>
 
-        <Grid container spacing={2} marginTop={0.5}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6"  mb={2}>Date Range 1</Typography>
-            <Grid container spacing={1.5}>
-              <Grid item xs={12}>
+        <Grid container columnSpacing={1} marginTop={0.5}>
+          <Grid item xs={12} sm={3} md={3} lg={3}>
+            <Typography variant="h6"  mb={4}>Date Range </Typography>
+           </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -291,11 +292,11 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
                     value={dateRange1Start}
                     onChange={(newValue) => handleDateRangeChange('dateRange1', newValue, dateRange1End)}
                     maxDate={dateRange1End}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                    renderInput={(params) => <TextField {...params} size="small"  />}
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -304,45 +305,14 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
                     value={dateRange1End}
                     onChange={(newValue) => handleDateRangeChange('dateRange1', dateRange1Start, newValue)}
                     minDate={dateRange1Start}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                    renderInput={(params) => <TextField {...params} size="small"  />}
                   />
                 </LocalizationProvider>
               </Grid>
-            </Grid>
+           
           </Grid>
 
-          <Grid item xs={12} sm={6} >
-            <Typography variant="h6" mb={2}>Date Range 2</Typography>
-            <Grid container spacing={1.5}>
-              <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                     format="DD/MM/YYYY"
-                     slotProps={{ textField: { size: "small" } }}
-                    value={dateRange2Start}
-                    onChange={(newValue) => handleDateRangeChange('dateRange2', newValue, dateRange2End)}
-                    maxDate={dateRange2End}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                     format="DD/MM/YYYY"
-                     slotProps={{ textField: { size: "small" } }}
-                    value={dateRange2End}
-                    onChange={(newValue) => handleDateRangeChange('dateRange2', dateRange2Start, newValue)}
-                    minDate={dateRange2Start}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+        
       </CardContent>
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
         <div style={{ minWidth: "800px",minHeight:"400px" }}>
@@ -381,4 +351,4 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
  );
 }
 
-export default CardComponent;
+export default CardFourComponent;
