@@ -27,4 +27,9 @@ public class RFourPayloadDto {
     private Integer cwsn;
     private Integer childMotherQualification;
     private Integer childFatherQualification;
+    private Integer householdId;
+
+    private Integer languageId;
+
+    private String quizName;
 }

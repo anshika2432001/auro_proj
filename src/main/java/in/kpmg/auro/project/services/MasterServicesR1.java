@@ -6038,7 +6038,7 @@ public class MasterServicesR1 {
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
                 "\taqn.quiz_name as topic_name,\n" +
                 "    count(distinct subquery.user_id) AS num_students_nation,\n" +
-                "    AVG(subquery.avg_score) AS avg_score_region\n" +
+                "    AVG(subquery.avg_score) AS avg_score_nation\n" +
                 "FROM (\n" +
                 "\tSELECT\n" +
                 "\t\ted.user_id,\n" +
@@ -6094,6 +6094,13 @@ public class MasterServicesR1 {
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
         }
+
+//        if (payloadDto.getTransactionDateFrom1() == null
+//                && payloadDto.getTransactionDateTo1() == null){
+//            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+//            nationParameters.add("2022-01-11");
+//            nationParameters.add("2023-11-30");
+//        }
 
 
         if (payloadDto.getTransactionDateFrom2() != null
@@ -6351,8 +6358,8 @@ public class MasterServicesR1 {
         queryNation.append("GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "ORDER BY\n" +
-                "\tavg_score_region ASC\n" +
-                "LIMIT 12;\n");
+                "\tavg_score_nation ASC\n" +
+                "LIMIT 12\n");
 
 
 
