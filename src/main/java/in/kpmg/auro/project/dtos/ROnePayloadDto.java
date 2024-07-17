@@ -30,7 +30,7 @@ public class ROnePayloadDto {
     private Integer cwsn;
     private Integer childMotherQualification;
     private Integer childFatherQualification;
-
+    private Integer householdId;
 
 //    subjectWiseBreakdown & gradeWiseAvgScore
 

@@ -131,4 +131,16 @@ public class FilterDropdownsQuery {
 
     public static String language = "SELECT language_id, language_name FROM language_master ORDER BY language_id;";
 
+    public static String cwsn = "select distinct \n" +
+            "\tcwsn,\n" +
+            "    CASE\n" +
+            "\t\tWHEN cwsn = '0' THEN 'No'\n" +
+            "        WHEN cwsn = '1' THEN 'Yes'\n" +
+            "\tEND AS cwsn_status\n" +
+            "from \n" +
+            "\tstudent_extra_data;";
+
+
+    public static String householdIncome = "select distinct household_income from parent_extra_data;";
+
 }
