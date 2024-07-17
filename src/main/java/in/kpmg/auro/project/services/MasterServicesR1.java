@@ -3371,7 +3371,7 @@ public class MasterServicesR1 {
                 "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
                 "\tWHERE\n" +
                 "\t\ted.attempted = 1\n" +
-                "\t\tAND sw.amount_status IN ('5') -- Displays only the approved quizzes\n"
+                "\t\tAND sw.amount_status IN ('5') "
 
         );
 
@@ -3426,29 +3426,37 @@ public class MasterServicesR1 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -3727,6 +3735,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -3734,6 +3746,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -4010,6 +4026,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -4017,6 +4037,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -4357,6 +4381,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -4364,6 +4392,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -4669,6 +4701,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -4676,6 +4712,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -5005,6 +5045,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -5012,6 +5056,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -5329,29 +5377,37 @@ public class MasterServicesR1 {
 
         if (payloadDto.getTransactionDateFrom1() != null
                 && payloadDto.getTransactionDateTo1()!= null){
-            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
                 && payloadDto.getTransactionDateTo1() == null){
-            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
         if (payloadDto.getTransactionDateFrom2() != null
                 && payloadDto.getTransactionDateTo2()!= null){
-            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters2.add(payloadDto.getTransactionDateFrom2());
             parameters2.add(payloadDto.getTransactionDateTo2());
         }
 
         if (payloadDto.getTransactionDateFrom2() == null
                 && payloadDto.getTransactionDateTo2() == null){
-            query2.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            query2.append("\t\tAND sw.transaction_date BETWEEN ? AND ? \n");
             parameters2.add("2023-12-01");
             LocalDate currentDate = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -5709,6 +5765,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -5716,6 +5776,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -6086,6 +6150,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -6093,14 +6161,11 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
-        }
 
-//        if (payloadDto.getTransactionDateFrom1() == null
-//                && payloadDto.getTransactionDateTo1() == null){
-//            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
-//            nationParameters.add("2022-01-11");
-//            nationParameters.add("2023-11-30");
-//        }
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
+        }
 
 
         if (payloadDto.getTransactionDateFrom2() != null
@@ -6455,6 +6520,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -6462,6 +6531,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -6768,6 +6841,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -6775,6 +6852,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -7107,6 +7188,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -7114,6 +7199,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -7456,6 +7545,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -7463,6 +7556,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 
@@ -7671,7 +7768,8 @@ public class MasterServicesR1 {
                 "    subquery.grade\n" +
                 "LIMIT 12;\n");
 
-        queryNation.append("LIMIT 10000\n" +
+        queryNation.append("AND sm.grade BETWEEN 1 AND 12 \n" +
+                "LIMIT 10000\n" +
                 ") AS subquery\n" +
                 "GROUP BY \n" +
                 "    subquery.grade\n" +
@@ -7810,6 +7908,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add(payloadDto.getTransactionDateFrom1());
             parameters.add(payloadDto.getTransactionDateTo1());
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add(payloadDto.getTransactionDateFrom1());
+            nationParameters.add(payloadDto.getTransactionDateTo1());
         }
 
         if (payloadDto.getTransactionDateFrom1() == null
@@ -7817,6 +7919,10 @@ public class MasterServicesR1 {
             query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
             parameters.add("2022-01-11");
             parameters.add("2023-11-30");
+
+            queryNation.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            nationParameters.add("2022-01-11");
+            nationParameters.add("2023-11-30");
         }
 
 

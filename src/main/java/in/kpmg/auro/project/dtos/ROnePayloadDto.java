@@ -32,15 +32,8 @@ public class ROnePayloadDto {
     private Integer childFatherQualification;
     private Integer householdId;
 
-//    subjectWiseBreakdown & gradeWiseAvgScore
-
-//    private Integer avgScholorFrom;
-//    private Integer avgScholorTo;
-
-//    topicWiseBreakDown
     private Integer languageId;
 
-//    topicWiseBreakdownStudentAttempts
     private String quizName;
 
 
