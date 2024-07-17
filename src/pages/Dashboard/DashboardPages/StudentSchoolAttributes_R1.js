@@ -76,7 +76,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average no. of students (Purple)',
+      label: 'Average score (Purple)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
@@ -86,7 +86,54 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average no. of students (Blue)',
+      label: 'Average score (Blue)',
+      type: 'line',
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
+const defaultChartDataCard4 = {
+  labels: [],
+  datasets: [
+    {
+      label: 'No of Students Pan India(Purple)',
+      type: 'bar',
+      backgroundColor: 'rgba(185,102,220,1)',
+      borderColor: 'rgba(185,102,220,1)',
+      borderWidth: 2,
+      data: [],
+      barThickness: 30,
+      borderRadius: 5,
+      order: 2,
+    },
+    {
+      label: 'No of Students Region(Blue)',
+      type: 'bar',
+      backgroundColor: 'rgba(68,198,212,1)',
+      borderColor: 'rgba(68,198,212,1)',
+      borderWidth: 2,
+      borderRadius: 5,
+      data: [],
+      barThickness: 30,
+      order: 2,
+    },
+    {
+      label: 'Average score Pan India(Purple)',
+      type: 'line',
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Average score Region(Blue)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
@@ -136,9 +183,14 @@ const StudentSchoolAttributes_R1 = () => {
   
 
   useEffect(() => {
-   
-   fetchDataForAllCards();
+    
+    // fetchData(1, filters[1],1);
+    // fetchData(2, filters[2],2);
+    // fetchData(3, filters[3],3);
+    // fetchData(4, filters[4],4);
+    fetchDataForAllCards();
     fetchTableData();
+   
     
    
  
@@ -146,7 +198,7 @@ const StudentSchoolAttributes_R1 = () => {
     
   }, []);
 
-console.log(initialCall)
+
 
   const fetchDataForAllCards = () => {
    
@@ -154,7 +206,7 @@ console.log(initialCall)
     dropdownOptions.slice(0, 4).forEach(option => {
       
       fetchData(option.id, filters[option.id],option.id);
-      // console.log(count)
+     
     });
   };
   const fetchTableData = () => {
@@ -194,242 +246,14 @@ console.log(initialCall)
       const res = await axios.post(endpoint, payload);
       const result = res.data.result;
 
-      let labelsData = [];
-      let dataOne = [];
-      let dataOneAvg = [];
-      let dataTwo = [];
-      let dataTwoAvg = [];
-      let newTableData = [];
+      const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
 
-      switch (key) {
-        case 1:
-          labelsData = result.dataOne.map(item => item.subject);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.average_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.average_score);
-          
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.subject,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.average_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.subject === item.subject)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.subject === item.subject)?.average_score || 0
-          }));
-          break;
-        case 2:
-          labelsData = result.dataOne.map(item => `Grade ${item.grade}`);
-          dataOne = result.dataOne.map(item => item.num_students_attempting);
-          dataOneAvg = result.dataOne.map(item => item.average_score);
-          dataTwo = result.dataTwo.map(item => item.num_students_attempting);
-          dataTwoAvg = result.dataTwo.map(item => item.average_score);
-
-          newTableData = result.dataOne.map(item => ({
-            attributes:  `Grade ${item.grade}`,
-            dateRange1TotalValue: item.num_students_attempting,
-            dateRange1AvgValue: item.average_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.grade === item.grade)?.num_students_attempting || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.grade === item.grade)?.average_score || 0
-          }));
-          break;
-        case 3:
-          labelsData = result.dataOne.map(item => `Quiz Range ${item.quiz_range}`);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.average_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.average_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: `Quiz Range ${item.quiz_range}`,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.average_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.quiz_range === item.quiz_range)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.quiz_range === item.quiz_range)?.average_score || 0
-          }));
-          break;
-        case 4:
-          labelsData = result.dataOne.map(item => `Quiz Range ${item.quiz_range}`);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.national_avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.national_avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: `Quiz Range ${item.quiz_range}`,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.national_avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.quiz_range === item.quiz_range)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.quiz_range === item.quiz_range)?.national_avg_score || 0
-          }));
-          break;
-        case 5:
-        case 6:
-          labelsData = result.dataOne.map(item => item.topic_name);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score_pan_india);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score_pan_india);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.topic_name,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score_pan_india,
-            dateRange2TotalValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.avg_score_pan_india || 0
-          }));
-          break;
-       
-          
-          case 7:
-          case 8:
-          labelsData = result.dataOne.map(item => item.topic_name);
-          dataOne = result.dataOne.map(item => item.num_students_nation);
-          dataOneAvg = result.dataOne.map(item => item.avg_score_nation);
-          dataTwo = result.dataTwo.map(item => item.num_students_nation);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score_nation);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.topic_name,
-            dateRange1TotalValue: item.num_students_nation,
-            dateRange1AvgValue: item.avg_score_nation,
-            dateRange2TotalValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.num_students_nation || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.avg_score_nation || 0
-          }));
-          break;
-          case 9:
-          labelsData = result.dataOne.map(item => item.quiz_attempt);
-          dataOne = result.dataOne.map(item => item.num_students_pan_india);
-          dataOneAvg = result.dataOne.map(item => item.avg_score_pan_india);
-          dataTwo = result.dataTwo.map(item => item.num_students_pan_india);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score_pan_india);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.quiz_attempt,
-            dateRange1TotalValue: item.num_students_pan_india,
-            dateRange1AvgValue: item.avg_score_pan_india,
-            dateRange2TotalValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.num_students_pan_india || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.avg_score_pan_india || 0
-          }));
-          break;
-          case 10:
-            labelsData = result.dataOne.map(item => item.quiz_attempt);
-            dataOne = result.dataOne.map(item => item.num_students);
-            dataOneAvg = result.dataOne.map(item => item.avg_improvement_nation);
-            dataTwo = result.dataTwo.map(item => item.num_students);
-            dataTwoAvg = result.dataTwo.map(item => item.avg_improvement_nation);
-            newTableData = result.dataOne.map(item => ({
-              attributes: item.quiz_attempt,
-              dateRange1TotalValue: item.num_students,
-              dateRange1AvgValue: item.avg_improvement_nation,
-              dateRange2TotalValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.num_students || 0,
-              dateRange2AvgValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.avg_improvement_nation || 0
-            }));
-          break;
-          case 11:
-            labelsData = result.dataOne.map(item => item.subject);
-            dataOne = result.dataOne.map(item => item.num_students_nation);
-            dataOneAvg = result.dataOne.map(item => item.percent_improvement_second_nation);
-            dataTwo = result.dataTwo.map(item => item.num_students_nation);
-            dataTwoAvg = result.dataTwo.map(item => item.percent_improvement_second_nation);
-            newTableData = result.dataOne.map(item => ({
-              attributes: item.subject,
-              dateRange1TotalValue: item.num_students_nation,
-              dateRange1AvgValue: item.percent_improvement_second_nation,
-              dateRange2TotalValue: result.dataTwo.find(i => i.subject === item.subject)?.num_students_nation || 0,
-              dateRange2AvgValue: result.dataTwo.find(i => i.subject === item.subject)?.percent_improvement_second_nation || 0
-            }));
-          break;
-          case 12:
-            labelsData = result.dataOne.map(item => item.grade);
-            dataOne = result.dataOne.map(item => item.num_students_nation);
-            dataOneAvg = result.dataOne.map(item => item.percent_improvement_second_nation);
-            dataTwo = result.dataTwo.map(item => item.num_students_nation);
-            dataTwoAvg = result.dataTwo.map(item => item.percent_improvement_second_nation);
-            newTableData = result.dataOne.map(item => ({
-              attributes: item.grade,
-              dateRange1TotalValue: item.num_students_nation,
-              dateRange1AvgValue: item.percent_improvement_second_nation,
-              dateRange2TotalValue: result.dataTwo.find(i => i.grade === item.grade)?.num_students_nation || 0,
-              dateRange2AvgValue: result.dataTwo.find(i => i.grade === item.grade)?.percent_improvement_second_nation || 0
-            }));
-          break;
-          case 13:
-            labelsData = result.dataOne.map(item => item.topic_name);
-            dataOne = result.dataOne.map(item => item.num_students_nation);
-            dataOneAvg = result.dataOne.map(item => item.percent_improvement_second_nation);
-            dataTwo = result.dataTwo.map(item => item.num_students_nation);
-            dataTwoAvg = result.dataTwo.map(item => item.percent_improvement_second_nation);
-            newTableData = result.dataOne.map(item => ({
-              attributes: item.topic_name,
-              dateRange1TotalValue: item.num_students_nation,
-              dateRange1AvgValue: item.percent_improvement_second_nation,
-              dateRange2TotalValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.num_students_nation || 0,
-              dateRange2AvgValue: result.dataTwo.find(i => i.subject === item.subject)?.percent_improvement_second_nation || 0
-            }));
-          break;
-          case 15:
-            labelsData = result.dataOne.map(item => item.topic_name);
-            dataOne = result.dataOne.map(item => item.num_students_nation);
-            dataOneAvg = result.dataOne.map(item => item.percent_improvement_second_nation);
-            dataTwo = result.dataTwo.map(item => item.num_students_nation);
-            dataTwoAvg = result.dataTwo.map(item => item.percent_improvement_second_nation);
-            newTableData = result.dataOne.map(item => ({
-              attributes: item.topic_name,
-              dateRange1TotalValue: item.num_students_nation,
-              dateRange1AvgValue: item.percent_improvement_second_nation,
-              dateRange2TotalValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.num_students_nation || 0,
-              dateRange2AvgValue: result.dataTwo.find(i => i.topic_name === item.topic_name)?.percent_improvement_second_nation || 0
-            }));
-          break;
-          
-        
-        default:
-          break;
-      }
       if(cardKey == 4){
         setCardData(prevCardData => ({
           ...prevCardData,
           [cardKey]: {
             labels: labelsData,
-            datasets: [
-              {
-                label: 'No of Students Pan India(Purple)',
-                type: 'bar',
-                backgroundColor: 'rgba(185,102,220,1)',
-                borderColor: 'rgba(185,102,220,1)',
-                borderWidth: 2,
-                data: dataOne,
-                barThickness: 30,
-                borderRadius: 5,
-                order: 2,
-              },
-              {
-                label: 'No of Students Region(Blue)',
-                type: 'bar',
-                backgroundColor: 'rgba(68,198,212,1)',
-                borderColor: 'rgba(68,198,212,1)',
-                borderWidth: 2,
-                borderRadius: 5,
-                data: dataTwo,
-                barThickness: 30,
-                order: 2,
-              },
-              {
-                label: 'Average score Pan India(Purple)',
-                type: 'line',
-                borderColor: 'rgba(177,185,192,1)',
-                borderWidth: 4,
-                fill: false,
-                data: dataOneAvg,
-                spanGaps: true,
-                order: 1,
-              },
-              {
-                label: 'Average score Region(Blue)',
-                type: 'line',
-                borderColor: 'rgba(177,185,192,1)',
-                borderWidth: 4,
-                fill: false,
-                data: dataTwoAvg,
-                spanGaps: true,
-                order: 1,
-              },
-            ],
+            datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
         }));
       }
@@ -438,55 +262,12 @@ console.log(initialCall)
           ...prevCardData,
           [cardKey]: {
             labels: labelsData,
-            datasets: [
-              {
-                label: 'No of Students (Purple)',
-                type: 'bar',
-                backgroundColor: 'rgba(185,102,220,1)',
-                borderColor: 'rgba(185,102,220,1)',
-                borderWidth: 2,
-                data: dataOne,
-                barThickness: 30,
-                borderRadius: 5,
-                order: 2,
-              },
-              {
-                label: 'No of Students (Blue)',
-                type: 'bar',
-                backgroundColor: 'rgba(68,198,212,1)',
-                borderColor: 'rgba(68,198,212,1)',
-                borderWidth: 2,
-                borderRadius: 5,
-                data: dataTwo,
-                barThickness: 30,
-                order: 2,
-              },
-              {
-                label: 'Average score (Purple)',
-                type: 'line',
-                borderColor: 'rgba(177,185,192,1)',
-                borderWidth: 4,
-                fill: false,
-                data: dataOneAvg,
-                spanGaps: true,
-                order: 1,
-              },
-              {
-                label: 'Average score (Blue)',
-                type: 'line',
-                borderColor: 'rgba(177,185,192,1)',
-                borderWidth: 4,
-                fill: false,
-                data: dataTwoAvg,
-                spanGaps: true,
-                order: 1,
-              },
-            ],
+            datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
         }));
       }
+      
 
-     
       if (cardKey === 0) {
         setTableData(prevData => ({
           ...prevData,
@@ -497,6 +278,62 @@ console.log(initialCall)
       console.error('Error fetching data:', error);
     }
   };
+
+  const parseResultData = (key, result) => {
+    const mappings = {
+      1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
+      2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey: 'average_score' },
+      3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
+      4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'national_avg_score' },
+      5: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score_pan_india' },
+      6: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score_pan_india' },
+      7: { key: 'topic_name', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'avg_score_nation' },
+      8: { key: 'topic_name', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'avg_score_nation' },
+      9: { key: 'quiz_attempt', dataOneKey: 'num_students_pan_india', dataTwoKey: 'num_students_pan_india', avgKey: 'avg_score_pan_india' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_improvement_nation' },
+      11: { key: 'subject', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'percent_improvement_second_nation' },
+      12: { key: 'grade', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'percent_improvement_second_nation' },
+      13: { key: 'topic_name', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'percent_improvement_second_nation' },
+      15: { key: 'topic_name', dataOneKey: 'num_students_nation', dataTwoKey: 'num_students_nation', avgKey: 'percent_improvement_second_nation' },
+    };
+
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    
+    const allLabels = new Set([
+      ...result.dataOne.map(item => item[labelKey]),
+      ...result.dataTwo.map(item => item[labelKey])
+    ]);
+  
+    const labelsData = Array.from(allLabels);
+    const dataOne = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneAvg = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0);
+    const dataTwo = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoAvg = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0);
+  
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0,
+      dateRange2TotalValue: result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0,
+    }));
+  
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+  };
+
+  const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
+    { ...defaultChartData.datasets[0], data: dataOne || [] },
+    { ...defaultChartData.datasets[1], data: dataTwo || [] },
+    { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
+    { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
+  ];
+
+  const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
+    { ...defaultChartDataCard4.datasets[0], data: dataOne || [] },
+    { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
+    { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [] },
+    { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
+  ];
 
   const onFilterChange = (key, value,cardKey) => {
     console.log(key)
@@ -511,13 +348,11 @@ console.log(initialCall)
       ...prevData,
       [cardKey]: selectedOption,
     }));
-    fetchData(key, value,cardKey);
+     fetchData(key, value,cardKey);
   };
 
-  console.log(tableData)
-  dropdownOptions.slice(0, 4).map((option, index) => {
-console.log(option)
-  })
+  console.log(cardData)
+ 
   
     return (
     <div>

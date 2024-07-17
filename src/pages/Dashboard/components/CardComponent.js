@@ -5,6 +5,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Chart } from 'react-chartjs-2';
 import axios from '../../../utils/axios';
+import dayjs from 'dayjs';
+
 import { useDispatch, useSelector } from "react-redux";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -16,7 +18,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
 
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
-
+console.log(chartData)
   
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(null);
@@ -185,12 +187,16 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
   };
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
+    const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+    const formattedEndDate = endDate ? dayjs(endDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+ 
+
     switch (dateRangeName) {
       case 'dateRange1':
         newFilters = {
           ...selectedFilters,
-          startDateRange1: startDate,
-          endDateRange1: endDate
+          startDateRange1: formattedStartDate,
+          endDateRange1: formattedEndDate
         };
         setDateRange1Start(startDate);
         setDateRange1End(endDate);
@@ -198,8 +204,8 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
       case 'dateRange2':
         newFilters = {
           ...selectedFilters,
-          startDateRange2: startDate,
-          endDateRange2: endDate
+          startDateRange2: formattedStartDate,
+          endDateRange2: formattedEndDate
         };
         setDateRange2Start(startDate);
         setDateRange2End(endDate);
@@ -229,7 +235,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
       <Typography 
         variant="h6" 
         sx={{ backgroundColor: '#0948a6', padding: '8px', top: '0',
-          zIndex: 10 , borderRadius: '4px', position:"sticky", color: '#fff' }}
+          zIndex: 10 , position:"sticky", color: '#fff' }}
       >
         {title.value}
       </Typography>

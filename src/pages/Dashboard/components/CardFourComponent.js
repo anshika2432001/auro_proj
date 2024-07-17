@@ -5,6 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Chart } from 'react-chartjs-2';
 import axios from '../../../utils/axios';
+import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
@@ -186,12 +187,16 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   };
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
+    const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+    const formattedEndDate = endDate ? dayjs(endDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+ 
+
     switch (dateRangeName) {
       case 'dateRange1':
         newFilters = {
           ...selectedFilters,
-          startDateRange1: startDate,
-          endDateRange1: endDate
+          startDateRange1: formattedStartDate,
+          endDateRange1: formattedEndDate
         };
         setDateRange1Start(startDate);
         setDateRange1End(endDate);
@@ -199,8 +204,8 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       case 'dateRange2':
         newFilters = {
           ...selectedFilters,
-          startDateRange2: startDate,
-          endDateRange2: endDate
+          startDateRange2: formattedStartDate,
+          endDateRange2: formattedEndDate
         };
         setDateRange2Start(startDate);
         setDateRange2End(endDate);

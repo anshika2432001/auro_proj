@@ -15,14 +15,22 @@ const dropdownOptions = [
   { id: 7, value: 'Student hours spent on mobile phones - study' },
 ];
 
-const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', 'Pre Primary', 'School From starting class to end class'];
+const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'];
 
 const attributeBasedDropdowns = {};
 dropdownOptions.forEach(option => {
   attributeBasedDropdowns[option.id] = commonAttributes;
 });
-const chartData = {
-  labels: ['Cant Say', 'Up to 1 hr', '1-3 hrs', '3-5 hrs', 'More than 5 hrs'],
+
+const endpointMapping = {
+  
+  2: '/r3/student-access-digital-devices-home',
+  3: '/r3/student-using-learning-apps-home',
+  7: '/r3/student-hours-spend-mobile-study',
+ 
+};
+const defaultChartData = {
+  labels: [],
   datasets: [
     {
       label: 'No of Students (Purple)',
@@ -30,9 +38,9 @@ const chartData = {
       backgroundColor: 'rgba(185,102,220,1)',
       borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
-      data: [200, 150, 300, 250, 400],
+      data: [],
       barThickness: 30,
-      borderRadius: 5, 
+      borderRadius: 5,
       order: 2,
     },
     {
@@ -41,89 +49,218 @@ const chartData = {
       backgroundColor: 'rgba(68,198,212,1)',
       borderColor: 'rgba(68,198,212,1)',
       borderWidth: 2,
-      borderRadius: 5, 
-      data: [100, 130, 250, 200, 350],
+      borderRadius: 5,
+      data: [],
       barThickness: 30,
       order: 2,
     },
     {
-      label: 'Average no. of students (Purple)',
+      label: 'Average score (Purple)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
       fill: false,
-      data: [175, 140, 275, 225, 375],
+      data: [],
       spanGaps: true,
       order: 1,
     },
     {
-      label: 'Average no. of students (Blue)',
+      label: 'Average score (Blue)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
       fill: false,
-      data: [75, 80, 150, 125, 225],
+      data: [],
       spanGaps: true,
       order: 1,
     },
   ],
 };
-
-const tableInfo = [
-  {
-    attributes: "Visual Learners",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "100",
-    avgValue: "23"
-  },
-  {
-    attributes: "Auditory",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "350",
-    avgValue: "65"
-  },
-  {
-    attributes: "Kinesthetic",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "220",
-    avgValue: "34"
-  },
-  {
-    attributes: "Reading/Writing",
-    dateRange: "23/03/23-10/04/24",
-    totalValue: "320",
-    avgValue: "45"
-  },
-  {
-    attributes: "Any Other",
-    dateRange: "21/01/24-10/04/24",
-    totalValue: "280",
-    avgValue: "36"
-  },
-];
-
 const tableHeadings = [
-  'Attributes', 
-  'Date Range', 
+  
+  'Number of Students', 
+  'Average Score of Students',
   'Number of Students', 
   'Average Score of Students'
 ];
 
 const StudentInternetBehaviourPatterns = () => {
-  const [filterOptions,setFilterOptions] = useState({});
+  const [filters, setFilters] = useState({
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+  });
+  const [cardData, setCardData] = useState({
+    1: defaultChartData,
+    2: defaultChartData,
+    3: defaultChartData,
+    4: defaultChartData,
+  });
+
+  const [cardTitle, setCardTitle] = useState({
+    1: dropdownOptions[0],
+    2: dropdownOptions[1],
+    3: dropdownOptions[2],
+    4: dropdownOptions[3],
+  });
+
+  const [tableData, setTableData] = useState({
+    0: []
+});
   
-  return (
+
+  useEffect(() => {
+    fetchDataForAllCards();
+    fetchTableData();
+  }, []);
+
+  const fetchDataForAllCards = () => {
+    let count =0;
+    const slicedOptions = dropdownOptions.slice(0, 4);
+  console.log("Sliced Options: ", slicedOptions);
+
+    dropdownOptions.slice(0, 4).forEach(option => {
+      // count=count+1;
+      // alert(count)
+      fetchData(option.id, filters[option.id],option.id);
+      // console.log(count)
+    });
+  };
+  const fetchTableData = () => {
+    const firstOption = dropdownOptions[0];
+    fetchData(firstOption.id, filters[firstOption.id], 0);
+  };
+
+  const fetchData = async (key, value,cardKey) => {
+    console.log(key)
+    const endpoint = endpointMapping[key];
+
+    try {
+      let payload = {
+        transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1 : null) : null,
+        transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1 : null) : null,
+        transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2 : null) : null,
+        transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2 : null) : null,
+        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
+        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+        schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
+        stateId: value ? ((value.State && value.State !== "All") ? value.State : null) : null,
+        districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
+        socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
+        gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
+        ageFrom: null,
+        ageTo: null,
+        educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
+        schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
+        cwsn: null,
+        childMotherQualification: value ? ((value['Mother Education'] && value['Mother Education'] !== 'All') ? value['Mother Education'] : null) : null,
+        childFatherQualification: value ? ((value['Father Education'] && value['Father Education'] !== 'All') ? value['Father Education'] : null) : null,
+      };
+
+      if (value && value['Age Group'] && value['Age Group'] !== 'All') {
+        const ageRange = value['Age Group'].split('-');
+        payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
+        payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
+      }
+
+      const res = await axios.post(endpoint, payload);
+      const result = res.data.result;
+
+      const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+
+      setCardData(prevCardData => ({
+        ...prevCardData,
+        [cardKey]: {
+          labels: labelsData,
+          datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
+        }
+      }));
+
+      if (cardKey === 0) {
+        setTableData(prevData => ({
+          ...prevData,
+          [cardKey]: newTableData,
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const parseResultData = (key, result) => {
+    const mappings = {
+      2: { key: 'mobile_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      3: { key: 'remote_learning', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      7: { key: 'mobile_hours_study', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+     
+      
+    };
+
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const allLabels = new Set([
+      ...result.dataOne.map(item => item[labelKey]),
+      ...result.dataTwo.map(item => item[labelKey])
+    ]);
+  
+    const labelsData = Array.from(allLabels);
+    const dataOne = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneAvg = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0);
+    const dataTwo = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoAvg = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0);
+  
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0,
+      dateRange2TotalValue: result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0,
+    }));
+  
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+    
+  };
+
+  const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
+    { ...defaultChartData.datasets[0], data: dataOne },
+    { ...defaultChartData.datasets[1], data: dataTwo },
+    { ...defaultChartData.datasets[2], data: dataOneAvg },
+    { ...defaultChartData.datasets[3], data: dataTwoAvg },
+  ];
+
+  const onFilterChange = (key, value,cardKey) => {
+    console.log(key)
+    console.log(value)
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [key]: value,
+    }));
+    const selectedOption = dropdownOptions.find(option => option.id === key);
+
+    setCardTitle(prevData => ({
+      ...prevData,
+      [cardKey]: selectedOption,
+    }));
+    fetchData(key, value,cardKey);
+  };
+
+    return (
     <div>
-      <h2>Student Internet Behaviour</h2>
+      <h2>Student R2 Attributes</h2>
       <Grid container spacing={2}>
       {dropdownOptions.slice(0, 4).map((option, index) => (
-          <Grid item xs={12} sm={6} md={6} lg={6} key={index}>
+          <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
             <CardComponent 
-              title={option} 
-              dropdownOptions={dropdownOptions} 
-            
-              attributeBasedDropdowns={attributeBasedDropdowns} 
-              chartData={chartData} 
+             key={option.id}
+             
+           
+             title={cardTitle[option.id]} 
+             dropdownOptions={dropdownOptions} 
+             attributeBasedDropdowns={attributeBasedDropdowns} 
+             chartData={cardData[option.id] || defaultChartData}
+             onFilterChange={onFilterChange}
+             cardKey={option.id}
+              
             />
           </Grid>
         ))}
@@ -131,8 +268,10 @@ const StudentInternetBehaviourPatterns = () => {
           <TableComponent 
           dropdownOptions={dropdownOptions} 
           attributeBasedDropdowns={attributeBasedDropdowns} 
-          tableInfo={tableInfo} 
+          tableInfo={tableData[0]} 
           tableHeadings={tableHeadings} 
+          onFilterChange={onFilterChange}
+          tableKey={0}
           />
         </Grid>
       </Grid>

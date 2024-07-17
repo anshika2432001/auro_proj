@@ -59,7 +59,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average no. of students (Purple)',
+      label: 'Average score (Purple)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
@@ -69,7 +69,7 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average no. of students (Blue)',
+      label: 'Average score (Blue)',
       type: 'line',
       borderColor: 'rgba(177,185,192,1)',
       borderWidth: 4,
@@ -175,160 +175,16 @@ const StudentSchoolAttributes_R2 = () => {
       const res = await axios.post(endpoint, payload);
       const result = res.data.result;
 
-      let labelsData = [];
-      let dataOne = [];
-      let dataOneAvg = [];
-      let dataTwo = [];
-      let dataTwoAvg = [];
-      let newTableData = [];
-
-      switch (key) {
-        
-        case 2:
-          labelsData = result.dataOne.map(item => item.classroom_strength);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-
-          newTableData = result.dataOne.map(item => ({
-            attributes:  item.classroom_strength,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.classroom_strength === item.classroom_strength)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.classroom_strength === item.classroom_strength)?.avg_score || 0
-          }));
-          break;
-        
-        case 4:
-          labelsData = result.dataOne.map(item => item.academic_stream);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.academic_stream,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.academic_stream === item.academic_stream)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.academic_stream === item.academic_stream)?.avg_score || 0
-          }));
-          break;
-        case 5:
-          labelsData = result.dataOne.map(item => item.student_access_to_bank);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.student_access_to_bank,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.student_access_to_bank === item.student_access_to_bank)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.student_access_to_bank === item.student_access_to_bank)?.avg_score || 0
-          }));
-          break;
-        case 6:
-          labelsData = result.dataOne.map(item => item.extra_curricular_activity);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.extra_curricular_activity,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.extra_curricular_activity === item.extra_curricular_activity)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.extra_curricular_activity === item.extra_curricular_activity)?.avg_score || 0
-          }));
-          break;
-       
-          
-          
-          case 8:
-          labelsData = result.dataOne.map(item => item.social_group);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.social_group,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.social_group === item.social_group)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.social_group === item.social_group)?.avg_score || 0
-          }));
-          break;
-          case 9:
-          labelsData = result.dataOne.map(item => item.is_student_in_leadership_position);
-          dataOne = result.dataOne.map(item => item.num_students);
-          dataOneAvg = result.dataOne.map(item => item.avg_score);
-          dataTwo = result.dataTwo.map(item => item.num_students);
-          dataTwoAvg = result.dataTwo.map(item => item.avg_score);
-          newTableData = result.dataOne.map(item => ({
-            attributes: item.is_student_in_leadership_position,
-            dateRange1TotalValue: item.num_students,
-            dateRange1AvgValue: item.avg_score,
-            dateRange2TotalValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.num_students || 0,
-            dateRange2AvgValue: result.dataTwo.find(i => i.quiz_attempt === item.quiz_attempt)?.avg_score || 0
-          }));
-          break;
-          
-        
-        default:
-          break;
-      }
+      const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
 
       setCardData(prevCardData => ({
         ...prevCardData,
         [cardKey]: {
           labels: labelsData,
-          datasets: [
-            {
-              label: 'No of Students (Purple)',
-              type: 'bar',
-              backgroundColor: 'rgba(185,102,220,1)',
-              borderColor: 'rgba(185,102,220,1)',
-              borderWidth: 2,
-              data: dataOne,
-              barThickness: 30,
-              borderRadius: 5,
-              order: 2,
-            },
-            {
-              label: 'No of Students (Blue)',
-              type: 'bar',
-              backgroundColor: 'rgba(68,198,212,1)',
-              borderColor: 'rgba(68,198,212,1)',
-              borderWidth: 2,
-              borderRadius: 5,
-              data: dataTwo,
-              barThickness: 30,
-              order: 2,
-            },
-            {
-              label: 'Average score (Purple)',
-              type: 'line',
-              borderColor: 'rgba(177,185,192,1)',
-              borderWidth: 4,
-              fill: false,
-              data: dataOneAvg,
-              spanGaps: true,
-              order: 1,
-            },
-            {
-              label: 'Average score (Blue)',
-              type: 'line',
-              borderColor: 'rgba(177,185,192,1)',
-              borderWidth: 4,
-              fill: false,
-              data: dataTwoAvg,
-              spanGaps: true,
-              order: 1,
-            },
-          ],
+          datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
         }
       }));
+
       if (cardKey === 0) {
         setTableData(prevData => ({
           ...prevData,
@@ -339,6 +195,46 @@ const StudentSchoolAttributes_R2 = () => {
       console.error('Error fetching data:', error);
     }
   };
+
+  const parseResultData = (key, result) => {
+    const mappings = {
+      2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      9: { key: 'is_student_in_leadership_position', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+    };
+
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const allLabels = new Set([
+      ...result.dataOne.map(item => item[labelKey]),
+      ...result.dataTwo.map(item => item[labelKey])
+    ]);
+  
+    const labelsData = Array.from(allLabels);
+    const dataOne = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneAvg = labelsData.map(label => result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0);
+    const dataTwo = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoAvg = labelsData.map(label => result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0);
+  
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: result.dataOne.find(item => item[labelKey] === label)?.[avgKey] || 0,
+      dateRange2TotalValue: result.dataTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: result.dataTwo.find(item => item[labelKey] === label)?.[avgKey] || 0,
+    }));
+  
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+  };
+
+  const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
+    { ...defaultChartData.datasets[0], data: dataOne },
+    { ...defaultChartData.datasets[1], data: dataTwo },
+    { ...defaultChartData.datasets[2], data: dataOneAvg },
+    { ...defaultChartData.datasets[3], data: dataTwoAvg },
+  ];
 
   const onFilterChange = (key, value,cardKey) => {
     console.log(key)
@@ -356,7 +252,6 @@ const StudentSchoolAttributes_R2 = () => {
     fetchData(key, value,cardKey);
   };
 
-  console.log(tableData)
   console.log(cardData)
     return (
     <div>

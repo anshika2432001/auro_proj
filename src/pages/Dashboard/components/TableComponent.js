@@ -4,6 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from 'dayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
+
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDispatch, useSelector } from "react-redux";
 import "../../../App.css";
@@ -22,7 +23,7 @@ console.log(tableInfo)
   const [dateRange2Start, setDateRange2Start] = useState(null);
   const [dateRange2End, setDateRange2End] = useState(null);
   const tableData = tableInfo; 
- 
+ console.log(tableData)
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
@@ -201,15 +202,15 @@ const attributeOptions = {
   };
 
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
-    const startDateAdjusted = startDate ? dayjs(startDate).startOf('day').toISOString() : null;
-    const endDateAdjusted = endDate ? dayjs(endDate).endOf('day').toISOString() : null;
+    const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+    const formattedEndDate = endDate ? dayjs(endDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
     let newFilters = {};
     switch (dateRangeName) {
       case 'dateRange1':
         newFilters = {
           ...selectedFilters,
-          startDateRange1: startDate,
-          endDateRange1: endDate
+          startDateRange1: formattedStartDate,
+          endDateRange1: formattedEndDate
         };
         setDateRange1Start(startDate);
         setDateRange1End(endDate);
@@ -217,8 +218,8 @@ const attributeOptions = {
       case 'dateRange2':
         newFilters = {
           ...selectedFilters,
-          startDateRange2: startDate,
-          endDateRange2: endDate
+          startDateRange2: formattedStartDate,
+          endDateRange2: formattedEndDate
         };
         setDateRange2Start(startDate);
         setDateRange2End(endDate);
