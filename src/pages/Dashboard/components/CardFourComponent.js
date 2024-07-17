@@ -15,7 +15,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
-
+console.log(chartData)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
 
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
@@ -51,11 +51,17 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   const mapSocialGroup = (socialGroups) => {
     return socialGroups.map(socialGroupObj => ({ id: socialGroupObj.social_group, name: socialGroupObj.social_group_name }));
   };
+  const mapCWSN = (cwsn) => {
+    return cwsn.map(cwsnObj => ({ id: cwsnObj.cwsn, name: cwsnObj.cwsn_status }));
+  };
   const mapEducationBoard = (educationBoards) => {
     return educationBoards.map(educationBoardObj =>  ({ id: educationBoardObj.education_board_name, name: educationBoardObj.education_board }));
   };
   const mapGrades = (grades) => {
     return grades.map(gradesObj => gradesObj.grade);
+  };
+  const mapAnnualIncome = (income) => {
+    return income.map(incomeObj => incomeObj.household_income);
   };
   const mapFatherEducation = (fatherEducation) => {
     return fatherEducation.map(fatherEducationObj => fatherEducationObj.child_father_qualification);
@@ -85,12 +91,12 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     Grade: filterOptions ? (filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All']) : ['All'],
     "Social Group": filterOptions ? (filterOptions.socialGroup ? [{ id: 'All', name: 'All' }, ...mapSocialGroup(filterOptions.socialGroup)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     Gender: filterOptions ? (filterOptions.genders ? [{ id: 'All', name: 'All' }, ...mapGenders(filterOptions.genders)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
-    "Annual Income": ['All', '10000', '200000','30000','40000'],
+    "Annual Income": filterOptions ? (filterOptions.householdIncome ? ['All', ...mapAnnualIncome(filterOptions.householdIncome)] : ['All']) : ['All'],
     Subject: filterOptions ? (filterOptions.subjects ? ['All', ...mapSubjects(filterOptions.subjects)] : ['All']) : ['All'],
     "Mother Education": filterOptions ? (filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All']) : ['All'],
     "Father Education": filterOptions ? (filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All']) : ['All'],
     "Age Group": filterOptions ? (filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All']) : ['All'],
-    "CWSN": ['All','Yes','No'],
+  "CWSN": filterOptions ? (filterOptions.cwsn ? [{ id: 'All', name: 'All' }, ...mapCWSN(filterOptions.cwsn)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "Board of Education": filterOptions ? (filterOptions.educationalBoard ? [{ id: 'All', name: 'All' }, ...mapEducationBoard(filterOptions.educationalBoard)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
@@ -172,7 +178,7 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
   
       
-    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender') {
+    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN') {
       selectedValue = value && value.id ? value.id : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
@@ -237,7 +243,7 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
         sx={{ backgroundColor: '#0948a6', padding: '8px', top: '0',
           zIndex: 10 , borderRadius: '4px', position:"sticky", color: '#fff' }}
       >
-        {title.value}
+        {`${title.value} (REGION VS PAN INDIA)`}
       </Typography>
       <CardContent>
         <Autocomplete
