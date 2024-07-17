@@ -53,4 +53,47 @@ public class MasterControllerR2 {
         return masterServicesR2.studentsInLeadershipPositionsInSchoolClubs(payloadDto);
     }
 
+
+
+//    --------------------------------------------------------------------------------------
+
+
+
+    @PostMapping("/student-strength-classroom-stats")
+    public ApiResponse2<?> studentStrengthOfClassroomStats(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.studentStrengthOfClassroomStats(payloadDto);
+    }
+
+
+    @PostMapping("/academic-streams-stats")
+    public ApiResponse2<?> academicStreamsStats(@RequestBody RTwoPayloadDto payloadDto){
+
+        return masterServicesR2.academicStreamsStats(payloadDto);
+    }
+
+    @PostMapping("/social-group-stats")
+    public ApiResponse2<?> socialGroupStats(@RequestBody RTwoPayloadDto payloadDto){
+
+        return masterServicesR2.socialGroupStats(payloadDto);
+    }
+
+
+    @PostMapping("/student-access-bank-stats")
+    public ApiResponse2<?> studentAccessBankStats(@RequestBody RTwoPayloadDto payloadDto){
+
+        return masterServicesR2.studentAccessBankAccountStats(payloadDto);
+    }
+
+    @PostMapping("/student-engagement-activities-school-stats")
+    public ApiResponse2<?> studentEngagementActivitiesSchoolStats(@RequestBody RTwoPayloadDto payloadDto){
+
+        return masterServicesR2.studentEngagementActivitiesSchoolStats(payloadDto);
+    }
+
+    @PostMapping("/student-leadership-position-school-clubs-stats")
+    public ApiResponse2<?> studentsInLeadershipPositionsInSchoolClubsStats(@RequestBody RTwoPayloadDto payloadDto){
+
+        return masterServicesR2.studentsInLeadershipPositionsInSchoolClubsStats(payloadDto);
+    }
+
 }
