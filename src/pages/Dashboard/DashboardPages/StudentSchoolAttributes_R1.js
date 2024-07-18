@@ -224,7 +224,7 @@ const StudentSchoolAttributes_R1 = () => {
   };
 
   const fetchData = async (key, value,cardKey) => {
-    console.log(cardKey)
+    
     let endpoint = "";
     if(cardKey == 4){
       endpoint = endpointMappingCard4[key];
@@ -232,7 +232,7 @@ const StudentSchoolAttributes_R1 = () => {
     else{
       endpoint = endpointMapping[key];
     }
-  console.log(endpoint)
+ 
 
     try {
       let payload = {
@@ -262,7 +262,7 @@ const StudentSchoolAttributes_R1 = () => {
         payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
-      console.log(payload)
+     
 
       const res = await axios.post(endpoint, payload);
       const result = res.data.result;
