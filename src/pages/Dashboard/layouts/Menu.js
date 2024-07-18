@@ -42,85 +42,77 @@ export const menu = [
     title: "Student Learning Outcomes(R1)",
     items: [
       {
-        
-            title: "Subject Wise - Average Score",
-            pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
-          },
-          {
-            title: "Gradewise - Average Score",
-            pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
-          },
-          {
-            title: "Microscholarship Amount",
-            pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
-          },
-        {
-          title: "Microscholarship Quizzes - Total Quizzes",
-          pageLink: '/studentR1Attributes',
-          view: <StudentSchoolAttributes_R1 />,
-        },
-      {
-        title: "Total Winning Quizzes",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Subject Wise Breakdown - Average Score",
+        pageLink: '/studentR1Attributes/1',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Subject Wise - % improvement",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Gradewise - Average Score",
+        pageLink: '/studentR1Attributes/2',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Gradewise - % improvement",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
-      },
-
-      {
-        title: "Top Performing Topics",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
-      }, 
-     
-      {
-        title: "Microscholarship Won",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Microscholarship Quizzes - Average Score",
+        pageLink: '/studentR1Attributes/3',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topicwise breakdown - Student Attempts",
-        pageLink: '/studentR1Attributes',
+        title: "Total Quiz Attempted",
+        pageLink: '/studentR1Attributes/4',
         view: <StudentSchoolAttributes_R1 />,
       },
       {
-        title: "Topicwise breakdown - No. of Winning Quizzes",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Topic wise breakdown - Average Score",
+        pageLink: '/studentR1Attributes/5',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topicwise breakdown - Average Score",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Topic wise breakdown - No. of Microscholarship Quizzes",
+        pageLink: '/studentR1Attributes/6',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topicwise breakdown - % improvement",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Top Performing Topics",
+        pageLink: '/studentR1Attributes/7',
+        view: <StudentSchoolAttributes_R1 />,
       },
       {
         title: "Weak Performing Topics",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        pageLink: '/studentR1Attributes/8',
+        view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Core-Retake No of Students",
-        pageLink: '/studentR1Attributes',
-            view: <StudentSchoolAttributes_R1 />,
+        title: "Core-Retake- ( No of Students)",
+        pageLink: '/studentR1Attributes/9',
+        view: <StudentSchoolAttributes_R1  />,
       },
+      {
+        title: "Core-Retake- (Average Score)",
+        pageLink: '/studentR1Attributes/10',
+        view: <StudentSchoolAttributes_R1 />,
+      },
+      {
+        title: "Subject Wise Breakdown - % Improvement",
+        pageLink: '/studentR1Attributes/11',
+        view: <StudentSchoolAttributes_R1  />,
+      },
+      {
+        title: "Grade wise- % Improvement Score",
+        pageLink: '/studentR1Attributes/12',
+        view: <StudentSchoolAttributes_R1  />,
+      },
+      {
+        title: "Topic wise breakdown - %Improvement",
+        pageLink: '/studentR1Attributes/13',
+        view: <StudentSchoolAttributes_R1  />,
+      },
+      {
+        title: "Topic wise breakdown - Student Attempts",
+        pageLink: '/studentR1Attributes/14',
+        view: <StudentSchoolAttributes_R1  />,
+      },
+    ],
 
-    ]
 
   },
   {
@@ -656,25 +648,52 @@ export const menu = [
   
 ];
 
-export const AppRoutes = () => {
-  return (
-    <Suspense fallback={<div />}>
-      <Routes>
-        {/* <Route path="/" element={<Login/>} exact />
-        <Route path="/home" element={<Home/>} /> */}
-
-        {/* {menu.map((page, index) => {
-            return (
+const generateRoutes = () => {
+  const routes = [];
+  
+  menu.forEach(item => {
+    if (item.items) {
+      item.items.forEach(subItem => {
+        routes.push(
+          <Route
+            key={subItem.pageLink}
+            path={subItem.pageLink}
+            element={subItem.view}
+          />
+        );
+        if (subItem.items) {
+          subItem.items.forEach(nestedItem => {
+            routes.push(
               <Route
-                exact
-                element={page.pageLink}
-                render={({match}) => <page.view />}
-                key={index}
+                key={nestedItem.pageLink}
+                path={nestedItem.pageLink}
+                element={nestedItem.view}
               />
             );
-          })} */}
-        {/* <Navigate to="/" /> */}
-      </Routes>
-    </Suspense>
-  );
+          });
+        }
+      });
+    } else {
+      routes.push(
+        <Route
+          key={item.pageLink}
+          path={item.pageLink}
+          element={item.view}
+        />
+      );
+    }
+  });
+
+  return routes;
+};
+
+export const AppRoutes = () => {
+  // return (
+  //   // <Suspense fallback={<div>Loading...</div>}>
+  //   //   <Routes>
+  //   //     {generateRoutes(menu)}
+  //   //     <Route path="*" element={<Navigate to="/dashboard" />} />
+  //   //   </Routes>
+  //   // </Suspense>
+  // );
 };

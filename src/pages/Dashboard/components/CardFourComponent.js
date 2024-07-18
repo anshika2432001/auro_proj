@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton,Box } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-
+import CircularProgress from '@mui/material/CircularProgress';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement);
 
 
@@ -17,12 +17,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
 console.log(chartData)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const defaultStateId = 7; 
 
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
-  const [dateRange1Start, setDateRange1Start] = useState(null);
-  const [dateRange1End, setDateRange1End] = useState(null);
-  const [dateRange2Start, setDateRange2Start] = useState(null);
-  const [dateRange2End, setDateRange2End] = useState(null);
+  const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
+  const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
+ 
   const initialDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
@@ -30,7 +30,7 @@ console.log(chartData)
   const initialFilters = attributeBasedDropdowns[title.id]
   ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
   : {};
-  const [selectedFilters, setSelectedFilters] = useState(initialFilters);
+  const [selectedFilters, setSelectedFilters] = useState({ ...initialFilters, 'State': { id: defaultStateId, name: 'Default State Name' } });
   const [districtOptions, setDistrictOptions] = useState([]);
   const chartRef = useRef(null);
 
@@ -85,7 +85,7 @@ console.log(chartData)
   };
  
   const attributeOptions = {
-    "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "State": filterOptions ? (filterOptions.states ? mapStateNames(filterOptions.states) : []) : [],
     "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
     "School": ['All', 'School 1', 'School 2', 'School 3','School 4','School 5','School 6'],
     Grade: filterOptions ? (filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All']) : ['All'],
@@ -121,20 +121,37 @@ console.log(chartData)
     setSelectedAttribute(title.id);
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': { id: defaultStateId, name: defaultStateName } }));
   }, [title, attributeBasedDropdowns]);
+
+  console.log(selectedFilters)
+
+  useEffect(() => {
+    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
+    setSelectedFilters({ ...initialFilters, 'State': { id: defaultStateId, name: defaultStateName } });
+  }, [filterOptions]);
 
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  useEffect(() => {
+    // Fetch districts for the default state ID
+    if (filterOptions && filterOptions.districts) {
+      const filteredDistricts = filterOptions.districts.filter(district => district.state_id === defaultStateId);
+      setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
+    }
+  }, [filterOptions]);
+
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value.id);
     const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-    onFilterChange(value.id, { ...selectedFilters },cardKey);
+    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': { id: defaultStateId, name: defaultStateName } }));
+    onFilterChange(value.id, { ...selectedFilters, 'State': { id: defaultStateId, name: defaultStateName } }, cardKey);
   };
 
   const handleAddDropdown = (event, value) => {
@@ -207,15 +224,7 @@ console.log(chartData)
         setDateRange1Start(startDate);
         setDateRange1End(endDate);
         break;
-      case 'dateRange2':
-        newFilters = {
-          ...selectedFilters,
-          startDateRange2: formattedStartDate,
-          endDateRange2: formattedEndDate
-        };
-        setDateRange2Start(startDate);
-        setDateRange2End(endDate);
-        break;
+      
       default:
         break;
     }
@@ -325,6 +334,11 @@ console.log(chartData)
 
         
       </CardContent>
+      {chartData.labels.length == 0 ?(
+        <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
+        <CircularProgress />
+      </Box>
+      ):(
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
         <div style={{ minWidth: "800px",minHeight:"400px" }}>
           <Chart
@@ -357,7 +371,7 @@ console.log(chartData)
           />
         </div>
       </div>
-     
+      )}
     </Card>
  );
 }

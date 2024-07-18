@@ -18,20 +18,16 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import LightMode from '@mui/icons-material/LightMode';
 import DarkMode from '@mui/icons-material/DarkMode';
 
-// import { ColorModeContext } from "../..utils/ColorModeContext";
-import DrawerMenu from './DrawerMenu'
+import DrawerMenu from './DrawerMenu';
 import Avatar from '@mui/material/Avatar';
-
 import { Outlet } from "react-router-dom";
-
-// import logo_left from "../assets/images/logo_left.png";
 import { grey, indigo } from '@mui/material/colors';
-
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Stack } from '@mui/system';
-// import Footer from '../components/footer/Footer';
+import { useMediaQuery } from '@mui/material';
+
 const drawerWidth = 320;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -48,7 +44,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: 0
+      marginLeft: 0,
     }),
   }),
 );
@@ -74,7 +70,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
@@ -91,10 +86,10 @@ const Footer = styled('div', {
   top: 'unset',
   bottom: 0,
   zIndex: 20,
-  color:'white',
-  backgroundColor:'black',
-  textAlign:'center',
-  size:'8px',
+  color: 'white',
+  backgroundColor: 'black',
+  textAlign: 'center',
+  size: '8px',
   ...(open && {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: `${drawerWidth}px`,
@@ -105,25 +100,24 @@ const Footer = styled('div', {
   }),
 }));
 
-
 export default function PersistentDrawerLeft() {
   const theme = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(true);
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [open, setOpen] = React.useState(!isMobile);
   const [dark, setDark] = React.useState(false);
-  // const { toggleColorMode } = React.useContext(ColorModeContext);
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openE1 = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
-    navigate("/")
+    navigate("/");
   };
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -133,13 +127,10 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
- 
-  
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{backgroundColor:"#082f68"}}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#082f68" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -159,34 +150,18 @@ export default function PersistentDrawerLeft() {
           >
             <ChevronLeftIcon />
           </IconButton>
-        
+
           <Typography variant="h6" noWrap component="div">
             Public Data Dashboard
-            
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              // aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleDarkMode}
-              color="inherit"
-            >
-              {dark ? <DarkMode /> : <LightMode />}
-            </IconButton>
-          </Box> */}
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show more"
-              // aria-controls={mobileMenuId}
               aria-haspopup="true"
-              // onClick={handleMobileMenuOpen}
               onClick={handleClick}
               color="inherit"
             >
@@ -213,25 +188,21 @@ export default function PersistentDrawerLeft() {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor:'#082f68',
-            color:"white"
+            backgroundColor: '#082f68',
+            color: "white"
           },
         }}
         variant="persistent"
         anchor="left"
         open={open}
       >
-        <DrawerHeader sx={{backgroundColor:"white!important"}}>
-          <Box mr={10} >
-         
-                <img src={AuroLogo1} alt="Logo" height="40" />
-              
+        <DrawerHeader sx={{ backgroundColor: "white!important" }}>
+          <Box mr={10}>
+            <img src={AuroLogo1} alt="Logo" height="40" />
           </Box>
-          
         </DrawerHeader>
         <Divider />
         <DrawerMenu />
@@ -239,12 +210,10 @@ export default function PersistentDrawerLeft() {
       <Main open={open}>
         <DrawerHeader />
         <Outlet />
-        {/* <Footer /> */}
       </Main>
       <Footer position='fixed' open={open}>
         <Typography noWrap component="div">
-              {/* CMS {location.pathname} */}
-              &copy; 2024 All Rights Reserved
+          &copy; 2024 All Rights Reserved
         </Typography>
       </Footer>
     </Box>

@@ -29,6 +29,7 @@ import ParentalandHousehold from './pages/Dashboard/DashboardPages/Parental&Hous
 import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Household/ParentSchoolAttribute';
 
 function App() {
+  
   return (
     <SnackbarProvider>
       <ColorModeContextProvider>
@@ -53,7 +54,7 @@ function App() {
               <Route path="/studentLearningBehaviours" element={<StudentLearningBehaviour />} />
               <Route path="/studentInternetBehaviours" element={<StudentInternetBehaviourPatterns />} />
               <Route path="/studentR2Attributes" element={<StudentSchoolAttributes_R2 />} />
-              <Route path="/studentR1Attributes" element={<StudentSchoolAttributes_R1 />} />
+              <Route path="/studentR1Attributes/:id" element={<StudentSchoolAttributes_R1 />} />
               <Route path="/teacher_Attributes" element={<Teacher_Attributes />} />
               <Route path="/teacherTrainingData" element={<TeacherTrainingData />} />
               <Route path="/teacherSchoolParent" element={<TeacherSchoolParent />} />

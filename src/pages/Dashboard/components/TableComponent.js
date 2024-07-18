@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Grid, Typography, Autocomplete, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Autocomplete, TextField, Table,Box, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from 'dayjs';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -8,20 +8,21 @@ import { DatePicker } from "@mui/x-date-pickers";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useDispatch, useSelector } from "react-redux";
 import "../../../App.css";
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
-function TableComponent({ dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey }) {
-console.log(tableInfo)
+function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey }) {
+console.log(titleId)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
 
-  const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[0].id : '';
+  const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[Number(titleId)-1].id : '';
   const [selectedAttribute, setSelectedAttribute] = useState(initialAttribute);
-  const [dateRange1Start, setDateRange1Start] = useState(null);
-  const [dateRange1End, setDateRange1End] = useState(null);
-  const [dateRange2Start, setDateRange2Start] = useState(null);
-  const [dateRange2End, setDateRange2End] = useState(null);
+  const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
+  const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
+  const [dateRange2Start, setDateRange2Start] = useState(dayjs('2024-03-01'));
+  const [dateRange2End, setDateRange2End] = useState(dayjs('2024-03-31'));
   const tableData = tableInfo; 
  console.log(tableData)
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
@@ -114,7 +115,9 @@ const attributeOptions = {
 };
 
 
-
+useEffect(() => {
+  setSelectedAttribute(initialAttribute); // Update selectedAttribute when titleId changes
+}, [titleId]);
 
   useEffect(() => {
     const newDropdowns = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3) : [];
@@ -170,10 +173,7 @@ const attributeOptions = {
   };
 
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    // console.log(selectedAttribute)
-    // console.log(value)
-    // setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-    // onFilterChange(selectedAttribute,value)
+    
 
     let selectedValue = value;
     let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
@@ -374,7 +374,11 @@ const attributeOptions = {
           </Grid>
         </Grid>
 
-    
+        {tableInfo.length == 0 ?(
+        <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
+        <CircularProgress />
+      </Box>
+      ):(
 
 <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
@@ -422,6 +426,7 @@ const attributeOptions = {
             </TableBody>
           </Table>
         </TableContainer>
+      )}
       </CardContent>
     </Card>
   );
