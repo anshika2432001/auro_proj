@@ -1,0 +1,1016 @@
+{
+	"info": {
+		"_postman_id": "cb92e63e-114a-4660-91be-bd480510c82d",
+		"name": "Auro R Endpoints updated",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29868156"
+	},
+	"item": [
+		{
+			"name": "R1",
+			"item": [
+				{
+					"name": "1)\tMicro scholarship Quizzes - Average Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/micro-scholar-quiz-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"micro-scholar-quiz-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2)\tSubject Wise Breakdown - Average Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/subject-wise-breakdown-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"subject-wise-breakdown-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3)\tGrade wise- Average Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/grade-wise-avg-score-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"grade-wise-avg-score-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4)\tTopic wise breakdown - Average Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/topic-wise-avg-score-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"topic-wise-avg-score-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5)\tTotal Quiz Attempted",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/total-quiz-attempted-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"total-quiz-attempted-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6)\tTopic Wise Breakdown – Student Attempts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/topic-wise-student-attempts-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"topic-wise-student-attempts-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7)\tTopic wise breakdown - No. of microscholarship quizzes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/topic-wise-micro-scholar-quiz-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"topic-wise-micro-scholar-quiz-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8)\tTop Performing Topics",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/top-performing-topics-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"top-performing-topics-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9)\tWeak Performing Topics",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/weak-performing-topics-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"weak-performing-topics-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10) Core-Retake / Practice – (No of students)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/core-retake-practice-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"core-retake-practice-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11)\t Core-Retake- (% improvement)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/core-retake-improvement-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"core-retake-improvement-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12) Subject wise breakdown - % improvement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/subject-wise-breakdown-improve-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"subject-wise-breakdown-improve-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13) Grade Wise Breakdown - % improvement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/grade-wise-breakdown-improve-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"grade-wise-breakdown-improve-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14) Topic Wise Breakdown - % improvement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r1/topic-wise-breakdown-improve-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r1",
+								"topic-wise-breakdown-improve-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "R4",
+			"item": [
+				{
+					"name": "1) Students taking vocational courses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/students-taking-vocational-courses-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"students-taking-vocational-courses-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2) Students who want to access vocational courses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/students-want-access-vocational-courses-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"students-want-access-vocational-courses-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3) Want to  access internship",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/students-want-access-internship-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"students-want-access-internship-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4) Students likely to attend higher education",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/students-likely-attend-higher-education-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"students-likely-attend-higher-education-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5) Number of students who are confident that they have knowledge of career options",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/students-confident-knowledge-career-options-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"students-confident-knowledge-career-options-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6) Student career domains",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r4/student-career-domains-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r4",
+								"student-career-domains-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "R2",
+			"item": [
+				{
+					"name": "2) Student strength of the classroom:",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/student-strength-classroom-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"student-strength-classroom-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4) Academic Stream",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/academic-streams-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"academic-streams-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6) Social Group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/social-group-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"social-group-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7) Student with access to bank account/ UPI",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/student-access-bank-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"student-access-bank-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8) Students' engagement in extracurricular activities in school",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/student-engagement-activities-school-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"student-engagement-activities-school-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9) No. of students in leadership positions in school clubs in the school",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r2/student-leadership-position-school-clubs-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r2",
+								"student-leadership-position-school-clubs-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "R3",
+			"item": [
+				{
+					"name": "1)\tStudent learning style preferences",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\":null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-learning-style-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-learning-style-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2)\tStudent preferences on collaborative learning style (Social, Solitary, small group, other)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-collaborative-learning-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-collaborative-learning-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3)\tChildren who read other materials in addition to textbooks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-read-material-addition-textbooks-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-read-material-addition-textbooks-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4)\tHours of individual study/practice per day (does not include tuition)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/hours-individual-study-per-day-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"hours-individual-study-per-day-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5)\tPaid Private Tuition – Hours",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/paid-private-tuition-hours-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"paid-private-tuition-hours-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8)\t Student hours spent on mobile phones – study",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-hours-spend-mobile-study-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-hours-spend-mobile-study-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9)\tChildren having access to digital devices at home",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-access-digital-devices-home-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-access-digital-devices-home-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10)\tStudents using learning apps at home",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/r3/student-using-learning-apps-home-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"r3",
+								"student-using-learning-apps-home-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
