@@ -125,9 +125,41 @@ public class FilterDropdownsQuery {
             "FROM student_extra_data;\n";
 
 
-    public static String childMotherEducation = "SELECT DISTINCT child_mother_qualification FROM parent_extra_data;" ;
+//    public static String childMotherEducation = "SELECT DISTINCT child_mother_qualification FROM parent_extra_data;" ;
+//
+//    public static String childFatherEducation = "SELECT DISTINCT child_father_qualification FROM parent_extra_data;" ;
 
-    public static String childFatherEducation = "SELECT DISTINCT child_father_qualification FROM parent_extra_data;" ;
+
+    public static String childMotherEducation = "SELECT\n" +
+            "\tDISTINCT ped.child_mother_qualification,\n" +
+            "\tCASE\n" +
+            "\t\tWHEN ped.child_mother_qualification = 1 THEN 'No schooling'\n" +
+            "        \tWHEN ped.child_mother_qualification = 2 THEN 'Class I - V'\n" +
+            "        \tWHEN ped.child_mother_qualification = 3 THEN 'Class VI - X'\n" +
+            "        \tWHEN ped.child_mother_qualification = 4 THEN 'Class XI - XII'\n" +
+            "        \tWHEN ped.child_mother_qualification = 5 THEN 'Graduate'\n" +
+            "       \t\tWHEN ped.child_mother_qualification = 6 THEN 'Post Graduate'\n" +
+            "        \tWHEN ped.child_mother_qualification = 7 THEN 'PhD'\n" +
+            "        \tELSE NULL\n" +
+            "\t\tEND AS mother_education\n" +
+            "FROM\n" +
+            "\tparent_extra_data ped;" ;
+
+    public static String childFatherEducation = "SELECT\n" +
+            "\tDISTINCT ped.child_father_qualification,\n" +
+            "\tCASE\n" +
+            "\t\tWHEN ped.child_father_qualification = 1 THEN 'No schooling'\n" +
+            "        \tWHEN ped.child_father_qualification = 2 THEN 'Class I - V'\n" +
+            "        \tWHEN ped.child_father_qualification = 3 THEN 'Class VI - X'\n" +
+            "        \tWHEN ped.child_father_qualification = 4 THEN 'Class XI - XII'\n" +
+            "        \tWHEN ped.child_father_qualification = 5 THEN 'Graduate'\n" +
+            "        \tWHEN ped.child_father_qualification = 6 THEN 'Post Graduate'\n" +
+            "        \tWHEN ped.child_father_qualification = 7 THEN 'PhD'\n" +
+            "        \tELSE NULL\n" +
+            "\t\tEND AS father_education\n" +
+            "FROM\n" +
+            "\tparent_extra_data ped;" ;
+
 
     public static String language = "SELECT language_id, language_name FROM language_master ORDER BY language_id;";
 
@@ -141,6 +173,17 @@ public class FilterDropdownsQuery {
             "\tstudent_extra_data;";
 
 
-    public static String householdIncome = "select distinct household_income from parent_extra_data;";
+    public static String householdIncome = "SELECT\n" +
+            "\tDISTINCT ped.household_income,\n" +
+            "\tCASE\n" +
+            "\t\tWHEN ped.household_income = 1 THEN 'Over INR 30 Lakhs'\n" +
+            "        WHEN ped.household_income = 2 THEN 'INR 5 Lakhs - 30 Lakhs'\n" +
+            "        WHEN ped.household_income = 3 THEN 'INR 1.25 Lakhs - 5 Lakhs'\n" +
+            "        WHEN ped.household_income = 4 THEN 'Less than INR 1.25 Lakhs'\n" +
+            "\tEND AS income_household\n" +
+            "FROM\n" +
+            "\tparent_extra_data ped\n" +
+            "WHERE\n" +
+            "\tped.household_income IN ('1','2','3','4');";
 
 }
