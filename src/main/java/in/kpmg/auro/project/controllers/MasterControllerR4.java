@@ -16,41 +16,6 @@ public class MasterControllerR4 {
     private MasterServicesR4 masterServicesR4;
 
 
-    @PostMapping("/students-taking-vocational-courses")
-    public ApiResponse2<?> studentsTakingVocationalCourses(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.studentTakingVocationalCourse(payloadDto);
-    }
-
-    @PostMapping("/students-want-access-vocational-courses")
-    public ApiResponse2<?> studentsWantAccessVocationalCourses(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.studentsWantAccessVocationalCourses(payloadDto);
-    }
-
-    @PostMapping("/students-want-access-internship")
-    public ApiResponse2<?> studentsWantAccessInternship(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.studentsWantAccessInternship(payloadDto);
-    }
-
-    @PostMapping("/students-likely-attend-higher-education")
-    public ApiResponse2<?> studentsLikelyAttendHigherEducation(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.studentsLikelyAttendHigherEducation(payloadDto);
-    }
-
-    @PostMapping("/students-confident-knowledge-career-options")
-    public ApiResponse2<?> numberOfStudentsConfidentKnowledgeOfCareerOptions(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.numberOfStudentsConfidentKnowledgeOfCareerOptions(payloadDto);
-    }
-
-    @PostMapping("/student-career-domains")
-    public ApiResponse2<?> studentCareerDomain(@RequestBody RFourPayloadDto payloadDto){
-        return masterServicesR4.studentCareerDomain(payloadDto);
-
-    }
-
-//    --------------------------------------------------------------------------------
-//    state -region
-
-
     @PostMapping("/students-taking-vocational-courses-stats")
     public ApiResponse2<?> studentsTakingVocationalCoursesStats(@RequestBody RFourPayloadDto payloadDto){
         return masterServicesR4.studentTakingVocationalCourseStats(payloadDto);
@@ -81,4 +46,6 @@ public class MasterControllerR4 {
         return masterServicesR4.studentCareerDomainStats(payloadDto);
 
     }
+
+
 }

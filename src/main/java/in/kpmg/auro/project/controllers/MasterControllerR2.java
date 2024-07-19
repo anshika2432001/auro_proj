@@ -16,49 +16,6 @@ public class MasterControllerR2 {
     private MasterServicesR2 masterServicesR2;
 
 
-    @PostMapping("/student-strength-classroom")
-    public ApiResponse2<?> studentStrengthOfClassroom (@RequestBody RTwoPayloadDto payloadDto){
-        return masterServicesR2.studentStrengthOfClassroom(payloadDto);
-    }
-
-
-    @PostMapping("/academic-streams")
-    public ApiResponse2<?> academicStreams(@RequestBody RTwoPayloadDto payloadDto){
-
-        return masterServicesR2.academicStreams(payloadDto);
-    }
-
-    @PostMapping("/social-group")
-    public ApiResponse2<?> socialGroup(@RequestBody RTwoPayloadDto payloadDto){
-
-        return masterServicesR2.socialGroup(payloadDto);
-    }
-
-
-    @PostMapping("/student-access-bank")
-    public ApiResponse2<?> studentAccessBank(@RequestBody RTwoPayloadDto payloadDto){
-
-        return masterServicesR2.studentAccessBankAccount(payloadDto);
-    }
-
-    @PostMapping("/student-engagement-activities-school")
-    public ApiResponse2<?> studentEngagementActivitiesSchool(@RequestBody RTwoPayloadDto payloadDto){
-
-        return masterServicesR2.studentEngagementActivitiesSchool(payloadDto);
-    }
-
-    @PostMapping("/student-leadership-position-school-clubs")
-    public ApiResponse2<?> studentsInLeadershipPositionsInSchoolClubs(@RequestBody RTwoPayloadDto payloadDto){
-
-        return masterServicesR2.studentsInLeadershipPositionsInSchoolClubs(payloadDto);
-    }
-
-
-
-//    --------------------------------------------------------------------------------------
-
-
-
     @PostMapping("/student-strength-classroom-stats")
     public ApiResponse2<?> studentStrengthOfClassroomStats(@RequestBody RTwoPayloadDto payloadDto){
         return masterServicesR2.studentStrengthOfClassroomStats(payloadDto);
