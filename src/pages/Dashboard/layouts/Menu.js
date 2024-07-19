@@ -121,44 +121,49 @@ export const menu = [
     items: [
       {
         
-            title: "PrePrimary School",
-            pageLink: '/studentR2Attributes',
+            title: "Pre-Primary School",
+            pageLink: '/studentR2Attributes/1',
             view: <StudentSchoolAttributes_R2 />,
           },
           {
             title: "Student Strength of the Classroom",
-            pageLink: '/studentR2Attributes',
+            pageLink: '/studentR2Attributes/2',
             view: <StudentSchoolAttributes_R2 />,
           },
           {
             title: "Types of Student Clubs",
-            pageLink: '/studentR2Attributes',
+            pageLink: '/studentR2Attributes/3',
             view: <StudentSchoolAttributes_R2 />,
           },
         {
           title: "Academic Stream",
-          pageLink: '/studentR2Attributes',
+          pageLink: '/studentR2Attributes/4',
           view: <StudentSchoolAttributes_R2 />,
         },
       {
-        title: "First or home language is the same as that in the school",
-        pageLink: '/studentR2Attributes',
-            view: <StudentSchoolAttributes_R2 />,
-      },
-      {
-        title: "Student with access to Bank Acoount/ UPI ",
-        pageLink: '/studentR2Attributes',
+        title: "Student with access to Bank Account/ UPI",
+        pageLink: '/studentR2Attributes/5',
             view: <StudentSchoolAttributes_R2 />,
       },
       {
         title: "Students engagement in extra curricular activities in school",
-        pageLink: '/studentR2Attributes',
+        pageLink: '/studentR2Attributes/6',
+            view: <StudentSchoolAttributes_R2 />,
+      },
+      {
+        title: "Children whose first or home language is the same as that in the school ",
+        pageLink: '/studentR2Attributes/7',
         view: <StudentSchoolAttributes_R2 />,
       },
 
       {
-        title: "Students in leadership positions in school clubs",
-        pageLink: '/studentR2Attributes',
+        title: "Social Groups",
+        pageLink: '/studentR2Attributes/8',
+        view: <StudentSchoolAttributes_R2 />,
+      }, 
+      {
+        title: "No. of Students in leadership positions in school clubs in the school ",
+        pageLink: '/studentR2Attributes/9',
         view: <StudentSchoolAttributes_R2 />,
       }, 
      
@@ -177,32 +182,32 @@ export const menu = [
         items: [
           {
             title: "Hours of individual study/practice per day",
-        pageLink: '/studentLearningBehaviours',
+        pageLink: '/studentLearningBehaviours/1',
         view: <StudentLearningBehaviour />,
           },
           {
             title: "Student learning style preferences",
-        pageLink: '/studentLearningBehaviours',
+        pageLink: '/studentLearningBehaviours/2',
         view: <StudentLearningBehaviour />,
           },
           {
-            title: "Student collaborative learning style preferences",
-        pageLink: '/studentLearningBehaviours',
+            title: "Student preferences collaborative learning style preferences",
+        pageLink: '/studentLearningBehaviours/3',
         view: <StudentLearningBehaviour />,
           },
         {
           title: "Paid Private Tuition Hours",
-        pageLink: '/studentLearningBehaviours',
+        pageLink: '/studentLearningBehaviours/4',
         view: <StudentLearningBehaviour />,
         },
       {
         title: "Children who read other materials in addition to textbooks",
-        pageLink: '/studentLearningBehaviours',
+        pageLink: '/studentLearningBehaviours/5',
         view: <StudentLearningBehaviour />,
       },
       {
-        title: "Paid Private Tuition Subjectwise",
-        pageLink: '/studentLearningBehaviours',
+        title: "Paid Private Tuition - Subject studied",
+        pageLink: '/studentLearningBehaviours/6',
         view: <StudentLearningBehaviour />,
       }
 
@@ -215,38 +220,38 @@ export const menu = [
         view: <StudentInternetBehaviourPatterns />,
         items: [
           {
-            title: "Students hours spent on mobile phone - social/entertainment",
-            pageLink: '/studentInternetBehaviours',
+            title: "Student hours spent on mobile phones - social/entertainment",
+            pageLink: '/studentInternetBehaviours/1',
             view: <StudentInternetBehaviourPatterns />,
           },
           {
             title: "Children having access to digital devices at home",
-            pageLink: '/studentInternetBehaviours',
+            pageLink: '/studentInternetBehaviours/2',
             view: <StudentInternetBehaviourPatterns />,
           },
           {
             title: "Students using learning apps at home",
-            pageLink: '/studentInternetBehaviours',
+            pageLink: '/studentInternetBehaviours/3',
             view: <StudentInternetBehaviourPatterns />,
           },
         {
           title: "Edtech Product Type",
-          pageLink: '/studentInternetBehaviours',
+          pageLink: '/studentInternetBehaviours/4',
           view: <StudentInternetBehaviourPatterns />,
         },
       {
-        title: "Students having social media accounts",
-        pageLink: '/studentInternetBehaviours',
+        title: "Students who have one or more social media accounts",
+        pageLink: '/studentInternetBehaviours/5',
         view: <StudentInternetBehaviourPatterns />,
       },
       {
         title: "Types of sites",
-        pageLink: '/studentInternetBehaviours',
+        pageLink: '/studentInternetBehaviours/6',
         view: <StudentInternetBehaviourPatterns />,
       },
       {
         title: "Student hours spent on mobile phones - study",
-        pageLink: '/studentInternetBehaviours',
+        pageLink: '/studentInternetBehaviours/7',
         view: <StudentInternetBehaviourPatterns />,
       }
 
@@ -419,47 +424,42 @@ export const menu = [
         items: [
           {
             title: "Students taking vocational courses",
-            pageLink: '/studentCareerGrowth',
+            pageLink: '/studentCareerGrowth/1',
             view: <StudentCareerGrowth_R4 />,
           },
           {
-            title: "Number of students likely to attend higher education",
-            pageLink: '/studentCareerGrowth',
+            title: "Students who want to access internship",
+            pageLink: '/studentCareerGrowth/2',
             view: <StudentCareerGrowth_R4 />,
           },
           {
-            title: "Students who want to access vocational courses",
-            pageLink: '/studentCareerGrowth',
+            title: "Students likely to attend higher education",
+            pageLink: '/studentCareerGrowth/3',
             view: <StudentCareerGrowth_R4 />,
           },
         {
-          title: "Students who are confident that they have knowledge of career options",
-          pageLink: '/studentCareerGrowth',
+          title: "Number of students who are confident that they have knowledge of career options",
+          pageLink: '/studentCareerGrowth/4',
           view: <StudentCareerGrowth_R4 />,
         },
       {
         title: "Student career domains",
-        pageLink: '/studentCareerGrowth',
+        pageLink: '/studentCareerGrowth/5',
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Student career domains - STEM/Non-STEM",
-        pageLink: '/studentCareerGrowth',
+        title: "Students confident in the communication skills, problem solving, team building",
+        pageLink: '/studentCareerGrowth/6',
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Students confident in skills- communication skills, problem solving, team building",
-        pageLink: '/studentCareerGrowth',
+        title: "Number of students accessing preparatory classes for higher education (college)",
+        pageLink: '/studentCareerGrowth/7',
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Students accessing preparatory classes for higher education",
-        pageLink: '/studentCareerGrowth',
-        view: <StudentCareerGrowth_R4 />,
-      },
-      {
-        title: "Students who want to access internship",
-        pageLink: '/studentCareerGrowth',
+        title: "Students who want to access vocational courses",
+        pageLink: '/studentCareerGrowth/8',
         view: <StudentCareerGrowth_R4 />,
       },
 

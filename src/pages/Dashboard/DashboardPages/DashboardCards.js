@@ -7,6 +7,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from 'dayjs';
+import DashboardCardComponent from '../components/DashboardCardComponent';
 
 const useStyles = makeStyles({
 
@@ -20,240 +22,211 @@ const useStyles = makeStyles({
  
 });
 
+const dropdownOptions = [
+  { id: 1, value: 'Number of Students' },
+  { id: 2, value: 'Number of Schools' },
+  { id: 3, value: 'Number of Teachers' },
+  { id: 4, value: 'Number of Parents' },
+
+]
+
+const attributeBasedDropdowns = {
+  1: ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'],
+  2: ['Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', ],
+  3: ['Board of Education', 'School Location', 'School Management', 'School Category', 'School Type','Qualification','Mode of Employment','Gender'],
+  4: ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'],
+};
+
+const endpointMapping = {
+  1: '/dashboard/student-count',
+  2: '/dashboard/student-count',
+  3: '/dashboard/teacher-count',
+  4: '/dashboard/parent-count',
+}
+
 const colors = [
   'rgba(255,99,132,1)', 'rgba(255,159,64,1)', 'rgba(255,205,86,1)', 'rgba(75,192,192,1)', 'rgba(54,162,235,1)', 'rgba(153,102,255,1)', 'rgba(201,203,207,1)',
 ];
 
 const capitalizeWords = (s) => s.replace(/\b\w/g, char => char.toUpperCase());
 
-const attributeOptions = {
-  Gender: ['All', 'Male', 'Female', 'Other', 'Prefer not to say'],
-  'School Location': ['All', 'Rural', 'Urban'],
-  'School Type': ['All', 'Girls', 'Boys', 'Co-Ed'],
-  'Age Group': ['All', 'upto 6', '6-10', '11-13', '14-15', '16-17', '>17'],
-  Grade: ['All', 'Pre-Primary', 'Primary', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-  'Social Group': ['All', 'SC', 'ST', 'OBC', 'General', 'Other'],
-  'Board of Education': ['All', 'CBSE', 'State Board', 'ICSE', 'International Board', 'Others', 'Both CBSE and State Board'],
-};
-
-const attributeBasedDropdowns = {
-  Students: ['Gender', 'School Location', 'Age Group'],
-  Schools: ['Gender', 'Grade', 'Board of Education'],
-  Teachers: ['School Location', 'Age Group', 'Grade'],
-  Parents: ['Grade', 'Gender', 'School Location'],
-};
-
-const ChartCard = ({ title, dataKey, data }) => {
-  const [filterOptions,setFilterOptions] = useState({});
 
 
-  
 
 
-  const classes = useStyles();
-  const [selectedAttribute, setSelectedAttribute] = useState(title);
-  const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
-  const [availableFilters, setAvailableFilters] = useState([]);
-  const [showAddMore, setShowAddMore] = useState(true);
-  const [selectedFilters, setSelectedFilters] = useState(
-    (attributeBasedDropdowns[selectedAttribute] || []).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
-  );
-  const [dateRangeStart, setDateRangeStart] = useState(null);
-  const [dateRangeEnd, setDateRangeEnd] = useState(null);
-  useEffect(() => {
-    const usedFilters = new Set(dropdowns);
-    setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
-  }, [dropdowns]);
-
-  const handleFilterChange = (dropdownLabel) => (event, value) => {
-    setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-  };
-
-  const handleAddDropdown = (event, value) => {
-    if (value) {
-      setDropdowns((prev) => [...prev, value]);
-      setSelectedFilters((prev) => ({ ...prev, [value]: 'All' }));
-      setShowAddMore(true);
-    }
-  };
-
-  return (
-    <Card className="dashboard-card">
-      <Typography 
-        variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px', color: '#fff',marginBottom:"20px" }}
-      >
-        Number of {title}
-      </Typography>
-      <Grid container spacing={1}>
-          {dropdowns.map((dropdownLabel, index) => (
-            <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
-              <Autocomplete
-                options={attributeOptions[dropdownLabel]}
-                getOptionLabel={(option) => option}
-                value={selectedFilters[dropdownLabel]}
-                onChange={handleFilterChange(dropdownLabel)}
-                renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
-              />
-            </Grid>
-          ))}
-          {availableFilters.length > 0 && showAddMore && (
-            <Grid item xs={12} sm={4} md={4} lg={4}>
-              <IconButton
-                onClick={() => setShowAddMore(false)}
-                color="primary"
-                aria-label="add more filters"
-                sx={{ p: 0, m: 0 }}
-              >
-                <AddCircleIcon />
-              </IconButton>
-            </Grid>
-          )}
-          {!showAddMore && (
-            <Grid item xs={12} sm={4} md={4} lg={4}>
-              <Autocomplete
-                options={availableFilters}
-                getOptionLabel={(option) => option}
-                onChange={handleAddDropdown}
-                renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
-              />
-            </Grid>
-          )}
-        </Grid>
-        <Grid container spacing={1} sx={{ mt: 1,mb:1 }}>
-          <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="body1" sx={{ mt: 1, textAlign: 'center' }}>Date Range:</Typography>
-           </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="From Date"
-                    value={dateRangeStart}
-                    onChange={(newValue) => setDateRangeStart(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="To Date"
-                    value={dateRangeEnd}
-                    onChange={(newValue) => setDateRangeEnd(newValue)}
-                    renderInput={(params) => <TextField {...params} size="small" />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
-          
-      <CardContent className={classes.content}>
-        
-        <ResponsiveContainer width="100%" height={data.length * 20}>
-          <BarChart
-            data={data}
-            layout="vertical"
-            margin={{ top: 15, right: 20, bottom: 7 }}
-          >
-            <CartesianGrid strokeDasharray="0" />
-            <XAxis
-              type="number"
-              tick={{ fontSize: 12 }}
-              interval={0}
-              domain={[0, 'dataMax']}
-              label={{
-                value: `Number of ${title}`,
-                position: 'insideBottom',
-                offset: -5,
-                style: { textAnchor: 'middle' },
-                x: '50%',
-              }}
-            />
-            <YAxis
-              type="category"
-              dataKey="state"
-              width={160} // Increase the width to accommodate longer state names
-              tick={{ fontSize: 12, textAnchor: 'end' }}
-              interval={0}
-              label={{
-                value: 'States',
-                angle: -90,
-                position: 'insideLeft',
-                style: { textAnchor: 'middle' },
-              }}
-            />
-            <Tooltip cursor={{fill: 'transparent'}} formatter={(value) => `${value}`} />
-            <Bar dataKey={dataKey} isAnimationActive={false}>
-              {data.map((entry, index) => (
-                <Bar key={`bar-${index}`} fill={entry.fill} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
-  );
-};
 
 const DashboardCards = () => {
-  const [dashboardData, setDashboardData] = useState({
-    studentCount: [],
-    parentCount: [],
-    teacherCount: [],
-    schoolCount: [],
+  const defaultDateRange1Start = dayjs('2024-01-01');
+  const defaultDateRange1End = dayjs('2024-01-31');
+
+  let defaultStartDateRange1= defaultDateRange1Start.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+  let defaultEndDateRange1= defaultDateRange1End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+ 
+  const [loading,setLoading]=useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  });
+
+  const [filters, setFilters] = useState({
+    1: {},
+    2: {},
+    3: {},
+    4: {},
+  });
+  const [cardTitle, setCardTitle] = useState({
+    1: dropdownOptions[0],
+    2: dropdownOptions[1],
+    3: dropdownOptions[2],
+    4: dropdownOptions[3],
+  });
+
+  const [cardData, setCardData] = useState({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
   });
 
   useEffect(() => {
-    getDashboardInfo();
+    // getDashboardInfo();
+    fetchData(1, filters[1],1);
+    fetchData(2, filters[2],2);
+  fetchData(3, filters[3],3);
+  fetchData(4, filters[4],4);
   }, []);
+  const fetchData = async (key, value,cardKey) => {
+    setLoading(prevValue => ({
+      ...prevValue,
+      [cardKey]: true,
+    }));
+    
+    const endpoint = endpointMapping[key];
 
-
-  const getDashboardInfo = async () => {
     try {
-      const res = await axios.get('/dashboard-stats-data');
-      const result = res.data.result;
+      let payload = {
+        transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1 : defaultStartDateRange1) : defaultStartDateRange1,
+        transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1 : defaultEndDateRange1) : defaultEndDateRange1,
+        transactionDateFrom2: null,
+        transactionDateTo2: null,
+        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
+        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+        schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
+        stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) :  null,
+        districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
+        socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
+        gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
+        ageFrom: null,
+        ageTo: null,
+        educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
+        schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
+        cwsn: value ? ((value['CWSN'] && value['CWSN'] !== 'All') ? value['CWSN'] : null) : null,
+        childMotherQualification: value ? ((value['Mother Education'] && value['Mother Education'] !== 'All') ? value['Mother Education'] : null) : null,
+        childFatherQualification: value ? ((value['Father Education'] && value['Father Education'] !== 'All') ? value['Father Education'] : null) : null,
+        householdId: value ? ((value['Annual Income'] && value['Annual Income'] !== 'All') ? value['Annual Income'] : null) : null,
+      };
 
-      const studentCount = result.studentCount.map((item, index) => ({
-        state: capitalizeWords(item.state_name.toLowerCase()),
-        students: item.num_students,
-        fill: colors[index % colors.length],
-      }));
-      const parentCount = result.parentCount.map((item, index) => ({
-        state: capitalizeWords(item.state_name.toLowerCase()),
-        parents: item.num_parents,
-        fill: colors[index % colors.length],
-      }));
-      const teacherCount = result.teacherCount.map((item, index) => ({
-        state: capitalizeWords(item.state_name.toLowerCase()),
-        teachers: item.num_teachers,
-        fill: colors[index % colors.length],
-      }));
-      const schoolCount = result.schoolCount.map((item, index) => ({
-        state: capitalizeWords(item.state_name.toLowerCase()),
-        schools: item.num_schools,
-        fill: colors[index % colors.length],
-      }));
+      if (value && value['Age Group'] && value['Age Group'] !== 'All') {
+        const ageRange = value['Age Group'].split('-');
+        payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
+        payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
+      }
+     
 
-      setDashboardData({ studentCount, parentCount, teacherCount, schoolCount });
+      const res = await axios.post(endpoint, payload);
+       
+       if(res.data.status && res.data.statusCode == 200){
+        setLoading(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
+          const result = res.data.result;
+         
+          
+          const parsedData = parseResultData(key, result);
+
+              setCardData(prevCardData => ({
+              ...prevCardData,
+               [cardKey]: parsedData,
+              
+        }));
+      
+      
+
+        
+    }
+    else{
+      console.log("error")
+    }
     } catch (error) {
-      console.log(error);
+      console.error('Error fetching data:', error);
     }
   };
 
+  const parseResultData = (key, result) => {
+    const mappings = {
+      1: { key: 'state_name', dataOneKey: 'num_students' },
+      2: { key: 'state_name', dataOneKey: 'num_students',  },
+      3: { key: 'state_name', dataOneKey: 'num_teachers',},
+      4: { key: 'state_name', dataOneKey: 'num_parents',  },
+     
+    };
+
+    const { key: labelKey, dataOneKey} = mappings[key];
+    
+   
+    const labelsData = result.dataOne.map((item, index) => ({
+      state: item[labelKey],
+      [dataOneKey]: item[dataOneKey],
+      fill: colors[index % colors.length]
+    }));
+  
+    return labelsData;
+  };
+
+  
+  const onFilterChange = (key, value,cardKey) => {
+    
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [key]: value,
+    }));
+    const selectedOption = dropdownOptions.find(option => option.id === key);
+console.log(selectedOption)
+    setCardTitle(prevData => ({
+      ...prevData,
+      [cardKey]: selectedOption,
+    }));
+     fetchData(key, value,cardKey);
+  };
+
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <ChartCard title="Students" dataKey="students" data={dashboardData.studentCount} />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <ChartCard title="Schools" dataKey="schools" data={dashboardData.schoolCount} />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <ChartCard title="Teachers" dataKey="teachers" data={dashboardData.teacherCount} />
-      </Grid>
-      <Grid item xs={12} sm={12} md={6} lg={6}>
-        <ChartCard title="Parents" dataKey="parents" data={dashboardData.parentCount} />
-      </Grid>
-    </Grid>
+    <div>
+      <Grid container spacing={2}>
+      {dropdownOptions.slice(0, 4).map((option, index) => (
+        
+          <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
+            <DashboardCardComponent 
+             key={option.id}
+             
+           
+             title={cardTitle[option.id]} 
+             
+             attributeBasedDropdowns={attributeBasedDropdowns} 
+             chartData={cardData[option.id] || []}
+             onFilterChange={onFilterChange}
+             cardKey={option.id}
+             loadingStatus={loading[option.id]}
+             
+              
+            />
+          </Grid>
+         
+        ))}
+        </Grid>
+    </div>
   );
 };
 

@@ -162,8 +162,8 @@ const tableHeadings = [
 const StudentSchoolAttributes_R1 = () => {
    const titleId = useParams();
    const filterOptions = useSelector((state) => state.filterDropdown.data.result);
-   console.log(titleId.id)
   
+
   const defaultDateRange1Start = dayjs('2024-01-01');
   const defaultDateRange1End = dayjs('2024-01-31');
   const defaultDateRange2Start = dayjs('2024-03-01');
@@ -173,6 +173,12 @@ const StudentSchoolAttributes_R1 = () => {
   let defaultStartDateRange2= defaultDateRange2Start.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   let defaultEndDateRange2= defaultDateRange2End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   
+  const [loading,setLoading]=useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  });
 
   const [filters, setFilters] = useState({
     1: {},
@@ -209,7 +215,6 @@ useEffect(() => {
 
   useEffect(() => {
     
-   
     if(titleId.id && [1, 2, 3, 4].includes(Number(titleId.id))){
      
     fetchData(1, filters[1],1);
@@ -242,11 +247,12 @@ useEffect(() => {
   };
 
   const fetchData = async (key, value,cardKey) => {
-    
+    setLoading(prevValue => ({
+      ...prevValue,
+      [cardKey]: true,
+    }));
     
     const endpoint = endpointMapping[key];
-   
- 
 
     try {
       let payload = {
@@ -281,47 +287,42 @@ useEffect(() => {
       const res = await axios.post(endpoint, payload);
        
        if(res.data.status && res.data.statusCode == 200){
-        
-        
-      
-      const result = res.data.result;
-
-    
-
-      if(cardKey == 4){
-        console.log(filterOptions.states)
-        const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
-        const defaultStateName = filterOptions.states.find(state => state.state_id === stateValue)?.state_name
-        console.log(defaultStateName)
-        const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
-        
-        setCardData(prevCardData => ({
-          ...prevCardData,
-          [cardKey]: {
-            labels: labelsData,
-            datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
-          }
+        setLoading(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
         }));
-      }
-      else{
-        const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
-        setCardData(prevCardData => ({
-          ...prevCardData,
-          [cardKey]: {
-            labels: labelsData,
-            datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
+          const result = res.data.result;
+          if(cardKey == 4){
+              const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
+              const defaultStateName = filterOptions.states.find(state => state.state_id === stateValue)?.state_name
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
+              setCardData(prevCardData => ({
+                ...prevCardData,
+                [cardKey]: {
+                  labels: labelsData,
+                  datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
+                }
+               }));
+          }
+          else{
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+              setCardData(prevCardData => ({
+              ...prevCardData,
+              [cardKey]: {
+              labels: labelsData,
+              datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
         }));
       }
       
 
-      if (cardKey === 0) {
-        const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
-        setTableData(prevData => ({
-          ...prevData,
-          [cardKey]: newTableData,
-        }));
-      }
+        if (cardKey === 0) {
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+            setTableData(prevData => ({
+              ...prevData,
+              [cardKey]: newTableData,
+            }));
+        }
     }
     else{
       console.log("error")
@@ -438,7 +439,7 @@ console.log(selectedOption)
      fetchData(key, value,cardKey);
   };
 
-  console.log(cardTitle)
+
  
   
     return (
@@ -458,6 +459,7 @@ console.log(selectedOption)
              chartData={cardData[option.id] || defaultChartData}
              onFilterChange={onFilterChange}
              cardKey={option.id}
+             loadingStatus={loading[option.id]}
              
               
             />
@@ -474,6 +476,7 @@ console.log(selectedOption)
               chartData={cardData[option.id] || defaultChartData}
               onFilterChange={onFilterChange}
               cardKey={option.id}
+              loadingStatus={loading[option.id]}
               
             />
           </Grid>
@@ -489,6 +492,7 @@ console.log(selectedOption)
           tableHeadings={tableHeadings} 
           onFilterChange={onFilterChange}
           tableKey={0}
+          loadingStatus={loading[0]}
           />
         </Grid>
       </Grid>

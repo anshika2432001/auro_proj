@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 
-function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey }) {
+function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus }) {
 console.log(titleId)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
@@ -374,7 +374,7 @@ useEffect(() => {
           </Grid>
         </Grid>
 
-        {tableInfo.length == 0 ?(
+        {loadingStatus ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
       </Box>

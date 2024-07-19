@@ -51,14 +51,14 @@ function App() {
             {/* Routes with Header */}
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
-              <Route path="/studentLearningBehaviours" element={<StudentLearningBehaviour />} />
-              <Route path="/studentInternetBehaviours" element={<StudentInternetBehaviourPatterns />} />
-              <Route path="/studentR2Attributes" element={<StudentSchoolAttributes_R2 />} />
+              <Route path="/studentLearningBehaviours/:id" element={<StudentLearningBehaviour />} />
+              <Route path="/studentInternetBehaviours/:id" element={<StudentInternetBehaviourPatterns />} />
+              <Route path="/studentR2Attributes/:id" element={<StudentSchoolAttributes_R2 />} />
               <Route path="/studentR1Attributes/:id" element={<StudentSchoolAttributes_R1 />} />
               <Route path="/teacher_Attributes" element={<Teacher_Attributes />} />
               <Route path="/teacherTrainingData" element={<TeacherTrainingData />} />
               <Route path="/teacherSchoolParent" element={<TeacherSchoolParent />} />
-              <Route path="/studentCareerGrowth" element={<StudentCareerGrowth_R4 />} />
+              <Route path="/studentCareerGrowth/:id" element={<StudentCareerGrowth_R4 />} />
               <Route path="/schoolInfrastructure" element={<SchoolInfrastructure />} />
               <Route path="/parentalAndHousehold" element={<ParentalandHousehold />} />
               <Route path="/parentSchoolAttribute" element={<ParentSchoolAttribute />} />

@@ -16,8 +16,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({titleId, title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
-console.log(title)
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
+
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
     
 
@@ -363,7 +363,7 @@ console.log(selectedAttribute)
           </Grid>
         </Grid>
       </CardContent>
-      {chartData.labels.length == 0 ?(
+      {loadingStatus ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
       </Box>

@@ -14,7 +14,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey }) {
+function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
 console.log(chartData)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const defaultStateId = 7; 
@@ -121,16 +121,16 @@ console.log(chartData)
     setSelectedAttribute(title.id);
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': { id: defaultStateId, name: defaultStateName } }));
+    
+    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': defaultStateId }));
   }, [title, attributeBasedDropdowns]);
 
-  console.log(selectedFilters)
+ 
 
   useEffect(() => {
-    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
-    setSelectedFilters({ ...initialFilters, 'State': { id: defaultStateId, name: defaultStateName } });
-  }, [filterOptions]);
+   
+    setSelectedFilters({ ...initialFilters, 'State': defaultStateId });
+  }, [filterOptions,selectedAttribute]);
 
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
@@ -146,13 +146,24 @@ console.log(chartData)
   }, [filterOptions]);
 
   const handleAttributeChange = (event, value) => {
-    setSelectedAttribute(value.id);
-    const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
-    setDropdowns(newDropdowns);
-    const defaultStateName = attributeOptions["State"].find(state => state.id === defaultStateId)?.name || 'All';
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': { id: defaultStateId, name: defaultStateName } }));
-    onFilterChange(value.id, { ...selectedFilters, 'State': { id: defaultStateId, name: defaultStateName } }, cardKey);
+    console.log(value);
+  setSelectedAttribute(value.id);
+  const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+  setDropdowns(newDropdowns);
+  
+  let newFilters = {};
+  newDropdowns.forEach((dropdown) => {
+    if (dropdown === 'State') {
+      newFilters[dropdown] = defaultStateId;
+    } else {
+      newFilters[dropdown] = 'All';
+    }
+  });
+  newFilters['State'] = defaultStateId;
+  setSelectedFilters(newFilters);
+  onFilterChange(value.id, newFilters, cardKey);
   };
+  console.log(selectedFilters)
 
   const handleAddDropdown = (event, value) => {
     if (value) {
@@ -184,6 +195,7 @@ console.log(chartData)
   
     if (dropdownLabel === 'State') {
       selectedValue = value && value.id ? value.id : null;
+      console.log(selectedValue)
       newFilters = { 
         ...selectedFilters, 
         [dropdownLabel]: selectedValue, 
@@ -299,7 +311,7 @@ console.log(chartData)
           )}
         </Grid>
 
-        <Grid container columnSpacing={1} marginTop={0.5}>
+        <Grid container columnSpacing={0.5} marginTop={0.5}>
           <Grid item xs={12} sm={3} md={3} lg={3}>
             <Typography variant="h6"  mb={4}>Date Range </Typography>
            </Grid>
@@ -334,7 +346,7 @@ console.log(chartData)
 
         
       </CardContent>
-      {chartData.labels.length == 0 ?(
+      {loadingStatus ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
       </Box>
