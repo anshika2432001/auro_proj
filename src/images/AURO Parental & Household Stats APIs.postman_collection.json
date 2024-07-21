@@ -1,0 +1,624 @@
+{
+	"info": {
+		"_postman_id": "708635b1-d1af-4655-87eb-18d21ec46cb2",
+		"name": "AURO Parental & Household Stats APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29868156"
+	},
+	"item": [
+		{
+			"name": "Parental And Household Copy",
+			"item": [
+				{
+					"name": "1) Immigrant background",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/immigrant background-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"immigrant background-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2) Anyone of the parents who studied 12th",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/parents-studied-twelfth-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"parents-studied-twelfth-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3) Parent’s Annual Expenditure on Child’s Education",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/parents-annual-expenditure-child-education-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"parents-annual-expenditure-child-education-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4) Household has internet Connection",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/household-with-internet-connection-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"household-with-internet-connection-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5) Mother’s Level of Education",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/mother-education-qualification-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"mother-education-qualification-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "6) Anyone in the family who knows to operate a computer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/family-members-know-computer-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"family-members-know-computer-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "7) HOUSE TYPE",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/house-type-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"house-type-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "8) Household which have other reading materials",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/household-with-other-reading-materials-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"household-with-other-reading-materials-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9) Father’s Level of Education",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/father-education-qualification-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"father-education-qualification-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10) Average income of household",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/average-income-household-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"average-income-household-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11) Household has Electricity Connection",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/household-with-electricity-connection-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"household-with-electricity-connection-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12) Some adult at home reads with child every day",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/adult-reads-with-child-read-everyday-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"adult-reads-with-child-read-everyday-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13) Communication with teacher atleast once a month",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/communication-with-teacher-once-monthly-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"communication-with-teacher-once-monthly-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14) The Parent expects his/her child will graduate from high school one day",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 1,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/parent-expects-child-graduate-from-high-school-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"parent-expects-child-graduate-from-high-school-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15) Parent expectation that his/her child will go to college one day",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/parent-expects-child-goto-college-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"parent-expects-child-goto-college-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16) Frequency of parent teacher meetings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/frequency-parent-teacher-meeting-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"frequency-parent-teacher-meeting-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18) Schools provide guidance on how parents can support children in learning (Yes, No)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/school-guide-parents-support-children-learning-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"school-guide-parents-support-children-learning-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19) % Of schools, where parents have been made aware of learning levels",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/percent-schools-parents-aware-learning-levels-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"percent-schools-parents-aware-learning-levels-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "20) Schools informed parents about school activity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/schools-inform-parents-school-activity-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"schools-inform-parents-school-activity-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "21) Attend parent–teacher conferences (Yes, No)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/attend-parent-teacher-conferences-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"attend-parent-teacher-conferences-stats"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "22) Regularly participate in events at my child’s school (Yes, No)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transactionDateFrom1\": null,\r\n    \"transactionDateTo1\": null,\r\n    \"transactionDateFrom2\": null,\r\n    \"transactionDateTo2\": null,\r\n    \"languageId\": null,\r\n    \"grades\": null,\r\n    \"subject\": null,\r\n    \"schoolLocation\": null,\r\n    \"stateId\": 2,\r\n    \"districtId\": null,\r\n    \"socialGroup\": null,\r\n    \"gender\": null,\r\n    \"ageFrom\": null,\r\n    \"ageTo\": null,\r\n    \"educationBoard\": null,\r\n    \"schoolManagement\": null,\r\n    \"quizName\": null,\r\n    \"cwsn\": null,\r\n    \"childMotherQualification\": null,\r\n    \"childFatherQualification\": null,\r\n    \"householdId\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8091/auro/parent-household/parent-participate-events-child-school-stats",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"auro",
+								"parent-household",
+								"parent-participate-events-child-school-stats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
