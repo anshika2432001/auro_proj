@@ -79,6 +79,10 @@ public class DashboardServices {
             response.put("language",jdbcTemplate.queryForList(FilterDropdownsQuery.language));
             response.put("householdIncome",jdbcTemplate.queryForList(FilterDropdownsQuery.householdIncome));
             response.put("cwsn",jdbcTemplate.queryForList(FilterDropdownsQuery.cwsn));
+            response.put("genderTeachers",jdbcTemplate.queryForList(FilterDropdownsQuery.genderTeachers));
+            response.put("qualificationTeachers",jdbcTemplate.queryForList(FilterDropdownsQuery.qualificationTeachers));
+            response.put("modeOfEmploymentTeacher",jdbcTemplate.queryForList(FilterDropdownsQuery.modeOfEmploymentTeacher));
+
 
 
             return  new ApiResponse2<>(true, "Dashboard Stats Fetched",response, HttpStatus.OK.value());

@@ -186,4 +186,38 @@ public class FilterDropdownsQuery {
             "WHERE\n" +
             "\tped.household_income IN ('1','2','3','4');";
 
+    public static String genderTeachers= "select distinct \n" +
+            "\tCASE\n" +
+            "\t\tWhen gender = 'Male' Then 'Male'\n" +
+            "\t\tWHEN gender = 'Female' THEN 'Female'\n" +
+            "\t\tWHEN gender = 'Others' THEN 'Others'\n" +
+            "    END AS gender\n" +
+            "from teacher_master\n" +
+            "WHERE gender IN ('Male', 'Female', 'Others');";
+
+    public static String qualificationTeachers="select distinct\n" +
+            "\tqualification,\n" +
+            "\tCASE\n" +
+            "\t\twhen qualification = 1 then 'Below Secondary'\n" +
+            "        when qualification = 2 then 'Secondary'\n" +
+            "        when qualification = 3 then 'Higher Secondary'\n" +
+            "        when qualification = 4 then 'Graduate'\n" +
+            "        when qualification = 5 then 'Post Graduate'\n" +
+            "        when qualification = 6 then 'M.Phil.'\n" +
+            "        when qualification = 7 then 'Ph.D.'\n" +
+            "        when qualification = 8 then 'Post-Doctoral'\n" +
+            "\tEND as qualification\n" +
+            "FROM\n" +
+            "\tteacher_extra_data;";
+
+    public static String modeOfEmploymentTeacher = "select distinct\n" +
+            "\temployment_nature,\n" +
+            "\tCASE\n" +
+            "\t\twhen employment_nature = 1 then 'Regular'\n" +
+            "        when employment_nature = 2 then 'Contract'\n" +
+            "        when employment_nature = 3 then 'Part-Time/Guest'\n" +
+            "\tEND as employment_nature\n" +
+            "FROM\n" +
+            "\tteacher_extra_data;";
+
 }

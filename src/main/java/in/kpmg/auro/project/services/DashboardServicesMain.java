@@ -2,11 +2,14 @@ package in.kpmg.auro.project.services;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
 import in.kpmg.auro.project.dtos.DashboardInputDto;
+import in.kpmg.auro.project.dtos.TeachersPayloadDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -301,7 +304,7 @@ public class DashboardServicesMain {
 
     }
 
-    public ApiResponse2<?> teacherCountStats(DashboardInputDto payloadDto) {
+    public ApiResponse2<?> teacherCountStats(TeachersPayloadDto payloadDto) {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -310,109 +313,64 @@ public class DashboardServicesMain {
                 "    count(distinct tm.user_id) as num_teachers\n" +
                 "FROM\n" +
                 "\tteacher_master tm\n" +
+                "JOIN\n" +
+                "\tteacher_extra_data ted ON ted.user_id = tm.user_id\n" +
                 "JOIN \n" +
-                "\tteacher_student_mapping tsm ON tm.teacher_id = tsm.teacher_id\n" +
+                "\tteacher_student_mapping tsm ON tm.user_id = tsm.teacher_id\n" +
                 "JOIN\n" +
                 " \tstudent_demographic sd ON tsm.student_id = sd.user_id\n" +
                 "JOIN\n" +
-                "\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tstudent_master sm ON tsm.student_id = sm.user_id\n" +
                 "JOIN\n" +
-                "\texam_details ed ON sd.user_id = ed.user_id\n" +
-                "WHERE \n" +
-                "\t ed.attempted = 1 \n");
+                "\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "WHERE \n");
 
 
         List<Object> parameters = new ArrayList<>();
 
 
 
-//        if (payloadDto.getTransactionDateFrom1() != null
-//                && payloadDto.getTransactionDateTo1()!= null){
-//            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
-//            parameters.add(payloadDto.getTransactionDateFrom1());
-//            parameters.add(payloadDto.getTransactionDateTo1());
-//
-//        }
-//
-//        if (payloadDto.getTransactionDateFrom1() == null
-//                && payloadDto.getTransactionDateTo1() == null){
-//            query.append("\t\t(STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
-//            parameters.add("2022-01-11");
-//            parameters.add("2023-11-30");
-//
-//        }
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND tm.gender  = ? \n");
+            parameters.add(payloadDto.getGender());
+
+        }
+
+        if (payloadDto.getQualification() !=null){
+            query.append("\tAND ted.qualification = ? \n");
+            parameters.add(payloadDto.getQualification());
+
+        }
+
+        if (payloadDto.getEmploymentNature() !=null){
+            query.append("\tAND ted.employment_nature = ? \n");
+            parameters.add(payloadDto.getEmploymentNature());
+
+        }
+
+        if (payloadDto.getEmploymentNature() ==null){
+            query.append("\t ted.employment_nature = ? \n");
+            parameters.add(1);
+
+        }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ? \n");
             parameters.add(payloadDto.getGrades());
-        }
 
-        if (payloadDto.getSubject() != null){
-            query.append("\t\tAND ed.subject = ? \n");
-            parameters.add(payloadDto.getSubject());
-        }
-
-        if (payloadDto.getSchoolLocation() !=null){
-            query.append("\t\tAND sed.school_location = ? \n");
-            parameters.add(payloadDto.getSchoolLocation());
-        }
-
-        if (payloadDto.getStateId() !=null){
-            query.append("\tAND sd.state_id = ? \n");
-            parameters.add(payloadDto.getStateId());
-        }
-
-        if (payloadDto.getDistrictId() != null){
-            query.append("\tAND sd.district_id = ? \n");
-            parameters.add(payloadDto.getDistrictId());
-        }
-
-        if (payloadDto.getGender() !=null){
-            query.append("\tAND sd.gender = ? \n");
-            parameters.add(payloadDto.getGender());
-        }
-
-        if (payloadDto.getSocialGroup() !=null){
-            query.append("\tAND sed.social_group = ? \n");
-            parameters.add(payloadDto.getSocialGroup());
-        }
-
-        if (payloadDto.getCwsn() != null){
-            query.append("\tAND sed.cwsn = ? \n");
-            parameters.add(payloadDto.getCwsn());
         }
 
         if (payloadDto.getEducationBoard() !=null){
             query.append("\tAND sd.education_board = ? \n");
             parameters.add(payloadDto.getEducationBoard());
-        }
 
-//        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
-//            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
-//            parameters.add(payloadDto.getAgeFrom());
-//            parameters.add(payloadDto.getAgeTo());
-//        }
+        }
 
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
-        }
 
-        if (payloadDto.getChildMotherQualification() !=null){
-            query.append("\tAND ped.child_mother_qualification = ? \n");
-            parameters.add(payloadDto.getChildMotherQualification());
         }
-
-        if (payloadDto.getChildFatherQualification() !=null){
-            query.append("\tAND ped.child_father_qualification = ? \n");
-            parameters.add(payloadDto.getChildFatherQualification());
-        }
-
-        if (payloadDto.getHouseholdId() != null ){
-            query.append("\tAND ped.household_income = ? \n");
-            parameters.add(payloadDto.getHouseholdId());
-        }
-
 
 
         query.append("GROUP BY\n" +
@@ -426,7 +384,7 @@ public class DashboardServicesMain {
 
         response.put("dataOne",jdbcTemplate.queryForList(String.valueOf(query),parameters.toArray()));
 
-        return  new ApiResponse2<>(true, "Parents Count Stats Fetched",response, HttpStatus.OK.value());
+        return  new ApiResponse2<>(true, "Teachers Count Stats Fetched",response, HttpStatus.OK.value());
 
     }
 

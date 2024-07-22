@@ -2,6 +2,7 @@ package in.kpmg.auro.project.controllers;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
 import in.kpmg.auro.project.dtos.DashboardInputDto;
+import in.kpmg.auro.project.dtos.TeachersPayloadDto;
 import in.kpmg.auro.project.services.DashboardServicesMain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class DashboardControllerMain {
 
 
     @PostMapping("/teacher-count")
-    public ApiResponse2<?> teacherCountStats(@RequestBody DashboardInputDto payloadDto){
+    public ApiResponse2<?> teacherCountStats(@RequestBody TeachersPayloadDto payloadDto){
         return dashboardServicesMain.teacherCountStats(payloadDto);
     }
 
