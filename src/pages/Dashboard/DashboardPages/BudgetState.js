@@ -5,6 +5,7 @@ import axios from '../../../utils/axios';
 import BudgetCardComponent from '../components/BudgetCardComponent';
 import BudgetTableComponent from '../components/BudgetTableComponent';
 
+//attribute dropdown options
 const dropdownOptions = [
   { id: 1, value: 'Funds allocated for Assessment Cell in SCERT' },
   { id: 2, value: 'Public expenditure on education as a % of total public expenditure in the state' },
@@ -12,6 +13,7 @@ const dropdownOptions = [
   { id: 4, value: '% Of Samagra Siksha Funds received (against funds approved to the state) during the previous financial year - For Govt and Govt aided' }
 ];
 
+//filters based on attribute id
 const attributeBasedDropdowns = {
   1: ['State'],
   2: ['State'],
@@ -20,7 +22,7 @@ const attributeBasedDropdowns = {
 };
 
 
-
+//table headings
 const tableHeadings = [
   'Attributes', 
   'Date Range', 
@@ -39,6 +41,7 @@ const BudgetState = () => {
     getBudgetInfo();
   }, []);
 
+  //get budget details function
   const getBudgetInfo = async () => {
     try {
       const res = await axios.get('/budget-state-data');
@@ -52,6 +55,7 @@ console.log(result)
     }
   };
 
+//card data function
   const processChartData = (data) => {
     const labels = data.fundsAllocated.map(item => item.state_name);
     setFilterDropdown(labels);
@@ -80,11 +84,11 @@ console.log(result)
     }));
   };
 
+  //table data function
   const processTableData = (data, attributeId) => {
-    console.log(attributeId)
-    console.log(data)
+    
     const attributeData = data[Object.keys(data)[attributeId - 1]];
-    console.log(attributeData)
+    
     return attributeData.map(item => ({
      
       attributes: item.state_name,
@@ -101,7 +105,7 @@ console.log(result)
   };
 
   
-
+//card filter change function
   const handleCardFilterChange = async (attributeId, filterValue, cardIndex) => {
       const newTitle = dropdownOptions.find(option => option.id === attributeId).value;
     setTitles(prevTitles => {
@@ -127,19 +131,20 @@ console.log(result)
       console.log(error);
     }
   };
+  //table filterChange function
   const handleTableFilterChange = async (attributeId, filterValue, ) => {
     
   let payload = {
     attributeId: attributeId,
     stateName: filterValue
   };
-  console.log(payload)
+ 
   try {
     const res = await axios.post('/budget-filter', payload);
     const result = res.data.result;
-console.log(result)
+
 const newTableData = processTableDataForFilter(result, attributeId);
-console.log(newTableData)
+
 setTableData(newTableData);
     
   } catch (error) {
@@ -147,6 +152,7 @@ setTableData(newTableData);
   }
 };
 
+//process table data based on filters function
 const processTableDataForFilter = (data,attributeId)=> {
   console.log(data)
   console.log(attributeId)
@@ -167,6 +173,7 @@ const processTableDataForFilter = (data,attributeId)=> {
 
 }
 
+//process chart data based on filters function
   const processChartDataForFilter = (data, attributeId) => {
     const labels = data.map(item => item.state_name);
     const dataValues = data.map(item => {

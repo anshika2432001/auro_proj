@@ -24,6 +24,7 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
   const initialFilters = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: ['All'] }), {}) : {};
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
 
+   //updated filters based on  attributeBasedDropdowns and selectedAttribute
   useEffect(() => {
     const newDropdowns = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3) : [];
     setDropdowns(newDropdowns);
@@ -36,16 +37,13 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
     }, {}));
   }, [attributeBasedDropdowns, selectedAttribute]);
 
-  useEffect(() => {
-    const usedFilters = new Set(dropdowns);
-    setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
-  }, [dropdowns]);
-
+  //show avaialable filters in the dropdown which are not used or selected till now
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  //handle attribute change function
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value);
     const newDropdowns = attributeBasedDropdowns[value] || [];
@@ -54,6 +52,7 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
     onTableFilterChange(value, "");
   };
 
+  //add more dropdown function
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
@@ -66,9 +65,9 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
     }
   };
 
+  //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    // setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value }));
-    // onTableFilterChange(selectedAttribute, value);
+    
     if (dropdownLabel === 'State') {
       if (value.includes("All") && value.length > 1) {
         setSelectedFilters((prev) => ({ ...prev, [dropdownLabel]: value.filter(v => v !== "All") }));
@@ -86,6 +85,7 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
     }
   };
 
+  
   const handleShowMoreFilters = () => {
     setShowAddMore(false);
   };

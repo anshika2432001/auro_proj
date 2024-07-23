@@ -8,9 +8,9 @@ import CardFourComponent from '../components/CardFourComponent';
 import TableComponent from '../components/TableComponent';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-
+//attribute dropdown options
 const dropdownOptions = [
   { id: 1, value: 'Subject Wise Breakdown - Average Score' },
   { id: 2, value: 'Gradewise - Average Score' },
@@ -28,6 +28,7 @@ const dropdownOptions = [
   { id: 14, value: 'Topic wise breakdown - Student Attempts' }
 ];
 
+//filters based on attribute id
 const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'];
 
 const attributeBasedDropdowns = {};
@@ -36,7 +37,7 @@ dropdownOptions.forEach(option => {
 });
 
 
-
+//api endpoints
 const endpointMapping = {
   1: '/r1/subject-wise-breakdown-stats',
   2: '/r1/grade-wise-avg-score-stats',
@@ -54,6 +55,7 @@ const endpointMapping = {
   14: '/r1/topic-wise-student-attempts-stats',
 };
 
+//default chart data for first 3 cards
 const defaultChartData = {
   labels: [],
   datasets: [
@@ -101,6 +103,8 @@ const defaultChartData = {
     },
   ],
 };
+
+//default chart data for region vs panIndia card(fourth card)
 const defaultChartDataCard4 = {
   labels: [],
   datasets: [
@@ -150,7 +154,7 @@ const defaultChartDataCard4 = {
 };
 
 
-
+//table headings
 const tableHeadings = [
   
   'Number of Students', 
@@ -240,12 +244,13 @@ useEffect(() => {
 
 
 
- 
+ //fetch table details
   const fetchTableData = () => {
     const firstOption = dropdownOptions[Number(titleId.id)-1];
     fetchData(firstOption.id, filters[firstOption.id], 0);
   };
 
+  //fetch card details function
   const fetchData = async (key, value,cardKey) => {
     setLoading(prevValue => ({
       ...prevValue,
@@ -293,9 +298,12 @@ useEffect(() => {
         }));
           const result = res.data.result;
           if(cardKey == 4){
-              const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
-              const defaultStateName = filterOptions.states.find(state => state.state_id === stateValue)?.state_name
+            
+               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
+               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+              
               const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
+             
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -332,6 +340,7 @@ useEffect(() => {
     }
   };
 
+  //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
       1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
@@ -374,6 +383,7 @@ useEffect(() => {
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
   };
 
+  //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
       1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' },
@@ -410,6 +420,7 @@ useEffect(() => {
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg];
   };
 
+  //datasets creation for first three cards based on default chart data
   const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
     { ...defaultChartData.datasets[0], data: dataOne || [] },
     { ...defaultChartData.datasets[1], data: dataTwo || [] },
@@ -417,6 +428,7 @@ useEffect(() => {
     { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
   ];
 
+  //datasets creation for region vs panIndia card(4TH CARD) based on default chart data
   const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName) => [
     { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of Students (${defaultStateName})`, },
     { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
@@ -424,6 +436,7 @@ useEffect(() => {
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
 
+  //callback function when filter or attribute is changed
   const onFilterChange = (key, value,cardKey) => {
     
     setFilters(prevFilters => ({
@@ -431,7 +444,7 @@ useEffect(() => {
       [key]: value,
     }));
     const selectedOption = dropdownOptions.find(option => option.id === key);
-console.log(selectedOption)
+
     setCardTitle(prevData => ({
       ...prevData,
       [cardKey]: selectedOption,
@@ -440,7 +453,7 @@ console.log(selectedOption)
   };
 
 
- 
+ console.log(cardData)
   
     return (
     <div>

@@ -31,6 +31,7 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const chartRef = useRef(null);
 
+  //updated filters based on  attributeBasedDropdowns and selectedAttribute
   useEffect(() => {
     setCurrentAttribute(selectedAttribute);
     const newDropdowns = attributeBasedDropdowns[selectedAttribute] ? attributeBasedDropdowns[selectedAttribute].slice(0, 3) : [];
@@ -44,11 +45,13 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
     }, {}));
   }, [selectedAttribute, attributeBasedDropdowns]);
 
+  //show avaialable filters in the dropdown which are not used or selected till now
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+//handle attribute change function
   const handleAttributeChange = (event, value) => {
     if (value) {
       setCurrentAttribute(value.id);
@@ -56,6 +59,7 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
     }
   };
 
+//add more dropdown function
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
@@ -68,6 +72,7 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
     }
   };
 
+   //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
     if (dropdownLabel === 'State') {
       if (value.includes("All") && value.length > 1) {

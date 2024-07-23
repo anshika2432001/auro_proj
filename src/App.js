@@ -27,6 +27,7 @@ import StudentCareerGrowth_R4 from './pages/Dashboard/DashboardPages/StudentCare
 import SchoolInfrastructure from './pages/Dashboard/DashboardPages/SchoolInfrastructure';
 import ParentalandHousehold from './pages/Dashboard/DashboardPages/Parental&Household/Parental&Household';
 import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Household/ParentSchoolAttribute';
+import ViewDetailsComponent from './pages/Dashboard/components/ViewDetailsComponent';
 
 function App() {
   
@@ -51,6 +52,7 @@ function App() {
             {/* Routes with Header */}
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
+              <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />
               <Route path="/studentLearningBehaviours/:id" element={<StudentLearningBehaviour />} />
               <Route path="/studentInternetBehaviours/:id" element={<StudentInternetBehaviourPatterns />} />
               <Route path="/studentR2Attributes/:id" element={<StudentSchoolAttributes_R2 />} />
@@ -60,8 +62,8 @@ function App() {
               <Route path="/teacherSchoolParent" element={<TeacherSchoolParent />} />
               <Route path="/studentCareerGrowth/:id" element={<StudentCareerGrowth_R4 />} />
               <Route path="/schoolInfrastructure" element={<SchoolInfrastructure />} />
-              <Route path="/parentalAndHousehold" element={<ParentalandHousehold />} />
-              <Route path="/parentSchoolAttribute" element={<ParentSchoolAttribute />} />
+              <Route path="/parentalAndHousehold/:id" element={<ParentalandHousehold />} />
+              <Route path="/parentSchoolAttribute/:id" element={<ParentSchoolAttribute />} />
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
           </Routes>

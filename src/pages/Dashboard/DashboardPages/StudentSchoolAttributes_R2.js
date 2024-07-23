@@ -6,8 +6,9 @@ import CardFourComponent from '../components/CardFourComponent';
 import TableComponent from '../components/TableComponent';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 
+//attribute dropdown options
 const dropdownOptions = [
   { id: 1, value: 'Pre-Primary School' },
   { id: 2, value: 'Student Strength of the Classroom' },
@@ -20,6 +21,7 @@ const dropdownOptions = [
   { id: 9, value: 'No. of Students in leadership positions in school clubs in the school ' },
 ];
 
+//filters based on attribute id
 const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'];
 
 const attributeBasedDropdowns = {};
@@ -27,6 +29,7 @@ dropdownOptions.forEach(option => {
   attributeBasedDropdowns[option.id] = commonAttributes;
 });
 
+//api endpoints
 const endpointMapping = {
   
   2: '/r2/student-strength-classroom-stats',
@@ -37,6 +40,7 @@ const endpointMapping = {
   9: '/r2/student-leadership-position-school-clubs-stats',
 };
 
+//default chart data for first 3 cards
 const defaultChartData = {
   labels: [],
   datasets: [
@@ -85,6 +89,7 @@ const defaultChartData = {
   ],
 };
 
+//default chart data for region vs panIndia card(fourth card)
 const defaultChartDataCard4 = {
   labels: [],
   datasets: [
@@ -134,6 +139,7 @@ const defaultChartDataCard4 = {
 };
 
 
+//fetch table details
 const tableHeadings = [
   
   'Number of Students', 
@@ -224,11 +230,13 @@ useEffect(() => {
     
   }, [titleId.id]);
 
+  //fetch table details
   const fetchTableData = () => {
     const firstOption = dropdownOptions[Number(titleId.id)-1];
     fetchData(firstOption.id, filters[firstOption.id], 0);
   };
 
+   //fetch card details function
   const fetchData = async (key, value,cardKey) => {
 
     setLoading(prevValue => ({
@@ -278,7 +286,7 @@ useEffect(() => {
           const result = res.data.result;
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
-              const defaultStateName = filterOptions.states.find(state => state.state_id === stateValue)?.state_name
+              const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
               const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
@@ -316,7 +324,7 @@ useEffect(() => {
     }
   };
 
-
+//parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
       2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
@@ -351,6 +359,7 @@ useEffect(() => {
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
   };
 
+   //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
       2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
@@ -378,18 +387,24 @@ useEffect(() => {
   
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg];
   };
+
+  //datasets creation for first three cards based on default chart data
   const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
     { ...defaultChartData.datasets[0], data: dataOne },
     { ...defaultChartData.datasets[1], data: dataTwo },
     { ...defaultChartData.datasets[2], data: dataOneAvg },
     { ...defaultChartData.datasets[3], data: dataTwoAvg },
   ];
+
+  //datasets creation for region vs panIndia card(4TH CARD) based on default chart data
   const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName) => [
     { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of Students (${defaultStateName})`, },
     { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${defaultStateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
+
+  //callback function when filter or attribute is changed
   const onFilterChange = (key, value,cardKey) => {
    
     setFilters(prevFilters => ({

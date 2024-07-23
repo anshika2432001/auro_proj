@@ -158,7 +158,7 @@ export const ColorModeContextProvider = ({ children }) => {
                   marginRight: "auto",
                   marginLeft: "auto",
                   marginTop: "10px",
-                  padding: 0,
+                  padding: "0px",
                   borderRadius: "5px",
                   position: 'relative',
                   overflow: 'hidden',

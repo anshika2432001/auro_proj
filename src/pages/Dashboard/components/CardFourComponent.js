@@ -84,6 +84,7 @@ console.log(chartData)
     }));
   };
  
+  //filter dropdown options
   const attributeOptions = {
     "State": filterOptions ? (filterOptions.states ? mapStateNames(filterOptions.states) : []) : [],
     "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
@@ -103,20 +104,11 @@ console.log(chartData)
     "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
     "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
     "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
-    
-    
-    
-    
-    
-    
-    
-    "Date Period": ['All', 'Last Month', 'Last Quarter', 'Last Year'],
-    
-    
+  
   };
 
  
-
+//updated selectedAttribute and filters based on title and attributeBasedDropdowns
   useEffect(() => {
     setSelectedAttribute(title.id);
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
@@ -128,14 +120,18 @@ console.log(chartData)
  
 
   useEffect(() => {
-   
+   //by default set a state for which graph is shown
     setSelectedFilters({ ...initialFilters, 'State': defaultStateId });
   }, [filterOptions,selectedAttribute]);
 
+
+//show avaialable filters in the dropdown which are not used or selected till now
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
+
+
 
   useEffect(() => {
     // Fetch districts for the default state ID
@@ -145,6 +141,7 @@ console.log(chartData)
     }
   }, [filterOptions]);
 
+  //handle attribute change function
   const handleAttributeChange = (event, value) => {
     console.log(value);
   setSelectedAttribute(value.id);
@@ -163,8 +160,8 @@ console.log(chartData)
   setSelectedFilters(newFilters);
   onFilterChange(value.id, newFilters, cardKey);
   };
-  console.log(selectedFilters)
 
+//add more dropdown function
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
@@ -173,6 +170,8 @@ console.log(chartData)
     }
   };
   
+
+   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
     
     if (key === 'School Management' || key === 'Board of Education') {
@@ -188,8 +187,9 @@ console.log(chartData)
     }
   };
 
+     //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    console.log(selectedFilters)
+    
     let selectedValue = value;
     let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
   
@@ -215,11 +215,11 @@ console.log(chartData)
       selectedValue = value && value.name ? value.name : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
-    console.log(newFilters)
-  
     setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
+
+   //date range change function
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
     const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
@@ -244,7 +244,7 @@ console.log(chartData)
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
   
-
+  //set the line chart at its proper position
   const linePosition = {
     id: 'linePosition',
     beforeDatasetsDraw(chart, args, pluginOptions) {

@@ -13,10 +13,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus }) {
-console.log(titleId)
+
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
-
   const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[Number(titleId)-1].id : '';
   const [selectedAttribute, setSelectedAttribute] = useState(initialAttribute);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
@@ -24,7 +23,6 @@ console.log(titleId)
   const [dateRange2Start, setDateRange2Start] = useState(dayjs('2024-03-01'));
   const [dateRange2End, setDateRange2End] = useState(dayjs('2024-03-31'));
   const tableData = tableInfo; 
- console.log(tableData)
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
@@ -82,6 +80,7 @@ const mapDistricts = (districts) => {
   }));
 };
 
+//filter dropdowns
 const attributeOptions = {
   "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
@@ -125,11 +124,11 @@ useEffect(() => {
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [attributeBasedDropdowns, selectedAttribute]);
 
-  useEffect(() => {
-    const usedFilters = new Set(dropdowns);
-    setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
+  // useEffect(() => {
+  //   const usedFilters = new Set(dropdowns);
+  //   setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
  
-  }, [dropdowns]);
+  // }, [dropdowns]);
 
  
 
@@ -139,6 +138,7 @@ useEffect(() => {
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  //attribute change function
   const handleAttributeChange = (event, value) => {
     console.log(value)
     setSelectedAttribute(value.id);
@@ -148,6 +148,7 @@ useEffect(() => {
     onFilterChange(value.id,{ ...selectedFilters },tableKey)
   };
 
+  //add more dropdowns
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
@@ -157,8 +158,9 @@ useEffect(() => {
     }
   };
 
+  //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
-   
+   console.log(list)
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
         return list.find(item => item.name === value.name) || null;
@@ -172,6 +174,7 @@ useEffect(() => {
     }
   };
 
+  //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
     
 
@@ -205,6 +208,8 @@ useEffect(() => {
     onFilterChange(selectedAttribute, newFilters,tableKey);
   };
 
+
+  //date range change function
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
     const formattedEndDate = endDate ? dayjs(endDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;

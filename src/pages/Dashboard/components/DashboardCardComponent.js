@@ -16,14 +16,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 
 function DashboardCardComponent({ title, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
-console.log(chartData)
-const filterOptions = useSelector((state) => state.filterDropdown.data.result);
-    
 
+const filterOptions = useSelector((state) => state.filterDropdown.data.result);
 const [selectedAttribute, setSelectedAttribute] = useState(title.id);
 const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
 const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
-
 const initialDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
 const [dropdowns, setDropdowns] = useState(initialDropdowns);
 const [availableFilters, setAvailableFilters] = useState([]);
@@ -33,7 +30,7 @@ const initialFilters = attributeBasedDropdowns[title.id]
 : {};
 const [selectedFilters, setSelectedFilters] = useState(initialFilters);
 const [districtOptions, setDistrictOptions] = useState([]);
-const chartRef = useRef(null);
+
 
 
 const mapGenders = (genders) => {
@@ -86,6 +83,7 @@ const mapDistricts = (districts) => {
   }));
 };
 
+ //filter dropdown options
 const attributeOptions = {
   "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
@@ -107,21 +105,16 @@ const attributeOptions = {
   "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
   "Mode of Employment": ['All', 'Regular', 'Contract','Part-Time/Guest'],
   
-  
-  
-  
-  
-  
-  
-  
+
 };
 
+  // Update selectedAttribute when titleId changes
 useEffect(() => {
   
   setSelectedAttribute(title.id); 
 }, [title.id]);
 
-
+//updated selectedAttribute and filters based on title and attributeBasedDropdowns
 useEffect(() => {
    setSelectedAttribute(title.id);
   const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
@@ -129,13 +122,14 @@ useEffect(() => {
   setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
 }, [title, attributeBasedDropdowns]);
 
+//show avaialable filters in the dropdown which are not used or selected till now
 useEffect(() => {
   const usedFilters = new Set(dropdowns);
   setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
 }, [dropdowns]);
 
 
-
+ //add more dropdown function
 const handleAddDropdown = (event, value) => {
   if (value) {
     setDropdowns((prev) => [...prev, value]);
@@ -144,6 +138,7 @@ const handleAddDropdown = (event, value) => {
   }
 };
 
+  //select values for dropdowns that will be visible
 const getValueFromList = (list, value, key) => {
   
   if (key === 'School Management' || key === 'Board of Education') {
@@ -159,6 +154,7 @@ const getValueFromList = (list, value, key) => {
   }
 };
 
+ //filter change function
 const handleFilterChange = (dropdownLabel) => (event, value) => {
   console.log(selectedFilters)
   let selectedValue = value;
@@ -185,11 +181,14 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
     selectedValue = value && value.name ? value.name : null;
     newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
   }
-  console.log(newFilters)
+  
 
   setSelectedFilters(newFilters);
   onFilterChange(selectedAttribute, newFilters,cardKey);
 };
+
+
+//date range change function
 const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
   let newFilters = {};
   const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;

@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton,Box } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton,Box,Button } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Chart } from 'react-chartjs-2';
-import axios from '../../../utils/axios';
 import dayjs from 'dayjs';
+import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, LineElement, PointElement } from 'chart.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -17,10 +17,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
-
+console.log(chartData)
+const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
-    
-
+  const navigate = useNavigate();
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
   const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
@@ -88,6 +88,7 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     }));
   };
  
+  //filter dropdown options
   const attributeOptions = {
     "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
@@ -109,33 +110,30 @@ function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartD
     "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
     "Mode of Employment": ['All', 'Regular', 'Contract','Part-Time/Guest'],
     
-    
-    
-    
-    
-    
-    
-    
   };
 
+  // Update selectedAttribute when titleId changes
   useEffect(() => {
     
-    setSelectedAttribute(title.id); 
+    setSelectedAttribute(title.id);  
   }, [title.id]);
-  console.log(selectedAttribute)
-
+ 
+//updated selectedAttribute and filters based on title and attributeBasedDropdowns
   useEffect(() => {
      setSelectedAttribute(title.id);
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
     setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [title, attributeBasedDropdowns]);
-console.log(selectedAttribute)
+
+
+//show avaialable filters in the dropdown which are not used or selected till now
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  //handle attribute change function
   const handleAttributeChange = (event, value) => {
     setSelectedAttribute(value.id);
     const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
@@ -144,6 +142,7 @@ console.log(selectedAttribute)
     onFilterChange(value.id, { ...selectedFilters },cardKey);
   };
 
+  //add more dropdown function
   const handleAddDropdown = (event, value) => {
     if (value) {
       setDropdowns((prev) => [...prev, value]);
@@ -152,6 +151,7 @@ console.log(selectedAttribute)
     }
   };
   
+  //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
     
     if (key === 'School Management' || key === 'Board of Education') {
@@ -167,8 +167,9 @@ console.log(selectedAttribute)
     }
   };
 
+   //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    console.log(selectedFilters)
+    
     let selectedValue = value;
     let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
   
@@ -193,11 +194,13 @@ console.log(selectedAttribute)
       selectedValue = value && value.name ? value.name : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
-    console.log(newFilters)
+   
   
     setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
+
+  //date range change function
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
     const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
@@ -229,8 +232,24 @@ console.log(selectedAttribute)
     setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
+
+  const viewDetailsPage = ()=> {
+    const params = new URLSearchParams({
+      chartData: JSON.stringify(chartData),
+      // tableData: JSON.stringify(tableData),
+      selectedFilters: JSON.stringify(selectedFilters),
+      selectedAttribute,
+      dateRange1Start: dateRange1Start.toISOString(),
+      dateRange1End: dateRange1End.toISOString(),
+      dateRange2Start: dateRange2Start.toISOString(),
+      dateRange2End: dateRange2End.toISOString(),
+    }).toString();
+
+    window.open(`/viewDetailsPage?${params}`, '_blank');
+  }
   
 
+  //set the line chart at its proper position
   const linePosition = {
     id: 'linePosition',
     beforeDatasetsDraw(chart, args, pluginOptions) {
@@ -252,7 +271,7 @@ console.log(selectedAttribute)
       >
         {title.value}
       </Typography>
-      <CardContent>
+      <CardContent sx={{padding:"12px"}}>
         <Autocomplete
           options={dropdownOptions}
           getOptionLabel={(option) => option.value}
@@ -297,11 +316,11 @@ console.log(selectedAttribute)
           )}
         </Grid>
 
-        <Grid container spacing={2} marginTop={0.5}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6"  mb={2}>Date Range 1</Typography>
-            <Grid container spacing={1.5}>
-              <Grid item xs={12}>
+        <Grid container columnSpacing={0.5} rowSpacing={2} marginTop={0.5}>
+          <Grid item xs={12} sm={3} md={3} lg={3}>
+            <Typography variant="body1"  mt={1}><b>Date Range 1:</b></Typography>
+            </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -314,7 +333,7 @@ console.log(selectedAttribute)
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -327,13 +346,13 @@ console.log(selectedAttribute)
                   />
                 </LocalizationProvider>
               </Grid>
-            </Grid>
-          </Grid>
+           
+          
 
-          <Grid item xs={12} sm={6} >
-            <Typography variant="h6" mb={2}>Date Range 2</Typography>
-            <Grid container spacing={1.5}>
-              <Grid item xs={12}>
+          <Grid item xs={12} sm={3} md={3} lg={3} >
+            <Typography variant="body1"  mt={1}><b>Date Range 2:</b></Typography>
+            </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -346,7 +365,7 @@ console.log(selectedAttribute)
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -359,8 +378,16 @@ console.log(selectedAttribute)
                   />
                 </LocalizationProvider>
               </Grid>
+            
+              {/* <Grid item xs={12} sm={4} md={4} lg={4} >
+           
+            </Grid> */}
+              <Grid item xs={12} sm={5} md={5} lg={5} >
+            <Button  variant='contained' sx={{m:0}} onClick={()=> viewDetailsPage()}>View in Detail</Button>
             </Grid>
-          </Grid>
+            <Grid item xs={12} sm={3} md={3} lg={3} >
+            <Button  variant='contained' sx={{m:0}}>Export</Button>
+            </Grid>
         </Grid>
       </CardContent>
       {loadingStatus ?(
@@ -369,7 +396,7 @@ console.log(selectedAttribute)
       </Box>
       ):(
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
-        <div style={{ minWidth: "800px",minHeight:"400px" }}>
+        <div style={{ minWidth: chartWidth,minHeight:"400px" }}>
           <Chart
             ref={chartRef}
             type="bar"

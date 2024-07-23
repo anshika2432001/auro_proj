@@ -501,74 +501,79 @@ export const menu = [
         view: <ParentalandHousehold />,
         items: [
           {
-            title: "Immigrant background (ie one or both parents born in another state)",
-            pageLink: '/parentalAndHousehold',
+            title: "Immigrant background (i.e one or both parents born in another state)",
+            pageLink: '/parentalAndHousehold/1',
             view: <ParentalandHousehold />,
           },
           {
             title: "Household with at least one member who completed Std XII",
-            pageLink: '/parentalAndHousehold',
+            pageLink: '/parentalAndHousehold/2',
             view: <ParentalandHousehold />,
           },
           {
-            title: "Parents annual spend on child's education",
-            pageLink: '/parentalAndHousehold',
+            title: "Parents monthly spend on childs education",
+            pageLink: '/parentalAndHousehold/3',
             view: <ParentalandHousehold />,
           },
         {
-          title: "Household with internet connection",
-          pageLink: '/parentalAndHousehold',
+          title: "Household has internet connection",
+          pageLink: '/parentalAndHousehold/4',
           view: <ParentalandHousehold />,
         },
       {
-        title: "Mother's level of education",
-        pageLink: '/parentalAndHousehold',
+        title: "Mothers level of Education",
+        pageLink: '/parentalAndHousehold/5',
+        view: <ParentalandHousehold />,
+      },
+      {
+        title: "Average income of household",
+        pageLink: '/parentalAndHousehold/6',
         view: <ParentalandHousehold />,
       },
       {
         title: "Households with at least one member who knows how to operate a computer",
-        pageLink: '/parentalAndHousehold',
+        pageLink: '/parentalAndHousehold/7',
         view: <ParentalandHousehold />,
       },
       {
-        title: "House Type",
-        pageLink: '/parentalAndHousehold',
+        title: "House type",
+        pageLink: '/parentalAndHousehold/8',
         view: <ParentalandHousehold />,
       },
       {
-        title: "Households with other reading material (activity books, reading books, puzzles, newspaper)",
-        pageLink: '/parentalAndHousehold',
-        view: <ParentalandHousehold />,
-      },
-      {
-        title: "Father's level of education",
-        pageLink: '/parentalAndHousehold',
+        title: "% Households which have other reading material (activity books, reading books, puzzles, newspaper)",
+        pageLink: '/parentalAndHousehold/9',
         view: <ParentalandHousehold />,
       },
 
       {
-        title: "Average income of household",
-        pageLink: '/parentalAndHousehold',
+        title: "Father's level of education",
+        pageLink: '/parentalAndHousehold/10',
         view: <ParentalandHousehold />,
       },
       {
-        title: "Household with electricity connection",
-        pageLink: '/parentalAndHousehold',
+        title: "Household has electricity connection ",
+        pageLink: '/parentalAndHousehold/11',
         view: <ParentalandHousehold />,
       },
       {
-        title: "My child's teacher and I communicate with each other at least once a month",
-        pageLink: '/parentalAndHousehold',
+        title: "I (or another adult in the home) read(s) with my child every day or nearly every day",
+        pageLink: '/parentalAndHousehold/12',
+        view: <ParentalandHousehold />,
+      },
+      {
+        title: "My child’s teacher and I communicate with each other at least once a month (in person or by notes, text, email, phone, etc.)",
+        pageLink: '/parentalAndHousehold/13',
         view: <ParentalandHousehold />,
       },
       {
         title: "I expect my child will graduate from high school",
-        pageLink: '/parentalAndHousehold',
+        pageLink: '/parentalAndHousehold/14',
         view: <ParentalandHousehold />,
       },
       {
         title: "I expect my child will go to college one day",
-        pageLink: '/parentalAndHousehold',
+        pageLink: '/parentalAndHousehold/15',
         view: <ParentalandHousehold />,
       },
 
@@ -586,37 +591,37 @@ export const menu = [
         items: [
           {
             title: "Frequency of parent teacher meetings",
-            pageLink: '/parentSchoolAttribute',
+            pageLink: '/parentSchoolAttribute/1',
         view: <ParentSchoolAttribute />,
           },
           {
             title: "Schools having lack of parental support in students learning",
-            pageLink: '/parentSchoolAttribute',
+            pageLink: '/parentSchoolAttribute/2',
         view: <ParentSchoolAttribute />,
           },
           {
             title: "Schools provide guidance on how parents can support children in learning",
-            pageLink: '/parentSchoolAttribute',
+            pageLink: '/parentSchoolAttribute/3',
         view: <ParentSchoolAttribute />,
           },
         {
           title: "% of schools, where parents have been made aware of learning levels through PTM, Letters, discussion forums",
-          pageLink: '/parentSchoolAttribute',
+          pageLink: '/parentSchoolAttribute/4',
         view: <ParentSchoolAttribute />,
         },
       {
         title: "Schools informed parents about school activity",
-        pageLink: '/parentSchoolAttribute',
+        pageLink: '/parentSchoolAttribute/5',
         view: <ParentSchoolAttribute />,
       },
       {
         title: "I attend parent-teacher conferences",
-        pageLink: '/parentSchoolAttribute',
+        pageLink: '/parentSchoolAttribute/6',
         view: <ParentSchoolAttribute />,
       },
       {
-        title: "I regularly participate in events at my child's school",
-        pageLink: '/parentSchoolAttribute',
+        title: "I regularly participate in events at my childs school",
+        pageLink: '/parentSchoolAttribute/7',
         view: <ParentSchoolAttribute />,
       },
       
