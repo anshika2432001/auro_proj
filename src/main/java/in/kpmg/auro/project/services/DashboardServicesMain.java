@@ -321,7 +321,8 @@ public class DashboardServicesMain {
                 "\tstudent_master sm ON tsm.student_id = sm.user_id\n" +
                 "JOIN\n" +
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
-                "WHERE \n");
+                "WHERE \n" +
+                "\t  stm.state_name IS NOT NULL\n");
 
 
         List<Object> parameters = new ArrayList<>();
@@ -346,11 +347,11 @@ public class DashboardServicesMain {
 
         }
 
-        if (payloadDto.getEmploymentNature() ==null){
-            query.append("\t ted.employment_nature = ? \n");
-            parameters.add(1);
-
-        }
+//        if (payloadDto.getEmploymentNature() ==null){
+//            query.append("\t ted.employment_nature = ? \n");
+//            parameters.add(1);
+//
+//        }
 
         if (payloadDto.getGrades()!=null){
             query.append("\t\tAND sm.grade = ? \n");
