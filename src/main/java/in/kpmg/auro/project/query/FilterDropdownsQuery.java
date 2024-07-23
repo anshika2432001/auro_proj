@@ -206,7 +206,7 @@ public class FilterDropdownsQuery {
             "        when qualification = 6 then 'M.Phil.'\n" +
             "        when qualification = 7 then 'Ph.D.'\n" +
             "        when qualification = 8 then 'Post-Doctoral'\n" +
-            "\tEND as qualification\n" +
+            "\tEND as qualification_name\n" +
             "FROM\n" +
             "\tteacher_extra_data;";
 
@@ -216,7 +216,7 @@ public class FilterDropdownsQuery {
             "\t\twhen employment_nature = 1 then 'Regular'\n" +
             "        when employment_nature = 2 then 'Contract'\n" +
             "        when employment_nature = 3 then 'Part-Time/Guest'\n" +
-            "\tEND as employment_nature\n" +
+            "\tEND as employment_nature_name\n" +
             "FROM\n" +
             "\tteacher_extra_data;";
 
