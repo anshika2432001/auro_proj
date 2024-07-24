@@ -2698,6 +2698,7 @@ public class TeachersServices {
                 "        WHEN ted.is_smc =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS smc,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2728,6 +2729,7 @@ public class TeachersServices {
                 "        WHEN ted.is_smc =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS smc,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2912,6 +2914,7 @@ public class TeachersServices {
                 "        WHEN ted.is_smc_active =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS smc,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2942,6 +2945,7 @@ public class TeachersServices {
                 "        WHEN ted.is_smc_active =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS smc,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -3126,6 +3130,7 @@ public class TeachersServices {
                 "        WHEN ted.is_school_registered_on_vidyanjali =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS vidyanjali,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -3156,6 +3161,7 @@ public class TeachersServices {
                 "        WHEN ted.is_school_registered_on_vidyanjali =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
                 "      END AS vidyanjali,\n" +
+                "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
