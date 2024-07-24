@@ -86,4 +86,35 @@ public class MasterControllerR1 {
         return masterServicesR1.topicWiseBreakdownImproveStats(payloadDto);
     }
 
+
+
+    @PostMapping("/topic-wise-avg-score-data")
+    public ApiResponse2<?> topicWiseAvgScoreData(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseAvgScoreData(payloadDto);
+    }
+
+
+    @PostMapping("/topic-wise-student-attempts-data")
+    public ApiResponse2<?> topicWiseStudAttemptsData(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseStudAttemptsData(payloadDto);
+    }
+
+    @PostMapping("/topic-wise-micro-scholar-quiz-data")
+    public ApiResponse2<?> topicWiseMicroScholarQuizData(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseMicroScholarQuizData(payloadDto);
+    }
+
+
+    @PostMapping("/top-performing-topics-data")
+    public ApiResponse2<?> topTopicPerformanceData(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topTopicPerformanceData(payloadDto);
+    }
+
+    @PostMapping("/weak-performing-topics-data")
+    public ApiResponse2<?> weakTopicPerformanceData(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.weakTopicPerformanceData(payloadDto);
+    }
+
+
+
 }
