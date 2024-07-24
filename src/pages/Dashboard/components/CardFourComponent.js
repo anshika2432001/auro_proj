@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton,Box } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Autocomplete, TextField, IconButton,Box,Button } from '@mui/material';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -14,11 +14,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
-console.log(chartData)
+function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,cardMapping,dataAvailableStatus,category }) {
+console.log(cardMapping)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const defaultStateId = 7; 
-
+  
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
   const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
@@ -75,6 +75,12 @@ console.log(chartData)
   const mapStateNames = (states) => {
     return states.map(stateObj => ({ id: stateObj.state_id, name: stateObj.state_name }));
   }
+  const mapQualification = (qualifications) => {
+    return qualifications.map(qualificationObj => ({ id: qualificationObj.qualification, name: qualificationObj.qualification_name }));
+  };
+  const mapEmployment = (employments) => {
+    return employments.map(employmentObj => ({ id: employmentObj.employment_nature, name: employmentObj.employment_nature_name }));
+  };
 
   const mapDistricts = (districts) => {
     return districts.map(districtObj => ({
@@ -103,14 +109,19 @@ console.log(chartData)
     "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
     "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
     "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
-    "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
+    "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   
   };
+
+  
+  
 
  
 //updated selectedAttribute and filters based on title and attributeBasedDropdowns
   useEffect(() => {
     setSelectedAttribute(title.id);
+    
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
     
@@ -207,7 +218,7 @@ console.log(chartData)
       setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
   
       
-    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN') {
+    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN' || dropdownLabel === 'Qualification'|| dropdownLabel === 'Mode of Employment') {
       selectedValue = value && value.id ? value.id : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
@@ -243,6 +254,32 @@ console.log(chartData)
     setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
+
+  const viewDetailsPage = ()=> {
+    
+
+    const params = {
+      dropdownOptions,
+      filterOptions,
+      attributeBasedDropdowns: attributeBasedDropdowns[selectedAttribute],
+      selectedFilters,
+      selectedAttribute,
+      dateRange1Start: dateRange1Start,
+      dateRange1End: dateRange1End,
+      dateRange2Start: null,
+      dateRange2End: null,
+      apiEndPoints,
+      cardMapping,
+      cardKey,
+      category
+    };
+
+    // Store the params in localStorage or sessionStorage
+    localStorage.setItem('viewDetailsData', JSON.stringify(params));
+
+    // Open the new tab
+    window.open('/viewDetailsPage', '_blank');
+  }
   
   //set the line chart at its proper position
   const linePosition = {
@@ -341,6 +378,23 @@ console.log(chartData)
                   />
                 </LocalizationProvider>
               </Grid>
+              {loadingStatus ?(
+              <Grid item xs={12} sm={5} md={5} lg={5} >
+            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View in Detail</Button>
+            </Grid>
+             ):(
+              <>
+              {dataAvailableStatus ?(
+                ""
+              ):(
+
+              
+              <Grid item xs={12} sm={5} md={5} lg={5} >
+              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View in Detail</Button>
+              </Grid>
+            )}
+            </>
+             )}
            
           </Grid>
 
@@ -351,6 +405,10 @@ console.log(chartData)
         <CircularProgress />
       </Box>
       ):(
+        <>
+        {dataAvailableStatus ?(
+ <Typography variant="body1" color="error">No data available for the chart.</Typography>
+        ):(
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
         <div style={{ minWidth: "800px",minHeight:"400px" }}>
           <Chart
@@ -383,6 +441,8 @@ console.log(chartData)
           />
         </div>
       </div>
+     )}
+     </>
       )}
     </Card>
  );

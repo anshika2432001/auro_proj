@@ -274,37 +274,42 @@ export const menu = [
         items: [
           {
             title: "Teacher - Grade",
-            pageLink: '/teacher_Attributes',
+            pageLink: '/teacher_Attributes/1',
             view: <Teacher_Attributes />,
           },
           {
             title: "Teacher - Number of classes ratio",
-            pageLink: '/teacher_Attributes',
+            pageLink: '/teacher_Attributes/2',
             view: <Teacher_Attributes />,
           },
           {
             title: "Teacher - Student score range",
-            pageLink: '/teacher_Attributes',
+            pageLink: '/teacher_Attributes/3',
             view: <Teacher_Attributes />,
           },
         {
           title: "Teacher - Subject",
-          pageLink: '/teacher_Attributes',
+          pageLink: '/teacher_Attributes/4',
           view: <Teacher_Attributes />,
         },
       {
         title: "Average Teacher Salary",
+        pageLink: '/teacher_Attributes/5',
+        view: <Teacher_Attributes />,
+      },
+      {
+        title: "Teacher - Pupil Ratio/6",
         pageLink: '/teacher_Attributes',
         view: <Teacher_Attributes />,
       },
       {
-        title: "Teacher - Pupil Ratio",
-        pageLink: '/teacher_Attributes',
+        title: "Qualification of Teacher",
+        pageLink: '/teacher_Attributes/7',
         view: <Teacher_Attributes />,
       },
       {
-        title: "Teacher Qualification",
-        pageLink: '/teacher_Attributes',
+        title: "No. of Teachers in School",
+        pageLink: '/teacher_Attributes/8',
         view: <Teacher_Attributes />,
       }
 
@@ -318,52 +323,53 @@ export const menu = [
         items: [
           {
             title: "Teachers trained on CCE and Classroom based assessment",
-            pageLink: '/teacherTrainingData',
+            pageLink: '/teacherTrainingData/1',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Teacher needs of the teacher",
-            pageLink: '/teacherTrainingData',
+            title: "Teachers satisfied with trainings by School/ Education Dept",
+            pageLink: '/teacherTrainingData/2',
             view: <TeacherTrainingData />,
           },
           {
             title: "Nature of employment of teachers",
-            pageLink: '/teacherTrainingData',
+            pageLink: '/teacherTrainingData/3',
             view: <TeacherTrainingData />,
           },
-        {
-          title: "Time Spent by teacher on school related activities weekly",
-          pageLink: '/teacherTrainingData',
-          view: <TeacherTrainingData />,
-        },
-      {
-        title: "Teachers satisfied with trainings by School/ Education Dept",
-        pageLink: '/teacherTrainingData',
-        view: <TeacherTrainingData />,
-      },
-      {
-        title: "Teachers with platform to share best practices",
-        pageLink: '/teacherTrainingData',
-        view: <TeacherTrainingData />,
-      },
-      {
-        title: "Time spent by teacher in mandatory training annually",
-        pageLink: '/teacherTrainingData',
-        view: <TeacherTrainingData />,
-      },
-      {
-        title: "Teachers aware in pedagogical methodologies",
-        pageLink: '/teacherTrainingData',
-        view: <TeacherTrainingData />,
-      },
+          {
+            title: "Time Spent by teacher on school related activities weekly",
+            pageLink: '/teacherTrainingData/4',
+            view: <TeacherTrainingData />,
+          },
+          {
+            title: "Teachers with platform to share best practices",
+            pageLink: '/teacherTrainingData/5',
+            view: <TeacherTrainingData />,
+          },
+          {
+            title: "Time spent by teacher in mandatory training annually",
+            pageLink: '/teacherTrainingData/6',
+            view: <TeacherTrainingData />,
+          },
+          {
+            title: "Teachers aware in pedagogical methodologies",
+            pageLink: '/teacherTrainingData/7',
+            view: <TeacherTrainingData />,
+          },
+          {
+            title: "Teacher needs of the teacher",
+            pageLink: '/teacherTrainingData/8',
+            view: <TeacherTrainingData />,
+          },
+         
       {
         title: "Periodicity of formative assessments in school",
-        pageLink: '/teacherTrainingData',
+        pageLink: '/teacherTrainingData/9',
         view: <TeacherTrainingData />,
       },
       {
         title: "Schools utilising teaching resources by the SCRET / DIETs",
-        pageLink: '/teacherTrainingData',
+        pageLink: '/teacherTrainingData/10',
         view: <TeacherTrainingData />,
       },
 
@@ -377,34 +383,30 @@ export const menu = [
         items: [
           {
             title: "Frequency of parent teacher meetings",
-            pageLink: '/teacherSchoolParent',
+            pageLink: '/teacherSchoolParent/1',
             view: <TeacherSchoolParent />,
           },
           {
             title: "CSRs engaged with school in last academic year",
-            pageLink: '/teacherSchoolParent',
+            pageLink: '/teacherSchoolParent/2',
             view: <TeacherSchoolParent />,
           },
           {
             title: "Schools with SMCs",
-            pageLink: '/teacherSchoolParent',
+            pageLink: '/teacherSchoolParent/3',
+            view: <TeacherSchoolParent />,
+          },
+          {
+            title: "Functional SMCs",
+            pageLink: '/teacherSchoolParent/4',
             view: <TeacherSchoolParent />,
           },
         {
           title: "Schools registered on Vidyanjali portal =",
-          pageLink: '/teacherSchoolParent',
+          pageLink: '/teacherSchoolParent/5',
           view: <TeacherSchoolParent />,
         },
-      {
-        title: "Functional SMCs",
-        pageLink: '/teacherSchoolParent',
-        view: <TeacherSchoolParent />,
-      },
-      {
-        title: "No of Teachers in school",
-        pageLink: '/teacherSchoolParent',
-        view: <TeacherSchoolParent />,
-      },
+ 
       
         ]
        

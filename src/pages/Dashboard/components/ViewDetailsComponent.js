@@ -1,48 +1,596 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { Chart } from "react-chartjs-2";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from '../../../utils/axios';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from 'dayjs';
 import {
   Typography,
   Table,
+  Autocomplete,
+  TextField,
+  IconButton,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
   Paper,
+  Card,
+  Grid,
+  CardContent,
+  Button,
+  Box
 } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CircularProgress from '@mui/material/CircularProgress';
 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
+//table headings
+const tableHeadings = [
+  
+  'Number of Students', 
+  'Average Score of Students',
+  'Number of Students', 
+  'Average Score of Students'
+];
 
 const ViewDetailsComponent = () => {
-    const query = useQuery();
-    const chartData = JSON.parse(query.get('chartData'));
-    // const tableData = JSON.parse(query.get('tableData'));
-    const selectedFilters = JSON.parse(query.get('selectedFilters'));
-    const selectedAttribute = query.get('selectedAttribute');
-    const dateRange1Start = new Date(query.get('dateRange1Start'));
-    const dateRange1End = new Date(query.get('dateRange1End'));
-    const dateRange2Start = new Date(query.get('dateRange2Start'));
-    const dateRange2End = new Date(query.get('dateRange2End'));
+  const [data, setData] = useState(null);
+  const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [tableData, setTableData] = useState([])
+  const [loading,setLoading] = useState(false);
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const [updatedFilters, setUpdatedFilters] = useState({});
+  const [showAddMore, setShowAddMore] = useState(true);
+  const [availableFilters, setAvailableFilters] = useState([]);
   
-    return (
-        <div>
-        <Typography variant="h4" gutterBottom>Detailed View</Typography>
-        <Typography variant="h6" gutterBottom>Attribute: {selectedAttribute}</Typography>
-        <Typography variant="h6" gutterBottom>Date Range 1: {dateRange1Start.toLocaleDateString()} - {dateRange1End.toLocaleDateString()}</Typography>
-        <Typography variant="h6" gutterBottom>Date Range 2: {dateRange2Start.toLocaleDateString()} - {dateRange2End.toLocaleDateString()}</Typography>
-        <Typography variant="h6" gutterBottom>Filters:</Typography>
-        <ul>{Object.entries(selectedFilters).map(([key, value]) => <li key={key}>{key}: {typeof value === "object" ? value.name : value}</li>)}</ul>
-        <div style={{ overflowX: "auto", marginTop: "1rem" }}>
-          <div style={{ minWidth: "800px", minHeight: "400px" }}>
-            <Chart type="bar" data={chartData} options={{ responsive: true }} />
-          </div>
-        </div>
-        <Typography variant="h6" gutterBottom style={{ marginTop: "2rem" }}>Table Data:</Typography>
-      </div>
-    );
+ // Destructuring data only if it's not null
+ const {
+  dropdownOptions,
+  filterOptions,
+  attributeBasedDropdowns,
+  selectedFiltersList,
+  selectedAttributeId,
+  dateRange1Start,
+  dateRange1End,
+  dateRange2Start,
+  dateRange2End,
+  apiEndPoints,
+ cardMapping,
+ cardKey,
+ category
+} = data || {};
+
+console.log(selectedAttribute)
+const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
+  const [dateRange1EndValue, setDateRange1EndValue] = useState(null);
+  const [dateRange2StartValue, setDateRange2StartValue] = useState(null);
+  const [dateRange2EndValue, setDateRange2EndValue] = useState(null);
+
+
+ //date range change function
+ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
+  let newFilters = {};
+  const formattedStartDate = startDate ? dayjs(startDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+  const formattedEndDate = endDate ? dayjs(endDate).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : null;
+
+
+  switch (dateRangeName) {
+    case 'dateRange1':
+      newFilters = {
+        ...selectedFilters,
+        startDateRange1: formattedStartDate,
+        endDateRange1: formattedEndDate
+      };
+      setDateRange1StartValue(startDate);
+      setDateRange1EndValue(endDate);
+      break;
+    case 'dateRange2':
+      newFilters = {
+        ...selectedFilters,
+        startDateRange2: formattedStartDate,
+        endDateRange2: formattedEndDate
+      };
+      setDateRange2StartValue(startDate);
+      setDateRange2EndValue(endDate);
+      break;
+    default:
+      break;
+  }
+  setUpdatedFilters(newFilters);
+  
+};
+
+
+const fetchData = async (value) => {
+    
+setLoading(true)
+  try {
+    let payload = {}
+    if(category == "student" || category == "parent"){
+    payload = {
+      transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : (cardKey==4)? null: dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : (cardKey==4)? null: dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : (cardKey==4)? null: dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : (cardKey==4)? null: dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
+      subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+      schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
+      stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) : null,
+      districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
+      socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
+      gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
+      ageFrom: null,
+      ageTo: null,
+      educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
+      schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
+      cwsn: value ? ((value['CWSN'] && value['CWSN'] !== 'All') ? value['CWSN'] : null) : null,
+      childMotherQualification: value ? ((value['Mother Education'] && value['Mother Education'] !== 'All') ? value['Mother Education'] : null) : null,
+      childFatherQualification: value ? ((value['Father Education'] && value['Father Education'] !== 'All') ? value['Father Education'] : null) : null,
+      householdId: value ? ((value['Annual Income'] && value['Annual Income'] !== 'All') ? value['Annual Income'] : null) : null,
+    };
+  }
+  else if(category == "teacher"){
+   payload = {
+    transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : (cardKey==4)? null: dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : (cardKey==4)? null: dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : (cardKey==4)? null: dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : (cardKey==4)? null: dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
+      stateId: value ? ((value.State && value.State !== "All") ? value.State : (cardKey==4)? 7: null) : (cardKey==4)? 7: null,
+      districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
+      qualification: value ? ((value.Qualification && value.Qualification !== 'All') ? value.Qualification : null) : null,
+      employmentNature: value ? ((value['Mode of Employment'] && value['Mode of Employment'] !== 'All') ? value['Mode of Employment'] : null) : null,
+      gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
+      educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
+      schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
+      
+    };
+  }
+    if (value && value['Age Group'] && value['Age Group'] !== 'All') {
+      const ageRange = value['Age Group'].split('-');
+      payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
+      payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
+    }
+   
+   console.log(payload)
+   const endpoint = apiEndPoints[selectedAttribute.id];
+    const res = await axios.post(endpoint, payload);
+    if(res.data.status && res.data.statusCode == 200){
+      setLoading(false);
+    const result = res.data.result;
+    console.log(result)
+    console.log(cardKey)
+    if(cardKey == 4){
+      const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataNation.map(item => item[labelKey])
+      ]);
+      const labelsData = Array.from(allLabels);
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setTableData(newTableData)
+    }
+    else{
+     
+      const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
+      
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataStateTwo.map(item => item[labelKey])
+      ]);
+      
+      const labelsData = Array.from(allLabels);
+      
+  
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+      }));
+     
+        setTableData(newTableData)
+    }
+   
+  }
+  else{
+    console.log("error")
+  }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+
+console.log(tableData)
+
+useEffect(() => {
+  // Retrieve the params from localStorage
+  const storedData = localStorage.getItem('viewDetailsData');
+  if (storedData) {
+    const parsedData = JSON.parse(storedData);
+    setData(parsedData);
+    console.log(parsedData)
+    if(parsedData){
+      setDateRange1StartValue(parsedData.dateRange1Start ? dayjs(parsedData.dateRange1Start) : null);
+      setDateRange1EndValue(parsedData.dateRange1End ? dayjs(parsedData.dateRange1End) : null);
+      setDateRange2StartValue(parsedData.dateRange2Start ? dayjs(parsedData.dateRange2Start) : null);
+      setDateRange2EndValue(parsedData.dateRange2End ? dayjs(parsedData.dateRange2End) : null);
+  
+    }
+    
+    // Find the selected attribute name
+    if (parsedData.dropdownOptions) {
+      const selectedAttr = parsedData.dropdownOptions.find(option => option.id === parsedData.selectedAttribute);
+      console.log(selectedAttr)
+      if (selectedAttr) {
+        setSelectedAttribute(selectedAttr);
+      }
+    }
+    // Set the initial selected filters
+    setSelectedFilters(parsedData.selectedFilters || {});
+    setUpdatedFilters(parsedData.selectedFilters || {});
+  }
+}, []);
+
+
+
+useEffect(() => {
+  if (updatedFilters) {
+    fetchData(selectedFilters);
+  }
+}, [updatedFilters]);
+
+
+
+  const mapGenders = (genders) => {
+    
+    return genders.map(genderObj => ({ id: genderObj.gender, name: genderObj.gender_name }));
+  
+};
+const mapSchoolLocation = (locations) => {
+  return locations.map(locationObj => ({ id: locationObj.school_location, name: locationObj.location_name }));
+};
+const mapSubjects = (subjects) => {
+  return subjects.map(subjectObj => subjectObj.subject);
+};
+const mapAgeGroups = (ageGroups) => {
+  return ageGroups.map(ageGroupObj => ageGroupObj.age_group);
+};
+const mapSocialGroup = (socialGroups) => {
+  return socialGroups.map(socialGroupObj => ({ id: socialGroupObj.social_group, name: socialGroupObj.social_group_name }));
+};
+const mapQualification = (qualifications) => {
+  return qualifications.map(qualificationObj => ({ id: qualificationObj.qualification, name: qualificationObj.qualification_name }));
+};
+const mapEmployment = (employments) => {
+  return employments.map(employmentObj => ({ id: employmentObj.employment_nature, name: employmentObj.employment_nature_name }));
+};
+const mapCWSN = (cwsn) => {
+  return cwsn.map(cwsnObj => ({ id: cwsnObj.cwsn, name: cwsnObj.cwsn_status }));
+};
+const mapEducationBoard = (educationBoards) => {
+  return educationBoards.map(educationBoardObj =>  ({ id: educationBoardObj.education_board_name, name: educationBoardObj.education_board }));
+};
+const mapGrades = (grades) => {
+  return grades.map(gradesObj => gradesObj.grade);
+};
+const mapAnnualIncome = (income) => {
+  return income.map(incomeObj => incomeObj.household_income);
+};
+const mapFatherEducation = (fatherEducation) => {
+  return fatherEducation.map(fatherEducationObj => fatherEducationObj.child_father_qualification);
+};
+const mapMotherEducation = (motherEducation) => {
+  return motherEducation.map(motherEducationObj => motherEducationObj.child_mother_qualification);
+};
+const mapSchoolManagement = (schoolManagement) => {
+  return schoolManagement.map(schoolManagementObj => ({ id: schoolManagementObj.school_management_name, name: schoolManagementObj.school_management }));
+};
+const mapStateNames = (states) => {
+  return states.map(stateObj => ({ id: stateObj.state_id, name: stateObj.state_name }));
+}
+
+const mapDistricts = (districts) => {
+  return districts.map(districtObj => ({
+    id: districtObj.district_id,
+    name: districtObj.district_name,
+    state_id: districtObj.state_id
+  }));
+};
+
+//filter dropdown options
+const attributeOptions = {
+  "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "District": districtOptions ? districtOptions: [{ id: 'All', name: 'All' }],
+  "School": ['All', 'School 1', 'School 2', 'School 3','School 4','School 5','School 6'],
+  Grade: filterOptions ? (filterOptions.grades ? ['All', ...mapGrades(filterOptions.grades)] : ['All']) : ['All'],
+  "Social Group": filterOptions ? (filterOptions.socialGroup ? [{ id: 'All', name: 'All' }, ...mapSocialGroup(filterOptions.socialGroup)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  Gender: filterOptions ? (filterOptions.genders ? [{ id: 'All', name: 'All' }, ...mapGenders(filterOptions.genders)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Annual Income": filterOptions ? (filterOptions.householdIncome ? ['All', ...mapAnnualIncome(filterOptions.householdIncome)] : ['All']) : ['All'],
+  Subject: filterOptions ? (filterOptions.subjects ? ['All', ...mapSubjects(filterOptions.subjects)] : ['All']) : ['All'],
+  "Mother Education": filterOptions ? (filterOptions.childMotherEducation ? ['All', ...mapMotherEducation(filterOptions.childMotherEducation)] : ['All']) : ['All'],
+  "Father Education": filterOptions ? (filterOptions.childFatherEducation ? ['All', ...mapFatherEducation(filterOptions.childFatherEducation)] : ['All']) : ['All'],
+  "Age Group": filterOptions ? (filterOptions.ageGroups ? ['All', ...mapAgeGroups(filterOptions.ageGroups)] : ['All']) : ['All'],
+  "CWSN": filterOptions ? (filterOptions.cwsn ? [{ id: 'All', name: 'All' }, ...mapCWSN(filterOptions.cwsn)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Board of Education": filterOptions ? (filterOptions.educationalBoard ? [{ id: 'All', name: 'All' }, ...mapEducationBoard(filterOptions.educationalBoard)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
+  "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
+  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+  "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  
+};
+
+
+  
+
+  
+
+  if (!data) {
+    return <div>No data available</div>;
   }
   
-  export default ViewDetailsComponent;
+
+
+const existingFilterKeys = Object.keys(selectedFilters);
+const availableFilterKeys = attributeBasedDropdowns.filter(filterName => !existingFilterKeys.includes(filterName));
+
+
+
+  
+const handleFilterChange = (dropdownLabel) => (event, value) => {
+    
+  let selectedValue = value;
+  let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+
+  if (dropdownLabel === 'State') {
+    selectedValue = value && value.id ? value.id : null;
+    newFilters = { 
+      ...selectedFilters, 
+      [dropdownLabel]: selectedValue, 
+       'District': 'All' 
+    };
+
+    
+    const filteredDistricts = filterOptions.districts.filter(district => district.state_id === selectedValue);
+    setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
+
+    
+  } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN' || dropdownLabel === 'Qualification'|| dropdownLabel === 'Mode of Employment' ) {
+    selectedValue = value && value.id ? value.id : null;
+    newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+  }
+  else if (dropdownLabel === 'School Management' ||  dropdownLabel === 'Board of Education') {
+    selectedValue = value && value.name ? value.name : null;
+    newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
+  }
+ 
+  setSelectedFilters(newFilters);
+  setUpdatedFilters(newFilters);
+ 
+
+};
+
+
+
+  const handleAddDropdown = (event, value) => {
+    if (value) {
+      setSelectedFilters((prevFilters) => ({
+        ...prevFilters,
+        [value]: 'All'
+      }));
+      setShowAddMore(true);
+    }
+  };
+
+   //select values for dropdowns that will be visible
+   const getValueFromList = (list, value, key) => {
+    if(list != undefined){
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === value.name) || null;
+      }
+      return list.find(item => item.name === value) || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === value.id) || null;
+      }
+      return list.find(item => item.id === value) || list.find(item => item === value) || null;
+    }
+  }
+  };
+
+
+  return (
+    <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>
+      <CardContent>
+      <Grid container rowSpacing={1} columnSpacing={1}>
+      <Grid item xs={12} sm={12} md={12} lg={12} sx={{ backgroundColor: '#0948a6', padding: '8px', display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: 2 }}>
+  <Typography 
+    variant="h4" 
+    sx={{ color: '#fff' }}
+  >
+    {selectedAttribute.value}
+  </Typography>
+  <Button variant="contained" sx={{ backgroundColor: "white", color: "#2899DB", m: 0 }}>
+    Export
+  </Button>
+</Grid>
+
+<Grid container spacing={2} mb={2} mt={2}>
+          <Grid item xs={12} sm={3} md={3} lg={3}>
+            <Typography variant="body1"  mt={1}><b>Date Range 1:</b></Typography>
+            </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1StartValue}
+                     onChange={(newValue) => handleDateRangeChange('dateRange1', newValue, dateRange1EndValue)}
+                    maxDate={dateRange1EndValue}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1EndValue}
+                    onChange={(newValue) => handleDateRangeChange('dateRange1', dateRange1StartValue, newValue)}
+                    minDate={dateRange1StartValue}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+           
+          
+{(cardKey != 4) &&
+<>
+          <Grid item xs={12} sm={3} md={3} lg={3} >
+            <Typography variant="body1"  mt={1}><b>Date Range 2:</b></Typography>
+            </Grid>
+
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange2StartValue}
+                    onChange={(newValue) => handleDateRangeChange('dateRange2', newValue, dateRange2EndValue)}
+                    maxDate={dateRange2EndValue}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange2EndValue}
+                    onChange={(newValue) => handleDateRangeChange('dateRange2', dateRange2StartValue, newValue)}
+                    minDate={dateRange2StartValue}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+              </>       
+}
+           
+        </Grid>
+      
+      </Grid>
+
+      <Grid container spacing={2}>
+  {existingFilterKeys.map((dropdownLabel, index) => (
+    <Grid item xs={12} sm={4} key={index}>
+      <Autocomplete
+        options={attributeOptions[dropdownLabel] || []}
+        getOptionLabel={(option) => typeof option === 'object' ? option.name : option}
+        value={getValueFromList(attributeOptions[dropdownLabel], selectedFilters[dropdownLabel], dropdownLabel)}
+        onChange={handleFilterChange(dropdownLabel)}
+        renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
+      />
+    </Grid>
+  ))}
+   {availableFilterKeys && showAddMore && (
+            <Grid item xs={12} sm={4} md={4} lg={4}>
+              <IconButton
+                onClick={() => setShowAddMore(false)}
+                color="primary"
+                aria-label="add more filters"
+                sx={{ p: 0, m: 0 }}
+              >
+                <AddCircleIcon />
+              </IconButton>
+            </Grid>
+          )}
+  {!showAddMore && (
+    <Grid item xs={12} sm={4}>
+      <Autocomplete
+        options={availableFilterKeys}
+        getOptionLabel={(option) => attributeOptions[option]?.[0]?.value || option}
+        onChange={handleAddDropdown}
+        renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
+      />
+    </Grid>
+  )}
+</Grid>
+
+    
+      <Typography variant="h5" color= "#0948a6" mt={4} gutterBottom><u>Table Data:</u></Typography>
+      {loading ?(
+        <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
+        <CircularProgress />
+      </Box>
+      ):(
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
+          <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
+            <TableRow>
+              <TableCell className="TableHeading" rowSpan={2}>
+                <p className="HeadingData">Attributes</p>
+              </TableCell>
+              <TableCell className="TableHeading" colSpan={2}>
+                <p className="HeadingData">Date Range 1</p>
+              </TableCell>
+              <TableCell className="TableHeading" colSpan={2}>
+                <p className="HeadingData">Date Range 2</p>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              {tableHeadings.map((heading, index) => (
+                <TableCell key={index} className="TableHeading">
+                  <p className="HeadingData">{heading}</p>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableData && tableData.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell className="BodyBorder">
+                  <p className="TableData">{row.attributes}</p>
+                </TableCell>
+                <TableCell className="BodyBorder">
+                  <p className="TableData">{row.dateRange1TotalValue}</p>
+                </TableCell>
+                <TableCell className="BodyBorder">
+                  <p className="TableData">{row.dateRange1AvgValue}</p>
+                </TableCell>
+                <TableCell className="BodyBorder">
+                  <p className="TableData">{row.dateRange2TotalValue}</p>
+                </TableCell>
+                <TableCell className="BodyBorder">
+                  <p className="TableData">{row.dateRange2AvgValue}</p>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ViewDetailsComponent;

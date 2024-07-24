@@ -52,20 +52,21 @@ function App() {
             {/* Routes with Header */}
             <Route element={<Header />}>
               <Route path="/dashboard" element={<Home />} />
-              <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />
+             
               <Route path="/studentLearningBehaviours/:id" element={<StudentLearningBehaviour />} />
               <Route path="/studentInternetBehaviours/:id" element={<StudentInternetBehaviourPatterns />} />
               <Route path="/studentR2Attributes/:id" element={<StudentSchoolAttributes_R2 />} />
               <Route path="/studentR1Attributes/:id" element={<StudentSchoolAttributes_R1 />} />
-              <Route path="/teacher_Attributes" element={<Teacher_Attributes />} />
-              <Route path="/teacherTrainingData" element={<TeacherTrainingData />} />
-              <Route path="/teacherSchoolParent" element={<TeacherSchoolParent />} />
+              <Route path="/teacher_Attributes/:id" element={<Teacher_Attributes />} />
+              <Route path="/teacherTrainingData/:id" element={<TeacherTrainingData />} />
+              <Route path="/teacherSchoolParent/:id" element={<TeacherSchoolParent />} />
               <Route path="/studentCareerGrowth/:id" element={<StudentCareerGrowth_R4 />} />
               <Route path="/schoolInfrastructure" element={<SchoolInfrastructure />} />
               <Route path="/parentalAndHousehold/:id" element={<ParentalandHousehold />} />
               <Route path="/parentSchoolAttribute/:id" element={<ParentSchoolAttribute />} />
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
+            <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />
           </Routes>
         </Router>
       </ColorModeContextProvider>

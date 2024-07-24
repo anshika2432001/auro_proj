@@ -16,17 +16,19 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
-console.log(chartData)
-const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,cardMapping,dataAvailableStatus,category }) {
+console.log(cardMapping)
+const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const navigate = useNavigate();
+  
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
   const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
   const [dateRange2Start, setDateRange2Start] = useState(dayjs('2024-03-01'));
   const [dateRange2End, setDateRange2End] = useState(dayjs('2024-03-31'));
   const initialDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
+  console.log(initialDropdowns)
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
@@ -36,7 +38,7 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const [districtOptions, setDistrictOptions] = useState([]);
   const chartRef = useRef(null);
-  
+  console.log(dateRange1Start)
 
   const mapGenders = (genders) => {
     
@@ -54,6 +56,12 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
   };
   const mapSocialGroup = (socialGroups) => {
     return socialGroups.map(socialGroupObj => ({ id: socialGroupObj.social_group, name: socialGroupObj.social_group_name }));
+  };
+  const mapQualification = (qualifications) => {
+    return qualifications.map(qualificationObj => ({ id: qualificationObj.qualification, name: qualificationObj.qualification_name }));
+  };
+  const mapEmployment = (employments) => {
+    return employments.map(employmentObj => ({ id: employmentObj.employment_nature, name: employmentObj.employment_nature_name }));
   };
   const mapCWSN = (cwsn) => {
     return cwsn.map(cwsnObj => ({ id: cwsnObj.cwsn, name: cwsnObj.cwsn_status }));
@@ -107,16 +115,19 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
     "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
     "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
     "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
-    "Qualification": ['All', 'Below Secondary', 'Secondary','Higher Secondary','Graduate','Post Graduate','M.Phil','Ph.D.','Post-Doctoral'],
-    "Mode of Employment": ['All', 'Regular', 'Contract','Part-Time/Guest'],
+    "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     
   };
 
   // Update selectedAttribute when titleId changes
   useEffect(() => {
     
-    setSelectedAttribute(title.id);  
+    setSelectedAttribute(title.id); 
+   
   }, [title.id]);
+
+ 
  
 //updated selectedAttribute and filters based on title and attributeBasedDropdowns
   useEffect(() => {
@@ -130,6 +141,7 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
 //show avaialable filters in the dropdown which are not used or selected till now
   useEffect(() => {
     const usedFilters = new Set(dropdowns);
+    console.log(usedFilters)
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
@@ -186,7 +198,7 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
       setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
   
       
-    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN') {
+    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN' || dropdownLabel === 'Qualification'|| dropdownLabel === 'Mode of Employment' ) {
       selectedValue = value && value.id ? value.id : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
@@ -229,23 +241,35 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
       default:
         break;
     }
-    setSelectedFilters(newFilters);
+    // setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,cardKey);
   };
 
   const viewDetailsPage = ()=> {
-    const params = new URLSearchParams({
-      chartData: JSON.stringify(chartData),
-      // tableData: JSON.stringify(tableData),
-      selectedFilters: JSON.stringify(selectedFilters),
-      selectedAttribute,
-      dateRange1Start: dateRange1Start.toISOString(),
-      dateRange1End: dateRange1End.toISOString(),
-      dateRange2Start: dateRange2Start.toISOString(),
-      dateRange2End: dateRange2End.toISOString(),
-    }).toString();
+    
 
-    window.open(`/viewDetailsPage?${params}`, '_blank');
+    const params = {
+      dropdownOptions,
+      filterOptions,
+      attributeBasedDropdowns: attributeBasedDropdowns[selectedAttribute],
+      selectedFilters,
+      selectedAttribute,
+      dateRange1Start: dateRange1Start,
+      dateRange1End: dateRange1End,
+      dateRange2Start: dateRange2Start,
+      dateRange2End: dateRange2End,
+      apiEndPoints,
+      cardMapping,
+      cardKey,
+      category
+      
+    };
+
+    // Store the params in localStorage or sessionStorage
+    localStorage.setItem('viewDetailsData', JSON.stringify(params));
+
+    // Open the new tab
+    window.open('/viewDetailsPage', '_blank');
   }
   
 
@@ -261,6 +285,7 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
       });
     }
   };
+  console.log(availableFilters)
 
   return (
     <Card className='mini-card'>
@@ -379,15 +404,26 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
                 </LocalizationProvider>
               </Grid>
             
-              {/* <Grid item xs={12} sm={4} md={4} lg={4} >
-           
-            </Grid> */}
+              {loadingStatus ?(
               <Grid item xs={12} sm={5} md={5} lg={5} >
-            <Button  variant='contained' sx={{m:0}} onClick={()=> viewDetailsPage()}>View in Detail</Button>
+            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View in Detail</Button>
             </Grid>
-            <Grid item xs={12} sm={3} md={3} lg={3} >
+             ):(
+              <>
+              {dataAvailableStatus ?(
+                ""
+              ):(
+
+              
+              <Grid item xs={12} sm={5} md={5} lg={5} >
+              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View in Detail</Button>
+              </Grid>
+            )}
+            </>
+             )}
+            {/* <Grid item xs={12} sm={3} md={3} lg={3} >
             <Button  variant='contained' sx={{m:0}}>Export</Button>
-            </Grid>
+            </Grid> */}
         </Grid>
       </CardContent>
       {loadingStatus ?(
@@ -395,6 +431,10 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
         <CircularProgress />
       </Box>
       ):(
+        <>
+        {dataAvailableStatus ?(
+ <Typography variant="body1" color="error">No data available for the chart.</Typography>
+        ):(
         <div style={{ overflowX: "auto", marginTop: "1rem", width: "100%", }}>
         <div style={{ minWidth: chartWidth,minHeight:"400px" }}>
           <Chart
@@ -427,6 +467,8 @@ const chartWidth = chartData.labels.length <= 2 ? '400px' : '800px';
           />
         </div>
       </div>
+    )}
+    </>
      )}
     </Card>
  );

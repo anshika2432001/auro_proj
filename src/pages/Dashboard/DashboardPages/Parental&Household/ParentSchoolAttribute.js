@@ -149,7 +149,8 @@ const tableHeadings = [
 const ParentSchoolAttribute = () => {
   const titleId = useParams();
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
- 
+  const [cardMapping,setCardMapping] = useState('');
+  const [card4Mapping,setCard4Mapping]= useState('');
  
  const defaultDateRange1Start = dayjs('2024-01-01');
  const defaultDateRange1End = dayjs('2024-01-31');
@@ -173,6 +174,14 @@ const ParentSchoolAttribute = () => {
     3: {},
     4: {},
   });
+
+  const [dataAvailable,setDataAvailable]=useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  });
+
   const [cardData, setCardData] = useState({
     1: defaultChartData,
     2: defaultChartData,
@@ -311,9 +320,25 @@ const fetchTableData = () => {
     }
     else{
       console.log("error")
+      setLoading(prevValue => ({
+        ...prevValue,
+        [cardKey]: false,
+      }));
+      setDataAvailable(prevValue => ({
+        ...prevValue,
+        [cardKey]: true,
+      }));
     }
     } catch (error) {
       console.error('Error fetching data:', error);
+      setLoading(prevValue => ({
+        ...prevValue,
+        [cardKey]: false,
+      }));
+      setDataAvailable(prevValue => ({
+        ...prevValue,
+        [cardKey]: true,
+      }));
     }
   };
 
@@ -333,24 +358,36 @@ const fetchTableData = () => {
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
     
+    setCardMapping(mappings)
     const allLabels = new Set([
       ...result.dataStateOne.map(item => item[labelKey]),
       ...result.dataStateTwo.map(item => item[labelKey])
     ]);
   
+   
+
     const labelsData = Array.from(allLabels);
     const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-    const dataOneAvg = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0);
-    const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-    const dataTwoAvg = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0);
+    const dataOneAvg = labelsData.map(label => {
+      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+      return parseFloat(value.toFixed(2));
+    });
   
-    const newTableData = labelsData.map(label => ({
-      attributes: label,
-      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-      dateRange1AvgValue: result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0,
-      dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-      dateRange2AvgValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0,
-    }));
+    const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoAvg = labelsData.map(label => {
+      const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
+      return parseFloat(value.toFixed(2));
+    });
+  
+   
+  const newTableData = labelsData.map(label => ({
+    attributes: label,
+    dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+    dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+    dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+    dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+  }));
+  
   
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
   };
@@ -369,6 +406,8 @@ const fetchTableData = () => {
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
     
+    setCard4Mapping(mappings)
+    
     const allLabels = new Set([
       ...result.dataStateOne.map(item => item[labelKey]),
       ...result.dataNation.map(item => item[labelKey])
@@ -376,11 +415,18 @@ const fetchTableData = () => {
   
     const labelsData = Array.from(allLabels);
     const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-    const dataOneAvg = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0);
-    const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-    const dataTwoAvg = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0);
+    const dataOneAvg = labelsData.map(label => {
+      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+      return parseFloat(value.toFixed(2));
+    });
   
-    
+    const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoAvg = labelsData.map(label => {
+      const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+      return parseFloat(value.toFixed(2));
+    });
+  
+  
   
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg];
   };
@@ -427,8 +473,6 @@ const fetchTableData = () => {
           <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
             <CardComponent 
              key={option.id}
-             
-           
              title={cardTitle[option.id]} 
              dropdownOptions={dropdownOptions} 
              attributeBasedDropdowns={attributeBasedDropdowns} 
@@ -436,7 +480,10 @@ const fetchTableData = () => {
              onFilterChange={onFilterChange}
              cardKey={option.id}
              loadingStatus={loading[option.id]}
-             
+             apiEndPoints={endpointMapping}
+             cardMapping={cardMapping}
+             dataAvailableStatus={dataAvailable[option.id]}
+             category="parent"
               
             />
           </Grid>
@@ -444,8 +491,6 @@ const fetchTableData = () => {
               <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
             <CardFourComponent 
               key={option.id}
-             
-           
               title={cardTitle[option.id]} 
               dropdownOptions={dropdownOptions} 
               attributeBasedDropdowns={attributeBasedDropdowns} 
@@ -453,6 +498,10 @@ const fetchTableData = () => {
               onFilterChange={onFilterChange}
               cardKey={option.id}
               loadingStatus={loading[option.id]}
+              apiEndPoints={endpointMapping}
+              cardMapping={card4Mapping}
+              dataAvailableStatus={dataAvailable[option.id]}
+              category="parent"
               
             />
           </Grid>
