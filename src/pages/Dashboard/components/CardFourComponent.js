@@ -19,6 +19,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,cardMapping,dataAvailableStatus,category,tableInfo,tableHeadings }) {
+  console.log(dataAvailableStatus)
   const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const defaultStateId = 7; 
@@ -301,7 +302,8 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       apiEndPoints,
       cardMapping,
       cardKey,
-      category
+      category,
+      tableHeadings
     };
 
     // Store the params in localStorage or sessionStorage
@@ -333,8 +335,8 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       head = [
         [
           { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
-          { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
-          { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
+          { content: 'State', colSpan: 3, styles: { halign: 'center' } },
+          { content: 'Pan India', colSpan: 3, styles: { halign: 'center' } }
         ],
         tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
       ];
@@ -353,8 +355,8 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       head = [
         [
           { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
-          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
-          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+          { content: 'State', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
         ],
         tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
       ];
@@ -403,12 +405,12 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     const headerData = [
       [
         { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
       ],
       [
         { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -456,10 +458,10 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     const headerData = [
       [
         { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
-        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
       ],
       [
         { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -515,22 +517,22 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   if(category == "teacher" || category == "parent"){
     headers = [
       { label: 'Attributes', key: 'attributes' },
-      { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
-      { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
-      { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
-      { label: 'Date Range 2 Total Stakeholders Value', key: 'dateRange2TotalValue' },
-      { label: 'Date Range 2 Total Students Value', key: 'dateRange2StudentValue' },
-      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+      { label: 'State Total Stakeholder Value', key: 'dateRange1TotalValue' },
+      { label: 'State Total Students Value', key: 'dateRange1StudentValue' },
+      { label: 'State Avg Students Value', key: 'dateRange1AvgValue' },
+      { label: 'Pan India Total Stakeholders Value', key: 'dateRange2TotalValue' },
+      { label: 'Pan India Total Students Value', key: 'dateRange2StudentValue' },
+      { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
     ];
 
   }
   else{
     headers = [
       { label: 'Attributes', key: 'attributes' },
-      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
-      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
-      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
-      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+      { label: 'State Total Value', key: 'dateRange1TotalValue' },
+      { label: 'State Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
     ];
 
   }
@@ -712,11 +714,7 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
             options={{
               indexAxis: 'x', 
               responsive: true,
-              plugins: {
-                legend: {
-                  display: false
-                },
-              },
+             
               maintainAspectRatio: false, 
               scales: {
                 y: {
@@ -729,8 +727,38 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
                     }
                   }
                 }
+              },
+              plugins: {
+                legend: {
+                display: false
+              },
+            
+              tooltip: {
+                  callbacks: {
+                      label: function(context) {
+                          let label = context.dataset.label || '';
+                          if (label) {
+                                label += ': ';
+                            }
+                            let dataPoint = "";
+                            if(context.dataset.dataStudent){
+                              dataPoint = context.dataset.dataStudent[context.dataIndex]
+                              const customValue1 = dataPoint;
+                              label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                              return label;
+                            }
+                            else{
+                              label +=`${context.parsed.y}`
+                              return label;
+                            }
+                           
+                          
+                         
+                      }
+                  }
               }
-            }}
+          }
+          }}
             plugins={[linePosition]}
           />
         </div>

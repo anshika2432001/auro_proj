@@ -32,13 +32,7 @@ import * as XLSX from 'xlsx';
 import { CSVLink } from "react-csv";
 
 //table headings
-const tableHeadings = [
-  
-  'Number of Students', 
-  'Average Score of Students',
-  'Number of Students', 
-  'Average Score of Students'
-];
+
 
 const ViewDetailsComponent = () => {
   const [data, setData] = useState(null);
@@ -74,7 +68,8 @@ const ViewDetailsComponent = () => {
   apiEndPoints,
  cardMapping,
  cardKey,
- category
+ category,
+ tableHeadings
 } = data || {};
 
 const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
@@ -177,7 +172,26 @@ setLoading(true)
     console.log(result)
     console.log(cardKey)
     if(cardKey == 4){
-      const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+      if(category == "teacher" || category == "parent"){
+        const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataNation.map(item => item[labelKey])
+      ]);
+      const labelsData = Array.from(allLabels);
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2StudentValue: result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setTableData(newTableData)
+      }
+      else{
+        const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
         ...result.dataNation.map(item => item[labelKey])
@@ -191,10 +205,37 @@ setLoading(true)
         dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
       }));
       setTableData(newTableData)
+
+      }
+      
     }
     else{
+      if(category == "teacher" || category == "parent"){
+        const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
+      
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataStateTwo.map(item => item[labelKey])
+      ]);
+      
+      const labelsData = Array.from(allLabels);
+      
+  
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2StudentValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+      }));
      
-      const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
+        setTableData(newTableData)
+
+      }
+      else{
+        const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
       
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
@@ -213,6 +254,10 @@ setLoading(true)
       }));
      
         setTableData(newTableData)
+
+      }
+     
+      
     }
    
   }
@@ -445,39 +490,77 @@ const exportAsPDF = () => {
 
   // Define the table head with center alignment
   let head = [];
-  if(cardKey == 4){
-    head = [
-      [
-        { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
-        { content: 'State', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
-      ],
-      tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
-    ];
+  let body = [];
+  if(category == "teacher" || category == "parent"){
+    if(cardKey == 4){
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'State', colSpan: 3, styles: { halign: 'center' } },
+          { content: 'Pan India', colSpan: 3, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+      
+  
+    }
+    else{
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+  
+    }
+    body = tableData.map(row => [
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1StudentValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2StudentValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
+
+  }else{
+    if(cardKey == 4){
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'State', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+      
+  
+    }
+    else{
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+
+     
+  
+    }
+    body = tableData.map(row => [
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
 
   }
-  else{
-    head = [
-      [
-        { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
-        { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
-      ],
-      tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
-    ];
-
-  }
- 
-
-  // Define the table body
-  const body = tableData.map(row => [
-    { content: row.attributes, styles: { halign: 'center' } },
-    { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
-    { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
-    { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
-    { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
-  ]);
-
+  
   doc.autoTable({
     head: head,
     body: body,
@@ -505,7 +588,90 @@ const exportAsPDF = () => {
 
 const exportAsExcel = () => {
   // Define the main headings and sub-headings based on tableHeadings
- let headerData = [];
+  if(category == "teacher" || category == "parent"){
+    let headerData = [];
+ if(cardKey == 4){
+  headerData = [
+    [
+      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ],
+    [
+      { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[4], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[5], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+    ]
+  ];
+
+ }
+ else{
+  headerData = [
+    [
+      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ],
+    [
+      { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[4], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[5], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+    ]
+  ];
+
+ }
+
+   
+
+  // Create a worksheet from the header data
+  const ws = XLSX.utils.aoa_to_sheet(headerData);
+
+  // Add cell merges to the worksheet
+  ws['!merges'] = [
+    { s: { r: 0, c: 1 }, e: { r: 0, c: 3 } }, // Merge cells for "Date Range 1"
+      { s: { r: 0, c: 4 }, e: { r: 0, c: 6 } }  // Merge cells for "Date Range 2"
+  ];
+
+  // Append data rows to the worksheet
+  const dataRows = tableData.map(row => [
+    row.attributes,
+    row.dateRange1TotalValue,
+    row.dateRange1StudentValue,
+    row.dateRange1AvgValue,
+    row.dateRange2TotalValue,
+    row.dateRange2StudentValue,
+    row.dateRange2AvgValue
+  ]);
+
+  // Append the data rows to the worksheet
+  XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+
+  // Create a new workbook and append the worksheet
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Data');
+
+  // Write the workbook to a file
+  XLSX.writeFile(wb, `${selectedAttribute.value}.xlsx`);
+
+  }else{
+
+    let headerData = [];
  if(cardKey == 4){
   headerData = [
     [
@@ -574,6 +740,9 @@ const exportAsExcel = () => {
 
   // Write the workbook to a file
   XLSX.writeFile(wb, `${selectedAttribute.value}.xlsx`);
+
+  }
+ 
 };
 
 
@@ -585,38 +754,83 @@ const exportAsCSV = () => {
 
 // Define header rows as a single array of objects
 let headers = [];
-if(cardKey == 4){
-  headers = [
-    { label: 'Attributes', key: 'attributes' },
-    { label: 'State Total Value', key: 'dateRange1TotalValue' },
-    { label: 'State Avg Value', key: 'dateRange1AvgValue' },
-    { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
-    { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
-    ];
-
+if(category == "teacher" || category == "parent"){
+  if(cardKey == 4){
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'State Stakeholder Value', key: 'dateRange1TotalValue' },
+      { label: 'State Student Value', key: 'dateRange1StudentValue' },
+      { label: 'State Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Pan India Stakeholder Value', key: 'dateRange2TotalValue' },
+      { label: 'Pan India Student Value', key: 'dateRange2StudentValue' },
+      { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
+  else{
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
+      { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Stakeholders Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Total Students Value', key: 'dateRange2StudentValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
 }
 else{
-  headers = [
-    { label: 'Attributes', key: 'attributes' },
-    { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
-    { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
-    { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
-    { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
-    ];
+  if(cardKey == 4){
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'State Total Value', key: 'dateRange1TotalValue' },
+      { label: 'State Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
+  else{
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
 
 }
+
 
 
 // Define data rows
 let dataRows = []
 if(tableData.length != 0 || tableData != undefined ){
- dataRows = tableData.map(row => ({
-  attributes: row.attributes,
-  dateRange1TotalValue: row.dateRange1TotalValue,
-  dateRange1AvgValue: row.dateRange1AvgValue,
-  dateRange2TotalValue: row.dateRange2TotalValue,
-  dateRange2AvgValue: row.dateRange2AvgValue
-}));
+  if(category == "teacher" || category == "parent"){
+    dataRows = tableData.map(row => ({
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1StudentValue: row.dateRange1StudentValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2StudentValue: row.dateRange2StudentValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+
+  }
+  else{
+    dataRows = tableData.map(row => ({
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+  }
+ 
 
 }
 
@@ -782,69 +996,144 @@ if(tableData.length != 0 || tableData != undefined ){
         <CircularProgress />
       </Box>
       ):(
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
-          <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
-            <TableRow>
-              {cardKey == 4? (
-                <>
-                <TableCell className="TableHeading" rowSpan={2}>
-                <p className="HeadingData">Attributes</p>
-              </TableCell>
-              <TableCell className="TableHeading" colSpan={2}>
-                <p className="HeadingData">State</p>
-              </TableCell>
-              <TableCell className="TableHeading" colSpan={2}>
-                <p className="HeadingData">Pan india</p>
-              </TableCell>
-                </>
+        <>
+          {(category == "teacher" || category=="parent") ? (
+ <TableContainer component={Paper}>
+ <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
+   <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
+     <TableRow>
+       {cardKey == 4? (
+         <>
+         <TableCell className="TableHeading" rowSpan={2}>
+         <p className="HeadingData">Attributes</p>
+       </TableCell>
+       <TableCell className="TableHeading" colSpan={3}>
+         <p className="HeadingData">State</p>
+       </TableCell>
+       <TableCell className="TableHeading" colSpan={3}>
+         <p className="HeadingData">Pan india</p>
+       </TableCell>
+         </>
 
-              ):(
-                <>
-                <TableCell className="TableHeading" rowSpan={2}>
-                <p className="HeadingData">Attributes</p>
-              </TableCell>
-              <TableCell className="TableHeading" colSpan={2}>
-                <p className="HeadingData">Date Range 1</p>
-              </TableCell>
-              <TableCell className="TableHeading" colSpan={2}>
-                <p className="HeadingData">Date Range 2</p>
-              </TableCell>
-              </>
-              )}
-              
-            </TableRow>
-            <TableRow>
-              {tableHeadings.map((heading, index) => (
-                <TableCell key={index} className="TableHeading">
-                  <p className="HeadingData">{heading}</p>
-                </TableCell>
+       ):(
+         <>
+         <TableCell className="TableHeading" rowSpan={2}>
+         <p className="HeadingData">Attributes</p>
+       </TableCell>
+       <TableCell className="TableHeading" colSpan={3}>
+         <p className="HeadingData">Date Range 1</p>
+       </TableCell>
+       <TableCell className="TableHeading" colSpan={3}>
+         <p className="HeadingData">Date Range 2</p>
+       </TableCell>
+       </>
+       )}
+       
+     </TableRow>
+     <TableRow>
+       {tableHeadings.map((heading, index) => (
+         <TableCell key={index} className="TableHeading">
+           <p className="HeadingData">{heading}</p>
+         </TableCell>
+       ))}
+     </TableRow>
+   </TableHead>
+   <TableBody>
+              {tableData && tableData.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.attributes}</p>
+                  </TableCell>
+                  
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange1TotalValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange1StudentValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange1AvgValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange2TotalValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange2StudentValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.dateRange2AvgValue}</p>
+                  </TableCell>
+                </TableRow>
               ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData && tableData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.attributes}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange1TotalValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange1AvgValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange2TotalValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange2AvgValue}</p>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+ </Table>
+</TableContainer>
+          ):(
+            <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
+              <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
+                <TableRow>
+                  {cardKey == 4? (
+                    <>
+                    <TableCell className="TableHeading" rowSpan={2}>
+                    <p className="HeadingData">Attributes</p>
+                  </TableCell>
+                  <TableCell className="TableHeading" colSpan={2}>
+                    <p className="HeadingData">State</p>
+                  </TableCell>
+                  <TableCell className="TableHeading" colSpan={2}>
+                    <p className="HeadingData">Pan india</p>
+                  </TableCell>
+                    </>
+    
+                  ):(
+                    <>
+                    <TableCell className="TableHeading" rowSpan={2}>
+                    <p className="HeadingData">Attributes</p>
+                  </TableCell>
+                  <TableCell className="TableHeading" colSpan={2}>
+                    <p className="HeadingData">Date Range 1</p>
+                  </TableCell>
+                  <TableCell className="TableHeading" colSpan={2}>
+                    <p className="HeadingData">Date Range 2</p>
+                  </TableCell>
+                  </>
+                  )}
+                  
+                </TableRow>
+                <TableRow>
+                  {tableHeadings.map((heading, index) => (
+                    <TableCell key={index} className="TableHeading">
+                      <p className="HeadingData">{heading}</p>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {tableData && tableData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="BodyBorder">
+                      <p className="TableData">{row.attributes}</p>
+                    </TableCell>
+                    <TableCell className="BodyBorder">
+                      <p className="TableData">{row.dateRange1TotalValue}</p>
+                    </TableCell>
+                    <TableCell className="BodyBorder">
+                      <p className="TableData">{row.dateRange1AvgValue}</p>
+                    </TableCell>
+                    <TableCell className="BodyBorder">
+                      <p className="TableData">{row.dateRange2TotalValue}</p>
+                    </TableCell>
+                    <TableCell className="BodyBorder">
+                      <p className="TableData">{row.dateRange2AvgValue}</p>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          )}
+     </>
       )}
       </CardContent>
     </Card>

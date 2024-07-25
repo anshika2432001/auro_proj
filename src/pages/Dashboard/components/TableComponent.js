@@ -173,7 +173,7 @@ useEffect(() => {
 
   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
-    console.log(list)
+    
     if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
@@ -315,8 +315,6 @@ useEffect(() => {
 
     }
     
-  
-   
   
     doc.autoTable({
       head: head,
@@ -697,7 +695,7 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == "teacher") ? (
+          {(category == "teacher" || category=="parent") ? (
             <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

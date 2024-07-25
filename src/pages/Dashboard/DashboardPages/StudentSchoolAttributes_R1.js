@@ -43,16 +43,16 @@ const endpointMapping = {
   2: '/r1/grade-wise-avg-score-stats',
   3: '/r1/micro-scholar-quiz-stats',
   4: '/r1/total-quiz-attempted-stats',
-  5: '/r1/topic-wise-avg-score-stats',
-  6: '/r1/topic-wise-micro-scholar-quiz-stats',
-  7: '/r1/top-performing-topics-stats',
-  8: '/r1/weak-performing-topics-stats',
+  5: '/r1/topic-wise-avg-score-data',
+  6: '/r1/topic-wise-micro-scholar-quiz-data',
+  7: '/r1/top-performing-topics-data',
+  8: '/r1/weak-performing-topics-data',
   9: '/r1/core-retake-practice-stats',
   10: '/r1/core-retake-improvement-stats',
   11: '/r1/subject-wise-breakdown-improve-stats',
   12: '/r1/grade-wise-breakdown-improve-stats',
   13: '/r1/topic-wise-breakdown-improve-stats',
-  14: '/r1/topic-wise-student-attempts-stats',
+  14: '/r1/topic-wise-student-attempts-data',
 };
 
 //default chart data for first 3 cards
@@ -311,6 +311,10 @@ useEffect(() => {
           ...prevValue,
           [cardKey]: false,
         }));
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
           const result = res.data.result;
           if(cardKey == 4){
             
@@ -381,6 +385,7 @@ useEffect(() => {
       }));
     }
   };
+  console.log(dataAvailable)
 
   //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
@@ -389,10 +394,10 @@ useEffect(() => {
       2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey: 'average_score' },
       3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
       4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'regional_avg_score' },
-      5: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score_region' },
-      6: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score_state' },
-      7: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region' },
-      8: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region' },
+      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_region' },
+      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_state' },
+      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state' },
+      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region' },
       10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_improvement_region' },
       11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state' },
@@ -443,10 +448,10 @@ useEffect(() => {
       2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey1: 'average_score',avgKey2: 'average_score' },
       3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' },
       4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'regional_avg_score',avgKey2: 'national_avg_score' },
-      5: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india' },
-      6: { key: 'topic_name', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
-      7: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_region', avgKey2: 'avg_score_nation' },
-      8: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_region', avgKey2: 'avg_score_nation' },
+      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_region', avgKey2: 'avg_score_nation' },
+      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
+      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
+      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_pan_india',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india'},
       10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_improvement_region', avgKey2: 'avg_improvement_nation' },
       11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation' },
@@ -457,31 +462,65 @@ useEffect(() => {
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
     setCard4Mapping(mappings)
-    
-    const allLabels = new Set([
-      ...result.dataStateOne.map(item => item[labelKey]),
-      ...result.dataNation.map(item => item[labelKey])
-    ]);
-  
-    const labelsData = Array.from(allLabels);
-    const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-    const dataOneAvg = labelsData.map(label => {
-      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+    let labelsData = [];
+    let dataOne = [];
+    let dataOneAvg = [];
+    let dataTwo = [];
+    let dataTwoAvg = [];
+    let newTableData = [];
+
+    if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
+     const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+      ]);
+      labelsData = Array.from(allLabels);
+      dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+      dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+        return parseFloat(value.toFixed(2));
+      }); 
+       dataTwo = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+     dataTwoAvg = labelsData.map(label => {
+      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0;
       return parseFloat(value.toFixed(2));
     });
-  
-    const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-    const dataTwoAvg = labelsData.map(label => {
+     newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+    }));
+
+    }
+    else{
+    const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataNation.map(item => item[labelKey])
+      ]);
+    
+     labelsData = Array.from(allLabels);
+       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+      dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+        return parseFloat(value.toFixed(2));
+      }); 
+       dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+     dataTwoAvg = labelsData.map(label => {
       const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
       return parseFloat(value.toFixed(2));
     });
-    const newTableData = labelsData.map(label => ({
+     newTableData = labelsData.map(label => ({
       attributes: label,
       dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
       dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
       dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
       dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
     }));
+
+    }
+  
+    
    
  
   
@@ -582,6 +621,7 @@ useEffect(() => {
           tableKey={0}
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
+          category="student"
           />
         </Grid>
       </Grid>

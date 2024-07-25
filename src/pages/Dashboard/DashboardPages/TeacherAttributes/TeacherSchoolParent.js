@@ -48,6 +48,7 @@ const defaultChartData = {
       borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
       data: [],
+      dataStudent: [],
       barThickness: 30,
       borderRadius: 5,
       order: 2,
@@ -60,6 +61,7 @@ const defaultChartData = {
       borderWidth: 2,
       borderRadius: 5,
       data: [],
+      dataStudent: [],
       barThickness: 30,
       order: 2,
     },
@@ -97,6 +99,7 @@ const defaultChartDataCard4 = {
       borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
       data: [],
+      dataStudent: [],
       barThickness: 30,
       borderRadius: 5,
       order: 2,
@@ -109,6 +112,7 @@ const defaultChartDataCard4 = {
       borderWidth: 2,
       borderRadius: 5,
       data: [],
+      dataStudent: [],
       barThickness: 30,
       order: 2,
     },
@@ -281,16 +285,20 @@ const fetchTableData = () => {
           ...prevValue,
           [cardKey]: false,
         }));
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
           const result = res.data.result;
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
                   labels: labelsData,
-                  datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
+                  datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName,dataOneStudent,dataTwoStudent),
                 }
                }));
                setTableData(prevData => ({
@@ -299,12 +307,12 @@ const fetchTableData = () => {
               }));
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent] = parseResultData(key, result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
               labels: labelsData,
-              datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
+              datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent),
           }
         }));
         setTableData(prevData => ({
@@ -394,7 +402,7 @@ const fetchTableData = () => {
     }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent];
   };
 
 
@@ -442,21 +450,21 @@ const fetchTableData = () => {
     }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent];
   };
 
-  //datasets creation for first three cards based on default chart data
-  const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
-    { ...defaultChartData.datasets[0], data: dataOne },
-    { ...defaultChartData.datasets[1], data: dataTwo },
-    { ...defaultChartData.datasets[2], data: dataOneAvg },
-    { ...defaultChartData.datasets[3], data: dataTwoAvg },
+   //datasets creation for first three cards based on default chart data
+   const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent) => [
+    { ...defaultChartData.datasets[0], data: dataOne || [],dataStudent:dataOneStudent || [] },
+    { ...defaultChartData.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [] },
+    { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
+    { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
   ];
 
   //datasets creation for region vs panIndia card(4TH CARD) based on default chart data
-  const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName) => [
-    { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of Teachers (${defaultStateName})`, },
-    { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
+  const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName,dataOneStudent,dataTwoStudent) => [
+    { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of Teachers (${defaultStateName})`,dataStudent:dataOneStudent || [] },
+    { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || []},
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${defaultStateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];

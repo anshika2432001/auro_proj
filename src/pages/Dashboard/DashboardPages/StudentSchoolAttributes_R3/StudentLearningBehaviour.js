@@ -290,6 +290,10 @@ const fetchTableData = () => {
           ...prevValue,
           [cardKey]: false,
         }));
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
           const result = res.data.result;
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
@@ -542,6 +546,7 @@ const fetchTableData = () => {
           tableKey={0}
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
+          category="student"
           />
         </Grid>
       </Grid>

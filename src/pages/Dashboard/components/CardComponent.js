@@ -21,7 +21,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,cardMapping,dataAvailableStatus,category,tableInfo,tableHeadings }) {
-console.log(tableInfo)
+console.log(chartData)
 const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const navigate = useNavigate();
@@ -289,7 +289,8 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       apiEndPoints,
       cardMapping,
       cardKey,
-      category
+      category,
+      tableHeadings
       
     };
 
@@ -736,11 +737,6 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
             options={{
               indexAxis: 'x', 
               responsive: true,
-              plugins: {
-                legend: {
-                  display: false
-                },
-              },
               maintainAspectRatio: false, 
               scales: {
                 y: {
@@ -753,8 +749,39 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
                     }
                   }
                 }
-              }
+              },
+              plugins: {
+                  legend: {
+                  display: false
+                },
+              
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                  label += ': ';
+                              }
+                              let dataPoint = "";
+                              if(context.dataset.dataStudent){
+                                dataPoint = context.dataset.dataStudent[context.dataIndex]
+                                const customValue1 = dataPoint;
+                                label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                                return label;
+                              }
+                              else{
+                                label +=`${context.parsed.y}`
+                                return label;
+                              }
+                             
+                            
+                           
+                        }
+                    }
+                }
+            }
             }}
+
             plugins={[linePosition]}
           />
         </div>
