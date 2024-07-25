@@ -130,66 +130,66 @@ public class MasterControllerR1 {
     }
 
 
-//    @PostMapping("/grade-wise-avg-score-table")
-//    public ApiResponse2<?> gradeWiseAvgScoreTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.gradeWiseAvgScoreTable(payloadDto);
-//    }
+    @PostMapping("/grade-wise-avg-score-table")
+    public ApiResponse2<?> gradeWiseAvgScoreTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.gradeWiseAvgScoreTable(payloadDto);
+    }
 
-//    @PostMapping("/topic-wise-avg-score-table")
-//    public ApiResponse2<?> topicWiseAvgScoreTable (@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.topicWiseAvgScoreTable(payloadDto);
-//    }
-//
-//    @PostMapping("/total-quiz-attempted-table")
-//    public ApiResponse2<?> totalQuizAttemptedTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.totalQuizAttemptedTable(payloadDto);
-//    }
-//
-//    @PostMapping("/topic-wise-student-attempts-table")
-//    public ApiResponse2<?> topicWiseStudAttemptsTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.topicWiseStudAttemptsTable(payloadDto);
-//    }
-//
-//    @PostMapping("/topic-wise-micro-scholar-quiz-table")
-//    public ApiResponse2<?> topicWiseMicroScholarQuizTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.topicWiseMicroScholarQuizTable(payloadDto);
-//    }
-//
-//    @PostMapping("/top-performing-topics-table")
-//    public ApiResponse2<?> topTopicPerformanceTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.topTopicPerformanceTable(payloadDto);
-//    }
-//
-//    @PostMapping("/weak-performing-topics-table")
-//    public ApiResponse2<?> weakTopicPerformanceTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.weakTopicPerformanceTable(payloadDto);
-//    }
-//
-//
-//    @PostMapping("/core-retake-practice-table")
-//    public ApiResponse2<?> coreRetakePracticeStudentTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.coreRetakePracticeStudentTable(payloadDto);
-//    }
-//
-//    @PostMapping("/core-retake-improvement-table")
-//    public ApiResponse2<?> coreRetakeImprovePercentTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.coreRetakeImprovePercentTable(payloadDto);
-//    }
-//
-//    @PostMapping("/subject-wise-breakdown-improve-table")
-//    public ApiResponse2<?> subjectWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.subjectWiseBreakdownImproveTable(payloadDto);
-//    }
-//
-//    @PostMapping("/grade-wise-breakdown-improve-table")
-//    public ApiResponse2<?> gradeWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.gradeWiseBreakdownImproveTable(payloadDto);
-//    }
-//
-//    @PostMapping("/topic-wise-breakdown-improve-table")
-//    public ApiResponse2<?> topicWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
-//        return masterServicesR1.topicWiseBreakdownImproveTable(payloadDto);
-//    }
+    @PostMapping("/topic-wise-avg-score-table")
+    public ApiResponse2<?> topicWiseAvgScoreTable (@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseAvgScoreTable(payloadDto);
+    }
+
+    @PostMapping("/total-quiz-attempted-table")
+    public ApiResponse2<?> totalQuizAttemptedTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.totalQuizAttemptTable(payloadDto);
+    }
+
+    @PostMapping("/topic-wise-student-attempts-table")
+    public ApiResponse2<?> topicWiseStudAttemptsTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseStudAttemptsTable(payloadDto);
+    }
+
+    @PostMapping("/topic-wise-micro-scholar-quiz-table")
+    public ApiResponse2<?> topicWiseMicroScholarQuizTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseMicroScholarQuizTable(payloadDto);
+    }
+
+    @PostMapping("/top-performing-topics-table")
+    public ApiResponse2<?> topTopicPerformanceTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topTopicPerformanceTable(payloadDto);
+    }
+
+    @PostMapping("/weak-performing-topics-table")
+    public ApiResponse2<?> weakTopicPerformanceTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.weakTopicPerformanceTable(payloadDto);
+    }
+
+
+    @PostMapping("/core-retake-practice-table")
+    public ApiResponse2<?> coreRetakePracticeStudentTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.coreRetakePracticeStudentTable(payloadDto);
+    }
+
+    @PostMapping("/core-retake-improvement-table")
+    public ApiResponse2<?> coreRetakeImprovePercentTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.coreRetakeImprovePercentTable(payloadDto);
+    }
+
+    @PostMapping("/subject-wise-breakdown-improve-table")
+    public ApiResponse2<?> subjectWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.subjectWiseBreakdownImproveTable(payloadDto);
+    }
+
+    @PostMapping("/grade-wise-breakdown-improve-table")
+    public ApiResponse2<?> gradeWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.gradeWiseBreakdownImproveTable(payloadDto);
+    }
+
+    @PostMapping("/topic-wise-breakdown-improve-table")
+    public ApiResponse2<?> topicWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
+        return masterServicesR1.topicWiseBreakdownImproveTable(payloadDto);
+    }
 
 
 }
