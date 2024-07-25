@@ -12,7 +12,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 
-function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus }) {
+function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus,dataAvailableStatus }) {
 
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
@@ -384,7 +384,10 @@ useEffect(() => {
         <CircularProgress />
       </Box>
       ):(
-
+        <>
+        {dataAvailableStatus ?(
+ <Typography variant="body1" color="error">No data available for the table.</Typography>
+        ):(
 <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
@@ -431,6 +434,8 @@ useEffect(() => {
             </TableBody>
           </Table>
         </TableContainer>
+        )}
+        </>
       )}
       </CardContent>
     </Card>

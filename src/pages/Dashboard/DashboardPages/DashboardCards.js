@@ -39,7 +39,7 @@ const attributeBasedDropdowns = {
 
 const endpointMapping = {
   1: '/dashboard/student-count',
-  2: '/dashboard/student-count',
+  2: '/dashboard/school-count',
   3: '/dashboard/teacher-count',
   4: '/dashboard/parent-count',
 }
@@ -48,7 +48,7 @@ const colors = [
   'rgba(255,99,132,1)', 'rgba(255,159,64,1)', 'rgba(255,205,86,1)', 'rgba(75,192,192,1)', 'rgba(54,162,235,1)', 'rgba(153,102,255,1)', 'rgba(201,203,207,1)',
 ];
 
-const capitalizeWords = (s) => s.replace(/\b\w/g, char => char.toUpperCase());
+
 
 
 
@@ -96,6 +96,8 @@ const DashboardCards = () => {
   fetchData(3, filters[3],3);
   fetchData(4, filters[4],4);
   }, []);
+
+
   const fetchData = async (key, value,cardKey) => {
     setLoading(prevValue => ({
       ...prevValue,
@@ -132,33 +134,59 @@ const DashboardCards = () => {
         payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
+
+      if(cardKey == 2){
+        const res = await axios.get(endpoint);
+       
+        if(res.data.status && res.data.statusCode == 200){
+         setLoading(prevValue => ({
+           ...prevValue,
+           [cardKey]: false,
+         }));
+           const result = res.data.result;
+           const parsedData = parseResultData(key, result);
+               setCardData(prevCardData => ({
+               ...prevCardData,
+                [cardKey]: parsedData,
+               
+         }));
+
+      }
+      else{
+        console.log("error")
+      }
+
+      }
+      else{
+        const res = await axios.post(endpoint, payload);
+       
+        if(res.data.status && res.data.statusCode == 200){
+         setLoading(prevValue => ({
+           ...prevValue,
+           [cardKey]: false,
+         }));
+           const result = res.data.result;
+           const parsedData = parseResultData(key, result);
+               setCardData(prevCardData => ({
+               ...prevCardData,
+                [cardKey]: parsedData,
+               
+         }));
+
+      }
+      else{
+        console.log("error")
+      }
+    }
      
 
-      const res = await axios.post(endpoint, payload);
-       
-       if(res.data.status && res.data.statusCode == 200){
-        setLoading(prevValue => ({
-          ...prevValue,
-          [cardKey]: false,
-        }));
-          const result = res.data.result;
-         
-          
-          const parsedData = parseResultData(key, result);
-
-              setCardData(prevCardData => ({
-              ...prevCardData,
-               [cardKey]: parsedData,
-              
-        }));
+     
       
       
 
         
-    }
-    else{
-      console.log("error")
-    }
+    
+    
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -167,7 +195,7 @@ const DashboardCards = () => {
   const parseResultData = (key, result) => {
     const mappings = {
       1: { key: 'state_name', dataOneKey: 'num_students' },
-      2: { key: 'state_name', dataOneKey: 'num_students',  },
+      2: { key: 'state_name', dataOneKey: 'num_schools',  },
       3: { key: 'state_name', dataOneKey: 'num_teachers',},
       4: { key: 'state_name', dataOneKey: 'num_parents',  },
      
@@ -175,9 +203,12 @@ const DashboardCards = () => {
 
     const { key: labelKey, dataOneKey} = mappings[key];
     
-   
+    const capitalizeWords = (str) => {
+      return str.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+    };
+
     const labelsData = result.dataOne.map((item, index) => ({
-      state: item[labelKey],
+      state: capitalizeWords(item[labelKey]),
       [dataOneKey]: item[dataOneKey],
       fill: colors[index % colors.length]
     }));
@@ -200,6 +231,8 @@ console.log(selectedOption)
     }));
      fetchData(key, value,cardKey);
   };
+
+  console.log(cardData)
 
 
   return (

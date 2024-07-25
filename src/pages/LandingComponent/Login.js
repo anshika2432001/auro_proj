@@ -11,7 +11,7 @@ const Login = ({ isOpen, onClose }) => {
   const handleLogin = ()=> {
   
     navigate("/dashboard")
-     dispatch(fetchFiltersDropdown());
+    //  dispatch(fetchFiltersDropdown());
    
   }
  

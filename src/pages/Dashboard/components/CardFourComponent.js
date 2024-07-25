@@ -380,7 +380,7 @@ console.log(cardMapping)
               </Grid>
               {loadingStatus ?(
               <Grid item xs={12} sm={5} md={5} lg={5} >
-            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View in Detail</Button>
+            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>
             </Grid>
              ):(
               <>
@@ -390,7 +390,7 @@ console.log(cardMapping)
 
               
               <Grid item xs={12} sm={5} md={5} lg={5} >
-              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View in Detail</Button>
+              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View Table</Button>
               </Grid>
             )}
             </>

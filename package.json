@@ -20,10 +20,13 @@
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "jquery": "^3.7.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "owl.carousel": "^2.3.4",
     "react": "^18.3.1",
     "react-alert-confirm": "^4.1.8",
     "react-chartjs-2": "^5.2.0",
+    "react-csv": "^2.2.2",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.5",
     "react-owl-carousel": "^2.3.3",
@@ -38,6 +41,7 @@
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.4",
     "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },
   "scripts": {

@@ -162,6 +162,7 @@ const ParentSchoolAttribute = () => {
  let defaultEndDateRange2= defaultDateRange2End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
 
  const [loading,setLoading]=useState({
+  0: false,
   1: false,
   2: false,
   3: false,
@@ -176,6 +177,7 @@ const ParentSchoolAttribute = () => {
   });
 
   const [dataAvailable,setDataAvailable]=useState({
+    0: false,
     1: false,
     2: false,
     3: false,
@@ -518,6 +520,7 @@ const fetchTableData = () => {
           onFilterChange={onFilterChange}
           tableKey={0}
           loadingStatus={loading[0]}
+          dataAvailableStatus={dataAvailable[0]}
           />
         </Grid>
       </Grid>

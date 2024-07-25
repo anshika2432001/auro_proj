@@ -63,7 +63,6 @@ const ViewDetailsComponent = () => {
  category
 } = data || {};
 
-console.log(selectedAttribute)
 const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
   const [dateRange1EndValue, setDateRange1EndValue] = useState(null);
   const [dateRange2StartValue, setDateRange2StartValue] = useState(null);
@@ -211,7 +210,7 @@ setLoading(true)
   }
 };
 
-console.log(tableData)
+
 
 useEffect(() => {
   // Retrieve the params from localStorage
@@ -410,7 +409,7 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
     }
   }
   };
-
+console.log(tableData)
 
   return (
     <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>

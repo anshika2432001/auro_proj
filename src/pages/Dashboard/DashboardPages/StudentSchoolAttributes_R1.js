@@ -179,6 +179,7 @@ const StudentSchoolAttributes_R1 = () => {
   let defaultEndDateRange2= defaultDateRange2End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   
   const [loading,setLoading]=useState({
+    0: false,
     1: false,
     2: false,
     3: false,
@@ -186,6 +187,7 @@ const StudentSchoolAttributes_R1 = () => {
   });
 
   const [dataAvailable,setDataAvailable]=useState({
+    0: false,
     1: false,
     2: false,
     3: false,
@@ -214,6 +216,10 @@ const StudentSchoolAttributes_R1 = () => {
 
   const [tableData, setTableData] = useState({
     0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
     
 });
 
@@ -330,6 +336,10 @@ useEffect(() => {
               labels: labelsData,
               datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
+        }));
+        setTableData(prevData => ({
+          ...prevData,
+          [cardKey]: newTableData,
         }));
        
       }
@@ -523,6 +533,8 @@ useEffect(() => {
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="student"
+             tableInfo={tableData[option.id]} 
+             tableHeadings={tableHeadings} 
               
             />
           </Grid>
@@ -557,6 +569,7 @@ useEffect(() => {
           onFilterChange={onFilterChange}
           tableKey={0}
           loadingStatus={loading[0]}
+          dataAvailableStatus={dataAvailable[0]}
           />
         </Grid>
       </Grid>

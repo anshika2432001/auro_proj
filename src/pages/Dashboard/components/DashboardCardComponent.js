@@ -302,7 +302,7 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
   </Box>
 ) : (
   chartData && chartData.length > 0 ? (
-    <div style={{ width: '100%', height: 500,padding:2 }}>
+    <div style={{ width: '100%', height: 600,padding:2 }}>
           <ResponsiveContainer>
       <BarChart
         data={chartData}
@@ -338,12 +338,22 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
           }}
           
         />
-        <Tooltip cursor={{ fill: 'transparent' }} formatter={(value) => `${value}`} />
+        <Tooltip
+      cursor={{ fill: 'transparent' }}
+      formatter={(value, name) => {
+        const formattedName = name === 'num_teachers' ? 'Teachers'
+          : name === 'num_students' ? 'Students'
+          : name === 'num_schools' ? 'Schools'
+          : name === 'num_parents' ? 'Parents'
+          : name;
+        return [value, formattedName];
+      }}
+    />
         <Bar 
           dataKey={
-            title.value === 'Number of Teachers' ? 'num_teachers' :
             title.value === 'Number of Students' ? 'num_students' :
-            title.value === 'Number of Schools' ? 'num_students' :
+            title.value === 'Number of Schools' ? 'num_schools' :
+            title.value === 'Number of Teachers' ? 'num_teachers' :
             title.value === 'Number of Parents' ? 'num_parents' :
             ''
           } 

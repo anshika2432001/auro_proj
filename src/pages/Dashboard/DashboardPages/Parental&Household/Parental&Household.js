@@ -553,6 +553,7 @@ const fetchTableData = () => {
           onFilterChange={onFilterChange}
           tableKey={0}
           loadingStatus={loading[0]}
+          dataAvailableStatus={dataAvailable[0]}
           />
         </Grid>
       </Grid>
