@@ -5062,6 +5062,8 @@ public class MasterServicesR1 {
                 "\tAND subquery.subject = aqn.subject\n" +
                 "JOIN\n" +
                 "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
                 "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
@@ -5077,6 +5079,8 @@ public class MasterServicesR1 {
                 "\tAND subquery.subject = aqn.subject\n" +
                 "JOIN\n" +
                 "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
                 "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
@@ -5320,6 +5324,8 @@ public class MasterServicesR1 {
                 "\tAND subquery.subject = aqn.subject\n" +
                 "JOIN\n" +
                 "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
                 "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
@@ -5340,6 +5346,8 @@ public class MasterServicesR1 {
                 "\tAND subquery.subject = aqn.subject\n" +
                 "JOIN\n" +
                 "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
                 "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
@@ -5560,6 +5568,41 @@ public class MasterServicesR1 {
         }
 
 
+//        query.append("GROUP BY\n" +
+//                "\t\t\ted.user_id, ed.exam_name, ed.subject, sd.state_id, sm.grade\n" +
+//                "\t\tLIMIT 10000\n" +
+//                ") AS subquery\n" +
+//                "JOIN\n" +
+//                "\tauro_quiz_name aqn ON subquery.exam_name = aqn.quiz_attempt\n" +
+//                "\tAND subquery.grade = aqn.student_class\n" +
+//                "\tAND subquery.subject = aqn.subject\n" +
+//                "JOIN\n" +
+//                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n");
+//
+//        query2.append("GROUP BY\n" +
+//                "\t\t\ted.user_id, ed.exam_name, ed.subject, sd.state_id, sm.grade\n" +
+//                "\t\tLIMIT 10000\n" +
+//                ") AS subquery\n" +
+//                "JOIN\n" +
+//                "\tauro_quiz_name aqn ON subquery.exam_name = aqn.quiz_attempt\n" +
+//                "\tAND subquery.grade = aqn.student_class\n" +
+//                "\tAND subquery.subject = aqn.subject\n" +
+//                "JOIN\n" +
+//                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n");
+
+
+
+//        if (payloadDto.getLanguageId() != null){
+//            query.append("WHERE\n" +
+//                    "\taqn.language_id = ? \n");
+//            parameters.add(payloadDto.getLanguageId());
+//
+//            query2.append("WHERE\n" +
+//                    "\taqn.language_id  = ? \n");
+//            parameters2.add(payloadDto.getLanguageId());
+//
+//        }
+
         query.append("GROUP BY\n" +
                 "\t\t\ted.user_id, ed.exam_name, ed.subject, sd.state_id, sm.grade\n" +
                 "\t\tLIMIT 10000\n" +
@@ -5569,33 +5612,10 @@ public class MasterServicesR1 {
                 "\tAND subquery.grade = aqn.student_class\n" +
                 "\tAND subquery.subject = aqn.subject\n" +
                 "JOIN\n" +
-                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n");
-
-        query2.append("GROUP BY\n" +
-                "\t\t\ted.user_id, ed.exam_name, ed.subject, sd.state_id, sm.grade\n" +
-                "\t\tLIMIT 10000\n" +
-                ") AS subquery\n" +
-                "JOIN\n" +
-                "\tauro_quiz_name aqn ON subquery.exam_name = aqn.quiz_attempt\n" +
-                "\tAND subquery.grade = aqn.student_class\n" +
-                "\tAND subquery.subject = aqn.subject\n" +
-                "JOIN\n" +
-                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n");
-
-
-
-        if (payloadDto.getLanguageId() != null){
-            query.append("WHERE\n" +
-                    "\taqn.language_id = ? \n");
-            parameters.add(payloadDto.getLanguageId());
-
-            query2.append("WHERE\n" +
-                    "\taqn.language_id  = ? \n");
-            parameters2.add(payloadDto.getLanguageId());
-
-        }
-
-        query.append("GROUP BY\n" +
+                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
+                "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
                 "\tavg_score_state IS NOT NULL\n" +
@@ -5604,6 +5624,18 @@ public class MasterServicesR1 {
                 "LIMIT 12;\n");
 
         query2.append("GROUP BY\n" +
+                "\t\t\ted.user_id, ed.exam_name, ed.subject, sd.state_id, sm.grade\n" +
+                "\t\tLIMIT 10000\n" +
+                ") AS subquery\n" +
+                "JOIN\n" +
+                "\tauro_quiz_name aqn ON subquery.exam_name = aqn.quiz_attempt\n" +
+                "\tAND subquery.grade = aqn.student_class\n" +
+                "\tAND subquery.subject = aqn.subject\n" +
+                "JOIN\n" +
+                "\tlanguage_master lm ON aqn.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
+                "GROUP BY\n" +
                 "\taqn.quiz_name\n" +
                 "HAVING\n" +
                 "\tavg_score_state IS NOT NULL\n" +
@@ -5642,7 +5674,8 @@ public class MasterServicesR1 {
                 "        ed.exam_name,\n" +
                 "        aqn.quiz_name,\n" +
                 "        sd.state_id,\n" +
-                "        sd.district_id\n" +
+                "        sd.district_id,\n" +
+                "        aqn.language_id\n" +
                 "    FROM \n" +
                 "        exam_details ed\n" +
                 "    JOIN \n" +
@@ -5826,16 +5859,28 @@ public class MasterServicesR1 {
 
         query.append("LIMIT 500000\n" +
                 ") AS subquery\n" +
+                "JOIN\n" +
+                "\tlanguage_master lm ON subquery.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\tsubquery.language_id = 1\n" +
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
+                "HAVING\n" +
+                "\tavg_score_state IS NOT NULL\n" +
                 "ORDER BY \n" +
                 "\tavg_score_state DESC, avg_score_nation DESC\n" +
                 "LIMIT 12;\n");
 
         query2.append("LIMIT 500000\n" +
                 ") AS subquery\n" +
+                "JOIN\n" +
+                "\tlanguage_master lm ON subquery.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\tsubquery.language_id = 1\n" +
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
+                "HAVING\n" +
+                "\tavg_score_state IS NOT NULL\n" +
                 "ORDER BY \n" +
                 "\tavg_score_state DESC, avg_score_nation DESC\n" +
                 "LIMIT 12;\n");
@@ -5872,7 +5917,8 @@ public class MasterServicesR1 {
                 "        ed.exam_name,\n" +
                 "        aqn.quiz_name,\n" +
                 "        sd.state_id,\n" +
-                "        sd.district_id\n" +
+                "        sd.district_id,\n" +
+                "        aqn.language_id\n" +
                 "    FROM \n" +
                 "        exam_details ed\n" +
                 "    JOIN \n" +
@@ -6057,6 +6103,10 @@ public class MasterServicesR1 {
 
         query.append("LIMIT 500000\n" +
                 ") AS subquery\n" +
+                "JOIN\n" +
+                "\tlanguage_master lm ON subquery.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\tsubquery.language_id = 1\n" +
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
                 "HAVING\n" +
@@ -6067,6 +6117,10 @@ public class MasterServicesR1 {
 
         query2.append("LIMIT 500000\n" +
                 ") AS subquery\n" +
+                "JOIN\n" +
+                "\tlanguage_master lm ON subquery.language_id = lm.language_id\n" +
+                "WHERE\n" +
+                "\tsubquery.language_id = 1\n" +
                 "GROUP BY \n" +
                 "    subquery.quiz_name\n" +
                 "HAVING\n" +

@@ -29,6 +29,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.parent_immigrant_background = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS immigrant_background,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -61,6 +62,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.parent_immigrant_background = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS immigrant_background,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -323,6 +325,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.anyone_12_passed_out = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS Class12_education,\n" +
+                "   COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -355,6 +358,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.anyone_12_passed_out = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS Class12_education,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -626,6 +630,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.parent_annual_expenditure_on_student = 1 THEN 'INR 5,001 - INR 10,000'\n" +
                 "        ELSE 'More than INR 10,001' \n" +
                 "\tEND AS annual_expenditure,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -662,6 +667,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.parent_annual_expenditure_on_student = 1 THEN 'INR 5,001 - INR 10,000'\n" +
                 "        ELSE 'More than INR 10,001' \n" +
                 "\tEND AS annual_expenditure,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -937,6 +943,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.household_internet_connection=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS household_connectivity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -969,6 +976,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.household_internet_connection=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS household_connectivity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1244,6 +1252,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.child_mother_qualification = 7 THEN 'PhD'\n" +
                 "        ELSE NULL\n" +
                 "\tEND AS mother_education,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1282,6 +1291,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.child_mother_qualification = 7 THEN 'PhD'\n" +
                 "        ELSE NULL\n" +
                 "\tEND AS mother_education,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1555,6 +1565,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.anyone_operate_computer = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS computer_operating_ability,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1587,6 +1598,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.anyone_operate_computer = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS computer_operating_ability,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1854,6 +1866,7 @@ public class ParentAndHouseholdServices {
                 "\t\tWHEN ped.house_type = 3 THEN 'Semi Pucca'\n" +
                 "\t\tELSE 'Other'\n" +
                 "\tEND AS housing,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -1888,6 +1901,7 @@ public class ParentAndHouseholdServices {
                 "\t\tWHEN ped.house_type = 3 THEN 'Semi Pucca'\n" +
                 "\t\tELSE 'Other'\n" +
                 "\tEND AS housing,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2158,6 +2172,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.have_reading_materials = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS reading_materials_availability,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2190,6 +2205,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.have_reading_materials = 1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS reading_materials_availability,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2460,6 +2476,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.child_father_qualification = 7 THEN 'PhD'\n" +
                 "        ELSE NULL\n" +
                 "\tEND AS father_education,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2498,6 +2515,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.child_father_qualification = 7 THEN 'PhD'\n" +
                 "        ELSE NULL\n" +
                 "\tEND AS father_education,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2770,6 +2788,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.household_income = 3 THEN 'INR 1.25 Lakhs - 5 Lakhs'\n" +
                 "        WHEN ped.household_income = 4 THEN 'Less than INR 1.25 Lakhs'\n" +
                 "\tEND AS income_household,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -2805,6 +2824,7 @@ public class ParentAndHouseholdServices {
                 "        WHEN ped.household_income = 3 THEN 'INR 1.25 Lakhs - 5 Lakhs'\n" +
                 "        WHEN ped.household_income = 4 THEN 'Less than INR 1.25 Lakhs'\n" +
                 "\tEND AS income_household,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3075,6 +3095,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.is_electricity_available=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS electricity_connectivity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3107,6 +3128,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.is_electricity_available=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS electricity_connectivity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3371,6 +3393,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.reads_with_child_every_day=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS accompanies_child_to_read,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3403,6 +3426,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.reads_with_child_every_day=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS Accompanies_child_to_read,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3666,6 +3690,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.communication_with_teacher_once_a_month=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS teacher_communication_monthly,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3698,6 +3723,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.communication_with_teacher_once_a_month=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS teacher_communication_monthly,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3962,6 +3988,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_expectation_for_high_school=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS children_expecting_high_school,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -3994,6 +4021,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_expectation_for_high_school=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS children_expecting_high_school,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4258,6 +4286,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_expectation_for_college=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS children_expecting_college,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4290,6 +4319,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_expectation_for_college=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS children_expecting_college,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4557,6 +4587,7 @@ public class ParentAndHouseholdServices {
                 "\t\tWHEN ped. parent_teacher_meeting_frequency=4 THEN 'Yearly'    \n" +
                 "        ELSE 'Other'\n" +
                 "    END AS parent_teacher_meeting_frequency,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4592,6 +4623,7 @@ public class ParentAndHouseholdServices {
                 "\t\tWHEN ped.parent_teacher_meeting_frequency=4 THEN 'Yearly'    \n" +
                 "        ELSE 'Other'\n" +
                 "    END AS parent_teacher_meeting_frequency,\n" +
+                "\tCOUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "\tCOUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4856,6 +4888,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped. school_guidance_for_children_learning=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS school_guidance_for_children_learning,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -4888,6 +4921,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped. school_guidance_for_children_learning=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS school_guidance_for_children_learning,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5151,6 +5185,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.aware_of_learning_levels=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS aware_of_learning_levels,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5183,6 +5218,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.aware_of_learning_levels=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS aware_of_learning_levels,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5446,6 +5482,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN school_informing_about_activity=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS school_informing_about_activity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5478,6 +5515,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN school_informing_about_activity=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS school_informing_about_activity,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5741,6 +5779,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.parent_teacher_confrences=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS parent_teacher_confrences,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -5773,6 +5812,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.parent_teacher_confrences=1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS parent_teacher_confrences,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -6037,6 +6077,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_school_participation =1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS child_school_participation,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
@@ -6069,6 +6110,7 @@ public class ParentAndHouseholdServices {
                 "         WHEN ped.child_school_participation =1 THEN 'YES' \n" +
                 "         ELSE 'NO'\n" +
                 "       END AS child_school_participation,\n" +
+                "    COUNT(DISTINCT um.parent_id) AS num_parents,\n" +
                 "   COUNT(DISTINCT um.user_id) AS num_students,\n" +
                 "   AVG(ed.score) AS average_score\n" +
                 "FROM\n" +
