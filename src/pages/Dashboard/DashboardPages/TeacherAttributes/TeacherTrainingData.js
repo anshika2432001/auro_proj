@@ -145,11 +145,12 @@ const defaultChartDataCard4 = {
 const tableHeadings = [
   
   'Number of Teachers', 
+  'Number of Students',
   'Average Score of Students',
   'Number of Teachers', 
+  'Number of Students',
   'Average Score of Students'
 ];
-
 
 const TeacherTrainingData = () => {
   const titleId = useParams();
@@ -204,7 +205,11 @@ const TeacherTrainingData = () => {
   });
 
   const [tableData, setTableData] = useState({
-    0: []
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
 });
   
 
@@ -286,7 +291,7 @@ const fetchTableData = () => {
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -294,6 +299,10 @@ const fetchTableData = () => {
                   datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
                 }
                }));
+               setTableData(prevData => ({
+                ...prevData,
+                [cardKey]: newTableData,
+              }));
           }
           else{
               const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
@@ -303,6 +312,10 @@ const fetchTableData = () => {
               labels: labelsData,
               datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
+        }));
+        setTableData(prevData => ({
+          ...prevData,
+          [cardKey]: newTableData,
         }));
       }
       
@@ -342,19 +355,19 @@ const fetchTableData = () => {
 //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
-      1: { key: 'teacher_cce_training', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
-      2: { key: 'satisfied_training', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
-      3: { key: 'nature_of_employment', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
-      4: { key: 'days_not_teaching', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
-      6: { key: 'training_hours', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
-      9: { key: 'periodicity_of_formative_assessments', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers', avgKey: 'avg_score' },
+      1: { key: 'teacher_cce_training', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      2: { key: 'satisfied_training', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      3: { key: 'nature_of_employment', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      4: { key: 'days_not_teaching', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      6: { key: 'training_hours', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      9: { key: 'periodicity_of_formative_assessments', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
     
       
      
       
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = mappings[key];
     setCardMapping(mappings)
     const allLabels = new Set([
       ...result.dataStateOne.map(item => item[labelKey]),
@@ -365,25 +378,29 @@ const fetchTableData = () => {
 
     const labelsData = Array.from(allLabels);
     const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
     const dataOneAvg = labelsData.map(label => {
       const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
       return parseFloat(value.toFixed(2));
     });
   
     const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
     const dataTwoAvg = labelsData.map(label => {
       const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
       return parseFloat(value.toFixed(2));
     });
   
    
-  const newTableData = labelsData.map(label => ({
-    attributes: label,
-    dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-    dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-    dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-    dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-  }));
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2StudentValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+    }));
   
   
     return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
@@ -401,7 +418,8 @@ const fetchTableData = () => {
       
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = mappings[key];
+    
     setCard4Mapping(mappings)
     
     const allLabels = new Set([
@@ -411,22 +429,32 @@ const fetchTableData = () => {
   
     const labelsData = Array.from(allLabels);
     const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
     const dataOneAvg = labelsData.map(label => {
       const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
       return parseFloat(value.toFixed(2));
     });
   
     const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoStudent = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
     const dataTwoAvg = labelsData.map(label => {
       const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
       return parseFloat(value.toFixed(2));
     });
   
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2StudentValue: result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+    }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
   };
-
   //datasets creation for first three cards based on default chart data
   const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
     { ...defaultChartData.datasets[0], data: dataOne },
@@ -481,6 +509,8 @@ const fetchTableData = () => {
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="teacher"
+             tableInfo={tableData[option.id]} 
+          tableHeadings={tableHeadings} 
               
             />
           </Grid>
@@ -499,6 +529,8 @@ const fetchTableData = () => {
               cardMapping={card4Mapping}
               dataAvailableStatus={dataAvailable[option.id]}
               category="teacher"
+              tableInfo={tableData[option.id]} 
+          tableHeadings={tableHeadings} 
               
             />
           </Grid>
@@ -516,6 +548,7 @@ const fetchTableData = () => {
           tableKey={0}
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
+          category="teacher"
           />
         </Grid>
       </Grid>

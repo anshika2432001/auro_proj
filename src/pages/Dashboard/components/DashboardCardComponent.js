@@ -139,21 +139,36 @@ const handleAddDropdown = (event, value) => {
 };
 
   //select values for dropdowns that will be visible
-const getValueFromList = (list, value, key) => {
-  
-  if (key === 'School Management' || key === 'Board of Education') {
-    if (typeof value === 'object') {
-      return list.find(item => item.name === value.name) || null;
+  const getValueFromList = (list, value, key) => {
+    console.log(list)
+    if(value != null){
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === value.name) || null;
+      }
+      return list.find(item => item.name === value) || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === value.id) || null;
+      }
+      return list.find(item => item.id === value) || list.find(item => item === value) || null;
     }
-    return list.find(item => item.name === value) || null;
-  } else {
-    if (typeof value === 'object') {
-      return list.find(item => item.id === value.id) || null;
-    }
-    return list.find(item => item.id === value) || list.find(item => item === value) || null;
   }
-};
-
+  else{
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === "All") || null;
+      }
+      return list.find(item => item.name === "All") || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === "All") || null;
+      }
+      return list.find(item => item.id === "All") || list.find(item => item === "All") || null;
+    }
+  
+  }
+  };
  //filter change function
 const handleFilterChange = (dropdownLabel) => (event, value) => {
   console.log(selectedFilters)

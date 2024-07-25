@@ -177,7 +177,8 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   
   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
-    
+    console.log(list)
+    if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
         return list.find(item => item.name === value.name) || null;
@@ -189,6 +190,21 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       }
       return list.find(item => item.id === value) || list.find(item => item === value) || null;
     }
+  }
+  else{
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === "All") || null;
+      }
+      return list.find(item => item.name === "All") || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === "All") || null;
+      }
+      return list.find(item => item.id === "All") || list.find(item => item === "All") || null;
+    }
+  
+  }
   };
 
    //filter change function
@@ -297,38 +313,56 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       });
     }
   };
-  // const exportAsPDF = () => {
-  //   console.log(tableHeadings)
-  //   console.log(tableInfo)
-  //   const doc = new jsPDF();
-  //   doc.autoTable({
-  //     head: [tableHeadings],
-  //     body: tableInfo,
-  //   });
-  //   doc.save(`${title.value}.pdf`);
-  // };
+  
 
   const exportAsPDF = () => {
     const doc = new jsPDF();
   
     // Define the table head with center alignment
-    const head = [
-      [
-        { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
-        { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
-        { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
-      ],
-      tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
-    ];
-  
-    // Define the table body
-    const body = tableInfo.map(row => [
+    let head = [];
+    let body = []
+    if(category == "teacher" || category == "parent"){
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+       // Define the table body
+     body = tableInfo.map(row => [
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1StudentValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2StudentValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
+    }
+    else{
+      head = [
+        [
+          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+       // Define the table body
+     body = tableInfo.map(row => [
       { content: row.attributes, styles: { halign: 'center' } },
       { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
       { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
       { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
       { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
     ]);
+
+    }
+    
+  
+   
   
     doc.autoTable({
       head: head,
@@ -357,8 +391,60 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
 
   const exportAsExcel = () => {
     // Define the main headings and sub-headings based on tableHeadings
-   
+   if(category == "teacher" || category == "parent"){
+    const headerData = [
+      [
+        { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+      ],
+      [
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[4], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[5], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      ]
+    ];
   
+    // Create a worksheet from the header data
+    const ws = XLSX.utils.aoa_to_sheet(headerData);
+  
+    // Add cell merges to the worksheet
+    ws['!merges'] = [
+      { s: { r: 0, c: 1 }, e: { r: 0, c: 3 } }, // Merge cells for "Date Range 1"
+      { s: { r: 0, c: 4 }, e: { r: 0, c: 6 } }  // Merge cells for "Date Range 2"
+    ];
+  
+    // Append data rows to the worksheet
+    const dataRows = tableInfo.map(row => [
+      row.attributes,
+      row.dateRange1TotalValue,
+      row.dateRange1StudentValue,
+      row.dateRange1AvgValue,
+      row.dateRange2TotalValue,
+      row.dateRange2StudentValue,
+      row.dateRange2AvgValue
+    ]);
+  
+    // Append the data rows to the worksheet
+    XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+  
+    // Create a new workbook and append the worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+  
+    // Write the workbook to a file
+    XLSX.writeFile(wb, `${title.value}.xlsx`);
+
+   }
+   else{
     const headerData = [
       [
         { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -403,6 +489,10 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   
     // Write the workbook to a file
     XLSX.writeFile(wb, `${title.value}.xlsx`);
+
+   }
+  
+    
   };
 
   const csvLinkRef = useRef(null);
@@ -411,6 +501,62 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     // Trigger the CSV download
     csvLinkRef.current.link.click();
   };
+
+  // Define header rows as a single array of objects
+  let headers = [];
+  if(category == "teacher" || category == "parent"){
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
+      { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Stakeholders Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Total Students Value', key: 'dateRange2StudentValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+    ];
+
+  }
+  else{
+    headers = [
+      { label: 'Attributes', key: 'attributes' },
+      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+    ];
+
+  }
+
+
+// Define data rows
+let dataRows = []
+if(tableInfo.length != 0 || tableInfo != undefined ){
+  if(category == "teacher" || category == "parent"){
+    dataRows = tableInfo.map(row => ({
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1StudentValue: row.dateRange1StudentValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2StudentValue: row.dateRange2StudentValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+  }
+  else{
+    dataRows = tableInfo.map(row => ({
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+
+  }
+   
+
+}
+
+
 
   return (
     <Card className='mini-card'>
@@ -558,12 +704,12 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
         
       </Menu>
       <CSVLink
-        data={tableInfo}
-        headers={tableHeadings.map((heading) => ({ label: heading, key: heading }))}
-        filename={`${title.value}.csv`}
-        ref={csvLinkRef}
-        style={{ display: 'none' }}
-      />
+  data={dataRows}
+  headers={headers}
+  filename={`${title.value}.csv`}
+  ref={csvLinkRef}
+  style={{ display: 'none' }}
+/>
               </Grid> 
               </>
             )}

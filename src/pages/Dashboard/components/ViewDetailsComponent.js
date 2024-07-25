@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from '../../../utils/axios';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,10 +21,15 @@ import {
   Grid,
   CardContent,
   Button,
-  Box
+  Box,
+  Menu, MenuItem
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CircularProgress from '@mui/material/CircularProgress';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import { CSVLink } from "react-csv";
 
 //table headings
 const tableHeadings = [
@@ -45,6 +50,15 @@ const ViewDetailsComponent = () => {
   const [updatedFilters, setUpdatedFilters] = useState({});
   const [showAddMore, setShowAddMore] = useState(true);
   const [availableFilters, setAvailableFilters] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const csvLinkRef = useRef(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   
  // Destructuring data only if it's not null
  const {
@@ -395,7 +409,8 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
 
    //select values for dropdowns that will be visible
    const getValueFromList = (list, value, key) => {
-    if(list != undefined){
+    console.log(list)
+    if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
         return list.find(item => item.name === value.name) || null;
@@ -408,8 +423,202 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
       return list.find(item => item.id === value) || list.find(item => item === value) || null;
     }
   }
+  else{
+    if (key === 'School Management' || key === 'Board of Education') {
+      if (typeof value === 'object') {
+        return list.find(item => item.name === "All") || null;
+      }
+      return list.find(item => item.name === "All") || null;
+    } else {
+      if (typeof value === 'object') {
+        return list.find(item => item.id === "All") || null;
+      }
+      return list.find(item => item.id === "All") || list.find(item => item === "All") || null;
+    }
+  
+  }
   };
 console.log(tableData)
+
+const exportAsPDF = () => {
+  const doc = new jsPDF();
+
+  // Define the table head with center alignment
+  let head = [];
+  if(cardKey == 4){
+    head = [
+      [
+        { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+        { content: 'State', colSpan: 2, styles: { halign: 'center' } },
+        { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
+      ],
+      tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+    ];
+
+  }
+  else{
+    head = [
+      [
+        { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+        { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+        { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+      ],
+      tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+    ];
+
+  }
+ 
+
+  // Define the table body
+  const body = tableData.map(row => [
+    { content: row.attributes, styles: { halign: 'center' } },
+    { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+    { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+    { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+    { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+  ]);
+
+  doc.autoTable({
+    head: head,
+    body: body,
+    startY: 20,
+    theme: 'grid',
+    headStyles: {
+      halign: 'center', 
+      fillColor: [255, 255, 255],
+      textColor: [0, 0, 0], 
+      lineWidth: 0.2, 
+      lineColor: [0, 0, 0], 
+    },
+    bodyStyles: {
+      halign: 'center', 
+      lineWidth: 0.2, 
+      lineColor: [0, 0, 0], 
+    },
+    tableLineWidth: 0.2, 
+    tableLineColor: [0, 0, 0], 
+  });
+
+  // Save the PDF
+  doc.save(`${selectedAttribute.value}.pdf`);
+};
+
+const exportAsExcel = () => {
+  // Define the main headings and sub-headings based on tableHeadings
+ let headerData = [];
+ if(cardKey == 4){
+  headerData = [
+    [
+      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ],
+    [
+      { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ]
+  ];
+
+ }
+ else{
+  headerData = [
+    [
+      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ],
+    [
+      { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+    ]
+  ];
+
+ }
+
+   
+
+  // Create a worksheet from the header data
+  const ws = XLSX.utils.aoa_to_sheet(headerData);
+
+  // Add cell merges to the worksheet
+  ws['!merges'] = [
+    { s: { r: 0, c: 1 }, e: { r: 0, c: 2 } }, // Merge cells for "Date Range 1"
+    { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } }  // Merge cells for "Date Range 2"
+  ];
+
+  // Append data rows to the worksheet
+  const dataRows = tableData.map(row => [
+    row.attributes,
+    row.dateRange1TotalValue,
+    row.dateRange1AvgValue,
+    row.dateRange2TotalValue,
+    row.dateRange2AvgValue
+  ]);
+
+  // Append the data rows to the worksheet
+  XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+
+  // Create a new workbook and append the worksheet
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Data');
+
+  // Write the workbook to a file
+  XLSX.writeFile(wb, `${selectedAttribute.value}.xlsx`);
+};
+
+
+
+const exportAsCSV = () => {
+  // Trigger the CSV download
+  csvLinkRef.current.link.click();
+};
+
+// Define header rows as a single array of objects
+let headers = [];
+if(cardKey == 4){
+  headers = [
+    { label: 'Attributes', key: 'attributes' },
+    { label: 'State Total Value', key: 'dateRange1TotalValue' },
+    { label: 'State Avg Value', key: 'dateRange1AvgValue' },
+    { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
+    { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
+    ];
+
+}
+else{
+  headers = [
+    { label: 'Attributes', key: 'attributes' },
+    { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+    { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+    { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+    { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+    ];
+
+}
+
+
+// Define data rows
+let dataRows = []
+if(tableData.length != 0 || tableData != undefined ){
+ dataRows = tableData.map(row => ({
+  attributes: row.attributes,
+  dateRange1TotalValue: row.dateRange1TotalValue,
+  dateRange1AvgValue: row.dateRange1AvgValue,
+  dateRange2TotalValue: row.dateRange2TotalValue,
+  dateRange2AvgValue: row.dateRange2AvgValue
+}));
+
+}
 
   return (
     <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>
@@ -422,9 +631,41 @@ console.log(tableData)
   >
     {selectedAttribute.value}
   </Typography>
-  <Button variant="contained" sx={{ backgroundColor: "white", color: "#2899DB", m: 0 }}>
+  
+  {loading ?(
+                <>
+              
+              <Button variant="contained" disabled={true} sx={{ backgroundColor: "white", color: "#2899DB", m: 0 }}>
     Export
   </Button>
+            </>
+             ):(
+            
+             
+
+              <>
+              
+             
+              <Button  variant='contained' sx={{ backgroundColor: "white", color: "#2899DB", m: 0 }} onClick={handleClick}>Export</Button>
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        <MenuItem onClick={exportAsPDF}>Export as PDF</MenuItem>
+        <MenuItem onClick={exportAsExcel}>Export as Excel</MenuItem>
+        
+          <MenuItem onClick={exportAsCSV}>Export as CSV</MenuItem>
+        
+      </Menu>
+      <CSVLink
+  data={dataRows}
+  headers={headers}
+  filename={`${selectedAttribute.value}.csv`}
+  ref={csvLinkRef}
+  style={{ display: 'none' }}
+/>
+             
+            
+          
+            </>
+             )}
 </Grid>
 
 <Grid container spacing={2} mb={2} mt={2}>
@@ -545,7 +786,22 @@ console.log(tableData)
         <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
             <TableRow>
-              <TableCell className="TableHeading" rowSpan={2}>
+              {cardKey == 4? (
+                <>
+                <TableCell className="TableHeading" rowSpan={2}>
+                <p className="HeadingData">Attributes</p>
+              </TableCell>
+              <TableCell className="TableHeading" colSpan={2}>
+                <p className="HeadingData">State</p>
+              </TableCell>
+              <TableCell className="TableHeading" colSpan={2}>
+                <p className="HeadingData">Pan india</p>
+              </TableCell>
+                </>
+
+              ):(
+                <>
+                <TableCell className="TableHeading" rowSpan={2}>
                 <p className="HeadingData">Attributes</p>
               </TableCell>
               <TableCell className="TableHeading" colSpan={2}>
@@ -554,6 +810,9 @@ console.log(tableData)
               <TableCell className="TableHeading" colSpan={2}>
                 <p className="HeadingData">Date Range 2</p>
               </TableCell>
+              </>
+              )}
+              
             </TableRow>
             <TableRow>
               {tableHeadings.map((heading, index) => (

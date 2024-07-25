@@ -201,7 +201,11 @@ const StudentSchoolAttributes_R2 = () => {
   });
 
   const [tableData, setTableData] = useState({
-    0: []
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
 });
   
 
@@ -296,7 +300,7 @@ useEffect(() => {
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -304,6 +308,10 @@ useEffect(() => {
                   datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
                 }
                }));
+               setTableData(prevData => ({
+                ...prevData,
+                [cardKey]: newTableData,
+              }));
           }
           else{
               const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
@@ -313,6 +321,10 @@ useEffect(() => {
               labels: labelsData,
               datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
+        }));
+        setTableData(prevData => ({
+          ...prevData,
+          [cardKey]: newTableData,
         }));
       }
       
@@ -428,11 +440,18 @@ useEffect(() => {
       const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
       return parseFloat(value.toFixed(2));
     });
+    const newTableData = labelsData.map(label => ({
+      attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+    }));
   
    
  
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
   };
 
   //datasets creation for first three cards based on default chart data
@@ -488,6 +507,8 @@ useEffect(() => {
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="student"
+             tableInfo={tableData[option.id]} 
+             tableHeadings={tableHeadings} 
               
             />
           </Grid>
@@ -506,6 +527,8 @@ useEffect(() => {
               cardMapping={card4Mapping}
               dataAvailableStatus={dataAvailable[option.id]}
               category="student"
+              tableInfo={tableData[option.id]} 
+             tableHeadings={tableHeadings} 
               
             />
           </Grid>
