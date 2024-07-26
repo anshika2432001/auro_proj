@@ -69,7 +69,7 @@ public class DashboardServicesMain {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
         }
 
@@ -217,7 +217,7 @@ public class DashboardServicesMain {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
         }
 

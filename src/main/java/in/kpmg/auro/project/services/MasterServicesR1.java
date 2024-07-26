@@ -159,12 +159,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -465,12 +465,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -756,12 +756,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n\n");
+            query2.append("\t\tAND sm.grade = ?\n\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -1111,12 +1111,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -1431,12 +1431,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -1775,12 +1775,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -2110,12 +2110,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -2495,12 +2495,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -2880,12 +2880,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -3250,12 +3250,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -3571,12 +3571,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -3918,12 +3918,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -4275,12 +4275,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -4638,12 +4638,12 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
-            queryNation.append("\t\tAND sm.grade = ?");
+            queryNation.append("\t\tAND sm.grade = ?\n");
             nationParameters.add(payloadDto.getGrades());
         }
 
@@ -4936,8 +4936,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -5196,8 +5196,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -5456,8 +5456,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -5739,8 +5739,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -5981,8 +5981,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -6244,8 +6244,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -6489,8 +6489,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -6719,8 +6719,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -6969,8 +6969,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -7237,8 +7237,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -7491,8 +7491,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -7783,8 +7783,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -8065,8 +8065,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -8356,8 +8356,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -8609,8 +8609,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -8845,10 +8845,10 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
 
-            query2.append("\t\tAND sm.grade = ?");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters2.add(payloadDto.getGrades());
 
         }
@@ -9100,8 +9100,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -9357,8 +9357,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 
@@ -9619,8 +9619,8 @@ public class MasterServicesR1 {
         }
 
         if (payloadDto.getGrades()!=null){
-            query.append("\t\tAND sm.grade = ?");
-            query2.append("\t\tAND sm.grade = ?");
+            query.append("\t\tAND sm.grade = ?\n");
+            query2.append("\t\tAND sm.grade = ?\n");
             parameters.add(payloadDto.getGrades());
             parameters2.add(payloadDto.getGrades());
 

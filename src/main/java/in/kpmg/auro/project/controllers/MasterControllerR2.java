@@ -1,7 +1,6 @@
 package in.kpmg.auro.project.controllers;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
-import in.kpmg.auro.project.dtos.ROnePayloadDto;
 import in.kpmg.auro.project.dtos.RTwoPayloadDto;
 import in.kpmg.auro.project.services.MasterServicesR2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,41 @@ public class MasterControllerR2 {
     public ApiResponse2<?> studentsInLeadershipPositionsInSchoolClubsStats(@RequestBody RTwoPayloadDto payloadDto){
 
         return masterServicesR2.studentsInLeadershipPositionsInSchoolClubsStats(payloadDto);
+    }
+
+
+//    --------------------------------TABLES---------------------------------
+
+    @PostMapping("/student-strength-classroom-table")
+    public ApiResponse2<?> studentStrengthOfClassroomTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.studentStrengthOfClassroomTable(payloadDto);
+    }
+
+
+    @PostMapping("/academic-streams-table")
+    public ApiResponse2<?> academicStreamsTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.academicStreamsTable(payloadDto);
+    }
+
+    @PostMapping("/social-group-table")
+    public ApiResponse2<?> socialGroupTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.socialGroupTable(payloadDto);
+    }
+
+
+    @PostMapping("/student-access-bank-table")
+    public ApiResponse2<?> studentAccessBankTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.studentAccessBankAccountTable(payloadDto);
+    }
+
+    @PostMapping("/student-engagement-activities-school-table")
+    public ApiResponse2<?> studentEngagementActivitiesSchoolTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.studentEngagementActivitiesSchoolTable(payloadDto);
+    }
+
+    @PostMapping("/student-leadership-position-school-clubs-table")
+    public ApiResponse2<?> studentsInLeadershipPositionsInSchoolClubsTable(@RequestBody RTwoPayloadDto payloadDto){
+        return masterServicesR2.studentsInLeadershipPositionsInSchoolClubsTable(payloadDto);
     }
 
 }
