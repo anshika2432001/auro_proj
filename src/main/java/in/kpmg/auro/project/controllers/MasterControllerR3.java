@@ -78,53 +78,53 @@ public class MasterControllerR3 {
         return masterServicesR3.studentLearningStyleTable(payloadDto);
     }
 
-//    @PostMapping("/student-collaborative-learning-table")
-//    public ApiResponse2<?> studentCollaborativeLearningTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.studentCollaborativeLearningTable(payloadDto);
-//    }
-//
-//    @PostMapping("/student-read-material-addition-textbooks-table")
-//    public ApiResponse2<?> childrenReadOtherMaterialsInAdditionTextbooksTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.childrenReadOtherMaterialsInAdditionTextbooksTable(payloadDto);
-//    }
-//
-//    @PostMapping("/hours-individual-study-per-day-table")
-//    public ApiResponse2<?> hoursOfIndividualStudyPerDayTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.hoursOfIndividualStudyPerDayTable(payloadDto);
-//    }
-//
-//    @PostMapping("/paid-private-tuition-hours-table")
-//    public ApiResponse2<?> paidPrivateTuitionHourTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.paidPrivateTuitionHourTable(payloadDto);
-//    }
-//
-//    @PostMapping("/student-hours-spend-mobile-study-table")
-//    public ApiResponse2<?> hoursSpentOnMobilePhonesStudyTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.hoursSpentOnMobilePhonesStudyTable(payloadDto);
-//    }
-//
-//
-//    @PostMapping("/student-access-digital-devices-home-table")
-//    public ApiResponse2<?> accessToDigitalDevicesAtHomeTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.studentAccessToDigitalDevicesAtHomeTable(payloadDto);
-//    }
-//
-//
-//    @PostMapping("/student-using-learning-apps-home-table")
-//    public ApiResponse2<?> studentsUsingLearningAppHomeTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.studentsUsingLearningAppHomeTable(payloadDto);
-//    }
-//
-//
-//    @PostMapping("/student-with-social-media-account-table")
-//    public ApiResponse2<?> studentWhoHaveOneOrMoreSocialMediaAccountsTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.studentWhoHaveOneOrMoreSocialMediaAccountsTable(payloadDto);
-//    }
-//
-//
-//    @PostMapping("/type-of-sites-table")
-//    public ApiResponse2<?> typeOfSiteTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.typeOfSiteTable(payloadDto);
-//    }
+    @PostMapping("/student-collaborative-learning-table")
+    public ApiResponse2<?> studentCollaborativeLearningTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentCollaborativeLearningTable(payloadDto);
+    }
+
+    @PostMapping("/student-read-material-addition-textbooks-table")
+    public ApiResponse2<?> childrenReadOtherMaterialsInAdditionTextbooksTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.childrenReadOtherMaterialsInAdditionTextbooksTable(payloadDto);
+    }
+
+    @PostMapping("/hours-individual-study-per-day-table")
+    public ApiResponse2<?> hoursOfIndividualStudyPerDayTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.hoursOfIndividualStudyPerDayTable(payloadDto);
+    }
+
+    @PostMapping("/paid-private-tuition-hours-table")
+    public ApiResponse2<?> paidPrivateTuitionHourTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.paidPrivateTuitionHourTable(payloadDto);
+    }
+
+    @PostMapping("/student-hours-spend-mobile-study-table")
+    public ApiResponse2<?> hoursSpentOnMobilePhonesStudyTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.hoursSpentOnMobilePhonesStudyTable(payloadDto);
+    }
+
+
+    @PostMapping("/student-access-digital-devices-home-table")
+    public ApiResponse2<?> accessToDigitalDevicesAtHomeTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentAccessToDigitalDevicesAtHomeTable(payloadDto);
+    }
+
+
+    @PostMapping("/student-using-learning-apps-home-table")
+    public ApiResponse2<?> studentsUsingLearningAppHomeTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentsUsingLearningAppHomeTable(payloadDto);
+    }
+
+
+    @PostMapping("/student-with-social-media-account-table")
+    public ApiResponse2<?> studentWhoHaveOneOrMoreSocialMediaAccountsTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentWhoHaveOneOrMoreSocialMediaAccountsTable(payloadDto);
+    }
+
+
+    @PostMapping("/type-of-sites-table")
+    public ApiResponse2<?> typeOfSiteTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.typeOfSiteTable(payloadDto);
+    }
 
 }

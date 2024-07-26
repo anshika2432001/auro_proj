@@ -48,4 +48,40 @@ public class MasterControllerR4 {
     }
 
 
+//    ----------------------------------TABLE----------------------------------------
+
+    @PostMapping("/students-taking-vocational-courses-table")
+    public ApiResponse2<?> studentsTakingVocationalCoursesTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.studentTakingVocationalCourseTables(payloadDto);
+    }
+
+    @PostMapping("/students-want-access-vocational-courses-table")
+    public ApiResponse2<?> studentsWantAccessVocationalCoursesTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.studentsWantAccessVocationalCoursesTables(payloadDto);
+    }
+
+    @PostMapping("/students-want-access-internship-table")
+    public ApiResponse2<?> studentsWantAccessInternshipTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.studentsWantAccessInternshipTables(payloadDto);
+    }
+
+    @PostMapping("/students-likely-attend-higher-education-table")
+    public ApiResponse2<?> studentsLikelyAttendHigherEducationTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.studentsLikelyAttendHigherEducationTables(payloadDto);
+    }
+
+    @PostMapping("/students-confident-knowledge-career-options-table")
+    public ApiResponse2<?> numberOfStudentsConfidentKnowledgeOfCareerOptionsTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.numberOfStudentsConfidentKnowledgeOfCareerOptionsTables(payloadDto);
+    }
+
+    @PostMapping("/student-career-domains-table")
+    public ApiResponse2<?> studentCareerDomainTables(@RequestBody RFourPayloadDto payloadDto){
+        return masterServicesR4.studentCareerDomainTables(payloadDto);
+
+    }
+
+
+
+
 }
