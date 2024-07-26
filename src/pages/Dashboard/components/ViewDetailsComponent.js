@@ -66,10 +66,13 @@ const ViewDetailsComponent = () => {
   dateRange2Start,
   dateRange2End,
   apiEndPoints,
+  apiEndPointsTable,
  cardMapping,
  cardKey,
  category,
- tableHeadings
+ subtype,
+ tableHeadings,
+ attributeHeading
 } = data || {};
 
 const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
@@ -164,15 +167,17 @@ setLoading(true)
     }
    
    console.log(payload)
-   const endpoint = apiEndPoints[selectedAttribute.id];
+   
+    // if(res.data.status && res.data.statusCode == 200){
+    //   setLoading(false);
+    // const result = res.data.result;
+    if(category == "teacher" || category == "parent"){
+      const endpoint = apiEndPoints[selectedAttribute.id];
     const res = await axios.post(endpoint, payload);
     if(res.data.status && res.data.statusCode == 200){
       setLoading(false);
-    const result = res.data.result;
-    console.log(result)
-    console.log(cardKey)
-    if(cardKey == 4){
-      if(category == "teacher" || category == "parent"){
+      const result = res.data.result;
+      if(cardKey == 4){
         const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
@@ -189,28 +194,8 @@ setLoading(true)
         dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
       }));
       setTableData(newTableData)
-      }
-      else{
-        const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
-      const allLabels = new Set([
-        ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataNation.map(item => item[labelKey])
-      ]);
-      const labelsData = Array.from(allLabels);
-      const newTableData = labelsData.map(label => ({
-        attributes: label,
-        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
-        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
-      }));
-      setTableData(newTableData)
 
-      }
-      
-    }
-    else{
-      if(category == "teacher" || category == "parent"){
+      }else{
         const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
       
       const allLabels = new Set([
@@ -234,8 +219,88 @@ setLoading(true)
         setTableData(newTableData)
 
       }
-      else{
-        const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
+    }else{
+        console.log("error")
+    }
+
+    }
+    else if(category == "student" && subtype == "r1"){
+       const endpoint = apiEndPointsTable[selectedAttribute.id];
+    const res = await axios.post(endpoint, payload);
+    if(res.data.status && res.data.statusCode == 200){
+      setLoading(false);
+      const result = res.data.result;
+      if(cardKey == 4){
+        let newTableData = [];
+        result.dataStateOne.map(value1=>{
+          result.dataStateTwo.find((value2)=>{
+            if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
+              console.log(value1)
+              newTableData.push({
+                stateDataValue: value1.state_name,
+                districtDataValue: value1.district_name,
+                attributes: value1.subject,
+                dateRange1TotalValue: value1.num_students,
+                dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
+                dateRange2TotalValue: value2.num_students,
+                dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
+  
+              })
+            }
+          })
+        })
+        setTableData(newTableData)
+      }else{
+        let newTableData = [];
+        result.dataStateOne.map(value1=>{
+          result.dataStateTwo.find((value2)=>{
+            if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
+              console.log(value1)
+              newTableData.push({
+                stateDataValue: value1.state_name,
+                districtDataValue: value1.district_name,
+                attributes: value1.subject,
+                dateRange1TotalValue: value1.num_students,
+                dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
+                dateRange2TotalValue: value2.num_students,
+                dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
+  
+              })
+            }
+          })
+        })
+        setTableData(newTableData)
+
+      }
+    }else{
+console.log("error")
+    }
+
+
+    }else if(category == "student" && subtype == "r1" && selectedAttribute.id == 5){
+      const endpoint = apiEndPoints[selectedAttribute.id];
+      const res = await axios.post(endpoint, payload);
+      if(res.data.status && res.data.statusCode == 200){
+        setLoading(false);
+        const result = res.data.result;
+        if(cardKey == 4){
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+        const allLabels = new Set([
+          ...result.dataStateOne.map(item => item[labelKey]),
+        ]);
+      const labelsData = Array.from(allLabels);
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setTableData(newTableData)
+          
+        }else{
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
       
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
@@ -254,16 +319,68 @@ setLoading(true)
       }));
      
         setTableData(newTableData)
-
+  
+        }
+      }else{
+  
       }
-     
+  
+
+    }else{
+      const endpoint = apiEndPoints[selectedAttribute.id];
+      const res = await axios.post(endpoint, payload);
+      if(res.data.status && res.data.statusCode == 200){
+        setLoading(false);
+        const result = res.data.result;
+        if(cardKey == 4){
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataNation.map(item => item[labelKey])
+      ]);
+      const labelsData = Array.from(allLabels);
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setTableData(newTableData)
+          
+        }else{
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
       
+          const allLabels = new Set([
+            ...result.dataStateOne.map(item => item[labelKey]),
+            ...result.dataStateTwo.map(item => item[labelKey])
+          ]);
+          
+          const labelsData = Array.from(allLabels);
+          
+      
+          const newTableData = labelsData.map(label => ({
+            attributes: label,
+            dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+            dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+            dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+            dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+          }));
+         
+            setTableData(newTableData)
+          
+  
+        }
+      }else{
+        console.log("error")
+      }
+  
+
     }
+
+    
    
-  }
-  else{
-    console.log("error")
-  }
+ 
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -495,7 +612,7 @@ const exportAsPDF = () => {
     if(cardKey == 4){
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'State', colSpan: 3, styles: { halign: 'center' } },
           { content: 'Pan India', colSpan: 3, styles: { halign: 'center' } }
         ],
@@ -507,7 +624,7 @@ const exportAsPDF = () => {
     else{
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
         ],
@@ -525,11 +642,13 @@ const exportAsPDF = () => {
       { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
     ]);
 
-  }else{
+  }else if(category == "student" && selectedAttribute.id == 1){
     if(cardKey == 4){
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'State', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'District', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'State', colSpan: 2, styles: { halign: 'center' } },
           { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
         ],
@@ -541,7 +660,45 @@ const exportAsPDF = () => {
     else{
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'State', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'District', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+
+     
+  
+    }
+    body = tableData.map(row => [
+      { content: row.stateDataValue, styles: { halign: 'center' } },
+      { content: row.districtDataValue, styles: { halign: 'center' } },
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
+
+  }else{
+    if(cardKey == 4){
+      head = [
+        [
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'State', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Pan India', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+      
+  
+    }
+    else{
+      head = [
+        [
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
         ],
@@ -593,7 +750,7 @@ const exportAsExcel = () => {
  if(cardKey == 4){
   headerData = [
     [
-      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -616,7 +773,7 @@ const exportAsExcel = () => {
  else{
   headerData = [
     [
-      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -669,13 +826,97 @@ const exportAsExcel = () => {
   // Write the workbook to a file
   XLSX.writeFile(wb, `${selectedAttribute.value}.xlsx`);
 
-  }else{
+  }else if(category == "student" && selectedAttribute.id == 1){
+
+    let headerData = [];
+    if(cardKey == 4){
+     headerData = [
+       [
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'District', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+       ],
+       [
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+       ]
+     ];
+   
+    }
+    else{
+     headerData = [
+       [
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'District', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+       ],
+       [
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+         { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+       ]
+     ];
+   
+    }
+   
+      
+   
+     // Create a worksheet from the header data
+     const ws = XLSX.utils.aoa_to_sheet(headerData);
+   
+     // Add cell merges to the worksheet
+     ws['!merges'] = [
+      { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } }, // Merge cells for "Date Range 1"
+      { s: { r: 0, c: 5 }, e: { r: 0, c: 6 } }  // Merge cells for "Date Range 2"
+    ];
+  
+   
+     // Append data rows to the worksheet
+     const dataRows = tableData.map(row => [
+      row.stateDataValue,
+      row.districtDataValue,
+      row.attributes,
+      row.dateRange1TotalValue,
+      row.dateRange1AvgValue,
+      row.dateRange2TotalValue,
+      row.dateRange2AvgValue
+    ]);
+   
+     // Append the data rows to the worksheet
+     XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+   
+     // Create a new workbook and append the worksheet
+     const wb = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Data');
+   
+     // Write the workbook to a file
+     XLSX.writeFile(wb, `${selectedAttribute.value}.xlsx`);
+
+  }
+  else{
 
     let headerData = [];
  if(cardKey == 4){
   headerData = [
     [
-      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'Pan India', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -694,7 +935,7 @@ const exportAsExcel = () => {
  else{
   headerData = [
     [
-      { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+      { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
       { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -757,7 +998,7 @@ let headers = [];
 if(category == "teacher" || category == "parent"){
   if(cardKey == 4){
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'State Stakeholder Value', key: 'dateRange1TotalValue' },
       { label: 'State Student Value', key: 'dateRange1StudentValue' },
       { label: 'State Avg Value', key: 'dateRange1AvgValue' },
@@ -769,7 +1010,7 @@ if(category == "teacher" || category == "parent"){
   }
   else{
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
       { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
@@ -780,10 +1021,12 @@ if(category == "teacher" || category == "parent"){
   
   }
 }
-else{
+else if(category == "student" && selectedAttribute.id == 1){
   if(cardKey == 4){
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: 'State', key: 'stateDataValue' },
+      { label: 'District', key: 'districtDataValue' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'State Total Value', key: 'dateRange1TotalValue' },
       { label: 'State Avg Value', key: 'dateRange1AvgValue' },
       { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
@@ -793,7 +1036,31 @@ else{
   }
   else{
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: 'State', key: 'stateDataValue' },
+      { label: 'District', key: 'districtDataValue' },
+      { label: `${attributeHeading}`, key: 'attributes' },
+      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
+}
+else{
+  if(cardKey == 4){
+    headers = [
+      { label: `${attributeHeading}`, key: 'attributes' },
+      { label: 'State Total Value', key: 'dateRange1TotalValue' },
+      { label: 'State Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Pan India Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Pan India Avg Value', key: 'dateRange2AvgValue' }
+      ];
+  
+  }
+  else{
+    headers = [
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
       { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
@@ -820,6 +1087,17 @@ if(tableData.length != 0 || tableData != undefined ){
       dateRange2AvgValue: row.dateRange2AvgValue
     }));
 
+  }
+  else if(category == "student" && selectedAttribute.id == 1){
+    dataRows = tableData.map(row => ({
+      stateDataValue:row.stateDataValue,
+      districtDataValue:row.districtDataValue,
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
   }
   else{
     dataRows = tableData.map(row => ({
@@ -1005,7 +1283,7 @@ if(tableData.length != 0 || tableData != undefined ){
        {cardKey == 4? (
          <>
          <TableCell className="TableHeading" rowSpan={2}>
-         <p className="HeadingData">Attributes</p>
+         <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
          <p className="HeadingData">State</p>
@@ -1018,7 +1296,7 @@ if(tableData.length != 0 || tableData != undefined ){
        ):(
          <>
          <TableCell className="TableHeading" rowSpan={2}>
-         <p className="HeadingData">Attributes</p>
+         <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
          <p className="HeadingData">Date Range 1</p>
@@ -1076,7 +1354,7 @@ if(tableData.length != 0 || tableData != undefined ){
                   {cardKey == 4? (
                     <>
                     <TableCell className="TableHeading" rowSpan={2}>
-                    <p className="HeadingData">Attributes</p>
+                    <p className="HeadingData">{attributeHeading}</p>
                   </TableCell>
                   <TableCell className="TableHeading" colSpan={2}>
                     <p className="HeadingData">State</p>
@@ -1089,7 +1367,7 @@ if(tableData.length != 0 || tableData != undefined ){
                   ):(
                     <>
                     <TableCell className="TableHeading" rowSpan={2}>
-                    <p className="HeadingData">Attributes</p>
+                    <p className="HeadingData">{attributeHeading}</p>
                   </TableCell>
                   <TableCell className="TableHeading" colSpan={2}>
                     <p className="HeadingData">Date Range 1</p>

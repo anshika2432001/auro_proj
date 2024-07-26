@@ -39,6 +39,9 @@ const endpointMapping = {
   8: '/r2/social-group-stats',
   9: '/r2/student-leadership-position-school-clubs-stats',
 };
+const tableEndPoints = {
+  1: '',
+}
 
 //default chart data for first 3 cards
 const defaultChartData = {
@@ -179,6 +182,14 @@ const StudentSchoolAttributes_R2 = () => {
     3: false,
     4: false,
   });
+  const [attributeNameValue, setAttributeNameValue] = useState({
+    0: "",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    
+  });
 
   const [filters, setFilters] = useState({
     1: {},
@@ -304,7 +315,7 @@ useEffect(() => {
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -316,9 +327,13 @@ useEffect(() => {
                 ...prevData,
                 [cardKey]: newTableData,
               }));
+              setAttributeNameValue(prevData => ({
+                ...prevData,
+                [cardKey]: attributeName,
+              }));
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key, result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
@@ -330,14 +345,22 @@ useEffect(() => {
           ...prevData,
           [cardKey]: newTableData,
         }));
+        setAttributeNameValue(prevData => ({
+          ...prevData,
+          [cardKey]: attributeName,
+        }));
       }
       
 
         if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key, result);
             setTableData(prevData => ({
               ...prevData,
               [cardKey]: newTableData,
+            }));
+            setAttributeNameValue(prevData => ({
+              ...prevData,
+              [cardKey]: attributeName,
             }));
         }
     }
@@ -368,15 +391,15 @@ useEffect(() => {
 //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
-      2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      9: { key: 'is_student_in_leadership_position', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Classroom Strength' },
+      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Academic Stream' },
+      5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Student Access To Bank' },
+      6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Extra Curricular Activity' },
+      8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Social Group' },
+      9: { key: 'is_student_in_leadership_position', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Leadership Position' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey ,attributeName} = mappings[key];
     setCardMapping(mappings)
 
   
@@ -410,21 +433,21 @@ useEffect(() => {
   }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName];
   };
 
    //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
-      2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      9: { key: 'is_student_in_leadership_position', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
+      2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Classroom Strength' },
+      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Academic Stream' },
+      5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Student Access To Bank' },
+      6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Extra Curricular Activity' },
+      8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Social Group' },
+      9: { key: 'is_student_in_leadership_position', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2:'avg_score',attributeName:'Leadership Position' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];
     setCard4Mapping(mappings)
     
     const allLabels = new Set([
@@ -455,7 +478,7 @@ useEffect(() => {
    
  
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName];
   };
 
   //datasets creation for first three cards based on default chart data
@@ -508,11 +531,14 @@ useEffect(() => {
              cardKey={option.id}
              loadingStatus={loading[option.id]}
              apiEndPoints={endpointMapping}
+             apiEndPointsTable={tableEndPoints}
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="student"
+             subtype = "r2"
              tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -529,10 +555,13 @@ useEffect(() => {
               loadingStatus={loading[option.id]}
               apiEndPoints={endpointMapping}
               cardMapping={card4Mapping}
+              apiEndPointsTable={tableEndPoints}
               dataAvailableStatus={dataAvailable[option.id]}
               category="student"
+              subtype = "r2"
               tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -551,6 +580,8 @@ useEffect(() => {
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="student"
+          subtype = "r2"
+          attributeHeading={attributeNameValue[0]}
           />
         </Grid>
       </Grid>

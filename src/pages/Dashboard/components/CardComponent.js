@@ -20,8 +20,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 
-function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,cardMapping,dataAvailableStatus,category,tableInfo,tableHeadings }) {
-console.log(chartData)
+function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus,apiEndPoints,apiEndPointsTable,cardMapping,dataAvailableStatus,category,subtype,tableInfo,tableHeadings,attributeHeading }) {
+console.log(tableInfo)
 const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const navigate = useNavigate();
@@ -287,10 +287,13 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       dateRange2Start: dateRange2Start,
       dateRange2End: dateRange2End,
       apiEndPoints,
+      apiEndPointsTable,
       cardMapping,
       cardKey,
       category,
-      tableHeadings
+      subtype,
+      tableHeadings,
+      attributeHeading
       
     };
 
@@ -325,7 +328,7 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     if(category == "teacher" || category == "parent"){
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
         ],
@@ -342,10 +345,33 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
     ]);
     }
+    else if(category == "student" && subtype=="r1"&& title.id == 1){
+      head = [
+        [
+          { content: 'State', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'District', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+       // Define the table body
+     body = tableInfo.map(row => [
+      { content: row.stateDataValue, styles: { halign: 'center' } },
+      { content: row.districtDataValue, styles: { halign: 'center' } },
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
+
+    }
     else{
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
         ],
@@ -395,7 +421,7 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
    if(category == "teacher" || category == "parent"){
     const headerData = [
       [
-        { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -445,10 +471,63 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     XLSX.writeFile(wb, `${title.value}.xlsx`);
 
    }
+   else if(category == "student" && subtype=="r1" && title.id == 1){
+    const headerData = [
+      [
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'District', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+      ],
+      [
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+      ]
+    ];
+  
+    // Create a worksheet from the header data
+    const ws = XLSX.utils.aoa_to_sheet(headerData);
+  
+    // Add cell merges to the worksheet
+    ws['!merges'] = [
+      { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } }, // Merge cells for "Date Range 1"
+      { s: { r: 0, c: 5 }, e: { r: 0, c: 6 } }  // Merge cells for "Date Range 2"
+    ];
+  
+    // Append data rows to the worksheet
+    const dataRows = tableInfo.map(row => [
+      row.stateDataValue,
+      row.districtDataValue,
+      row.attributes,
+      row.dateRange1TotalValue,
+      row.dateRange1AvgValue,
+      row.dateRange2TotalValue,
+      row.dateRange2AvgValue
+    ]);
+  
+    // Append the data rows to the worksheet
+    XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+  
+    // Create a new workbook and append the worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+  
+    // Write the workbook to a file
+    XLSX.writeFile(wb, `${title.value}.xlsx`);
+
+   }
    else{
     const headerData = [
       [
-        { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -507,7 +586,7 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   let headers = [];
   if(category == "teacher" || category == "parent"){
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
       { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
@@ -517,9 +596,20 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     ];
 
   }
+  else if(category == "student" && subtype=="r1"&& title.id == 1){
+    headers = [
+      { label: 'State', key: 'stateDataValue' },
+      { label: 'District', key: 'districtDataValue' },
+      { label: `${attributeHeading}`, key: 'attributes' },
+      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+    ];
+  }
   else{
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
       { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
@@ -540,6 +630,17 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
       dateRange1AvgValue: row.dateRange1AvgValue,
       dateRange2TotalValue: row.dateRange2TotalValue,
       dateRange2StudentValue: row.dateRange2StudentValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+  }
+  else if(category == "student" && subtype=="r1"&& title.id == 1){
+    dataRows = tableInfo.map(row => ({
+      stateDataValue:row.stateDataValue,
+      districtDataValue:row.districtDataValue,
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
       dateRange2AvgValue: row.dateRange2AvgValue
     }));
   }

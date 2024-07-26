@@ -16,7 +16,8 @@ import { CSVLink } from "react-csv";
 
 
 
-function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus,dataAvailableStatus,category }) {
+function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatus,dataAvailableStatus,category,subtype,dashboard,attributeHeading }) {
+  console.log(tableInfo)
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
   const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[Number(titleId)-1].id : '';
@@ -278,7 +279,7 @@ useEffect(() => {
     if(category == "teacher" || category == "parent"){
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 3, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 3, styles: { halign: 'center' } }
         ],
@@ -295,10 +296,33 @@ useEffect(() => {
       { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
     ]);
     }
+    else if(category == "student" && subtype=="r1"&& title.id == 1){
+      head = [
+        [
+          { content: 'State', rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'District', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
+          { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
+        ],
+        tableHeadings.map(heading => ({ content: heading, styles: { halign: 'center' } }))
+      ];
+       // Define the table body
+     body = tableInfo.map(row => [
+      { content: row.stateDataValue, styles: { halign: 'center' } },
+      { content: row.districtDataValue, styles: { halign: 'center' } },
+      { content: row.attributes, styles: { halign: 'center' } },
+      { content: row.dateRange1TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange1AvgValue, styles: { halign: 'center' } },
+      { content: row.dateRange2TotalValue, styles: { halign: 'center' } },
+      { content: row.dateRange2AvgValue, styles: { halign: 'center' } }
+    ]);
+
+    }
     else{
       head = [
         [
-          { content: 'Attributes', rowSpan: 2, styles: { halign: 'center' } },
+          { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 1', colSpan: 2, styles: { halign: 'center' } },
           { content: 'Date Range 2', colSpan: 2, styles: { halign: 'center' } }
         ],
@@ -315,6 +339,8 @@ useEffect(() => {
 
     }
     
+  
+   
   
     doc.autoTable({
       head: head,
@@ -346,7 +372,7 @@ useEffect(() => {
    if(category == "teacher" || category == "parent"){
     const headerData = [
       [
-        { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -396,10 +422,63 @@ useEffect(() => {
     XLSX.writeFile(wb, `${title.value}.xlsx`);
 
    }
+   else if(category == "student" && subtype=="r1" && title.id == 1){
+    const headerData = [
+      [
+        { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'District', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+      ],
+      [
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: tableHeadings[3], s: { alignment: { horizontal: 'center' }, font: { bold: true } } }
+      ]
+    ];
+  
+    // Create a worksheet from the header data
+    const ws = XLSX.utils.aoa_to_sheet(headerData);
+  
+    // Add cell merges to the worksheet
+    ws['!merges'] = [
+      { s: { r: 0, c: 3 }, e: { r: 0, c: 4 } }, // Merge cells for "Date Range 1"
+      { s: { r: 0, c: 5 }, e: { r: 0, c: 6 } }  // Merge cells for "Date Range 2"
+    ];
+  
+    // Append data rows to the worksheet
+    const dataRows = tableInfo.map(row => [
+      row.stateDataValue,
+      row.districtDataValue,
+      row.attributes,
+      row.dateRange1TotalValue,
+      row.dateRange1AvgValue,
+      row.dateRange2TotalValue,
+      row.dateRange2AvgValue
+    ]);
+  
+    // Append the data rows to the worksheet
+    XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: -1 });
+  
+    // Create a new workbook and append the worksheet
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data');
+  
+    // Write the workbook to a file
+    XLSX.writeFile(wb, `${title.value}.xlsx`);
+
+   }
    else{
     const headerData = [
       [
-        { v: 'Attributes', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+        { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 1', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
         { v: 'Date Range 2', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -458,7 +537,7 @@ useEffect(() => {
   let headers = [];
   if(category == "teacher" || category == "parent"){
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Stakeholder Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Total Students Value', key: 'dateRange1StudentValue' },
       { label: 'Date Range 1 Avg Students Value', key: 'dateRange1AvgValue' },
@@ -468,9 +547,20 @@ useEffect(() => {
     ];
 
   }
+  else if(category == "student" && subtype=="r1"&& title.id == 1){
+    headers = [
+      { label: 'State', key: 'stateDataValue' },
+      { label: 'District', key: 'districtDataValue' },
+      { label: `${attributeHeading}`, key: 'attributes' },
+      { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
+      { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
+      { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
+      { label: 'Date Range 2 Avg Value', key: 'dateRange2AvgValue' }
+    ];
+  }
   else{
     headers = [
-      { label: 'Attributes', key: 'attributes' },
+      { label: `${attributeHeading}`, key: 'attributes' },
       { label: 'Date Range 1 Total Value', key: 'dateRange1TotalValue' },
       { label: 'Date Range 1 Avg Value', key: 'dateRange1AvgValue' },
       { label: 'Date Range 2 Total Value', key: 'dateRange2TotalValue' },
@@ -494,6 +584,17 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
       dateRange2AvgValue: row.dateRange2AvgValue
     }));
   }
+  else if(category == "student" && subtype=="r1"&& title.id == 1){
+    dataRows = tableInfo.map(row => ({
+      stateDataValue:row.stateDataValue,
+      districtDataValue:row.districtDataValue,
+      attributes: row.attributes,
+      dateRange1TotalValue: row.dateRange1TotalValue,
+      dateRange1AvgValue: row.dateRange1AvgValue,
+      dateRange2TotalValue: row.dateRange2TotalValue,
+      dateRange2AvgValue: row.dateRange2AvgValue
+    }));
+  }
   else{
     dataRows = tableInfo.map(row => ({
       attributes: row.attributes,
@@ -507,8 +608,6 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
    
 
 }
-  
-  console.log(selectedAttribute)
 
   return (
     <Card className='dashboard-card'>
@@ -701,7 +800,7 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
           <TableRow>
             <TableCell className="TableHeading" rowSpan={2}>
-              <p className="HeadingData">Attributes</p>
+              <p className="HeadingData">{attributeHeading}</p>
             </TableCell>
             <TableCell className="TableHeading" colSpan={3}>
               <p className="HeadingData">Date Range 1</p>
@@ -749,13 +848,20 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
           </Table>
         </TableContainer>
           ):
-          (
-<TableContainer component={Paper}>
+          (<>
+            {(titleId == 1 && subtype == "r1") ? (
+              <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
           <TableRow>
             <TableCell className="TableHeading" rowSpan={2}>
-              <p className="HeadingData">Attributes</p>
+              <p className="HeadingData">State</p>
+            </TableCell>
+            <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">District</p>
+            </TableCell>
+            <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">{attributeHeading}</p>
             </TableCell>
             <TableCell className="TableHeading" colSpan={2}>
               <p className="HeadingData">Date Range 1</p>
@@ -775,6 +881,12 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
             <TableBody>
               {tableData && tableData.map((row, index) => (
                 <TableRow key={index}>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.stateDataValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.districtDataValue}</p>
+                  </TableCell>
                   <TableCell className="BodyBorder">
                     <p className="TableData">{row.attributes}</p>
                   </TableCell>
@@ -796,6 +908,56 @@ if(tableInfo.length != 0 || tableInfo != undefined ){
             </TableBody>
           </Table>
         </TableContainer>
+            ):(
+              <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
+              <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
+              <TableRow>
+                <TableCell className="TableHeading" rowSpan={2}>
+                  <p className="HeadingData">{attributeHeading}</p>
+                </TableCell>
+                <TableCell className="TableHeading" colSpan={2}>
+                  <p className="HeadingData">Date Range 1</p>
+                </TableCell>
+                <TableCell className="TableHeading" colSpan={2}>
+                  <p className="HeadingData">Date Range 2</p>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+              {tableHeadings.map((heading, index) => (
+                      <TableCell key={index} className="TableHeading">
+                        <p className="HeadingData">{heading}</p>
+                      </TableCell>
+                    ))}
+              </TableRow>
+            </TableHead>
+                <TableBody>
+                  {tableData && tableData.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="BodyBorder">
+                        <p className="TableData">{row.attributes}</p>
+                      </TableCell>
+                      
+                      <TableCell className="BodyBorder">
+                        <p className="TableData">{row.dateRange1TotalValue}</p>
+                      </TableCell>
+                      <TableCell className="BodyBorder">
+                        <p className="TableData">{row.dateRange1AvgValue}</p>
+                      </TableCell>
+                      <TableCell className="BodyBorder">
+                        <p className="TableData">{row.dateRange2TotalValue}</p>
+                      </TableCell>
+                      <TableCell className="BodyBorder">
+                        <p className="TableData">{row.dateRange2AvgValue}</p>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer> 
+
+            )}
+</>
           )}
           </>
 

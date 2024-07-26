@@ -19,7 +19,7 @@ const dropdownOptions = [
 ];
 
 //filters based on attribute id
-const commonAttributes = ['Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', 'Qualification','Mode of Employment','Gender'];
+const commonAttributes = ['State', 'District','Board of Education', 'School Location', 'School Management', 'School Category', 'School Type', 'Qualification','Mode of Employment','Gender'];
 
 const attributeBasedDropdowns = {};
 dropdownOptions.forEach(option => {
@@ -35,6 +35,9 @@ const endpointMapping = {
   
  
 };
+const tableEndPoints = {
+  1: '',
+}
 
 
 //default chart data for first 3 cards
@@ -209,6 +212,14 @@ const TeacherSchoolParent = () => {
     3: [],
     4: [],
 });
+const [attributeNameValue, setAttributeNameValue] = useState({
+  0: "",
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  
+});
   
 
 useEffect(() => {
@@ -293,7 +304,7 @@ const fetchTableData = () => {
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent,attributeName] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -305,9 +316,13 @@ const fetchTableData = () => {
                 ...prevData,
                 [cardKey]: newTableData,
               }));
+              setAttributeNameValue(prevData => ({
+                ...prevData,
+                [cardKey]: attributeName,
+              }));
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent] = parseResultData(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent,attributeName] = parseResultData(key, result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
@@ -319,14 +334,22 @@ const fetchTableData = () => {
           ...prevData,
           [cardKey]: newTableData,
         }));
+        setAttributeNameValue(prevData => ({
+          ...prevData,
+          [cardKey]: attributeName,
+        }));
       }
       
 
         if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key, result);
             setTableData(prevData => ({
               ...prevData,
               [cardKey]: newTableData,
+            }));
+            setAttributeNameValue(prevData => ({
+              ...prevData,
+              [cardKey]: attributeName,
             }));
         }
     }
@@ -357,16 +380,16 @@ const fetchTableData = () => {
 //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
-      3: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
-      4: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
-      5: { key: 'vidyanjali', dataOneKey: 'num_students', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score' },
+      3: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score',attributeName:'SMC' },
+      4: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score',attributeName:'SMC' },
+      5: { key: 'vidyanjali', dataOneKey: 'num_students', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey: 'avg_score',attributeName:'Vidyanjali' },
     
       
      
       
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey,attributeName } = mappings[key];
     setCardMapping(mappings)
     const allLabels = new Set([
       ...result.dataStateOne.map(item => item[labelKey]),
@@ -402,20 +425,20 @@ const fetchTableData = () => {
     }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,dataOneStudent,dataTwoStudent,attributeName];
   };
 
 
    //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
-      3: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      4: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      5: { key: 'vidyanjali', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
+      3: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'SMC' },
+      4: { key: 'smc', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'SMC' },
+      5: { key: 'vidyanjali', dataOneKey: 'num_teachers', dataTwoKey: 'num_teachers',dataThreeKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Vidyanjali' },
       
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2,attributeName } = mappings[key];
     
     setCard4Mapping(mappings)
     
@@ -450,7 +473,7 @@ const fetchTableData = () => {
     }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,dataOneStudent,dataTwoStudent,attributeName];
   };
 
    //datasets creation for first three cards based on default chart data
@@ -504,12 +527,14 @@ const fetchTableData = () => {
              cardKey={option.id}
              loadingStatus={loading[option.id]}
              apiEndPoints={endpointMapping}
+             apiEndPointsTable={tableEndPoints}
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="teacher"
+             subtype = "t2"
              tableInfo={tableData[option.id]} 
-          tableHeadings={tableHeadings} 
-              
+             tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -526,11 +551,13 @@ const fetchTableData = () => {
               loadingStatus={loading[option.id]}
               apiEndPoints={endpointMapping}
               cardMapping={card4Mapping}
+              apiEndPointsTable={tableEndPoints}
               dataAvailableStatus={dataAvailable[option.id]}
               category="teacher"
+              subtype = "t2"
               tableInfo={tableData[option.id]} 
-          tableHeadings={tableHeadings} 
-              
+             tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -549,6 +576,8 @@ const fetchTableData = () => {
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="teacher"
+          subtype = "t2"
+          attributeHeading={attributeNameValue[0]}
           />
         </Grid>
       </Grid>

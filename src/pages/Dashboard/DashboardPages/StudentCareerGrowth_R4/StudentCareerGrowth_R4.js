@@ -40,6 +40,10 @@ const endpointMapping = {
  
 };
 
+const tableEndPoints = {
+  1: '',
+}
+
 //default chart data for first 3 cards
 const defaultChartData = {
   labels: [],
@@ -177,6 +181,14 @@ const StudentCareerGrowth_R4 = () => {
     3: {},
     4: {},
   });
+  const [attributeNameValue, setAttributeNameValue] = useState({
+    0: "",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    
+  });
 
   const [dataAvailable,setDataAvailable]=useState({
     0: false,
@@ -300,7 +312,7 @@ const fetchTableData = () => {
           if(cardKey == 4){
               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName] = parseResultDataCard4(key, result);
               setCardData(prevCardData => ({
                 ...prevCardData,
                 [cardKey]: {
@@ -312,9 +324,13 @@ const fetchTableData = () => {
                 ...prevData,
                 [cardKey]: newTableData,
               }));
+              setAttributeNameValue(prevData => ({
+                ...prevData,
+                [cardKey]: attributeName,
+              }));
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key, result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
@@ -326,14 +342,22 @@ const fetchTableData = () => {
           ...prevData,
           [cardKey]: newTableData,
         }));
+        setAttributeNameValue(prevData => ({
+          ...prevData,
+          [cardKey]: attributeName,
+        }));
       }
       
 
         if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key, result);
             setTableData(prevData => ({
               ...prevData,
               [cardKey]: newTableData,
+            }));
+            setAttributeNameValue(prevData => ({
+              ...prevData,
+              [cardKey]: attributeName,
             }));
         }
     }
@@ -364,15 +388,15 @@ const fetchTableData = () => {
   //parse data for first three cards based on key values
   const parseResultData = (key, result) => {
     const mappings = {
-      1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
-      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' },
+      1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Taking Vocational Course' },
+      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Interning Access' },
+      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Higher Studies' },
+      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Career Idea' },
+      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Student Domain' },
+      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Taking Vocational Course' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
     
     setCardMapping(mappings)
     const allLabels = new Set([
@@ -405,21 +429,21 @@ const fetchTableData = () => {
   }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName];
   };
 
    //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
-      1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
-      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score' },
+      1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Taking Vocational Course' },
+      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Interning Access' },
+      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Higher Studies' },
+      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Career Idea' },
+      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Student Domain' },
+      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Taking Vocational Course' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];
     
     setCard4Mapping(mappings)
     
@@ -450,7 +474,7 @@ const fetchTableData = () => {
     }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName];
   };
 
   //datasets creation for first three cards based on default chart data
@@ -505,11 +529,14 @@ const fetchTableData = () => {
              cardKey={option.id}
              loadingStatus={loading[option.id]}
              apiEndPoints={endpointMapping}
+             apiEndPointsTable={tableEndPoints}
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="student"
+             subtype = "r4"
              tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -526,10 +553,13 @@ const fetchTableData = () => {
               loadingStatus={loading[option.id]}
               apiEndPoints={endpointMapping}
               cardMapping={card4Mapping}
+              apiEndPointsTable={tableEndPoints}
               dataAvailableStatus={dataAvailable[option.id]}
               category="student"
+              subtype = "r4"
               tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -548,6 +578,8 @@ const fetchTableData = () => {
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="student"
+          subtype = "r4"
+          attributeHeading={attributeNameValue[0]}
           />
         </Grid>
       </Grid>

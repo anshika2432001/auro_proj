@@ -55,6 +55,10 @@ const endpointMapping = {
   14: '/r1/topic-wise-student-attempts-data',
 };
 
+const tableEndPoints = {
+  1: '/r1/subject-wise-breakdown-table',
+}
+
 //default chart data for first 3 cards
 const defaultChartData = {
   labels: [],
@@ -222,6 +226,14 @@ const StudentSchoolAttributes_R1 = () => {
     4: [],
     
 });
+const [attributeNameValue, setAttributeNameValue] = useState({
+  0: "",
+  1: "",
+  2: "",
+  3: "",
+  4: "",
+  
+});
 
 
 useEffect(() => {
@@ -237,6 +249,7 @@ useEffect(() => {
     if(titleId.id && [1, 2, 3, 4].includes(Number(titleId.id))){
      
     fetchData(1, filters[1],1);
+    fetchTableInfo(1, filters[1],1)
     setCardTitle(prevCardTitle => ({
       ...prevCardTitle,
       1: dropdownOptions[0]
@@ -262,17 +275,25 @@ useEffect(() => {
  //fetch table details
   const fetchTableData = () => {
     const firstOption = dropdownOptions[Number(titleId.id)-1];
-    fetchData(firstOption.id, filters[firstOption.id], 0);
+    if(firstOption.id == 1){
+      fetchTableInfo(firstOption.id, filters[firstOption.id], 0);
+    }
+    else{
+      fetchData(firstOption.id, filters[firstOption.id], 0);
+    }
+    
   };
 
-  //fetch card details function
-  const fetchData = async (key, value,cardKey) => {
+  const fetchTableInfo = async (key, value,cardKey) => {
     setLoading(prevValue => ({
       ...prevValue,
       [cardKey]: true,
     }));
+
     
-    const endpoint = endpointMapping[key];
+        const endpoint = tableEndPoints[key];
+      
+      
 
     try {
       let payload = {
@@ -303,7 +324,7 @@ useEffect(() => {
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
      
-
+      
       const res = await axios.post(endpoint, payload);
        
        if(res.data.status && res.data.statusCode == 200){
@@ -321,7 +342,130 @@ useEffect(() => {
                const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
                const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
               
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultDataCard4(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultDataCard4(key, result);
+             
+               setTableData(prevData => ({
+                ...prevData,
+                [cardKey]: newTableData,
+              }));
+              setAttributeNameValue(prevData => ({
+                ...prevData,
+                [cardKey]: attributeName,
+              }));
+               
+          }
+          else{
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey,result);
+              
+        setTableData(prevData => ({
+          ...prevData,
+          [cardKey]: newTableData,
+        }));
+        setAttributeNameValue(prevData => ({
+          ...prevData,
+          [cardKey]: attributeName,
+        }));
+       
+      }
+      
+
+        if (cardKey === 0) {
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey, result);
+            setTableData(prevData => ({
+              ...prevData,
+              [cardKey]: newTableData,
+            }));
+            
+            setAttributeNameValue(prevData => ({
+              ...prevData,
+              [cardKey]: attributeName,
+            }));
+        }
+    }
+    else{
+      console.log("error")
+      setLoading(prevValue => ({
+        ...prevValue,
+        [cardKey]: false,
+      }));
+      setDataAvailable(prevValue => ({
+        ...prevValue,
+        [cardKey]: true,
+      }));
+      
+    }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(prevValue => ({
+        ...prevValue,
+        [cardKey]: false,
+      }));
+      setDataAvailable(prevValue => ({
+        ...prevValue,
+        [cardKey]: true,
+      }));
+    }
+  };
+  
+
+  //fetch card details function
+  const fetchData = async (key, value,cardKey) => {
+    setLoading(prevValue => ({
+      ...prevValue,
+      [cardKey]: true,
+    }));
+
+        const endpoint = endpointMapping[key];
+      
+
+    try {
+      let payload = {
+        transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1 : defaultStartDateRange1) : defaultStartDateRange1,
+        transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1 : defaultEndDateRange1) : defaultEndDateRange1,
+        transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2 : (cardKey==4)? null: defaultStartDateRange2) : (cardKey==4)? null: defaultStartDateRange2,
+        transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2 : (cardKey==4)? null: defaultEndDateRange2) : defaultEndDateRange2,
+        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
+        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+        schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
+        stateId: value ? ((value.State && value.State !== "All") ? value.State : (cardKey==4)? 7: null) : (cardKey==4)? 7: null,
+        districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
+        socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
+        gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
+        ageFrom: null,
+        ageTo: null,
+        educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
+        schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
+        cwsn: value ? ((value['CWSN'] && value['CWSN'] !== 'All') ? value['CWSN'] : null) : null,
+        childMotherQualification: value ? ((value['Mother Education'] && value['Mother Education'] !== 'All') ? value['Mother Education'] : null) : null,
+        childFatherQualification: value ? ((value['Father Education'] && value['Father Education'] !== 'All') ? value['Father Education'] : null) : null,
+        householdId: value ? ((value['Annual Income'] && value['Annual Income'] !== 'All') ? value['Annual Income'] : null) : null,
+      };
+
+      if (value && value['Age Group'] && value['Age Group'] !== 'All') {
+        const ageRange = value['Age Group'].split('-');
+        payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
+        payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
+      }
+     
+      
+      const res = await axios.post(endpoint, payload);
+       
+       if(res.data.status && res.data.statusCode == 200){
+        setLoading(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
+          const result = res.data.result;
+          if(cardKey == 4){
+           
+               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
+               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+              
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultDataCard4(key, result);
              
               setCardData(prevCardData => ({
                 ...prevCardData,
@@ -330,14 +474,20 @@ useEffect(() => {
                   datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
                 }
                }));
+               if(key !== 1){
                setTableData(prevData => ({
                 ...prevData,
                 [cardKey]: newTableData,
               }));
+            }
+              setAttributeNameValue(prevData => ({
+                ...prevData,
+                [cardKey]: attributeName,
+              }));
                
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey,result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
@@ -345,19 +495,32 @@ useEffect(() => {
               datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
         }));
+        if(key !== 1){
         setTableData(prevData => ({
           ...prevData,
           [cardKey]: newTableData,
+        }));
+      }
+        setAttributeNameValue(prevData => ({
+          ...prevData,
+          [cardKey]: attributeName,
         }));
        
       }
       
 
         if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData] = parseResultData(key, result);
+            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey, result);
+            if(key !== 1){
             setTableData(prevData => ({
               ...prevData,
               [cardKey]: newTableData,
+            }));
+          }
+            
+            setAttributeNameValue(prevData => ({
+              ...prevData,
+              [cardKey]: attributeName,
             }));
         }
     }
@@ -388,79 +551,132 @@ useEffect(() => {
   console.log(dataAvailable)
 
   //parse data for first three cards based on key values
-  const parseResultData = (key, result) => {
+  const parseResultData = (key,cardKey, result) => {
     const mappings = {
-      1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
-      2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey: 'average_score' },
-      3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score' },
-      4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'regional_avg_score' },
-      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_region' },
-      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_state' },
-      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state' },
-      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state' },
-      9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region' },
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_improvement_region' },
-      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state' },
-      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state' },
-      13: { key: 'topic_name', dataOneKey: 'num_students_state',dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state' },
-      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state' },
+      1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score',attributeName:'Subject' },
+      2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey: 'average_score',attributeName:'Grade' },
+      3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score',attributeName:'Quiz Range' },
+      4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'regional_avg_score',attributeName:'Quiz Range' },
+      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_region',attributeName:'Topic Name' },
+      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_state',attributeName:'Topic Name' },
+      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
+      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
+      9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region',attributeName:'Quiz Attempt' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_improvement_region',attributeName:'Quiz Attempt' },
+      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Subject' },
+      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Grade' },
+      13: { key: 'topic_name', dataOneKey: 'num_students_state',dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
+      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = mappings[key];
+    const { key: labelKey,attribute, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
     setCardMapping(mappings)
-    const allLabels = new Set([
-      ...result.dataStateOne.map(item => item[labelKey]),
-      ...result.dataStateTwo.map(item => item[labelKey])
-    ]);
+    let labelsData = [];
+    let dataOne = [];
+    let dataOneAvg = [];
+    let dataTwo = [];
+    let dataTwoAvg = [];
+    let newTableData = [];
+    
   
-   
+    
+    if(key == 1 ){
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataStateTwo.map(item => item[labelKey])
+      ]);
+    
+     
+  
+       labelsData = Array.from(allLabels);
+       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+       dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+    
+       dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+       dataTwoAvg = labelsData.map(label => {
+        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        return parseFloat(value.toFixed(2));
+      });
 
-    const labelsData = Array.from(allLabels);
-    const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-    const dataOneAvg = labelsData.map(label => {
-      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
-      return parseFloat(value.toFixed(2));
-    });
+     result.dataStateOne.map(value1=>{
+        result.dataStateTwo.find((value2)=>{
+          if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
+            console.log(value1)
+            newTableData.push({
+              stateDataValue: value1.state_name,
+              districtDataValue: value1.district_name,
+              attributes: value1.subject,
+              dateRange1TotalValue: value1.num_students,
+              dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
+              dateRange2TotalValue: value2.num_students,
+              dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
+
+            })
+          }
+        })
+      })
+      console.log(newTableData)
+
+    }
+    else{
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataStateTwo.map(item => item[labelKey])
+      ]);
+    
+     
   
-    const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-    const dataTwoAvg = labelsData.map(label => {
-      const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
-      return parseFloat(value.toFixed(2));
-    });
-  
+       labelsData = Array.from(allLabels);
+       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+       dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+    
+       dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+       dataTwoAvg = labelsData.map(label => {
+        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+       newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
+      }));
+
+    }
    
-  const newTableData = labelsData.map(label => ({
-    attributes: label,
-    dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-    dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-    dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-    dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-  }));
   
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData];
+  
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName];
   };
 
   //parse region vs pan India card details
   const parseResultDataCard4 = (key, result) => {
     const mappings = {
-      1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' },
-      2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey1: 'average_score',avgKey2: 'average_score' },
-      3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' },
-      4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'regional_avg_score',avgKey2: 'national_avg_score' },
-      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_region', avgKey2: 'avg_score_nation' },
-      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
-      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
-      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation' },
-      9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_pan_india',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india'},
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_improvement_region', avgKey2: 'avg_improvement_nation' },
-      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation' },
-      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation' },
-      13: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation' },
-      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation' },
+      1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Subject' },
+      2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Grade' },
+      3: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Quiz Range' },
+      4: { key: 'quiz_range', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'regional_avg_score',avgKey2: 'national_avg_score',attributeName:'Quiz Range' },
+      5: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_region', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
+      6: { key: 'topic_name', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
+      7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
+      8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
+      9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_pan_india',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india',attributeName:'Quiz Attempt'},
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_improvement_region', avgKey2: 'avg_improvement_nation',attributeName:'Quiz Attempt' },
+      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Subject' },
+      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Grade' },
+      13: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
+      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];
     setCard4Mapping(mappings)
     let labelsData = [];
     let dataOne = [];
@@ -468,8 +684,48 @@ useEffect(() => {
     let dataTwo = [];
     let dataTwoAvg = [];
     let newTableData = [];
+    if(key == 1 ){
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataStateTwo.map(item => item[labelKey])
+      ]);
+    
+     
+  
+       labelsData = Array.from(allLabels);
+       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+       dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+    
+       dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+       dataTwoAvg = labelsData.map(label => {
+        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+        return parseFloat(value.toFixed(2));
+      });
 
-    if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
+     result.dataStateOne.map(value1=>{
+        result.dataStateTwo.find((value2)=>{
+          if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
+            console.log(value1)
+            newTableData.push({
+              stateDataValue: value1.state_name,
+              districtDataValue: value1.district_name,
+              attributes: value1.subject,
+              dateRange1TotalValue: value1.num_students,
+              dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
+              dateRange2TotalValue: value2.num_students,
+              dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
+
+            })
+          }
+        })
+      })
+      console.log(newTableData)
+
+    }
+    else if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
      const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
       ]);
@@ -524,7 +780,7 @@ useEffect(() => {
    
  
   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData];
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName];
   };
 
   //datasets creation for first three cards based on default chart data
@@ -556,11 +812,20 @@ useEffect(() => {
       ...prevData,
       [cardKey]: selectedOption,
     }));
-     fetchData(key, value,cardKey);
+    if(key == 1){
+      fetchData(key, value,cardKey);
+      fetchTableInfo(key, value,cardKey);
+    }
+    else{
+      fetchData(key, value,cardKey);
+    }
+     
   };
 
 
  console.log(tableData)
+ console.log(cardData)
+ console.log(attributeNameValue)
   
     return (
     <div>
@@ -579,11 +844,14 @@ useEffect(() => {
              cardKey={option.id}
              loadingStatus={loading[option.id]}
              apiEndPoints={endpointMapping}
+             apiEndPointsTable={tableEndPoints}
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="student"
+             subtype = "r1"
              tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -600,10 +868,13 @@ useEffect(() => {
               loadingStatus={loading[option.id]}
               apiEndPoints={endpointMapping}
               cardMapping={card4Mapping}
+              apiEndPointsTable={tableEndPoints}
               dataAvailableStatus={dataAvailable[option.id]}
               category="student"
+              subtype = "r1"
               tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
+             attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>
@@ -622,6 +893,8 @@ useEffect(() => {
           loadingStatus={loading[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="student"
+          subtype = "r1"
+          attributeHeading={attributeNameValue[0]}
           />
         </Grid>
       </Grid>
