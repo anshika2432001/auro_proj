@@ -121,12 +121,12 @@ public class MasterControllerR1 {
 
     @PostMapping("/micro-scholar-quiz-table")
     public ApiResponse2<?> microScholarshipQuizDataTable(@RequestBody ROnePayloadDto payloadDto){
-        return masterServicesR1.microScholarshipQuizDataTbk(payloadDto);
+        return masterServicesR1.microScholarshipQuizDataTable(payloadDto);
     }
 
     @PostMapping("/subject-wise-breakdown-table")
     public ApiResponse2<?> subjectWiseBreakdownTable(@RequestBody ROnePayloadDto payloadDto){
-        return masterServicesR1.subjectWiseBreakdownAvgScoreTbk(payloadDto);
+        return masterServicesR1.subjectWiseBreakdownAvgScoreTable(payloadDto);
     }
 
 
