@@ -9988,9 +9988,7 @@ public class MasterServicesR1 {
                 "    subquery1.district_id,\n" +
                 "    subquery1.district_name,\n" +
                 "    subquery1.quiz_attempt,\n" +
-                "    subquery1.num_students AS num_students_date1,\n" +
                 "    subquery1.avg_improvement AS average_improvement_date1,\n" +
-                "    subquery2.num_students AS num_students_date2,\n" +
                 "    subquery2.avg_improvement AS average_improvement_date2\n" +
                 "FROM (\n" +
                 "    SELECT \n" +
