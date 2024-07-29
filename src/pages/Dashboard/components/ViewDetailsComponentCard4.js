@@ -88,6 +88,7 @@ const defaultChartDataCard4 = {
 const ViewDetailsComponentCard4 = () => {
   const [data, setData] = useState(null);
   const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [dataAvailableChart,setDataAvailableChart] = useState(false);
   const [tableData, setTableData] = useState([])
   const [chartData, setChartData] = useState({})
   const [loading,setLoading] = useState(false);
@@ -95,7 +96,8 @@ const ViewDetailsComponentCard4 = () => {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [updatedFilters, setUpdatedFilters] = useState({});
   const [showAddMore, setShowAddMore] = useState(true);
-  const [availableFilters, setAvailableFilters] = useState([]);
+  const [defaultStateName, setDefaultStateName] = useState([]);
+  
   const [anchorEl, setAnchorEl] = useState(null);
   const csvLinkRef = useRef(null);
 
@@ -173,13 +175,14 @@ const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
 const fetchData = async (value) => {
   console.log(value)
   const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
-  const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+  const stateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+  setDefaultStateName(stateName)
   console.log(defaultStateName)
     
 setLoading(true)
   try {
     let payload = {}
-    if(category == "student" || category == "parent"){
+    if(category == "Students" || category == "Parents"){
     payload = {
       transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
@@ -202,7 +205,7 @@ setLoading(true)
       householdId: value ? ((value['Annual Income'] && value['Annual Income'] !== 'All') ? value['Annual Income'] : null) : null,
     };
   }
-  else if(category == "teacher"){
+  else if(category == "Teachers"){
    payload = {
     transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
     transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
@@ -226,49 +229,57 @@ setLoading(true)
     }
    
    
-    if(category == "teacher" || category == "parent"){
+    if(category == "Teachers" || category == "Parents"){
       const endpoint = apiEndPoints[selectedAttribute.id];
     const res = await axios.post(endpoint, payload);
     if(res.data.status && res.data.statusCode == 200){
-      setLoading(false);
-      const result = res.data.result;
-        const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
-      const allLabels = new Set([
-        ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataNation.map(item => item[labelKey])
-      ]);
-     
-      const labelsData = Array.from(allLabels);
-    const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-    const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
-    const dataOneAvg = labelsData.map(label => {
-      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
-      return parseFloat(value.toFixed(2));
-    });
+      if(res.data.result.dataStateOne.length == 0 && res.data.result.dataNation.length == 0){
+        setDataAvailableChart(true)
+        setLoading(false);
+      }
+      else{
+        setDataAvailableChart(false)
+        setLoading(false);
+        const result = res.data.result;
+          const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+        const allLabels = new Set([
+          ...result.dataStateOne.map(item => item[labelKey]),
+          ...result.dataNation.map(item => item[labelKey])
+        ]);
+       
+        const labelsData = Array.from(allLabels);
+      const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+      const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
+      const dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+    
+      const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+      const dataTwoStudent = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
+      const dataTwoAvg = labelsData.map(label => {
+        const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+        const newTableData = labelsData.map(label => ({
+          attributes: label,
+          dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+          dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+          dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+          dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+          dateRange2StudentValue: result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+          dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+        }));
   
-    const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-    const dataTwoStudent = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
-    const dataTwoAvg = labelsData.map(label => {
-      const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
-      return parseFloat(value.toFixed(2));
-    });
-      const newTableData = labelsData.map(label => ({
-        attributes: label,
-        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-        dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
-        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
-        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-        dateRange2StudentValue: result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
-        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
-      }));
-
-      setChartData({
-      
-          labels: labelsData,
-          datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,defaultStateName),
+        setChartData({
         
-       });
-      setTableData(newTableData)
+            labels: labelsData,
+            datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,stateName),
+          
+         });
+        setTableData(newTableData)
+      }
+     
 
       
     }else{
@@ -276,11 +287,17 @@ setLoading(true)
     }
 
     }
-    else if(category == "student" && subtype == "r1" && selectedAttribute.id == 5){
+    else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 5 || selectedAttribute.id == 6 || selectedAttribute.id == 7 || selectedAttribute.id == 8 || selectedAttribute.id == 14)){
       const endpoint = apiEndPoints[selectedAttribute.id];
       const res = await axios.post(endpoint, payload);
       if(res.data.status && res.data.statusCode == 200){
-        setLoading(false);
+        if(res.data.result.dataStateOne.length == 0){
+            setDataAvailableChart(true)
+            setLoading(false);
+        }
+        else{
+          setDataAvailableChart(false)
+          setLoading(false);
         const result = res.data.result;
         
           const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
@@ -310,10 +327,14 @@ setLoading(true)
       setChartData({
       
         labels: labelsData,
-        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",defaultStateName),
+        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",stateName),
       
      });
       setTableData(newTableData)
+
+        }
+        
+        
           
        
       }else{
@@ -325,7 +346,13 @@ setLoading(true)
       const endpoint = apiEndPoints[selectedAttribute.id];
       const res = await axios.post(endpoint, payload);
       if(res.data.status && res.data.statusCode == 200){
-        setLoading(false);
+        if(res.data.result.dataStateOne.length == 0 && res.data.result.dataNation.length == 0){
+          setDataAvailableChart(true)
+          setLoading(false);
+
+        }
+        else{
+          setLoading(false);
         const result = res.data.result;
           const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
       const allLabels = new Set([
@@ -353,10 +380,13 @@ setLoading(true)
       setChartData({
       
         labels: labelsData,
-        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",defaultStateName),
+        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",stateName),
       
      });
       setTableData(newTableData)
+
+        }
+        
           
         
       }else{
@@ -374,10 +404,10 @@ setLoading(true)
   }
 };
 
-const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,defaultStateName) => [
-  { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${defaultStateName})`,dataStudent:dataOneStudent || [] },
+const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,stateName) => [
+  { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})`,dataStudent:dataOneStudent || [] },
     { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || []},
-    { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${defaultStateName})` },
+    { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
 
@@ -760,11 +790,20 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
   </Box>
 
 ):(
-  <div style={{ overflowX: "auto", marginTop: "1rem" }}>
-        <div style={{ minWidth: "800px", minHeight: "400px" }}>
-          <Chart type="bar" data={chartData} options={{ responsive: true }} />
-        </div>
-      </div>
+  <>
+  {dataAvailableChart? (
+    <Typography variant="body1" color="error">No data available for the chart.</Typography>
+
+  ):(
+    <div style={{ overflowX: "auto", marginTop: "1rem" }}>
+    <div style={{ minWidth: "800px", minHeight: "400px" }}>
+      <Chart type="bar" data={chartData} options={{ responsive: true }} />
+    </div>
+  </div>
+
+  )}
+  </>
+ 
 
 )}
     
@@ -775,8 +814,11 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
       </Box>
       ):(
         <>
-        
-          {(category == "teacher" || category=="parent") ? (
+        {dataAvailableChart? (
+          <Typography variant="body1" color="error">No data available for the table.</Typography>
+        ):(
+          <>
+           {(category == "Teachers" || category=="Parents") ? (
  <TableContainer component={Paper}>
  <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
    <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
@@ -836,71 +878,8 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
 </TableContainer>
           ):(
           
-          <>
-          {(selectedAttribute.id == 1 && subtype == "r1") ? (
-            <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
-        <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
-        <TableRow>
-        
-          <TableCell className="TableHeading" rowSpan={2}>
-            <p className="HeadingData">State</p>
-          </TableCell>
-          <TableCell className="TableHeading" rowSpan={2}>
-            <p className="HeadingData">District</p>
-          </TableCell>
-          <TableCell className="TableHeading" rowSpan={2}>
-            <p className="HeadingData">{attributeHeading}</p>
-          </TableCell>
-          <TableCell className="TableHeading" colSpan={2}>
-            <p className="HeadingData">State</p>
-          </TableCell>
-          <TableCell className="TableHeading" colSpan={2}>
-            <p className="HeadingData">Pan India</p>
-          </TableCell>
-      
-
-      
-        </TableRow>
-        <TableRow>
-        {tableHeadings.map((heading, index) => (
-                <TableCell key={index} className="TableHeading">
-                  <p className="HeadingData">{heading}</p>
-                </TableCell>
-              ))}
-        </TableRow>
-      </TableHead>
-          <TableBody>
-            {tableData && tableData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.stateDataValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.districtDataValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.attributes}</p>
-                </TableCell>
-                
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange1TotalValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange1AvgValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange2TotalValue}</p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                  <p className="TableData">{row.dateRange2AvgValue}</p>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-          ):(
+         
+          
             <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
             <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
@@ -910,7 +889,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
          <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={2}>
-         <p className="HeadingData">State</p>
+         <p className="HeadingData">{defaultStateName}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={2}>
          <p className="HeadingData">Pan india</p>
@@ -951,9 +930,15 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
             </Table>
           </TableContainer> 
 
+          
+          
           )}
+          
           </>
-          )}
+
+        )}
+        
+         
      </>
       )}
       </CardContent>

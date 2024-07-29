@@ -2,6 +2,7 @@ import React from 'react';
 import * as XLSX from 'xlsx';
 
 const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start, dateRange1End, dateRange2Start, dateRange2End, attributeHeading, cardKey) => {
+    console.log(category)
     const selectedFiltersWithNames = Object.fromEntries(
         Object.entries(selectedFilters).map(([key, value]) => {
           const options = attributeOptions[key];
@@ -59,7 +60,7 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
     let dataRows;
 
     if (cardKey == 4) {
-        if (category === "teacher" || category === "parent") {
+        if (category === "Teachers" || category === "Parents") {
             headerData = [
                 [
                     { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -115,7 +116,7 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
             ]);
         }
     } else {
-        if (category === "teacher" || category === "parent") {
+        if (category === "Teachers" || category === "Parents") {
             headerData = [
                 [
                     { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -196,17 +197,35 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
     + (filterRow.length > 0 ? 1 + 1 : 0); // Gap after filterRow, if it exists
 
                // Add cell merges to the worksheet
-           if (category === "teacher" || category === "parent") {
-             ws['!merges'] = [
-               { s: { r: headerStartRow, c: 1 }, e: { r: headerStartRow, c: 3 } }, // Merge cells for "Date Range 1"
-               { s: { r: headerStartRow, c: 4 }, e: { r: headerStartRow, c: 6 } }  // Merge cells for "Date Range 2"
-             ];
-           } else {
-             ws['!merges'] = [
-               { s: { r: headerStartRow, c: 3 }, e: { r: headerStartRow, c: 4 } }, // Merge cells for "Date Range 1"
-               { s: { r: headerStartRow, c: 5 }, e: { r: headerStartRow, c: 6 } }  // Merge cells for "Date Range 2"
-             ];
-           } 
+               if(cardKey == 4){
+                if (category === "Teachers" || category === "Parents") {
+                    ws['!merges'] = [
+                      { s: { r: headerStartRow, c: 1 }, e: { r: headerStartRow, c: 3 } }, // Merge cells for "Date Range 1"
+                      { s: { r: headerStartRow, c: 4 }, e: { r: headerStartRow, c: 6 } }  // Merge cells for "Date Range 2"
+                    ];
+                  } else {
+                    ws['!merges'] = [
+                      { s: { r: headerStartRow, c: 1 }, e: { r: headerStartRow, c: 2 } }, // Merge cells for "Date Range 1"
+                      { s: { r: headerStartRow, c: 3 }, e: { r: headerStartRow, c: 4 } }  // Merge cells for "Date Range 2"
+                    ];
+                  }
+
+               }
+               else{
+                if (category === "Teachers" || category === "Parents") {
+                    ws['!merges'] = [
+                      { s: { r: headerStartRow, c: 3 }, e: { r: headerStartRow, c: 5 } }, // Merge cells for "Date Range 1"
+                      { s: { r: headerStartRow, c: 6 }, e: { r: headerStartRow, c: 8 } }  // Merge cells for "Date Range 2"
+                    ];
+                  } else {
+                    ws['!merges'] = [
+                      { s: { r: headerStartRow, c: 3 }, e: { r: headerStartRow, c: 4 } }, // Merge cells for "Date Range 1"
+                      { s: { r: headerStartRow, c: 5 }, e: { r: headerStartRow, c: 6 } }  // Merge cells for "Date Range 2"
+                    ];
+                  }
+
+               }
+            
          
 
     ws['!cols'] = [

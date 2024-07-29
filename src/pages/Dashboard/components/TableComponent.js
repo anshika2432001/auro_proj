@@ -491,7 +491,7 @@ useEffect(() => {
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == "teacher" || category=="parent") ? (
+          {(category == " Teachers" || category=="Parents") ? (
             <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

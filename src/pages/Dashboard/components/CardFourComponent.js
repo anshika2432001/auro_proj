@@ -456,7 +456,7 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
                   />
                 </LocalizationProvider>
               </Grid>
-              {(loadingStatusTable && loadingStatusChart && tableInfo.length == 0) ?(
+              {((loadingStatusTable || loadingStatusChart) && tableInfo.length == 0) ?(
                 <>
               <Grid item xs={12} sm={5} md={5} lg={5} >
             <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>

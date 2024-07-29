@@ -22,7 +22,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatusChart,loadingStatusTable,apiEndPoints,apiEndPointsTable,cardMapping,dataAvailableStatus,category,subtype,tableInfo,tableHeadings,attributeHeading }) {
-
+console.log(loadingStatusChart,loadingStatusTable)
+console.log(dataAvailableStatus)
 const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const navigate = useNavigate();
@@ -210,7 +211,7 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
 
    //filter change function
   const handleFilterChange = (dropdownLabel) => (event, value) => {
-    
+   
     let selectedValue = value;
     let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
   
@@ -348,7 +349,7 @@ const exportAsPDF = () => {
 const headers = getCsvHeaders(title,category,cardKey);
 const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,cardKey);
 
-
+console.log(dataRows)
   return (
     <Card className='mini-card'>
       <Typography 
@@ -466,7 +467,7 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
                 </LocalizationProvider>
               </Grid>
             
-              {(loadingStatusTable && loadingStatusChart && tableInfo.length == 0) ?(
+              {((loadingStatusTable || loadingStatusChart)) ?(
                 <>
               <Grid item xs={12} sm={5} md={5} lg={5} >
             <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>

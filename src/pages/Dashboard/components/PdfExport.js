@@ -56,7 +56,7 @@ const PdfExport = (title,selectedFilters,attributeOptions,tableInfo,tableHeading
       let head = [];
       let body = []
       if(cardKey == 4){
-        if(category == "teacher" || category == "parent"){
+        if(category == "Teachers" || category == "Parents"){
           head = [
             [
               { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
@@ -97,7 +97,7 @@ const PdfExport = (title,selectedFilters,attributeOptions,tableInfo,tableHeading
         }
 
       }else{
-        if(category == "teacher" || category == "parent"){
+        if(category == "Teachers" || category == "Parents"){
           head = [
             [
               { content: `${attributeHeading}`, rowSpan: 2, styles: { halign: 'center' } },
