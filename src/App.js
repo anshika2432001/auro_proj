@@ -28,6 +28,7 @@ import SchoolInfrastructure from './pages/Dashboard/DashboardPages/SchoolInfrast
 import ParentalandHousehold from './pages/Dashboard/DashboardPages/Parental&Household/Parental&Household';
 import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Household/ParentSchoolAttribute';
 import ViewDetailsComponent from './pages/Dashboard/components/ViewDetailsComponent';
+import ViewDetailsComponentCard4 from './pages/Dashboard/components/ViewDetailsComponentCard4';
 
 function App() {
   
@@ -67,6 +68,7 @@ function App() {
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
             <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />
+            <Route path="/viewDetailsPageCard4" element={<ViewDetailsComponentCard4 />} />
           </Routes>
         </Router>
       </ColorModeContextProvider>

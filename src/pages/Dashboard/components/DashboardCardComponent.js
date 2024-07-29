@@ -140,7 +140,7 @@ const handleAddDropdown = (event, value) => {
 
   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
-    console.log(list)
+   
     if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
@@ -171,7 +171,7 @@ const handleAddDropdown = (event, value) => {
   };
  //filter change function
 const handleFilterChange = (dropdownLabel) => (event, value) => {
-  console.log(selectedFilters)
+
   let selectedValue = value;
   let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
 

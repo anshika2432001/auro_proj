@@ -27,25 +27,70 @@ import {
 } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CircularProgress from '@mui/material/CircularProgress';
-import pdfExport from './PdfExport';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import excelExport from './ExcelExport';
 import * as XLSX from 'xlsx';
 import { CSVLink } from "react-csv";
 import { getCsvDataRows, getCsvHeaders } from './CsvExport';
+import excelExport from './ExcelExport';
+import pdfExport from './PdfExport';
+
+const defaultChartDataCard4 = {
+  labels: [],
+  datasets: [
+    {
+      label: '',
+      type: 'bar',
+      backgroundColor: 'rgba(185,102,220,1)',
+      borderColor: 'rgba(185,102,220,1)',
+      borderWidth: 2,
+      data: [],
+      barThickness: 30,
+      borderRadius: 5,
+      order: 2,
+    },
+    {
+      label: 'No of Students (Pan India)',
+      type: 'bar',
+      backgroundColor: 'rgba(68,198,212,1)',
+      borderColor: 'rgba(68,198,212,1)',
+      borderWidth: 2,
+      borderRadius: 5,
+      data: [],
+      barThickness: 30,
+      order: 2,
+    },
+    {
+      label: '',
+      type: 'line',
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Average score (Pan India)',
+      type: 'line',
+      borderColor: 'rgba(177,185,192,1)',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
 
 
 
-
-const ViewDetailsComponent = () => {
+const ViewDetailsComponentCard4 = () => {
   const [data, setData] = useState(null);
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [tableData, setTableData] = useState([])
   const [chartData, setChartData] = useState({})
   const [loading,setLoading] = useState(false);
-  const [loadingTable,setLoadingTable] = useState(false);
-  const [loadingChart,setLoadingChart] = useState(false);
   const [districtOptions, setDistrictOptions] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState({});
   const [updatedFilters, setUpdatedFilters] = useState({});
@@ -53,6 +98,9 @@ const ViewDetailsComponent = () => {
   const [availableFilters, setAvailableFilters] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const csvLinkRef = useRef(null);
+
+  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -81,56 +129,6 @@ const ViewDetailsComponent = () => {
  tableHeadings,
  attributeHeading
 } = data || {};
-
-const defaultChartData = {
-  labels: [],
-  datasets: [
-    {
-      label: `No of ${category} (Purple)`,
-      type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
-      borderWidth: 2,
-      data: [],
-      dataStudent: [],
-      barThickness: 30,
-      borderRadius: 5,
-      order: 2,
-    },
-    {
-      label: `No of ${category} (Blue)`,
-      type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
-      borderWidth: 2,
-      borderRadius: 5,
-      data: [],
-      dataStudent: [],
-      barThickness: 30,
-      order: 2,
-    },
-    {
-      label: 'Average score (Purple)',
-      type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
-      borderWidth: 4,
-      fill: false,
-      data: [],
-      spanGaps: true,
-      order: 1,
-    },
-    {
-      label: 'Average score (Blue)',
-      type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
-      borderWidth: 4,
-      fill: false,
-      data: [],
-      spanGaps: true,
-      order: 1,
-    },
-  ],
-};
 
 const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
   const [dateRange1EndValue, setDateRange1EndValue] = useState(null);
@@ -173,20 +171,24 @@ const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
 
 
 const fetchData = async (value) => {
+  console.log(value)
+  const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
+  const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+  console.log(defaultStateName)
     
-setLoadingChart(true)
+setLoading(true)
   try {
     let payload = {}
     if(category == "student" || category == "parent"){
     payload = {
       transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+      transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  null) :  null,
+      transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  null) : null,
       grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
       subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
       schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
-      stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) : null,
+      stateId: value ? ((value.State && value.State !== "All") ? value.State : 7) : 7,
       districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
       socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
       gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
@@ -204,10 +206,10 @@ setLoadingChart(true)
    payload = {
     transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
     transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+    transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  null) :  null,
+    transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  null) : null,
       grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
-      stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) :  null,
+      stateId: value ? ((value.State && value.State !== "All") ? value.State :  7) :  7,
       districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
       qualification: value ? ((value.Qualification && value.Qualification !== 'All') ? value.Qualification : null) : null,
       employmentNature: value ? ((value['Mode of Employment'] && value['Mode of Employment'] !== 'All') ? value['Mode of Employment'] : null) : null,
@@ -223,296 +225,161 @@ setLoadingChart(true)
       payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
     }
    
-
    
-    
     if(category == "teacher" || category == "parent"){
-      if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
     const res = await axios.post(endpoint, payload);
     if(res.data.status && res.data.statusCode == 200){
-      setLoadingChart(false);
+      setLoading(false);
       const result = res.data.result;
-      
-        const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
-      
+        const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataStateTwo.map(item => item[labelKey])
+        ...result.dataNation.map(item => item[labelKey])
       ]);
-      
-      const labelsData = Array.from(allLabels);
-      const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-      const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
-      const dataOneAvg = labelsData.map(label => {
-        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-    
-      const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-      const dataTwoStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
-      const dataTwoAvg = labelsData.map(label => {
-        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-      
-      setChartData({
-        
-        labels: labelsData,
-        datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent),
-   
-    });
-      
-
      
+      const labelsData = Array.from(allLabels);
+    const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+    const dataOneStudent = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
+    const dataOneAvg = labelsData.map(label => {
+      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+      return parseFloat(value.toFixed(2));
+    });
+  
+    const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+    const dataTwoStudent = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0);
+    const dataTwoAvg = labelsData.map(label => {
+      const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+      return parseFloat(value.toFixed(2));
+    });
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2StudentValue: result.dataNation.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+
+      setChartData({
+      
+          labels: labelsData,
+          datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,defaultStateName),
+        
+       });
+      setTableData(newTableData)
+
+      
     }else{
         console.log("error")
     }
-  }
 
     }
-    else if(category == "student" && subtype == "r1" &&  selectedAttribute.id == 5){
-      if(apiEndPoints != undefined){
+    else if(category == "student" && subtype == "r1" && selectedAttribute.id == 5){
       const endpoint = apiEndPoints[selectedAttribute.id];
       const res = await axios.post(endpoint, payload);
       if(res.data.status && res.data.statusCode == 200){
-        setLoadingChart(false);
+        setLoading(false);
         const result = res.data.result;
-       
-          const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
-      
-      const allLabels = new Set([
-        ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataStateTwo.map(item => item[labelKey])
-      ]);
+        
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+        const allLabels = new Set([
+          ...result.dataStateOne.map(item => item[labelKey]),
+        ]);
       
       const labelsData = Array.from(allLabels);
-      
       const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
       const dataOneAvg = labelsData.map(label => {
-        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
         return parseFloat(value.toFixed(2));
       }); 
       const dataTwo = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
      const dataTwoAvg = labelsData.map(label => {
-      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+      const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0;
       return parseFloat(value.toFixed(2));
     });
-     
-    setChartData({
-        
-      labels: labelsData,
-      datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"",""),
- 
-  });
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        attributes: label,
+      dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+      dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+      dateRange2TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+      dateRange2AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setChartData({
+      
+        labels: labelsData,
+        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",defaultStateName),
+      
+     });
+      setTableData(newTableData)
+          
+       
+      }else{
+        console.log("error")
+      }
   
+
+    }else{
+      const endpoint = apiEndPoints[selectedAttribute.id];
+      const res = await axios.post(endpoint, payload);
+      if(res.data.status && res.data.statusCode == 200){
+        setLoading(false);
+        const result = res.data.result;
+          const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2 } = cardMapping[selectedAttribute.id];
+      const allLabels = new Set([
+        ...result.dataStateOne.map(item => item[labelKey]),
+        ...result.dataNation.map(item => item[labelKey])
+      ]);
+      const labelsData = Array.from(allLabels);
+       const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+      const dataOneAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+        return parseFloat(value.toFixed(2));
+      }); 
+      const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+     const dataTwoAvg = labelsData.map(label => {
+      const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+      return parseFloat(value.toFixed(2));
+    });
+      const newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+      }));
+      setChartData({
+      
+        labels: labelsData,
+        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",defaultStateName),
+      
+     });
+      setTableData(newTableData)
+          
         
       }else{
         console.log("error")
       }
-    }
-      
-    }
-    else{
-      if(apiEndPoints != undefined){
-        const endpoint = apiEndPoints[selectedAttribute.id];
-        const res = await axios.post(endpoint, payload);
-        if(res.data.status && res.data.statusCode == 200){
-          setLoadingChart(false);
-          const result = res.data.result;
-        
-            const { key: labelKey, dataOneKey, dataTwoKey, avgKey } = cardMapping[selectedAttribute.id];
-        
-            const allLabels = new Set([
-              ...result.dataStateOne.map(item => item[labelKey]),
-              ...result.dataStateTwo.map(item => item[labelKey])
-            ]);
-            
-            const labelsData = Array.from(allLabels);
-            const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-         const dataOneAvg = labelsData.map(label => {
-          const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
-          return parseFloat(value.toFixed(2));
-        });
-      
-         const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-         const dataTwoAvg = labelsData.map(label => {
-          const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
-          return parseFloat(value.toFixed(2));
-        });
-            
-        setChartData({
-          
-          labels: labelsData,
-          datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"",""),
-     
-      });
-          
-        }else{
-          console.log("error")
-        }
-      }
-
-      
+  
 
     }
-       
+
+    
+   
  
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 };
 
-
-const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent) => [
-  { ...defaultChartData.datasets[0], data: dataOne || [],dataStudent:dataOneStudent || [] },
-  { ...defaultChartData.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [] },
-  { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
-  { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
-];
-
-const fetchTableInfo = async (value)=> {
-
-  setLoadingTable(true)
-  try {
-    let payload = {}
-    if(category == "student" || category == "parent"){
-    payload = {
-      transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
-      subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
-      schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
-      stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) : null,
-      districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
-      socialGroup: value ? ((value['Social Group'] && value['Social Group'] !== 'All') ? value['Social Group'] : null) : null,
-      gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
-      ageFrom: null,
-      ageTo: null,
-      educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
-      schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
-      cwsn: value ? ((value['CWSN'] && value['CWSN'] !== 'All') ? value['CWSN'] : null) : null,
-      childMotherQualification: value ? ((value['Mother Education'] && value['Mother Education'] !== 'All') ? value['Mother Education'] : null) : null,
-      childFatherQualification: value ? ((value['Father Education'] && value['Father Education'] !== 'All') ? value['Father Education'] : null) : null,
-      householdId: value ? ((value['Annual Income'] && value['Annual Income'] !== 'All') ? value['Annual Income'] : null) : null,
-    };
-  }
-  else if(category == "teacher"){
-   payload = {
-    transactionDateFrom1: value ? (value.startDateRange1 ? value.startDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange1EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2StartValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-    transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
-      grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
-      stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) :  null,
-      districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
-      qualification: value ? ((value.Qualification && value.Qualification !== 'All') ? value.Qualification : null) : null,
-      employmentNature: value ? ((value['Mode of Employment'] && value['Mode of Employment'] !== 'All') ? value['Mode of Employment'] : null) : null,
-      gender: value ? ((value.Gender && value.Gender !== 'All') ? value.Gender : null) : null,
-      educationBoard: value ? ((value['Board of Education'] && value['Board of Education'] !== 'All') ? value['Board of Education'] : null) : null,
-      schoolManagement: value ? ((value['School Management'] && value['School Management'] !== 'All') ? value['School Management'] : null) : null,
-      
-    };
-  }
-    if (value && value['Age Group'] && value['Age Group'] !== 'All') {
-      const ageRange = value['Age Group'].split('-');
-      payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
-      payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
-    }
-   
-
-   
-    
-    if(category == "teacher" || category == "parent"){
-      if(apiEndPointsTable != undefined){
-      const endpoint = apiEndPointsTable[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
-    if(res.data.status && res.data.statusCode == 200){
-      setLoadingTable(false);
-      const result = res.data.result;
-      
-         const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
-      
-         const labelValue = labelKey
-
-      let newTableData = []
-
-      result.dataStateOne.map(value=>{
-       
-           
-        newTableData.push({
-          stateDataValue: value.state_name,
-          districtDataValue: value.district_name,
-          attributes: value[labelValue],
-          dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-          dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-          dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-          dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
-
-       
-      
-    })
-  })
-     
-        setTableData(newTableData)
-
-     
-    }else{
-        console.log("error")
-    }
-  }
-    }
-    else{
-      if(apiEndPointsTable != undefined){
-        const endpoint = apiEndPointsTable[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
-    if(res.data.status && res.data.statusCode == 200){
-      setLoadingTable(false);
-      const result = res.data.result;
-      const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
-      
-         const labelValue = labelKey
-
-      let newTableData = []
-
-      result.dataStateOne.map(value=>{
-       
-           
-        newTableData.push({
-          stateDataValue: value.state_name,
-          districtDataValue: value.district_name,
-          attributes: value[labelValue],
-          dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-          dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-          dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-          dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
-
-       
-      
-    })
-  })
-     
-        setTableData(newTableData)
-
-      
-    }else{
-console.log("error")
-    }
-
-
-      }
-       
-  }
-
-
- 
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-}
+const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,defaultStateName) => [
+  { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${defaultStateName})`,dataStudent:dataOneStudent || [] },
+    { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || []},
+    { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${defaultStateName})` },
+    { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
+  ];
 
 
 
@@ -550,7 +417,6 @@ useEffect(() => {
 useEffect(() => {
   if (updatedFilters) {
     fetchData(selectedFilters);
-    fetchTableInfo(selectedFilters)
   }
 }, [updatedFilters]);
 
@@ -700,7 +566,7 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
 
    //select values for dropdowns that will be visible
    const getValueFromList = (list, value, key) => {
-  
+    console.log(list)
     if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
@@ -737,13 +603,14 @@ const selectedFiltersWithNames = Object.fromEntries(
     return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
   })
 );
+
 const exportAsPDF = ()=> {
-  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
 }
 
 const exportAsExcel = () => {
-  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
   
 };
@@ -761,6 +628,10 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
 
 
 
+
+
+
+
   return (
     <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>
       <CardContent>
@@ -773,7 +644,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
     {selectedAttribute.value}
   </Typography>
   
-  {(loading && tableData.length == 0 )?(
+  {(loading && tableData.length == 0) ?(
                 <>
               
               <Button variant="contained" disabled={true} sx={{ backgroundColor: "white", color: "#2899DB", m: 0 }}>
@@ -842,37 +713,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
            
           
 
-          <Grid item xs={12} sm={3} md={3} lg={3} >
-            <Typography variant="body1"  mt={1}><b>Date Range 2:</b></Typography>
-            </Grid>
-
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Start Date"
-                     format="DD/MM/YYYY"
-                     slotProps={{ textField: { size: "small" } }}
-                    value={dateRange2StartValue}
-                    onChange={(newValue) => handleDateRangeChange('dateRange2', newValue, dateRange2EndValue)}
-                    maxDate={dateRange2EndValue}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="End Date"
-                     format="DD/MM/YYYY"
-                     slotProps={{ textField: { size: "small" } }}
-                    value={dateRange2EndValue}
-                    onChange={(newValue) => handleDateRangeChange('dateRange2', dateRange2StartValue, newValue)}
-                    minDate={dateRange2StartValue}
-                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-        
+           
         </Grid>
       
       </Grid>
@@ -913,21 +754,22 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
   )}
 </Grid>
 <Typography variant="h5" color= "#0948a6" mt={4} gutterBottom><u>Chart Data:</u></Typography>
-{loadingChart ?(
-        <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
-        <CircularProgress />
-      </Box>
-      ):(
-        <div style={{ overflowX: "auto", marginTop: "1rem" }}>
+{loading ?(
+    <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
+    <CircularProgress />
+  </Box>
+
+):(
+  <div style={{ overflowX: "auto", marginTop: "1rem" }}>
         <div style={{ minWidth: "800px", minHeight: "400px" }}>
           <Chart type="bar" data={chartData} options={{ responsive: true }} />
         </div>
       </div>
 
-      )}
+)}
     
       <Typography variant="h5" color= "#0948a6" mt={4} gutterBottom><u>Table Data:</u></Typography>
-      {loadingTable ?(
+      {loading ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
       </Box>
@@ -940,17 +782,18 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
    <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
      <TableRow>
        
-        
          <TableCell className="TableHeading" rowSpan={2}>
          <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
-         <p className="HeadingData">Date Range 1</p>
+         <p className="HeadingData">State</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
-         <p className="HeadingData">Date Range 2</p>
+         <p className="HeadingData">Pan india</p>
        </TableCell>
-      
+     
+
+       
        
      </TableRow>
      <TableRow>
@@ -999,7 +842,6 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
         <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
         <TableRow>
-         
         
           <TableCell className="TableHeading" rowSpan={2}>
             <p className="HeadingData">State</p>
@@ -1011,12 +853,14 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
             <p className="HeadingData">{attributeHeading}</p>
           </TableCell>
           <TableCell className="TableHeading" colSpan={2}>
-            <p className="HeadingData">Date Range 1</p>
+            <p className="HeadingData">State</p>
           </TableCell>
           <TableCell className="TableHeading" colSpan={2}>
-            <p className="HeadingData">Date Range 2</p>
+            <p className="HeadingData">Pan India</p>
           </TableCell>
-       
+      
+
+      
         </TableRow>
         <TableRow>
         {tableHeadings.map((heading, index) => (
@@ -1061,19 +905,18 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
             <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
             <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
             <TableRow>
-           
-
-      
+          
          <TableCell className="TableHeading" rowSpan={2}>
          <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
-       <TableCell className="TableHeading" colSpan={3}>
-         <p className="HeadingData">Date Range 1</p>
+       <TableCell className="TableHeading" colSpan={2}>
+         <p className="HeadingData">State</p>
        </TableCell>
-       <TableCell className="TableHeading" colSpan={3}>
-         <p className="HeadingData">Date Range 2</p>
+       <TableCell className="TableHeading" colSpan={2}>
+         <p className="HeadingData">Pan india</p>
        </TableCell>
-       
+        
+
             </TableRow>
             <TableRow>
             {tableHeadings.map((heading, index) => (
@@ -1118,4 +961,5 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
   );
 };
 
-export default ViewDetailsComponent;
+export default ViewDetailsComponentCard4;
+

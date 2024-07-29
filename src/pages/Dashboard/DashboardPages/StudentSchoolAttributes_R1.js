@@ -57,6 +57,19 @@ const endpointMapping = {
 
 const tableEndPoints = {
   1: '/r1/subject-wise-breakdown-table',
+  2: '/r1/grade-wise-avg-score-table',
+  3: '/r1/micro-scholar-quiz-table',
+  4: '/r1/total-quiz-attempted-table',
+  5: '/r1/topic-wise-avg-score-table',
+  6: '/r1/topic-wise-micro-scholar-quiz-table',
+  7: '/r1/top-performing-topics-table',
+  8: '/r1/weak-performing-topics-table',
+  9: '/r1/core-retake-practice-table',
+  10: '/r1/core-retake-improvement-table',
+  11: '/r1/subject-wise-breakdown-improve-table',
+  12: '/r1/grade-wise-breakdown-improve-table',
+  13: '/r1/topic-wise-breakdown-improve-table',
+  14: '/r1/topic-wise-student-attempts-table',
 }
 
 //default chart data for first 3 cards
@@ -182,7 +195,14 @@ const StudentSchoolAttributes_R1 = () => {
   let defaultStartDateRange2= defaultDateRange2Start.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   let defaultEndDateRange2= defaultDateRange2End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   
-  const [loading,setLoading]=useState({
+  const [loadingChart,setLoadingChart]=useState({
+    0: false,
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+  });
+  const [loadingTable,setLoadingTable]=useState({
     0: false,
     1: false,
     2: false,
@@ -238,8 +258,11 @@ const [attributeNameValue, setAttributeNameValue] = useState({
 
 useEffect(() => {
   fetchData(2, filters[2],2);
+  fetchTableInfo(2, filters[2],2)
   fetchData(3, filters[3],3);
+  fetchTableInfo(3, filters[3],3)
   fetchData(4, filters[4],4);
+  
   
 }, []);
 
@@ -249,7 +272,7 @@ useEffect(() => {
     if(titleId.id && [1, 2, 3, 4].includes(Number(titleId.id))){
      
     fetchData(1, filters[1],1);
-    fetchTableInfo(1, filters[1],1)
+    // fetchTableInfo(1, filters[1],1)
     setCardTitle(prevCardTitle => ({
       ...prevCardTitle,
       1: dropdownOptions[0]
@@ -263,9 +286,10 @@ useEffect(() => {
          
       }));
       fetchData(titleId.id, filters[titleId.id],1);
+      // fetchTableInfo(titleId.id, filters[titleId.id],1);
     }
     
-    fetchTableData(); 
+     fetchTableData(); 
    
     
   }, [titleId.id]);
@@ -275,17 +299,13 @@ useEffect(() => {
  //fetch table details
   const fetchTableData = () => {
     const firstOption = dropdownOptions[Number(titleId.id)-1];
-    if(firstOption.id == 1){
       fetchTableInfo(firstOption.id, filters[firstOption.id], 0);
-    }
-    else{
-      fetchData(firstOption.id, filters[firstOption.id], 0);
-    }
+    
     
   };
 
   const fetchTableInfo = async (key, value,cardKey) => {
-    setLoading(prevValue => ({
+    setLoadingTable(prevValue => ({
       ...prevValue,
       [cardKey]: true,
     }));
@@ -328,7 +348,7 @@ useEffect(() => {
       const res = await axios.post(endpoint, payload);
        
        if(res.data.status && res.data.statusCode == 200){
-        setLoading(prevValue => ({
+        setLoadingTable(prevValue => ({
           ...prevValue,
           [cardKey]: false,
         }));
@@ -337,25 +357,9 @@ useEffect(() => {
           [cardKey]: false,
         }));
           const result = res.data.result;
-          if(cardKey == 4){
-            
-               const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
-               const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
-              
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultDataCard4(key, result);
-             
-               setTableData(prevData => ({
-                ...prevData,
-                [cardKey]: newTableData,
-              }));
-              setAttributeNameValue(prevData => ({
-                ...prevData,
-                [cardKey]: attributeName,
-              }));
-               
-          }
-          else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey,result);
+          
+          if(cardKey != 4){
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,"table",cardKey,result);
               
         setTableData(prevData => ({
           ...prevData,
@@ -368,23 +372,10 @@ useEffect(() => {
        
       }
       
-
-        if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey, result);
-            setTableData(prevData => ({
-              ...prevData,
-              [cardKey]: newTableData,
-            }));
-            
-            setAttributeNameValue(prevData => ({
-              ...prevData,
-              [cardKey]: attributeName,
-            }));
-        }
     }
     else{
       console.log("error")
-      setLoading(prevValue => ({
+      setLoadingTable(prevValue => ({
         ...prevValue,
         [cardKey]: false,
       }));
@@ -396,7 +387,7 @@ useEffect(() => {
     }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setLoading(prevValue => ({
+      setLoadingTable(prevValue => ({
         ...prevValue,
         [cardKey]: false,
       }));
@@ -410,7 +401,7 @@ useEffect(() => {
 
   //fetch card details function
   const fetchData = async (key, value,cardKey) => {
-    setLoading(prevValue => ({
+    setLoadingChart(prevValue => ({
       ...prevValue,
       [cardKey]: true,
     }));
@@ -451,7 +442,7 @@ useEffect(() => {
       const res = await axios.post(endpoint, payload);
        
        if(res.data.status && res.data.statusCode == 200){
-        setLoading(prevValue => ({
+        setLoadingChart(prevValue => ({
           ...prevValue,
           [cardKey]: false,
         }));
@@ -474,12 +465,12 @@ useEffect(() => {
                   datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
                 }
                }));
-               if(key !== 1){
+               
                setTableData(prevData => ({
                 ...prevData,
                 [cardKey]: newTableData,
               }));
-            }
+           
               setAttributeNameValue(prevData => ({
                 ...prevData,
                 [cardKey]: attributeName,
@@ -487,7 +478,7 @@ useEffect(() => {
                
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey,result);
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,"card",cardKey,result);
               setCardData(prevCardData => ({
               ...prevCardData,
               [cardKey]: {
@@ -495,12 +486,7 @@ useEffect(() => {
               datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
           }
         }));
-        if(key !== 1){
-        setTableData(prevData => ({
-          ...prevData,
-          [cardKey]: newTableData,
-        }));
-      }
+       
         setAttributeNameValue(prevData => ({
           ...prevData,
           [cardKey]: attributeName,
@@ -508,25 +494,10 @@ useEffect(() => {
        
       }
       
-
-        if (cardKey === 0) {
-            const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,cardKey, result);
-            if(key !== 1){
-            setTableData(prevData => ({
-              ...prevData,
-              [cardKey]: newTableData,
-            }));
-          }
-            
-            setAttributeNameValue(prevData => ({
-              ...prevData,
-              [cardKey]: attributeName,
-            }));
-        }
     }
     else{
       console.log("error")
-      setLoading(prevValue => ({
+      setLoadingChart(prevValue => ({
         ...prevValue,
         [cardKey]: false,
       }));
@@ -538,7 +509,7 @@ useEffect(() => {
     }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setLoading(prevValue => ({
+      setLoadingChart(prevValue => ({
         ...prevValue,
         [cardKey]: false,
       }));
@@ -548,10 +519,10 @@ useEffect(() => {
       }));
     }
   };
-  console.log(dataAvailable)
+
 
   //parse data for first three cards based on key values
-  const parseResultData = (key,cardKey, result) => {
+  const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
       1: { key: 'subject', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'average_score',attributeName:'Subject' },
       2: { key: 'grade', dataOneKey: 'num_students_attempting', dataTwoKey: 'num_students_attempting', avgKey: 'average_score',attributeName:'Grade' },
@@ -569,7 +540,7 @@ useEffect(() => {
       14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
     };
 
-    const { key: labelKey,attribute, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
     setCardMapping(mappings)
     let labelsData = [];
     let dataOne = [];
@@ -577,10 +548,25 @@ useEffect(() => {
     let dataTwo = [];
     let dataTwoAvg = [];
     let newTableData = [];
-    
-  
-    
-    if(key == 1 ){
+    if(type == "card"){
+      if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
+        const allLabels = new Set([
+          ...result.dataStateOne.map(item => item[labelKey]),
+        ]);
+        labelsData = Array.from(allLabels);
+        dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+        dataOneAvg = labelsData.map(label => {
+          const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+          return parseFloat(value.toFixed(2));
+        }); 
+         dataTwo = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+       dataTwoAvg = labelsData.map(label => {
+        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+       
+
+      }else{
       const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
         ...result.dataStateTwo.map(item => item[labelKey])
@@ -600,56 +586,38 @@ useEffect(() => {
         const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
         return parseFloat(value.toFixed(2));
       });
+    }
 
-     result.dataStateOne.map(value1=>{
-        result.dataStateTwo.find((value2)=>{
-          if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
-            console.log(value1)
+    }
+    
+     
+if(type == "table"){
+ 
+ 
+   const labelValue = mappings[key].key
+    
+
+  console.log(labelValue)
+     result.dataStateOne.map(value=>{
+       
+           
             newTableData.push({
-              stateDataValue: value1.state_name,
-              districtDataValue: value1.district_name,
-              attributes: value1.subject,
-              dateRange1TotalValue: value1.num_students,
-              dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
-              dateRange2TotalValue: value2.num_students,
-              dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
+              stateDataValue: value.state_name,
+              districtDataValue: value.district_name,
+              attributes: value[labelValue],
+              dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+              dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+              dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+              dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
 
-            })
-          }
+           
+          
         })
       })
-      console.log(newTableData)
+ 
 
     }
-    else{
-      const allLabels = new Set([
-        ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataStateTwo.map(item => item[labelKey])
-      ]);
-    
-     
-  
-       labelsData = Array.from(allLabels);
-       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-       dataOneAvg = labelsData.map(label => {
-        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-    
-       dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-       dataTwoAvg = labelsData.map(label => {
-        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-       newTableData = labelsData.map(label => ({
-        attributes: label,
-        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
-        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-        dateRange2TotalValue: result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
-        dateRange2AvgValue: parseFloat((result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0).toFixed(2)),
-      }));
-
-    }
+   
    
   
   
@@ -684,48 +652,8 @@ useEffect(() => {
     let dataTwo = [];
     let dataTwoAvg = [];
     let newTableData = [];
-    if(key == 1 ){
-      const allLabels = new Set([
-        ...result.dataStateOne.map(item => item[labelKey]),
-        ...result.dataStateTwo.map(item => item[labelKey])
-      ]);
     
-     
-  
-       labelsData = Array.from(allLabels);
-       dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
-       dataOneAvg = labelsData.map(label => {
-        const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-    
-       dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
-       dataTwoAvg = labelsData.map(label => {
-        const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey2] || 0;
-        return parseFloat(value.toFixed(2));
-      });
-
-     result.dataStateOne.map(value1=>{
-        result.dataStateTwo.find((value2)=>{
-          if(value2.state_name == value1.state_name && value2.subject == value1.subject && value2.district_name == value1.district_name){
-            console.log(value1)
-            newTableData.push({
-              stateDataValue: value1.state_name,
-              districtDataValue: value1.district_name,
-              attributes: value1.subject,
-              dateRange1TotalValue: value1.num_students,
-              dateRange1AvgValue: parseFloat((value1.average_score).toFixed(2)),
-              dateRange2TotalValue: value2.num_students,
-              dateRange2AvgValue: parseFloat((value2.average_score).toFixed(2)),
-
-            })
-          }
-        })
-      })
-      console.log(newTableData)
-
-    }
-    else if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
+    if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
      const allLabels = new Set([
         ...result.dataStateOne.map(item => item[labelKey]),
       ]);
@@ -812,20 +740,22 @@ useEffect(() => {
       ...prevData,
       [cardKey]: selectedOption,
     }));
-    if(key == 1){
+    if(cardKey == 4){
       fetchData(key, value,cardKey);
+      
+    }
+    else if(cardKey == 0){
       fetchTableInfo(key, value,cardKey);
     }
     else{
       fetchData(key, value,cardKey);
+      fetchTableInfo(key, value,cardKey);
     }
      
   };
 
 
- console.log(tableData)
- console.log(cardData)
- console.log(attributeNameValue)
+
   
     return (
     <div>
@@ -842,7 +772,8 @@ useEffect(() => {
              chartData={cardData[option.id] || defaultChartData}
              onFilterChange={onFilterChange}
              cardKey={option.id}
-             loadingStatus={loading[option.id]}
+             loadingStatusChart={loadingChart[option.id]}
+             loadingStatusTable={loadingTable[option.id]}
              apiEndPoints={endpointMapping}
              apiEndPointsTable={tableEndPoints}
              cardMapping={cardMapping}
@@ -865,7 +796,8 @@ useEffect(() => {
               chartData={cardData[option.id] || defaultChartData}
               onFilterChange={onFilterChange}
               cardKey={option.id}
-              loadingStatus={loading[option.id]}
+              loadingStatusChart={loadingChart[option.id]}
+              loadingStatusTable={loadingTable[option.id]}
               apiEndPoints={endpointMapping}
               cardMapping={card4Mapping}
               apiEndPointsTable={tableEndPoints}
@@ -890,7 +822,7 @@ useEffect(() => {
           tableHeadings={tableHeadings} 
           onFilterChange={onFilterChange}
           tableKey={0}
-          loadingStatus={loading[0]}
+          loadingStatusTable={loadingTable[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="student"
           subtype = "r1"
