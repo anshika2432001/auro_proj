@@ -220,4 +220,34 @@ public class FilterDropdownsQuery {
             "FROM\n" +
             "\tteacher_extra_data;";
 
+    public static String schoolCategory="select\n" +
+            "\tdistinct\n" +
+            "    school_category,\n" +
+            "\t\tCASE\n" +
+            "\t\t\tWHEN school_category = 1 THEN 'Primary only with grades 1 to 5 (PRY)'\n" +
+            "            WHEN school_category = 2 THEN 'Upper Primary with grades 1 to 8 (PRY-UPR)'\n" +
+            "            WHEN school_category = 3 THEN 'Higher Secondary with grades 1 to 12 (PRY-UPR-SEC-HSEC)'\n" +
+            "            WHEN school_category = 4 THEN 'Upper Primary only with grades 6 to 8 (UPR)'\n" +
+            "            WHEN school_category = 5 THEN 'Higher Secondary with grades 6 to 12 (UPR-SEC-HSEC)'\n" +
+            "            WHEN school_category = 6 THEN 'Secondary with grades 1 to 10 (PRY-UPR-SEC)'\n" +
+            "            WHEN school_category = 7 THEN 'Secondary with grades 6 to 10 (UPR-SEC)'\n" +
+            "            WHEN school_category = 8 THEN 'Secondary only with grades 9 & 10 (SEC)'\n" +
+            "            WHEN school_category = 10 THEN 'Higher Secondary with grades 9 to 12 (SEC-HSEC)'\n" +
+            "            WHEN school_category = 11 THEN 'Hr. Sec. /Jr. College only with grades 11 & 12 (HSEC)'\n" +
+            "            WHEN school_category = 12 THEN 'Pre-Primary Only (PRE)'\n" +
+            "\t\tEND AS school_category\n" +
+            "FROM\n" +
+            "\tstudent_extra_data\n" +
+            "order by school_category;\n";
+
+    public static String schoolType= "select\n" +
+            "\tdistinct\n" +
+            "    school_type,\n" +
+            "\t\tCASE\n" +
+            "\t\t\tWHEN school_type = 1 THEN 'Girls'\n" +
+            "            WHEN school_type = 2 THEN 'Boys'\n" +
+            "            WHEN school_type = 3 THEN 'Co-ed'\n" +
+            "\t\tEND AS school_type\n" +
+            "FROM\n" +
+            "\tstudent_extra_data;\n";
 }

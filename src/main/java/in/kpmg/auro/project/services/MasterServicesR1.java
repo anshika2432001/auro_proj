@@ -3458,6 +3458,8 @@ public class MasterServicesR1 {
 
         StringBuilder query = new StringBuilder("SELECT\n" +
                 "\ted.quiz_attempt,\n" +
+                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
                 "        ELSE NULL\n" +
@@ -3490,7 +3492,9 @@ public class MasterServicesR1 {
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
                 "\ted.quiz_attempt,\n" +
-                "    \tAVG(CASE\n" +
+                "\tCOUNT(DISTINCT ed.user_id) AS num_students_nation,\n" +
+                "    AVG(ed.score) AS avg_score_nation,\n" +
+                "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
                 "       ELSE NULL\n" +
                 "\tEND) AS avg_improvement_nation\n" +

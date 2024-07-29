@@ -82,6 +82,8 @@ public class DashboardServices {
             response.put("genderTeachers",jdbcTemplate.queryForList(FilterDropdownsQuery.genderTeachers));
             response.put("qualificationTeachers",jdbcTemplate.queryForList(FilterDropdownsQuery.qualificationTeachers));
             response.put("modeOfEmploymentTeacher",jdbcTemplate.queryForList(FilterDropdownsQuery.modeOfEmploymentTeacher));
+            response.put("schoolCategory",jdbcTemplate.queryForList(FilterDropdownsQuery.schoolCategory));
+            response.put("schoolType",jdbcTemplate.queryForList(FilterDropdownsQuery.schoolType));
 
 
 

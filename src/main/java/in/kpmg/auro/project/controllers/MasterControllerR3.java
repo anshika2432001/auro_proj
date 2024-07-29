@@ -69,6 +69,16 @@ public class MasterControllerR3 {
         return masterServicesR3.typeOfSiteStats(payloadDto);
     }
 
+    @PostMapping("/student-hours-spend-mobile-entertainment-stats")
+    public ApiResponse2<?> studentHoursSpendMobileForEntertainmentStats(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentHoursSpendMobileForEntertainmentStats(payloadDto);
+    }
+
+    @PostMapping("/paid-private-tuition-subjects-stats")
+    public ApiResponse2<?> paidPrivateTuitionSubjectsStats(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.paidPrivateTuitionSubjectsStats(payloadDto);
+    }
+
 
 //    --------------------------------TABLES---------------------------------
 
@@ -126,5 +136,17 @@ public class MasterControllerR3 {
     public ApiResponse2<?> typeOfSiteTable(@RequestBody RThreePayloadDto payloadDto){
         return masterServicesR3.typeOfSiteTable(payloadDto);
     }
+
+//    @PostMapping("/student-hours-spend-mobile-entertainment-table")
+//    public ApiResponse2<?> studentHoursSpendMobileForEntertainmentTable(@RequestBody RThreePayloadDto payloadDto){
+//        return masterServicesR3.studentHoursSpendMobileForEntertainmentTable(payloadDto);
+//    }
+
+//    @PostMapping("/paid-private-tuition-subjects-table")
+//    public ApiResponse2<?> paidPrivateTuitionSubjectsTable(@RequestBody RThreePayloadDto payloadDto){
+//        return masterServicesR3.paidPrivateTuitionSubjectsTable(payloadDto);
+//    }
+//
+
 
 }

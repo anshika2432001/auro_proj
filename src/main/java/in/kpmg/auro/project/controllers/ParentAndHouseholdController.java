@@ -17,7 +17,7 @@ public class ParentAndHouseholdController {
 
 
     @PostMapping("/immigrant background-stats")
-    public ApiResponse2<?> immigrantBackgroudStats(@RequestBody ROnePayloadDto payloadDto){
+    public ApiResponse2<?> immigrantBackgroundStats(@RequestBody ROnePayloadDto payloadDto){
         return parentAndHouseholdServices.immigrantBackgroudStats(payloadDto);
     }
 
@@ -127,5 +127,124 @@ public class ParentAndHouseholdController {
     public ApiResponse2<?> parentParticipateInEventAtChildSchoolStats(@RequestBody ROnePayloadDto payloadDto){
         return parentAndHouseholdServices.parentParticipateInEventAtChildSchoolStats(payloadDto);
     }
+
+
+//    ---------------------------------------TABLE---------------------------------------
+
+
+    @PostMapping("/immigrant background-table")
+    public ApiResponse2<?> immigrantBackgroundTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.immigrantBackgroundTable(payloadDto);
+    }
+
+    @PostMapping("/parents-studied-twelfth-table")
+    public ApiResponse2<?> parentStudiedTwelfthTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.parentStudiedTwelfthTable(payloadDto);
+    }
+
+    @PostMapping("/parents-annual-expenditure-child-education-table")
+    public ApiResponse2<?> parentAnnualExpenditureOnChildEducationTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.parentAnnualExpenditureOnChildEducationTable(payloadDto);
+    }
+
+
+    @PostMapping("/household-with-internet-connection-table")
+    public ApiResponse2<?> householdWithInternetConnectionTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.householdWithInternetConnectionTable(payloadDto);
+    }
+
+    @PostMapping("/mother-education-qualification-table")
+    public ApiResponse2<?> motherEducationQualificationTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.motherEducationQualificationTable(payloadDto);
+    }
+
+
+    @PostMapping("/family-members-know-computer-table")
+    public ApiResponse2<?> anyoneInTheFamilyWhoKnowsToOperateComputerTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.anyoneInTheFamilyWhoKnowsToOperateComputerTable(payloadDto);
+    }
+
+
+    @PostMapping("/house-type-table")
+    public ApiResponse2<?> houseTypeTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.houseTypeTable(payloadDto);
+    }
+
+
+    @PostMapping("/household-with-other-reading-materials-table")
+    public ApiResponse2<?> householdWhichHaveOtherReadingMaterialsTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.householdWhichHaveOtherReadingMaterialsTable(payloadDto);
+    }
+
+
+    @PostMapping("/father-education-qualification-table")
+    public ApiResponse2<?> fatherEducationQualificationTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.fatherEducationQualificationTable(payloadDto);
+    }
+
+
+    @PostMapping("/average-income-household-table")
+    public ApiResponse2<?> averageIncomeOfHouseholdTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.averageIncomeOfHouseholdTable(payloadDto);
+    }
+
+    @PostMapping("/household-with-electricity-connection-table")
+    public ApiResponse2<?> householdWithElectricityConnectionTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.householdWithElectricityConnectionTable(payloadDto);
+    }
+
+    @PostMapping("/adult-reads-with-child-read-everyday-table")
+    public ApiResponse2<?> adultAtHomeReadsWithChildEverydayTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.adultAtHomeReadsWithChildEverydayTable(payloadDto);
+    }
+
+    @PostMapping("/communication-with-teacher-once-monthly-table")
+    public ApiResponse2<?> communicationWithTeacherOnceAMonthTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.communicationWithTeacherOnceAMonthTable(payloadDto);
+    }
+
+    @PostMapping("/parent-expects-child-graduate-from-high-school-table")
+    public ApiResponse2<?> parentExpectsChildWillGraduateFromHighSchoolOneDayTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.parentExpectsChildWillGraduateFromHighSchoolOneDayTable(payloadDto);
+    }
+
+    @PostMapping("/parent-expects-child-goto-college-table")
+    public ApiResponse2<?> parentExpectsChildWillGoToCollegeOneDayTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.parentExpectsChildWillGoToCollegeOneDayTable(payloadDto);
+    }
+
+    @PostMapping("/frequency-parent-teacher-meeting-table")
+    public ApiResponse2<?> frequencyOfParentTeacherMeetingTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.frequencyOfParentTeacherMeetingTable(payloadDto);
+    }
+
+
+    @PostMapping("/school-guide-parents-support-children-learning-table")
+    public ApiResponse2<?> schoolProvidesGuidanceOnHowParentSupportChildrenTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.schoolProvidesGuidanceOnHowParentSupportChildrenTable(payloadDto);
+    }
+
+    @PostMapping("/percent-schools-parents-aware-learning-levels-table")
+    public ApiResponse2<?> percentOfSchoolsParentsAwareOfLearningLevelsTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.percentOfSchoolsParentsAwareOfLearningLevelsTable(payloadDto);
+    }
+
+    @PostMapping("/schools-inform-parents-school-activity-table")
+    public ApiResponse2<?> schoolsInformParentsAboutSchoolActivityTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.schoolsInformParentsAboutSchoolActivityTable(payloadDto);
+    }
+
+    @PostMapping("/attend-parent-teacher-conferences-table")
+    public ApiResponse2<?> attendParentTeacherConferencesTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.attendParentTeacherConferencesTable(payloadDto);
+    }
+
+    @PostMapping("/parent-participate-events-child-school-table")
+    public ApiResponse2<?> parentParticipateInEventAtChildSchoolTable(@RequestBody ROnePayloadDto payloadDto){
+        return parentAndHouseholdServices.parentParticipateInEventAtChildSchoolTable(payloadDto);
+    }
+
+
+//    DONE
 
 }
