@@ -137,16 +137,16 @@ public class MasterControllerR3 {
         return masterServicesR3.typeOfSiteTable(payloadDto);
     }
 
-//    @PostMapping("/student-hours-spend-mobile-entertainment-table")
-//    public ApiResponse2<?> studentHoursSpendMobileForEntertainmentTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.studentHoursSpendMobileForEntertainmentTable(payloadDto);
-//    }
+    @PostMapping("/student-hours-spend-mobile-entertainment-table")
+    public ApiResponse2<?> studentHoursSpendMobileForEntertainmentTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.studentHoursSpendMobileForEntertainmentTable(payloadDto);
+    }
 
-//    @PostMapping("/paid-private-tuition-subjects-table")
-//    public ApiResponse2<?> paidPrivateTuitionSubjectsTable(@RequestBody RThreePayloadDto payloadDto){
-//        return masterServicesR3.paidPrivateTuitionSubjectsTable(payloadDto);
-//    }
-//
+    @PostMapping("/paid-private-tuition-subjects-table")
+    public ApiResponse2<?> paidPrivateTuitionSubjectsTable(@RequestBody RThreePayloadDto payloadDto){
+        return masterServicesR3.paidPrivateTuitionSubjectsTable(payloadDto);
+    }
+
 
 
 }

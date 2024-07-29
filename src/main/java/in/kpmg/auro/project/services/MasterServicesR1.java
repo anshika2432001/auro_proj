@@ -9991,8 +9991,12 @@ public class MasterServicesR1 {
                 "    subquery1.state_name,\n" +
                 "    subquery1.district_id,\n" +
                 "    subquery1.district_name,\n" +
-                "    subquery1.quiz_attempt,\n" +
+                "    subquery1.quiz_attempt AS quiz_attempt,\n" +
+                "    subquery1.num_students AS num_students_date1,\n" +
+                "    subquery1.avg_score AS average_score_date1,\n" +
                 "    subquery1.avg_improvement AS average_improvement_date1,\n" +
+                "    subquery2.num_students AS num_students_date2,\n" +
+                "    subquery2.avg_score AS average_score_date2,\n" +
                 "    subquery2.avg_improvement AS average_improvement_date2\n" +
                 "FROM (\n" +
                 "    SELECT \n" +
@@ -10001,14 +10005,18 @@ public class MasterServicesR1 {
                 "        main_subquery.district_id,\n" +
                 "        main_subquery.district_name,\n" +
                 "        main_subquery.quiz_attempt,\n" +
+                "        main_subquery.num_students AS num_students,\n" +
+                "        main_subquery.avg_score AS avg_score,\n" +
                 "        main_subquery.avg_improvement AS avg_improvement\n" +
                 "FROM (\n" +
                 "\tSELECT\n" +
-                "\ted.quiz_attempt,\n" +
-                "    sd.state_id,\n" +
+                "\tsd.state_id,\n" +
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
+                "\ted.quiz_attempt,\n" +
+                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
                 "        ELSE NULL\n" +
@@ -10151,8 +10159,8 @@ public class MasterServicesR1 {
         }
 
 
-        query.append("\tGROUP BY sd.state_id, sd.district_id, quiz_attempt\n" +
-                "\tORDER BY sd.state_id, sd.district_id, quiz_attempt\n" +
+        query.append("\tGROUP BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
+                "\tORDER BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -10164,14 +10172,18 @@ public class MasterServicesR1 {
                 "        main_subquery.district_id,\n" +
                 "        main_subquery.district_name,\n" +
                 "        main_subquery.quiz_attempt,\n" +
+                "        main_subquery.num_students AS num_students,\n" +
+                "        main_subquery.avg_score AS avg_score,\n" +
                 "        main_subquery.avg_improvement AS avg_improvement\n" +
                 "    FROM (\n" +
                 "        SELECT\n" +
-                "\ted.quiz_attempt,\n" +
-                "    sd.state_id,\n" +
+                "\tsd.state_id,\n" +
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
+                "\ted.quiz_attempt,\n" +
+                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
                 "        ELSE NULL\n" +
@@ -10315,8 +10327,8 @@ public class MasterServicesR1 {
         }
 
 
-        query.append("\tGROUP BY sd.state_id, sd.district_id, quiz_attempt\n" +
-                "\tORDER BY sd.state_id, sd.district_id, quiz_attempt\n" +
+        query.append("\tGROUP BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
+                "\tORDER BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +

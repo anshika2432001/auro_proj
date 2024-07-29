@@ -90,4 +90,105 @@ public class TeachersController {
         return teachersServices.schoolsRegisteredVidyaanjaliPortalStats(payloadDto);
     }
 
+    @PostMapping("/teachers-student-score-stats")
+    public ApiResponse2<?> teachersStudentScoreStats(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.teachersStudentScoreStats(payloadDto);
+    }
+
+    @PostMapping("/parents-teacher-meeting-stats")
+    public ApiResponse2<?> frequencyParentTeacherMeetingStats(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.frequencyParentTeacherMeetingStats(payloadDto);
+    }
+
+
+//    ---------------------------------------TABLES-----------------------------------------
+
+
+    @PostMapping("/total-teaching-grades-table")
+    public ApiResponse2<?> totalTeacherGradesTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.totalTeacherGradesTable(payloadDto);
+    }
+
+    @PostMapping("/teacher-to-classes-ratio-table")
+    public ApiResponse2<?> teacherToTheNumberOfClassesRatioTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.teacherToTheNumberOfClassesRatioTable(payloadDto);
+    }
+
+    @PostMapping("/average-teacher-salary-table")
+    public ApiResponse2<?> averageTeacherSalaryTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.averageTeacherSalaryTable(payloadDto);
+    }
+
+    @PostMapping("/teachers-to-pupil-ratio-table")
+    public ApiResponse2<?> teachersToPupilRatioTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.teachersToPupilRatioTable(payloadDto);
+    }
+
+    @PostMapping("/qualification-teachers-table")
+    public ApiResponse2<?> QualificationOfTeachersTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.qualificationOfTeachersTable(payloadDto);
+    }
+
+    @PostMapping("/cce-training-table")
+    public ApiResponse2<?> cceTrainingTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.cceTrainingTable(payloadDto);
+    }
+
+    @PostMapping("/training-certification-teachers-education-table")
+    public ApiResponse2<?> trainingCertificationOfTeachersWithEducationDepartmentsTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.trainingCertificationOfTeachersWithEducationDepartmentsTable(payloadDto);
+    }
+
+    @PostMapping("/nature-of-employment-table")
+    public ApiResponse2<?> natureOfEmploymentTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.natureOfEmploymentTable(payloadDto);
+    }
+
+    @PostMapping("/day-spent-non-teaching-table")
+    public ApiResponse2<?> daySpentByTeachersNonTeachingTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.daySpentByTeachersNonTeachingTable(payloadDto);
+    }
+
+    @PostMapping("/hours-teachers-spend-yearly-training-table")
+    public ApiResponse2<?> hoursTeacherSpendYearlyMandatoryTrainingTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.hoursTeacherSpendYearlyMandatoryTrainingTable(payloadDto);
+    }
+
+    @PostMapping("/periodicity-formative-assessments-school-table")
+    public ApiResponse2<?> periodicityOfFormativeAssessmentsInSchoolTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.periodicityOfFormativeAssessmentsInSchoolTable(payloadDto);
+    }
+
+    @PostMapping("/brainstorm-challenges-teacher-faced-teaching-table")
+    public ApiResponse2<?> brainstormChallengesTeachersFacedByTeacherDuringTeachingTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.brainstormChallengesTeachersFacedByTeacherDuringTeachingTable(payloadDto);
+    }
+
+    @PostMapping("/schools-with-smcs-table")
+    public ApiResponse2<?> schoolsWithSMCsTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.schoolsWithSMCsTable(payloadDto);
+    }
+
+    @PostMapping("/functional-smcs-table")
+    public ApiResponse2<?> functionalSMCsTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.functionalSMCsTable(payloadDto);
+    }
+
+    @PostMapping("/schools-registered-vidyaanjali-portal-table")
+    public ApiResponse2<?> schoolsRegisteredVidyaanjaliPortalTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.schoolsRegisteredVidyaanjaliPortalTable(payloadDto);
+    }
+
+    @PostMapping("/teachers-student-score-table")
+    public ApiResponse2<?> teachersStudentScoreTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.teachersStudentScoreTable(payloadDto);
+    }
+
+    @PostMapping("/parents-teacher-meeting-table")
+    public ApiResponse2<?> frequencyParentTeacherMeetingTable(@RequestBody TeachersPayloadDto payloadDto){
+        return teachersServices.frequencyParentTeacherMeetingTable(payloadDto);
+    }
+
+
+
 }
