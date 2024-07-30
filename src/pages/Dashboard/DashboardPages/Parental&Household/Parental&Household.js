@@ -517,21 +517,21 @@ const fetchTableInfo = async (key, value,cardKey) => {
 //parse data for first three cards based on key values
   const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
-      1: { key: 'immigrant_background', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Immigrant Background' },
-      2: { key: 'Class12_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Class 12 Education' },
-      3: { key: 'annual_expenditure', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Annual Expenditure' },
-      4: { key: 'household_connectivity', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students',avgKey: 'average_score',attributeName:'Household Connectivity' },
-      5: { key: 'mother_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Mothers Education' },
-      6: { key: 'income_household', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Household Income' },
-      7: { key: 'computer_operating_ability', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Computer Operating Ability' },
-      8: { key: 'housing', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Housing' },
-      9: { key: 'reading_materials_availability', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Reading Materials Availability' },
-      10: { key: 'father_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score' ,attributeName:'Fathers Education'},
-      11: { key: 'electricity_connectivity', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Electricity Connectivity' },
-      12: { key: 'accompanies_child_to_read', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score' ,attributeName:'Accompanies Child for Reading'},
-      13: { key: 'teacher_communication_monthly', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Monthly Teacher Communication' },
-      14: { key: 'children_expecting_high_school', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Children Expecting High School' },
-      15: { key: 'children_expecting_college', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Children  Expecting College' },
+      1: { key: 'parent_immigrant_background', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Immigrant Background' },
+      2: { key: 'anyone_12_passed_out', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Class 12 Education' },
+      3: { key: 'parent_annual_expenditure_on_student', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Annual Expenditure' },
+      4: { key: 'household_internet_connection', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students',avgKey: 'average_score',attributeName:'Internet Connectivity' },
+      5: { key: 'child_mother_qualification', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Mothers Education' },
+      6: { key: 'household_income', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Household Income' },
+      7: { key: 'anyone_operate_computer', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Computer Operating Ability' },
+      8: { key: 'house_type', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'House Type' },
+      9: { key: 'have_reading_materials', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Reading Materials Availability' },
+      10: { key: 'child_father_qualification', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score' ,attributeName:'Fathers Education'},
+      11: { key: 'is_electricity_available', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Electricity Connectivity' },
+      12: { key: 'reads_with_child_every_day', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score' ,attributeName:'Accompanies Child for Reading'},
+      13: { key: 'communication_with_teacher_once_a_month', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Monthly Teacher Communication' },
+      14: { key: 'child_expectation_for_high_school', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Children Expecting High School' },
+      15: { key: 'child_expectation_for_college', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey: 'average_score',attributeName:'Children Expecting College' },
      
       
     };
@@ -604,10 +604,10 @@ const fetchTableInfo = async (key, value,cardKey) => {
               stateDataValue: value.state_name,
               districtDataValue: value.district_name,
               attributes: value[labelValue],
-              dateRange1TotalValue: value.num_teachers_date1? value.num_teachers_date1: 0,
+              dateRange1TotalValue: value.num_parents_date1? value.num_parents_date1: 0,
               dateRange1StudentValue:value.num_students_date1? value.num_students_date1: 0,
               dateRange1AvgValue: value.avg_score_date1? (parseFloat((value.avg_score_date1).toFixed(2))) : '0',
-              dateRange2TotalValue: value.num_teachers_date2? value.num_teachers_date2: '0',
+              dateRange2TotalValue: value.num_parents_date2? value.num_parents_date2: '0',
               dateRange2StudentValue:value.num_students_date2? value.num_students_date2: 0,
               dateRange2AvgValue: value.avg_score_date2 ? (parseFloat((value.avg_score_date2).toFixed(2))) : '0',
 
@@ -627,21 +627,21 @@ const fetchTableInfo = async (key, value,cardKey) => {
    //parse region vs pan India card details
   const parseResultDataCard4 = (key,cardKey, result) => {
     const mappings = {
-      1: { key: 'immigrant_background', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Immigrant Background' },
-      2: { key: 'Class12_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Class 12 Education' },
-      3: { key: 'annual_expenditure', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Annual Expenditure' },
-      4: { key: 'household_connectivity', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Household Connectivity' },
-      5: { key: 'mother_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Mothers Education' },
-      6: { key: 'income_household', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Household Income' },
-      7: { key: 'computer_operating_ability', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Computer Operating Ability' },
-      8: { key: 'housing', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Housing' },
-      9: { key: 'reading_materials_availability', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' ,attributeName:'Reading Materials Availability'},
-      10: { key: 'father_education', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Fathers Education' },
-      11: { key: 'electricity_connectivity', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Electricity Connectivity' },
-      12: { key: 'accompanies_child_to_read', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Accompanies Child for Reading' },
-      13: { key: 'teacher_communication_monthly', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Monthly Teacher Communication' },
-      14: { key: 'children_expecting_high_school', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Children Expecting High School' },
-      15: { key: 'children_expecting_college', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Children  Expecting College' },
+      1: { key: 'parent_immigrant_background', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Immigrant Background' },
+      2: { key: 'anyone_12_passed_out', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Class 12 Education' },
+      3: { key: 'parent_annual_expenditure_on_student', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Annual Expenditure' },
+      4: { key: 'household_internet_connection', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Internet Connectivity' },
+      5: { key: 'child_mother_qualification', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Mothers Education' },
+      6: { key: 'household_income', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Household Income' },
+      7: { key: 'anyone_operate_computer', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Computer Operating Ability' },
+      8: { key: 'house_type', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'House Type' },
+      9: { key: 'have_reading_materials', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score' ,attributeName:'Reading Materials Availability'},
+      10: { key: 'child_father_qualification', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Fathers Education' },
+      11: { key: 'is_electricity_available', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Electricity Connectivity' },
+      12: { key: 'reads_with_child_every_day', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Accompanies Child for Reading' },
+      13: { key: 'communication_with_teacher_once_a_month', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Monthly Teacher Communication' },
+      14: { key: 'child_expectation_for_high_school', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Children Expecting High School' },
+      15: { key: 'child_expectation_for_college', dataOneKey: 'num_parents', dataTwoKey: 'num_parents',dataThreeKey: 'num_students', avgKey1: 'average_score',avgKey2: 'average_score',attributeName:'Children Expecting College' },
     };
 
     const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey1,avgKey2,attributeName } = mappings[key];
@@ -768,7 +768,7 @@ const fetchTableInfo = async (key, value,cardKey) => {
              cardMapping={cardMapping}
              dataAvailableStatus={dataAvailable[option.id]}
              category="Parents"
-             subtype = "P1"
+             subtype = "p1"
              tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
              attributeHeading={attributeNameValue[option.id]}

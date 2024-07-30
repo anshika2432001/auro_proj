@@ -41,11 +41,13 @@ const endpointMapping = {
 };
 
 const tableEndPoints = {
-  1: '/r3/hours-individual-study-per-day-table',
-  2: '/r3/student-learning-style-table',
-  3: '/r3/student-collaborative-learning-table',
-  4: '/r3/paid-private-tuition-hours-table',
-  5: '/r3/student-read-material-addition-textbooks-table',
+  1: '/r4/students-taking-vocational-courses-table',
+  2: '/r4/students-want-access-internship-table',
+  3: '/r4/students-likely-attend-higher-education-table',
+  4: '/r4/students-confident-knowledge-career-options-table',
+  5: '/r4/student-career-domains-table',
+  8: '/r4/students-want-access-vocational-courses-table',
+ 
 }
 
 //default chart data for first 3 cards
@@ -495,11 +497,11 @@ useEffect(() => {
   const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
       1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Taking Vocational Course' },
-      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Interning Access' },
-      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Higher Studies' },
-      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Career Idea' },
-      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Student Domain' },
-      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Taking Vocational Course' },
+      2: { key: 'want_internship_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Interning Access' },
+      3: { key: 'attend_higher_education', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Higher Studies' },
+      4: { key: 'career_knowledge', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Career Idea' },
+      5: { key: 'career_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Student Domain' },
+      8: { key: 'want_to_take_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Taking Vocational Course' },
     };
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
@@ -591,11 +593,11 @@ if(type == "table"){
   const parseResultDataCard4 = (key,cardKey, result) => {
     const mappings = {
       1: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Taking Vocational Course' },
-      2: { key: 'interning_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Interning Access' },
-      3: { key: 'higher_studies', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Higher Studies' },
-      4: { key: 'career_idea', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Career Idea' },
-      5: { key: 'student_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Student Domain' },
-      8: { key: 'taking_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Taking Vocational Course' },
+      2: { key: 'want_internship_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Interning Access' },
+      3: { key: 'attend_higher_education', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Higher Studies' },
+      4: { key: 'career_knowledge', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Career Idea' },
+      5: { key: 'career_domain', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Student Domain' },
+      8: { key: 'want_to_take_vocational_course', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Taking Vocational Course' },
     };
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];

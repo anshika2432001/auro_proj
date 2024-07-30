@@ -496,7 +496,7 @@ useEffect(() => {
   const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
       2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Classroom Strength' },
-      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Academic Stream' },
+      4: { key: 'subject_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Academic Stream' },
       5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Student Access To Bank' },
       6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Extra Curricular Activity' },
       8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Social Group' },
@@ -592,7 +592,7 @@ if(type == "table"){
   const parseResultDataCard4 = (key,cardKey, result) => {
     const mappings = {
       2: { key: 'classroom_strength', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Classroom Strength' },
-      4: { key: 'academic_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Academic Stream' },
+      4: { key: 'subject_stream', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Academic Stream' },
       5: { key: 'student_access_to_bank', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Student Access To Bank' },
       6: { key: 'extra_curricular_activity', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Extra Curricular Activity' },
       8: { key: 'social_group', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Social Group' },

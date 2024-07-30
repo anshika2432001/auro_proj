@@ -34,6 +34,7 @@ const endpointMapping = {
   3: '/r3/student-collaborative-learning-stats',
   4: '/r3/paid-private-tuition-hours-stats',
   5: '/r3/student-read-material-addition-textbooks-stats',
+  6: '/r3/paid-private-tuition-subjects-stats',
  
 };
 const tableEndPoints = {
@@ -42,6 +43,7 @@ const tableEndPoints = {
   3: '/r3/student-collaborative-learning-table',
   4: '/r3/paid-private-tuition-hours-table',
   5: '/r3/student-read-material-addition-textbooks-table',
+  6: '/r3/paid-private-tuition-subjects-table',
 }
 
 //default chart data for first 3 cards
@@ -488,11 +490,12 @@ useEffect(() => {
   //parse data for first three cards based on key values
   const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
-      1: { key: 'practice_per_day', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Practice Per Day' },
-      2: { key: 'learning_style', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Learning Style' },
-      3: { key: 'learning_approach', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Learning Approach' },
-      4: { key: 'tuition_time', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Tuition Time' },
-      5: { key: 'extra_education', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Extra Education' },
+      1: { key: 'daily_study_hours', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Practice Per Day' },
+      2: { key: 'learning_preference', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Learning Style' },
+      3: { key: 'collaborative_learning_style', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Learning Approach' },
+      4: { key: 'private_tuition_hours', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Tuition Time' },
+      5: { key: 'extra_learning_materials', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Extra Education' },
+      6: { key: 'tution_subject_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Subject' },
       
     };
 
@@ -585,11 +588,12 @@ if(type == "table"){
    //parse region vs pan India card details
   const parseResultDataCard4 = (key,cardKey, result) => {
     const mappings = {
-      1: { key: 'practice_per_day', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Practice Per Day' },
-      2: { key: 'learning_style', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Learning Style' },
-      3: { key: 'learning_approach', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Learning Approach' },
-      4: { key: 'tuition_time', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Tuition Time' },
-      5: { key: 'extra_education', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Extra Education' },
+      1: { key: 'daily_study_hours', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Practice Per Day' },
+      2: { key: 'learning_preference', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Learning Style' },
+      3: { key: 'collaborative_learning_style', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Learning Approach' },
+      4: { key: 'private_tuition_hours', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Tuition Time' },
+      5: { key: 'extra_learning_materials', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Extra Education' },
+      6: { key: 'tution_subject_name', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Subject' },
     };
 
     const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];

@@ -29,7 +29,7 @@ dropdownOptions.forEach(option => {
 
 //api endpoints
 const endpointMapping = {
-  
+  1: '/r3/student-hours-spend-mobile-entertainment-stats',
   2: '/r3/student-access-digital-devices-home-stats',
   3: '/r3/student-using-learning-apps-home-stats',
   5: '/r3/student-with-social-media-account-stats',
@@ -38,6 +38,7 @@ const endpointMapping = {
  
 };
 const tableEndPoints = {
+  1: '/r3/student-hours-spend-mobile-entertainment-table',
   2: '/r3/student-access-digital-devices-home-table',
   3: '/r3/student-using-learning-apps-home-table',
   5: '/r3/student-with-social-media-account-table',
@@ -488,10 +489,11 @@ useEffect(() => {
 //parse data for first three cards based on key values
   const parseResultData = (key,type,cardKey, result) => {
     const mappings = {
-      2: { key: 'mobile_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' ,attributeName:'Mobile Access'},
-      3: { key: 'remote_learning', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Remote Learning' },
+      1: { key: 'time_spent_on_mobile_study', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' ,attributeName:'Hours'},
+      2: { key: 'access_to_mobile_at_home', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score' ,attributeName:'Mobile Access'},
+      3: { key: 'learning_apps_at_home', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Remote Learning' },
       5:{ key: 'social_account', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Social Account' },
-      6: { key: 'website_count', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Website Count' },
+      6: { key: 'website_id', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Website Count' },
       7: { key: 'mobile_hours_study', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',attributeName:'Mobile - Study Hours' },
      
       
@@ -586,10 +588,11 @@ if(type == "table"){
    //parse region vs pan India card details
   const parseResultDataCard4 = (key,cardKey, result) => {
     const mappings = {
-      2: { key: 'mobile_access', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Mobile Access' },
-      3: { key: 'remote_learning', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Remote Learning' },
+      1: { key: 'time_spent_on_mobile_study', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Hours'},
+      2: { key: 'access_to_mobile_at_home', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Mobile Access' },
+      3: { key: 'learning_apps_at_home', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Remote Learning' },
       5:{ key: 'social_account', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Social Account' },
-      6: { key: 'website_count', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Website Count' },
+      6: { key: 'website_id', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Website Count' },
       7: { key: 'mobile_hours_study', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',attributeName:'Mobile - Study Hours' },
     };
 

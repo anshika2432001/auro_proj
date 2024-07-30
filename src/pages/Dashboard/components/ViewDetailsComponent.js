@@ -489,22 +489,41 @@ const fetchTableInfo = async (value)=> {
         let newTableData = []
   
         result.dataStateOne.map(value=>{
-         
+          if(category == "Teachers"){
+            newTableData.push({
+              stateDataValue: value.state_name,
+                districtDataValue: value.district_name,
+                attributes: value[labelValue],
+                dateRange1TotalValue: value.num_teachers_date1? value.num_teachers_date1: 0,
+                dateRange1StudentValue:value.num_students_date1? value.num_students_date1: 0,
+                dateRange1AvgValue: value.avg_score_date1? (parseFloat((value.avg_score_date1).toFixed(2))) : '0',
+                dateRange2TotalValue: value.num_teachers_date2? value.num_teachers_date2: '0',
+                dateRange2StudentValue:value.num_students_date2? value.num_students_date2: 0,
+                dateRange2AvgValue: value.avg_score_date2 ? (parseFloat((value.avg_score_date2).toFixed(2))) : '0',
+    
+           
+          
+        })
+
+          }else{
+            newTableData.push({
+              stateDataValue: value.state_name,
+                districtDataValue: value.district_name,
+                attributes: value[labelValue],
+                dateRange1TotalValue: value.num_parents_date1? value.num_parents_date1: 0,
+                dateRange1StudentValue:value.num_students_date1? value.num_students_date1: 0,
+                dateRange1AvgValue: value.avg_score_date1? (parseFloat((value.avg_score_date1).toFixed(2))) : '0',
+                dateRange2TotalValue: value.num_parents_date2? value.num_parents_date2: '0',
+                dateRange2StudentValue:value.num_students_date2? value.num_students_date2: 0,
+                dateRange2AvgValue: value.avg_score_date2 ? (parseFloat((value.avg_score_date2).toFixed(2))) : '0',
+    
+           
+          
+        })
+
+          }
              
-          newTableData.push({
-            stateDataValue: value.state_name,
-              districtDataValue: value.district_name,
-              attributes: value[labelValue],
-              dateRange1TotalValue: value.num_teachers_date1? value.num_teachers_date1: 0,
-              dateRange1StudentValue:value.num_students_date1? value.num_students_date1: 0,
-              dateRange1AvgValue: value.avg_score_date1? (parseFloat((value.avg_score_date1).toFixed(2))) : '0',
-              dateRange2TotalValue: value.num_teachers_date2? value.num_teachers_date2: '0',
-              dateRange2StudentValue:value.num_students_date2? value.num_students_date2: 0,
-              dateRange2AvgValue: value.avg_score_date2 ? (parseFloat((value.avg_score_date2).toFixed(2))) : '0',
-  
-         
         
-      })
     })
        
           setTableData(newTableData)
