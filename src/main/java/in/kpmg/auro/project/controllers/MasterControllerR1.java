@@ -71,6 +71,7 @@ public class MasterControllerR1 {
         return masterServicesR1.coreRetakeImprovePercentStats(payloadDto);
     }
 
+//    -------------------------------------------- TO BE REMOVE SOON
     @PostMapping("/subject-wise-breakdown-improve-stats")
     public ApiResponse2<?> subjectWiseBreakdownImproveStats(@RequestBody ROnePayloadDto payloadDto){
         return masterServicesR1.subjectWiseBreakdownImproveStats(payloadDto);
@@ -80,7 +81,7 @@ public class MasterControllerR1 {
     public ApiResponse2<?> gradeWiseBreakdownImproveStats(@RequestBody ROnePayloadDto payloadDto){
         return masterServicesR1.gradeWiseBreakdownImproveStats(payloadDto);
     }
-
+//------------------------------------------------------
     @PostMapping("/topic-wise-breakdown-improve-stats")
     public ApiResponse2<?> topicWiseBreakdownImproveStats(@RequestBody ROnePayloadDto payloadDto){
         return masterServicesR1.topicWiseBreakdownImproveStats(payloadDto);
@@ -176,6 +177,8 @@ public class MasterControllerR1 {
         return masterServicesR1.coreRetakeImprovePercentTable(payloadDto);
     }
 
+    //    -------------------------------------------- TO BE REMOVE SOON
+
     @PostMapping("/subject-wise-breakdown-improve-table")
     public ApiResponse2<?> subjectWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
         return masterServicesR1.subjectWiseBreakdownImproveTable(payloadDto);
@@ -186,6 +189,7 @@ public class MasterControllerR1 {
         return masterServicesR1.gradeWiseBreakdownImproveTable(payloadDto);
     }
 
+//    ---------------------------------------------------------
     @PostMapping("/topic-wise-breakdown-improve-table")
     public ApiResponse2<?> topicWiseBreakdownImproveTable(@RequestBody ROnePayloadDto payloadDto){
         return masterServicesR1.topicWiseBreakdownImproveTable(payloadDto);

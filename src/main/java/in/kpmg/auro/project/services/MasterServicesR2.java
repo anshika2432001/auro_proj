@@ -334,7 +334,7 @@ public class MasterServicesR2 {
                 "        WHEN sed.subject_stream = 3 THEN 'Commerce'\n" +
                 "        WHEN sed.subject_stream = 4 THEN 'Vocational Streams'\n" +
                 "        WHEN sed.subject_stream = 5 THEN 'Other Streams'\n" +
-                "    END AS academic_stream,\n" +
+                "    END AS subject_stream,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -368,7 +368,7 @@ public class MasterServicesR2 {
                 "        WHEN sed.subject_stream = 3 THEN 'Commerce'\n" +
                 "        WHEN sed.subject_stream = 4 THEN 'Vocational Streams'\n" +
                 "        WHEN sed.subject_stream = 5 THEN 'Other Streams'\n" +
-                "    END AS academic_stream,\n" +
+                "    END AS subject_stream,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +

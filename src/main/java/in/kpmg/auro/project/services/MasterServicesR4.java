@@ -28,7 +28,7 @@ public class MasterServicesR4 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "        sed.taking_vocational_course AS vocational_choice,\n" +
+                "        sed.taking_vocational_course AS taking_vocational_course,\n" +
                 "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "        AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -56,7 +56,7 @@ public class MasterServicesR4 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "        sed.taking_vocational_course AS vocational_choice,\n" +
+                "        sed.taking_vocational_course AS taking_vocational_course,\n" +
                 "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "        AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -312,7 +312,7 @@ public class MasterServicesR4 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tsed.want_to_take_vocational_course AS vocational_choice,\n" +
+                "\tsed.want_to_take_vocational_course AS want_to_take_vocational_course,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -340,7 +340,7 @@ public class MasterServicesR4 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tsed.want_to_take_vocational_course AS vocational_choice,\n" +
+                "\tsed.want_to_take_vocational_course AS want_to_take_vocational_course,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -561,19 +561,19 @@ public class MasterServicesR4 {
 
 
         query.append("GROUP BY\n" +
-                "\tvocational_choice\n" +
+                "\twant_to_take_vocational_course\n" +
                 "ORDER BY\n" +
-                "\tvocational_choice;\n");
+                "\twant_to_take_vocational_course;\n");
 
         query2.append("GROUP BY\n" +
-                "\tvocational_choice\n" +
+                "\twant_to_take_vocational_course\n" +
                 "ORDER BY\n" +
-                "\tvocational_choice;\n");
+                "\twant_to_take_vocational_course;\n");
 
         queryNation.append("GROUP BY\n" +
-                "\tvocational_choice\n" +
+                "\twant_to_take_vocational_course\n" +
                 "ORDER BY\n" +
-                "\tvocational_choice;\n");
+                "\twant_to_take_vocational_course;\n");
 
 
         System.out.println(parameters);
@@ -600,7 +600,7 @@ public class MasterServicesR4 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "        sed.want_internship_access AS interning_access,\n" +
+                "        sed.want_internship_access AS want_internship_access,\n" +
                 "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "        AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -628,7 +628,7 @@ public class MasterServicesR4 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "        sed.want_internship_access AS interning_access,\n" +
+                "        sed.want_internship_access AS want_internship_access,\n" +
                 "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "        AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -892,7 +892,7 @@ public class MasterServicesR4 {
                 "        WHEN sed.attend_higher_education = 3 THEN 'Moderately Confident'\n" +
                 "        WHEN sed.attend_higher_education = 4 THEN 'Very Confident'\n" +
                 "        WHEN sed.attend_higher_education = 5 THEN 'Extremely Confident'\n" +
-                "\tEND AS higher_studies,\n" +
+                "\tEND AS attend_higher_education,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -926,7 +926,7 @@ public class MasterServicesR4 {
                 "        WHEN sed.attend_higher_education = 3 THEN 'Moderately Confident'\n" +
                 "        WHEN sed.attend_higher_education = 4 THEN 'Very Confident'\n" +
                 "        WHEN sed.attend_higher_education = 5 THEN 'Extremely Confident'\n" +
-                "\tEND AS higher_studies,\n" +
+                "\tEND AS attend_higher_education,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -1482,7 +1482,7 @@ public class MasterServicesR4 {
                 "\t\tWHEN sed.career_domain = 1 THEN 'STEM'\n" +
                 "        WHEN sed.career_domain = 2 THEN 'Non STEM'\n" +
                 "        WHEN sed.career_domain = 3 THEN 'I don''t Know'\n" +
-                "\tEND AS student_domain,\n" +
+                "\tEND AS career_domain,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -1514,7 +1514,7 @@ public class MasterServicesR4 {
                 "\t\tWHEN sed.career_domain = 1 THEN 'STEM'\n" +
                 "        WHEN sed.career_domain = 2 THEN 'Non STEM'\n" +
                 "        WHEN sed.career_domain = 3 THEN 'I don''t Know'\n" +
-                "\tEND AS student_domain,\n" +
+                "\tEND AS career_domain,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +

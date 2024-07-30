@@ -33,7 +33,7 @@ public class MasterServicesR3 {
                 "\t\tWHEN sed.learning_preference = 4 THEN 'Reading/Writing' \n" +
                 "\t\tWHEN sed.learning_preference = 5 THEN 'Any Other'\n" +
                 "\t\tELSE NULL\n" +
-                "    END AS learning_style, \n" +
+                "    END AS learning_preference, \n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students, \n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -68,7 +68,7 @@ public class MasterServicesR3 {
                 "\t\tWHEN sed.learning_preference = 4 THEN 'Reading/Writing' \n" +
                 "\t\tWHEN sed.learning_preference = 5 THEN 'Any Other'\n" +
                 "\t\tELSE NULL\n" +
-                "    END AS learning_style, \n" +
+                "    END AS learning_preference, \n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students, \n" +
                 "    AVG(ed.score) as avg_score\n" +
                 "FROM\n" +
@@ -345,7 +345,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.collaborative_learning_style= 2 THEN 'Solitary'\n" +
                 "        WHEN sed.collaborative_learning_style= 3 THEN 'Small Group'\n" +
                 "        WHEN sed.collaborative_learning_style= 4 THEN 'Other'\n" +
-                "\tEND AS learning_approach,\n" +
+                "\tEND AS collaborative_learning_style,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -378,7 +378,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.collaborative_learning_style= 2 THEN 'Solitary'\n" +
                 "        WHEN sed.collaborative_learning_style= 3 THEN 'Small Group'\n" +
                 "        WHEN sed.collaborative_learning_style= 4 THEN 'Other'\n" +
-                "\tEND AS learning_approach,\n" +
+                "\tEND AS collaborative_learning_style,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -654,7 +654,7 @@ public class MasterServicesR3 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tsed.extra_learning_materials AS extra_education,\n" +
+                "\tsed.extra_learning_materials AS extra_learning_materials,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -682,7 +682,7 @@ public class MasterServicesR3 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tsed.extra_learning_materials AS extra_education,\n" +
+                "\tsed.extra_learning_materials AS extra_learning_materials,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -963,7 +963,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.daily_study_hours = 3 THEN '1-3 hrs'\n" +
                 "        WHEN sed.daily_study_hours = 4 THEN '3-5 hrs'\n" +
                 "        WHEN sed.daily_study_hours = 5 THEN 'More than 5 hrs'\n" +
-                "\tEND AS practice_per_day,\n" +
+                "\tEND AS daily_study_hours,\n" +
                 "   COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -997,7 +997,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.daily_study_hours = 3 THEN '1-3 hrs'\n" +
                 "        WHEN sed.daily_study_hours = 4 THEN '3-5 hrs'\n" +
                 "        WHEN sed.daily_study_hours = 5 THEN 'More than 5 hrs'\n" +
-                "\tEND AS practice_per_day,\n" +
+                "\tEND AS daily_study_hours,\n" +
                 "   COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1276,7 +1276,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.private_tuition_hours = 2 THEN '1-3 hrs'\n" +
                 "        WHEN sed.private_tuition_hours = 3 THEN '3-5 hrs'\n" +
                 "        WHEN sed.private_tuition_hours = 4 THEN 'More than 5 hrs'\n" +
-                "\tEND AS tuition_time,\n" +
+                "\tEND AS private_tuition_hours,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1309,7 +1309,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.private_tuition_hours = 2 THEN '1-3 hrs'\n" +
                 "        WHEN sed.private_tuition_hours = 3 THEN '3-5 hrs'\n" +
                 "        WHEN sed.private_tuition_hours = 4 THEN 'More than 5 hrs'\n" +
-                "\tEND AS tuition_time,\n" +
+                "\tEND AS private_tuition_hours,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1593,7 +1593,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.time_spent_on_mobile_study = 3 THEN '1-3 hrs'\n" +
                 "        WHEN sed.time_spent_on_mobile_study = 4 THEN '3-5 hrs'\n" +
                 "        WHEN sed.time_spent_on_mobile_study = 5 THEN 'More than 5 hrs'\n" +
-                "\tEND AS mobile_hours_study,\n" +
+                "\tEND AS time_spent_on_mobile_study,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1627,7 +1627,7 @@ public class MasterServicesR3 {
                 "        WHEN sed.time_spent_on_mobile_study = 3 THEN '1-3 hrs'\n" +
                 "        WHEN sed.time_spent_on_mobile_study = 4 THEN '3-5 hrs'\n" +
                 "        WHEN sed.time_spent_on_mobile_study = 5 THEN 'More than 5 hrs'\n" +
-                "\tEND AS mobile_hours_study,\n" +
+                "\tEND AS time_spent_on_mobile_study,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1902,7 +1902,7 @@ public class MasterServicesR3 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tsed.access_to_mobile_at_home AS mobile_access,\n" +
+                "\tsed.access_to_mobile_at_home AS access_to_mobile_at_home,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -1930,7 +1930,7 @@ public class MasterServicesR3 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tsed.access_to_mobile_at_home AS mobile_access,\n" +
+                "\tsed.access_to_mobile_at_home AS access_to_mobile_at_home,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "\tAVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2207,7 +2207,7 @@ public class MasterServicesR3 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "sed.learning_apps_at_home AS remote_learning,\n" +
+                "sed.learning_apps_at_home AS learning_apps_at_home,\n" +
                 "COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2235,7 +2235,7 @@ public class MasterServicesR3 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "sed.learning_apps_at_home AS remote_learning,\n" +
+                "sed.learning_apps_at_home AS learning_apps_at_home,\n" +
                 "COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2829,7 +2829,7 @@ public class MasterServicesR3 {
                 "        WHEN swd.website_id = 4 THEN 'Food and Beverages (Zomato, Swiggy)'\n" +
                 "        WHEN swd.website_id = 5 THEN 'Travel'\n" +
                 "        ELSE NULL\n" +
-                "\tEND as website_count,\n" +
+                "\tEND as website_id,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -2866,7 +2866,7 @@ public class MasterServicesR3 {
                 "        WHEN swd.website_id = 4 THEN 'Food and Beverages (Zomato, Swiggy)'\n" +
                 "        WHEN swd.website_id = 5 THEN 'Travel'\n" +
                 "        ELSE NULL\n" +
-                "\tEND as website_count,\n" +
+                "\tEND as website_id,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -3111,19 +3111,19 @@ public class MasterServicesR3 {
 
 
         query.append("GROUP BY \n" +
-                "    website_count\n" +
+                "    website_id\n" +
                 "ORDER BY \n" +
-                "    website_count;");
+                "    website_id;");
 
         query2.append("GROUP BY \n" +
-                "    website_count\n" +
+                "    website_id\n" +
                 "ORDER BY \n" +
-                "    website_count;");
+                "    website_id;");
 
         queryNation.append("GROUP BY \n" +
-                "    website_count\n" +
+                "    website_id\n" +
                 "ORDER BY \n" +
-                "    website_count;");
+                "    website_id;");
 
 
         System.out.println(parameters);

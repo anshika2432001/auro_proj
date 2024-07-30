@@ -31,7 +31,7 @@ public class TeachersServices {
                 "        WHEN ted.total_teaching_grades = '3' THEN '3'\n" +
                 "        WHEN ted.total_teaching_grades = '4' THEN '4'\n" +
                 "        WHEN ted.total_teaching_grades = '5' THEN 'More Than 5'\n" +
-                "\tEND AS grades_taught_by_teachers,\n" +
+                "\tEND AS total_teaching_grades,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -65,7 +65,7 @@ public class TeachersServices {
                 "        WHEN ted.total_teaching_grades = '3' THEN '3'\n" +
                 "        WHEN ted.total_teaching_grades = '4' THEN '4'\n" +
                 "        WHEN ted.total_teaching_grades = '5' THEN 'More Than 5'\n" +
-                "\tEND AS grades_taught_by_teachers,\n" +
+                "\tEND AS total_teaching_grades,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -264,7 +264,7 @@ public class TeachersServices {
                 "        WHEN ted.teacher_classroom_type = 7 THEN 'Secondary and Higher Secondary'\n" +
                 "        WHEN ted.teacher_classroom_type = 8 THEN 'Pre-Primary Only'\n" +
                 "        WHEN ted.teacher_classroom_type = 9 THEN 'Pre Primary and Primary'\n" +
-                "\tEND AS classes_taught_by_teachers,\n" +
+                "\tEND AS teacher_classroom_type,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score \n" +
@@ -302,7 +302,7 @@ public class TeachersServices {
                 "        WHEN ted.teacher_classroom_type = 7 THEN 'Secondary and Higher Secondary'\n" +
                 "        WHEN ted.teacher_classroom_type = 8 THEN 'Pre-Primary Only'\n" +
                 "        WHEN ted.teacher_classroom_type = 9 THEN 'Pre Primary and Primary'\n" +
-                "\tEND AS classes_taught_by_teachers,\n" +
+                "\tEND AS teacher_classroom_type,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -492,7 +492,7 @@ public class TeachersServices {
                 "        WHEN ted.monthly_salary = 2 THEN 'INR 37,001 - INR 46,000'\n" +
                 "        WHEN ted.monthly_salary = 3 THEN 'INR 46,001 - INR 55,000'\n" +
                 "        WHEN ted.monthly_salary = 4 THEN 'Above INR 55,000'\n" +
-                "\tEND AS teachers_salary_monthly,\n" +
+                "\tEND AS monthly_salary,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -525,7 +525,7 @@ public class TeachersServices {
                 "        WHEN ted.monthly_salary = 2 THEN 'INR 37,001 - INR 46,000'\n" +
                 "        WHEN ted.monthly_salary = 3 THEN 'INR 46,001 - INR 55,000'\n" +
                 "        WHEN ted.monthly_salary = 4 THEN 'Above INR 55,000'\n" +
-                "\tEND AS teachers_salary_monthly,\n" +
+                "\tEND AS monthly_salary,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -716,7 +716,7 @@ public class TeachersServices {
                 "        WHEN ted.pupil_ratio = 4 THEN '1:30'\n" +
                 "        WHEN ted.pupil_ratio = 5 THEN '1:35'\n" +
                 "        WHEN ted.pupil_ratio = 6 THEN '1:40'\n" +
-                "\tEND AS teacher_pupil_ratio,\n" +
+                "\tEND AS pupil_ratio,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -751,7 +751,7 @@ public class TeachersServices {
                 "        WHEN ted.pupil_ratio = 4 THEN '1:30'\n" +
                 "        WHEN ted.pupil_ratio = 5 THEN '1:35'\n" +
                 "        WHEN ted.pupil_ratio = 6 THEN '1:40'\n" +
-                "\tEND AS teacher_pupil_ratio,\n" +
+                "\tEND AS pupil_ratio,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -945,7 +945,7 @@ public class TeachersServices {
                 "        when qualification = 6 then 'M.Phil.'\n" +
                 "        when qualification = 7 then 'Ph.D.'\n" +
                 "        when qualification = 8 then 'Post-Doctoral' \n" +
-                "\tEND AS teacher_qualification,\n" +
+                "\tEND AS qualification,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -982,7 +982,7 @@ public class TeachersServices {
                 "        when qualification = 6 then 'M.Phil.'\n" +
                 "        when qualification = 7 then 'Ph.D.'\n" +
                 "        when qualification = 8 then 'Post-Doctoral' \n" +
-                "\tEND AS teacher_qualification,\n" +
+                "\tEND AS qualification,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1169,7 +1169,7 @@ public class TeachersServices {
                 "     CASE\n" +
                 "       WHEN ted.cce_training=1 THEN 'YES'\n" +
                 "       ELSE 'NO' \n" +
-                "     END AS teacher_cce_training,\n" +
+                "     END AS cce_training,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1200,7 +1200,7 @@ public class TeachersServices {
                 "     CASE\n" +
                 "       WHEN ted.cce_training=1 THEN 'YES'\n" +
                 "       ELSE 'NO' \n" +
-                "     END AS teacher_cce_training,\n" +
+                "     END AS cce_training,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1382,7 +1382,7 @@ public class TeachersServices {
                 "     CASE\n" +
                 "       WHEN ted.training_satisfication=1 THEN 'YES'\n" +
                 "       ELSE 'NO' \n" +
-                "     END AS satisfied_training,\n" +
+                "     END AS training_satisfication,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1413,7 +1413,7 @@ public class TeachersServices {
                 "     CASE\n" +
                 "       WHEN ted.training_satisfication=1 THEN 'YES'\n" +
                 "       ELSE 'NO' \n" +
-                "     END AS satisfied_training,\n" +
+                "     END AS training_satisfication,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1582,7 +1582,7 @@ public class TeachersServices {
 
         response.put("dataNation",jdbcTemplate.queryForList(String.valueOf(queryNation),nationParameters.toArray()));
 
-        return  new ApiResponse2<>(true, "Training Certification Of Teachers With Education Departments Stats Fetched",response, HttpStatus.OK.value());
+        return  new ApiResponse2<>(true, "Training Satisfaction Of Teachers With Education Departments Stats Fetched",response, HttpStatus.OK.value());
 
     }
 
@@ -1595,7 +1595,7 @@ public class TeachersServices {
                 "\t\twhen employment_nature = 1 then 'Regular'\n" +
                 "        when employment_nature = 2 then 'Contract'\n" +
                 "        when employment_nature = 3 then 'Part-Time/Guest' \n" +
-                "\tEND AS nature_of_employment,\n" +
+                "\tEND AS employment_nature,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1627,7 +1627,7 @@ public class TeachersServices {
                 "\t\twhen employment_nature = 1 then 'Regular'\n" +
                 "        when employment_nature = 2 then 'Contract'\n" +
                 "        when employment_nature = 3 then 'Part-Time/Guest' \n" +
-                "\tEND AS nature_of_employment,\n" +
+                "\tEND AS employment_nature,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1811,7 +1811,7 @@ public class TeachersServices {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "    ted.days_spend_on_non_teaching_school_activities AS days_not_teaching,\n" +
+                "    ted.days_spend_on_non_teaching_school_activities AS days_spend_on_non_teaching_school_activities,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -1839,7 +1839,7 @@ public class TeachersServices {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "    ted.days_spend_on_non_teaching_school_activities AS days_not_teaching,\n" +
+                "    ted.days_spend_on_non_teaching_school_activities AS days_spend_on_non_teaching_school_activities,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2029,7 +2029,7 @@ public class TeachersServices {
                 "        WHEN ted.hours_given_in_mandatory_training = 3 THEN '30 - 40 hours'\n" +
                 "        WHEN ted.hours_given_in_mandatory_training = 4 THEN '40 - 50 hours'\n" +
                 "        WHEN ted.hours_given_in_mandatory_training = 5 THEN 'More than 50 hours'\n" +
-                "\tEND AS training_hours,\n" +
+                "\tEND AS hours_given_in_mandatory_training,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2063,7 +2063,7 @@ public class TeachersServices {
                 "        WHEN ted.hours_given_in_mandatory_training = 3 THEN '30 - 40 hours'\n" +
                 "        WHEN ted.hours_given_in_mandatory_training = 4 THEN '40 - 50 hours'\n" +
                 "        WHEN ted.hours_given_in_mandatory_training = 5 THEN 'More than 50 hours'\n" +
-                "\tEND AS training_hours,\n" +
+                "\tEND AS hours_given_in_mandatory_training,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2256,7 +2256,7 @@ public class TeachersServices {
                 "        WHEN ted.formative_assessments_periodicity = 6 THEN 'Half Yearly'\n" +
                 "        WHEN ted.formative_assessments_periodicity = 7 THEN 'Annually'\n" +
                 "        WHEN ted.formative_assessments_periodicity = 8 THEN 'Others'\n" +
-                "\tEND AS periodicity_of_formative_assessments,\n" +
+                "\tEND AS formative_assessments_periodicity,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2293,7 +2293,7 @@ public class TeachersServices {
                 "        WHEN ted.formative_assessments_periodicity = 6 THEN 'Half Yearly'\n" +
                 "        WHEN ted.formative_assessments_periodicity = 7 THEN 'Annually'\n" +
                 "        WHEN ted.formative_assessments_periodicity = 8 THEN 'Others'\n" +
-                "\tEND AS periodicity_of_formative_assessments,\n" +
+                "\tEND AS formative_assessments_periodicity,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2484,7 +2484,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.internal_brainstorm_learning_platform=1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS brainstorm_learning_platform,\n" +
+                "      END AS internal_brainstorm_learning_platform,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2515,7 +2515,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.internal_brainstorm_learning_platform=1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS brainstorm_learning_platform,\n" +
+                "      END AS internal_brainstorm_learning_platform,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2697,7 +2697,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_smc =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS smc,\n" +
+                "      END AS is_smc,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2728,7 +2728,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_smc =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS smc,\n" +
+                "      END AS is_smc,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2913,7 +2913,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_smc_active =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS smc,\n" +
+                "      END AS is_smc_active,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -2944,7 +2944,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_smc_active =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS smc,\n" +
+                "      END AS is_smc_active,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -3129,7 +3129,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_school_registered_on_vidyanjali =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS vidyanjali,\n" +
+                "      END AS is_school_registered_on_vidyanjali,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
@@ -3160,7 +3160,7 @@ public class TeachersServices {
                 "      CASE\n" +
                 "        WHEN ted.is_school_registered_on_vidyanjali =1 THEN 'YES'\n" +
                 "        ELSE 'NO'\n" +
-                "      END AS vidyanjali,\n" +
+                "      END AS is_school_registered_on_vidyanjali,\n" +
                 "    COUNT(DISTINCT ted.user_id) AS num_teachers,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
