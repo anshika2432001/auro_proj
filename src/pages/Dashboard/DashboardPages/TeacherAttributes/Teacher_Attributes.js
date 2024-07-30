@@ -627,7 +627,7 @@ const fetchTableInfo = async (key, value,cardKey) => {
         return parseFloat(value.toFixed(2));
       });
     
-      const newTableData = labelsData.map(label => ({
+       newTableData = labelsData.map(label => ({
         attributes: label,
         dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
         dateRange1StudentValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataThreeKey] || 0,
@@ -736,7 +736,7 @@ console.log(attributeNameValue)
               apiEndPointsTable={tableEndPoints}
               dataAvailableStatus={dataAvailable[option.id]}
               category="Teachers"
-              subtype = "t2"
+              subtype = "t1"
               tableInfo={tableData[option.id]} 
              tableHeadings={tableHeadings} 
              attributeHeading={attributeNameValue[option.id]}
@@ -758,7 +758,7 @@ console.log(attributeNameValue)
           loadingStatusTable={loadingTable[0]}
           dataAvailableStatus={dataAvailable[0]}
           category="Teachers"
-          subtype = "t3"
+          subtype = "t1"
           attributeHeading={attributeNameValue[0]}
           />
         </Grid>

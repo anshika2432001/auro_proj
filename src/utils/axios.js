@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 const API = axios.create({
-// baseURL: "http://auro.one1sewa.com/auro",   //prod
-baseURL: "http://localhost:8091/auro",   //Local
+ baseURL: "http://auro.one1sewa.com/auro",   //prod
+//baseURL: "http://localhost:8091/auro",   //Local
 
 });
 
