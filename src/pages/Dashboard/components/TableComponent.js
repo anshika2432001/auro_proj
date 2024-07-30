@@ -17,6 +17,7 @@ import { CSVLink } from "react-csv";
 
 
 function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatusTable,dataAvailableStatus,category,subtype,attributeHeading }) {
+  console.log(attributeHeading)
   
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
@@ -491,11 +492,17 @@ useEffect(() => {
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == " Teachers" || category=="Parents") ? (
+          {(category == "Teachers" || category=="Parents") ? (
             <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
           <TableRow>
+          <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">State</p>
+            </TableCell>
+            <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">District</p>
+            </TableCell>
             <TableCell className="TableHeading" rowSpan={2}>
               <p className="HeadingData">{attributeHeading}</p>
             </TableCell>
@@ -517,6 +524,12 @@ useEffect(() => {
             <TableBody>
               {tableData && tableData.map((row, index) => (
                 <TableRow key={index}>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.stateDataValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.districtDataValue}</p>
+                  </TableCell>
                   <TableCell className="BodyBorder">
                     <p className="TableData">{row.attributes}</p>
                   </TableCell>

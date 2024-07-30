@@ -821,7 +821,7 @@ if(type == "table"){
      
   };
 
-console.log(tableData)
+console.log(cardData)
 
   
     return (

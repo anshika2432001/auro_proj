@@ -40,6 +40,7 @@ import { getCsvDataRows, getCsvHeaders } from './CsvExport';
 
 const ViewDetailsComponent = () => {
   const [data, setData] = useState(null);
+  const chartRef = useRef(null);
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [tableData, setTableData] = useState([])
   const [chartData, setChartData] = useState({})
@@ -399,6 +400,19 @@ const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,
   { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
 ];
 
+//set the line chart at its proper position
+const linePosition = {
+  id: 'linePosition',
+  beforeDatasetsDraw(chart, args, pluginOptions) {
+    chart.getDatasetMeta(2).data.forEach((datapoint, index) => {
+      datapoint.x = chart.getDatasetMeta(0).data[index].x;
+    });
+    chart.getDatasetMeta(3).data.forEach((datapoint, index) => {
+      datapoint.x = chart.getDatasetMeta(1).data[index].x;
+    });
+  }
+};
+
 const fetchTableInfo = async (value)=> {
 
   setLoadingTable(true)
@@ -457,8 +471,9 @@ const fetchTableInfo = async (value)=> {
       if(apiEndPointsTable != undefined){
       const endpoint = apiEndPointsTable[selectedAttribute.id];
     const res = await axios.post(endpoint, payload);
+    console.log(res)
     if(res.data.status && res.data.statusCode == 200){
-      if(res.data.dataStateOne.length == 0){
+      if(res.data.result.dataStateOne.length == 0){
           setDataAvailableTable(true)
           setLoadingTable(false);
       }
@@ -478,12 +493,14 @@ const fetchTableInfo = async (value)=> {
              
           newTableData.push({
             stateDataValue: value.state_name,
-            districtDataValue: value.district_name,
-            attributes: value[labelValue],
-            dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-            dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-            dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-            dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+              districtDataValue: value.district_name,
+              attributes: value[labelValue],
+              dateRange1TotalValue: value.num_teachers_date1? value.num_teachers_date1: 0,
+              dateRange1StudentValue:value.num_students_date1? value.num_students_date1: 0,
+              dateRange1AvgValue: value.avg_score_date1? (parseFloat((value.avg_score_date1).toFixed(2))) : '0',
+              dateRange2TotalValue: value.num_teachers_date2? value.num_teachers_date2: '0',
+              dateRange2StudentValue:value.num_students_date2? value.num_students_date2: 0,
+              dateRange2AvgValue: value.avg_score_date2 ? (parseFloat((value.avg_score_date2).toFixed(2))) : '0',
   
          
         
@@ -972,7 +989,61 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
           
           <div style={{ overflowX: "auto", marginTop: "1rem" }}>
         <div style={{ minWidth: "800px", minHeight: "400px" }}>
-          <Chart type="bar" data={chartData} options={{ responsive: true }} />
+        <Chart
+            ref={chartRef}
+            type="bar"
+            data={chartData}
+            options={{
+              indexAxis: 'x', 
+              responsive: true,
+              maintainAspectRatio: false, 
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    stepSize: 30,
+                    min: 0,
+                    callback: function(value) {
+                      return value;
+                    }
+                  }
+                }
+              },
+              plugins: {
+                  legend: {
+                  display: true
+                },
+              
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                  label += ': ';
+                              }
+                              let dataPoint = "";
+                              if(context.dataset.dataStudent){
+                                dataPoint = context.dataset.dataStudent[context.dataIndex]
+                                const customValue1 = dataPoint;
+                                label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                                return label;
+                              }
+                              else{
+                                label +=`${context.parsed.y}`
+                                return label;
+                              }
+                             
+                            
+                           
+                        }
+                    }
+                }
+            }
+            }}
+
+            plugins={[linePosition]}
+          />
+          {/* <Chart type="bar" data={chartData} options={{ responsive: true }} /> */}
         </div>
       </div>
         
@@ -998,8 +1069,12 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
             <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
               <TableHead sx={{ backgroundColor: '#f0f0f0' }}>
                 <TableRow>
-                  
-                   
+                <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">State</p>
+            </TableCell>
+            <TableCell className="TableHeading" rowSpan={2}>
+              <p className="HeadingData">District</p>
+            </TableCell>
                     <TableCell className="TableHeading" rowSpan={2}>
                     <p className="HeadingData">{attributeHeading}</p>
                   </TableCell>
@@ -1023,6 +1098,12 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
               <TableBody>
                          {tableData && tableData.map((row, index) => (
                            <TableRow key={index}>
+                            <TableCell className="BodyBorder">
+                    <p className="TableData">{row.stateDataValue}</p>
+                  </TableCell>
+                  <TableCell className="BodyBorder">
+                    <p className="TableData">{row.districtDataValue}</p>
+                  </TableCell>
                              <TableCell className="BodyBorder">
                                <p className="TableData">{row.attributes}</p>
                              </TableCell>

@@ -87,6 +87,7 @@ const defaultChartDataCard4 = {
 
 const ViewDetailsComponentCard4 = () => {
   const [data, setData] = useState(null);
+  const chartRef = useRef(null);
   const [selectedAttribute, setSelectedAttribute] = useState('');
   const [dataAvailableChart,setDataAvailableChart] = useState(false);
   const [tableData, setTableData] = useState([])
@@ -410,6 +411,19 @@ const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStu
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
+
+  //set the line chart at its proper position
+const linePosition = {
+  id: 'linePosition',
+  beforeDatasetsDraw(chart, args, pluginOptions) {
+    chart.getDatasetMeta(2).data.forEach((datapoint, index) => {
+      datapoint.x = chart.getDatasetMeta(0).data[index].x;
+    });
+    chart.getDatasetMeta(3).data.forEach((datapoint, index) => {
+      datapoint.x = chart.getDatasetMeta(1).data[index].x;
+    });
+  }
+};
 
 
 
@@ -797,7 +811,61 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
   ):(
     <div style={{ overflowX: "auto", marginTop: "1rem" }}>
     <div style={{ minWidth: "800px", minHeight: "400px" }}>
-      <Chart type="bar" data={chartData} options={{ responsive: true }} />
+    <Chart
+            ref={chartRef}
+            type="bar"
+            data={chartData}
+            options={{
+              indexAxis: 'x', 
+              responsive: true,
+              maintainAspectRatio: false, 
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    stepSize: 30,
+                    min: 0,
+                    callback: function(value) {
+                      return value;
+                    }
+                  }
+                }
+              },
+              plugins: {
+                  legend: {
+                  display: true
+                },
+              
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                  label += ': ';
+                              }
+                              let dataPoint = "";
+                              if(context.dataset.dataStudent){
+                                dataPoint = context.dataset.dataStudent[context.dataIndex]
+                                const customValue1 = dataPoint;
+                                label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                                return label;
+                              }
+                              else{
+                                label +=`${context.parsed.y}`
+                                return label;
+                              }
+                             
+                            
+                           
+                        }
+                    }
+                }
+            }
+            }}
+
+            plugins={[linePosition]}
+          />
+      {/* <Chart type="bar" data={chartData} options={{ responsive: true }} /> */}
     </div>
   </div>
 
@@ -828,7 +896,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
          <p className="HeadingData">{attributeHeading}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
-         <p className="HeadingData">State</p>
+         <p className="HeadingData">{defaultStateName}</p>
        </TableCell>
        <TableCell className="TableHeading" colSpan={3}>
          <p className="HeadingData">Pan india</p>
