@@ -32,4 +32,7 @@ public class RTwoPayloadDto {
     private Integer languageId;
     private String quizName;
 
+    private Integer schoolCategory;
+    private Integer schoolType;
+
 }

@@ -1,7 +1,6 @@
 package in.kpmg.auro.project.services;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
-import in.kpmg.auro.project.dtos.ROnePayloadDto;
 import in.kpmg.auro.project.dtos.RTwoPayloadDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -250,6 +249,28 @@ public class MasterServicesR2 {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -555,6 +576,28 @@ public class MasterServicesR2 {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -857,6 +900,28 @@ public class MasterServicesR2 {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -1146,6 +1211,28 @@ public class MasterServicesR2 {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -1432,6 +1519,28 @@ public class MasterServicesR2 {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -1729,6 +1838,28 @@ public class MasterServicesR2 {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -1935,6 +2066,18 @@ public class MasterServicesR2 {
             parameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
             parameters.add(payloadDto.getChildMotherQualification());
@@ -2077,6 +2220,18 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
         }
 
 
@@ -2270,6 +2425,17 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -2439,6 +2605,18 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -2641,6 +2819,18 @@ public class MasterServicesR2 {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -2807,6 +2997,19 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -3009,6 +3212,18 @@ public class MasterServicesR2 {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -3175,6 +3390,18 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -3373,6 +3600,18 @@ public class MasterServicesR2 {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -3536,6 +3775,18 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -3735,6 +3986,18 @@ public class MasterServicesR2 {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -3898,6 +4161,18 @@ public class MasterServicesR2 {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 

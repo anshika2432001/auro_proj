@@ -36,5 +36,7 @@ public class ROnePayloadDto {
 
     private String quizName;
 
+    private Integer schoolCategory;
+    private Integer schoolType;
 
 }

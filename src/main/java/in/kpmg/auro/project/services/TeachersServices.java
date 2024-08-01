@@ -48,6 +48,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -81,6 +83,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -215,6 +219,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.total_teaching_grades\n" +
@@ -281,6 +307,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -318,6 +346,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -449,6 +479,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.teacher_classroom_type\n" +
@@ -509,6 +561,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -541,6 +595,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -672,6 +728,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.monthly_salary\n" +
@@ -733,6 +811,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -767,6 +847,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -898,6 +980,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.pupil_ratio\n" +
@@ -962,6 +1066,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -998,6 +1104,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -1129,6 +1237,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.qualification\n" +
@@ -1186,6 +1316,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -1216,6 +1348,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -1347,6 +1481,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.cce_training;\n");
@@ -1399,6 +1555,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -1429,6 +1587,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -1560,6 +1720,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.training_satisfication;\n");
@@ -1612,6 +1794,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -1643,6 +1827,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -1772,6 +1958,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -1828,6 +2036,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -1855,6 +2065,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -1984,6 +2196,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -2046,6 +2280,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -2079,6 +2315,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -2208,6 +2446,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -2273,6 +2533,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -2309,6 +2571,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -2439,6 +2703,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -2501,6 +2787,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -2531,6 +2819,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -2661,6 +2951,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -2714,6 +3026,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -2744,6 +3058,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -2877,6 +3193,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -2930,6 +3268,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -2960,6 +3300,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -3093,6 +3435,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -3146,6 +3510,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -3176,6 +3542,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -3311,6 +3679,28 @@ public class TeachersServices {
             nationParameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
+        }
+
 
         query.append("GROUP BY\n" +
                 "    ted.is_school_registered_on_vidyanjali;\n");
@@ -3358,6 +3748,8 @@ public class TeachersServices {
                 "\tstudent_master sm ON tsm.student_id = sm.user_id\n" +
                 "JOIN\n" +
                 "\texam_details ed ON sm.user_id = ed.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "WHERE\n" +
@@ -3382,6 +3774,8 @@ public class TeachersServices {
                 "\tstudent_master sm ON tsm.student_id = sm.user_id\n" +
                 "JOIN\n" +
                 "\texam_details ed ON sm.user_id = ed.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "WHERE\n" +
@@ -3511,6 +3905,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -3571,6 +3987,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -3602,6 +4020,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "JOIN\n" +
                 "    student_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
                 "WHERE\n" +
@@ -3731,6 +4151,28 @@ public class TeachersServices {
 
             queryNation.append("\tAND sd.school_management = ? \n");
             nationParameters.add(payloadDto.getSchoolManagement());
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+            query2.append("\tAND sed.school_category = ? \n");
+            parameters2.add(payloadDto.getSchoolCategory());
+
+            queryNation.append("\tAND sed.school_category = ? \n");
+            nationParameters.add(payloadDto.getSchoolCategory());
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+            query2.append("\tAND sed.school_type = ? \n");
+            parameters2.add(payloadDto.getSchoolType());
+
+            queryNation.append("\tAND sed.school_type = ? \n");
+            nationParameters.add(payloadDto.getSchoolType());
         }
 
 
@@ -3821,6 +4263,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -3895,6 +4339,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.total_teaching_grades\n" +
@@ -3942,6 +4398,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -4016,6 +4474,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -4104,6 +4574,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -4178,6 +4650,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.teacher_classroom_type\n" +
@@ -4229,6 +4713,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -4303,6 +4789,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -4385,6 +4883,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -4459,6 +4959,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.monthly_salary\n" +
@@ -4505,6 +5017,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -4578,6 +5092,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -4661,6 +5187,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -4735,6 +5263,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.pupil_ratio\n" +
@@ -4783,6 +5323,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -4857,6 +5399,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -4943,6 +5497,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -5017,6 +5573,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.qualification\n" +
@@ -5067,6 +5635,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -5141,6 +5711,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -5221,6 +5803,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -5295,6 +5879,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.cce_training\n" +
@@ -5339,6 +5935,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -5413,6 +6011,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -5493,6 +6103,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -5567,6 +6179,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.training_satisfication\n" +
@@ -5611,6 +6235,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -5685,6 +6311,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -5766,6 +6404,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -5840,6 +6480,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.employment_nature\n" +
@@ -5885,6 +6537,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -5959,6 +6613,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -6036,6 +6702,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -6110,6 +6778,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.days_spend_on_non_teaching_school_activities\n" +
@@ -6151,6 +6831,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -6225,6 +6907,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -6308,6 +7002,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -6382,6 +7078,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.hours_given_in_mandatory_training\n" +
@@ -6429,6 +7137,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -6503,6 +7213,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -6589,6 +7311,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -6663,6 +7387,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.formative_assessments_periodicity\n" +
@@ -6713,6 +7449,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -6787,6 +7525,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -6867,6 +7617,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -6941,6 +7693,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.internal_brainstorm_learning_platform\n" +
@@ -6985,6 +7749,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -7059,6 +7825,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -7139,6 +7917,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -7213,6 +7993,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.is_smc\n" +
@@ -7257,6 +8049,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -7331,6 +8125,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -7411,6 +8217,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -7485,6 +8293,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.is_smc_active\n" +
@@ -7529,6 +8349,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -7603,6 +8425,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -7683,6 +8517,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -7757,6 +8593,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.is_school_registered_on_vidyanjali\n" +
@@ -7801,6 +8649,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -7875,6 +8725,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -7949,6 +8811,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -8023,6 +8887,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id\n" +
@@ -8062,6 +8938,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -8136,6 +9014,18 @@ public class TeachersServices {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 
@@ -8219,6 +9109,8 @@ public class TeachersServices {
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
                 "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
+                "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
                 "    state_district_master sdm ON sd.district_id = sdm.district_id\n" +
@@ -8293,6 +9185,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.parent_teacher_meeting_intervals\n" +
@@ -8340,6 +9244,8 @@ public class TeachersServices {
                 "    exam_details ed ON tsm.student_id=ed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    student_demographic sd ON ed.user_id = sd.user_id\n" +
+                "LEFT JOIN\n" +
+                "    student_extra_data sed ON ed.user_id=sed.user_id\n" +
                 "LEFT JOIN\n" +
                 "    state_master stm ON sd.state_id = stm.state_id\n" +
                 "LEFT JOIN\n" +
@@ -8417,6 +9323,18 @@ public class TeachersServices {
 
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         query.append("\tGROUP BY\n" +
                 "    sd.state_id, sd.district_id, ted.parent_teacher_meeting_intervals\n" +
@@ -8443,4 +9361,5 @@ public class TeachersServices {
         return  new ApiResponse2<>(true, "Parent Teacher Meeting Intervals Table Data Fetched",response, HttpStatus.OK.value());
 
     }
+
 }

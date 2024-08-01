@@ -127,6 +127,18 @@ public class DashboardServicesMain {
             parameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
 
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
@@ -272,6 +284,18 @@ public class DashboardServicesMain {
             parameters.add(payloadDto.getSchoolManagement());
         }
 
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
         if (payloadDto.getChildMotherQualification() !=null){
             query.append("\tAND ped.child_mother_qualification = ? \n");
             parameters.add(payloadDto.getChildMotherQualification());
@@ -319,6 +343,8 @@ public class DashboardServicesMain {
                 " \tstudent_demographic sd ON tsm.student_id = sd.user_id\n" +
                 "JOIN\n" +
                 "\tstudent_master sm ON tsm.student_id = sm.user_id\n" +
+                "JOIN\n" +
+                "\tstudent_extra_data sed ON sm.user_id = sed.user_id\n" +
                 "JOIN\n" +
                 "\tstate_master stm ON sd.state_id = stm.state_id\n" +
                 "WHERE \n" +
@@ -368,6 +394,18 @@ public class DashboardServicesMain {
         if (payloadDto.getSchoolManagement() != null){
             query.append("\tAND sd.school_management = ? \n");
             parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
 
         }
 

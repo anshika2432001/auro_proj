@@ -1,11 +1,10 @@
 package in.kpmg.auro.project.controllers;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
+import in.kpmg.auro.project.dtos.TopicNameDto;
 import in.kpmg.auro.project.services.DashboardServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,9 +24,19 @@ public class DashboardController {
         return dashboardServices.queryFetchData();
     }
 
-
     @GetMapping("/filter-dropdowns")
     public ApiResponse2<?> filterDropdowns(){
         return dashboardServices.filterDropdowns();
+    }
+
+
+    @PostMapping("/fetch-topics")
+    public ApiResponse2<?> fetchTopTopicsName(@RequestBody TopicNameDto dto){
+        return dashboardServices.fetchTopicNames(dto);
+    }
+
+    @PostMapping("/fetch-weak-perform-topics")
+    public ApiResponse2<?> fetchWeakTopicsName(@RequestBody TopicNameDto dto){
+        return dashboardServices.fetchWeakTopicsName(dto);
     }
 }

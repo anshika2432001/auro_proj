@@ -23,4 +23,7 @@ public class TeachersPayloadDto {
     private String educationBoard;
     private String schoolManagement;
 
+    private Integer schoolCategory;
+    private Integer schoolType;
+
 }

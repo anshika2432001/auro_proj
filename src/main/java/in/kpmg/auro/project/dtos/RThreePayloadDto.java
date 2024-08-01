@@ -32,5 +32,8 @@ public class RThreePayloadDto {
     private Integer languageId;
     private String quizName;
 
+    private Integer schoolCategory;
+    private Integer schoolType;
+
 
 }

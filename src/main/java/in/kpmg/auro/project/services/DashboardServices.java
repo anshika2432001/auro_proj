@@ -1,6 +1,7 @@
 package in.kpmg.auro.project.services;
 
 import in.kpmg.auro.project.dtos.ApiResponse2;
+import in.kpmg.auro.project.dtos.TopicNameDto;
 import in.kpmg.auro.project.query.DashboardQuery;
 import in.kpmg.auro.project.query.FilterDropdownsQuery;
 import in.kpmg.auro.project.query.SuperQuery;
@@ -93,6 +94,118 @@ public class DashboardServices {
             e.printStackTrace();
             return new ApiResponse2<>(false, "Problem in fetching Dashboard Stats", null, HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
+
+    }
+
+    public ApiResponse2<?> fetchTopicNames(TopicNameDto dto) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        String queryTopTopics = "SELECT\n" +
+                "\taqn.quiz_name,\n" +
+                "    AVG(subquery.score) AS avg_score\n" +
+                "FROM\n" +
+                "\tauro_quiz_name aqn\n" +
+                "JOIN (\n" +
+                "\tSELECT\n" +
+                "\t\ted.exam_name,\n" +
+                "        ed.subject,\n" +
+                "        sm.grade,\n" +
+                "        ed.user_id,\n" +
+                "        ed.score\n" +
+                "\tFROM\n" +
+                "\t\texam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "        AND sm.grade = '"+dto.getGrade()+"'\n" +
+                "        AND ed.subject = '"+dto.getSubject()+"'\n" +
+                ") AS subquery ON aqn.quiz_attempt = subquery.exam_name AND aqn.subject = subquery.subject AND aqn.student_class = subquery.grade\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
+                "GROUP BY\n" +
+                "\taqn.quiz_name\n" +
+                "ORDER BY\n" +
+                "\tavg_score DESC\n" +
+                "LIMIT 12;\n";
+
+        response.put("topTopicNames",jdbcTemplate.queryForList((queryTopTopics)));
+
+
+        String queryWeakTopics = "SELECT\n" +
+                "\taqn.quiz_name,\n" +
+                "    AVG(subquery.score) AS avg_score\n" +
+                "FROM\n" +
+                "\tauro_quiz_name aqn\n" +
+                "JOIN (\n" +
+                "\tSELECT\n" +
+                "\t\ted.exam_name,\n" +
+                "        ed.subject,\n" +
+                "        sm.grade,\n" +
+                "        ed.user_id,\n" +
+                "        ed.score\n" +
+                "\tFROM\n" +
+                "\t\texam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "        AND sm.grade = '"+dto.getGrade()+"'\n" +
+                "        AND ed.subject = '"+dto.getSubject()+"'\n" +
+                ") AS subquery ON aqn.quiz_attempt = subquery.exam_name AND aqn.subject = subquery.subject AND aqn.student_class = subquery.grade\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
+                "GROUP BY\n" +
+                "\taqn.quiz_name\n" +
+                "ORDER BY\n" +
+                "\tavg_score ASC\n" +
+                "LIMIT 12;\n";
+
+        response.put("weakTopicNames",jdbcTemplate.queryForList((queryWeakTopics)));
+
+
+
+
+        return  new ApiResponse2<>(true, "Topic Name Fetched",response, HttpStatus.OK.value());
+
+    }
+
+    public ApiResponse2<?> fetchWeakTopicsName(TopicNameDto dto) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        String query = "SELECT\n" +
+                "\taqn.quiz_name,\n" +
+                "    AVG(subquery.score) AS avg_score\n" +
+                "FROM\n" +
+                "\tauro_quiz_name aqn\n" +
+                "JOIN (\n" +
+                "\tSELECT\n" +
+                "\t\ted.exam_name,\n" +
+                "        ed.subject,\n" +
+                "        sm.grade,\n" +
+                "        ed.user_id,\n" +
+                "        ed.score\n" +
+                "\tFROM\n" +
+                "\t\texam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "        AND sm.grade = '"+dto.getGrade()+"'\n" +
+                "        AND ed.subject = '"+dto.getSubject()+"'\n" +
+                ") AS subquery ON aqn.quiz_attempt = subquery.exam_name AND aqn.subject = subquery.subject AND aqn.student_class = subquery.grade\n" +
+                "WHERE\n" +
+                "\taqn.language_id = 1\n" +
+                "GROUP BY\n" +
+                "\taqn.quiz_name\n" +
+                "ORDER BY\n" +
+                "\tavg_score ASC;\n";
+
+        response.put("topicNames",jdbcTemplate.queryForList((query)));
+
+        return  new ApiResponse2<>(true, "Weak Performing Topic Name Fetched",response, HttpStatus.OK.value());
 
     }
 }
