@@ -275,7 +275,7 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
           )}
         </Grid>
 
-        <Grid container columnSpacing={0.5} marginTop={0.5}>
+        <Grid container columnSpacing={0.5} marginTop={2}>
           <Grid item xs={12} sm={3} md={3} lg={3}>
             <Typography variant="h6"  mb={4}>Date Range </Typography>
            </Grid>

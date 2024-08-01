@@ -29,6 +29,7 @@ import ParentalandHousehold from './pages/Dashboard/DashboardPages/Parental&Hous
 import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Household/ParentSchoolAttribute';
 import ViewDetailsComponent from './pages/Dashboard/components/ViewDetailsComponent';
 import ViewDetailsComponentCard4 from './pages/Dashboard/components/ViewDetailsComponentCard4';
+import UserManagement from './pages/Dashboard/DashboardPages/UserManagement';
 
 function App() {
   
@@ -65,6 +66,7 @@ function App() {
               <Route path="/schoolInfrastructure" element={<SchoolInfrastructure />} />
               <Route path="/parentalAndHousehold/:id" element={<ParentalandHousehold />} />
               <Route path="/parentSchoolAttribute/:id" element={<ParentSchoolAttribute />} />
+              <Route path="/userManagement" element={<UserManagement />} />
               <Route path="/budgetState" element={<BudgetState />} />
             </Route>
             <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />

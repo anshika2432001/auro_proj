@@ -22,6 +22,7 @@ import StudentCareerGrowth_R4 from "../DashboardPages/StudentCareerGrowth_R4/Stu
 import SchoolInfrastructure from "../DashboardPages/SchoolInfrastructure";
 import ParentalandHousehold from "../DashboardPages/Parental&Household/Parental&Household";
 import ParentSchoolAttribute from "../DashboardPages/Parental&Household/ParentSchoolAttribute";
+import UserManagement from "../DashboardPages/UserManagement";
 
 
 
@@ -649,6 +650,9 @@ export const menu = [
   {
     icon: <PersonIcon sx={{color:"white"}}/>,
     title: "User Management",
+    pageLink: '/userManagement',
+    view: <UserManagement />,
+    
     
 
   },

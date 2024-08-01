@@ -535,7 +535,7 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
               },
               plugins: {
                 legend: {
-                display: false
+                display: true
               },
             
               tooltip: {
