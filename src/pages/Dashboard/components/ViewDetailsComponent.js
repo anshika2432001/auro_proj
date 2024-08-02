@@ -94,7 +94,6 @@ const defaultChartData = {
       borderColor: 'rgba(185,102,220,1)',
       borderWidth: 2,
       data: [],
-      dataStudent: [],
       barThickness: 30,
       borderRadius: 5,
       order: 2,
@@ -107,7 +106,6 @@ const defaultChartData = {
       borderWidth: 2,
       borderRadius: 5,
       data: [],
-      dataStudent: [],
       barThickness: 30,
       order: 2,
     },
@@ -319,7 +317,7 @@ setLoadingChart(true)
     setChartData({
         
       labels: labelsData,
-      datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"",""),
+      datasets: createDatasets1(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
  
   });
 
@@ -370,7 +368,7 @@ setLoadingChart(true)
           setChartData({
             
             labels: labelsData,
-            datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"",""),
+            datasets: createDatasets1(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
        
         });
 
@@ -396,6 +394,13 @@ setLoadingChart(true)
 const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent) => [
   { ...defaultChartData.datasets[0], data: dataOne || [],dataStudent:dataOneStudent || [] },
   { ...defaultChartData.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [] },
+  { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
+  { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
+];
+
+const createDatasets1 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
+  { ...defaultChartData.datasets[0], data: dataOne || [] },
+  { ...defaultChartData.datasets[1], data: dataTwo || [] },
   { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
   { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
 ];
