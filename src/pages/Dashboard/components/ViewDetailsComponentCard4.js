@@ -121,10 +121,7 @@ const ViewDetailsComponentCard4 = () => {
   selectedAttributeId,
   dateRange1Start,
   dateRange1End,
-  dateRange2Start,
-  dateRange2End,
   apiEndPoints,
-  apiEndPointsTable,
  cardMapping,
  cardKey,
  category,
@@ -231,6 +228,7 @@ setLoading(true)
    
    
     if(category == "Teachers" || category == "Parents"){
+      if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
     const res = await axios.post(endpoint, payload);
     if(res.data.status && res.data.statusCode == 200){
@@ -281,7 +279,7 @@ setLoading(true)
         setTableData(newTableData)
       }
      
-
+    }
       
     }else{
         console.log("error")
@@ -289,6 +287,7 @@ setLoading(true)
 
     }
     else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 5 || selectedAttribute.id == 6 || selectedAttribute.id == 7 || selectedAttribute.id == 8 || selectedAttribute.id == 14)){
+      if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
       const res = await axios.post(endpoint, payload);
       if(res.data.status && res.data.statusCode == 200){
@@ -328,14 +327,14 @@ setLoading(true)
       setChartData({
       
         labels: labelsData,
-        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",stateName),
+        datasets: createDatasetsCard5(dataOne, dataTwo, dataOneAvg, dataTwoAvg,stateName),
       
      });
       setTableData(newTableData)
 
         }
         
-        
+      }
           
        
       }else{
@@ -344,6 +343,9 @@ setLoading(true)
   
 
     }else{
+      console.log(apiEndPoints)
+      if(apiEndPoints != undefined){
+
       const endpoint = apiEndPoints[selectedAttribute.id];
       const res = await axios.post(endpoint, payload);
       if(res.data.status && res.data.statusCode == 200){
@@ -381,14 +383,14 @@ setLoading(true)
       setChartData({
       
         labels: labelsData,
-        datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,"","",stateName),
+        datasets: createDatasetsCard5(dataOne, dataTwo, dataOneAvg, dataTwoAvg,stateName),
       
      });
       setTableData(newTableData)
 
         }
         
-          
+      }  
         
       }else{
         console.log("error")
@@ -411,6 +413,13 @@ const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStu
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
+
+const createDatasetsCard5 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,stateName) => [
+    { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})` },
+      { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
+      { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
+      { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
+    ];
 
   //set the line chart at its proper position
 const linePosition = {

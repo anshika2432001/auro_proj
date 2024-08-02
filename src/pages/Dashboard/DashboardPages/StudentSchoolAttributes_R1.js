@@ -856,24 +856,23 @@ console.log(cardData)
          ):(
               <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
             <CardFourComponent 
-              key={option.id}
-              title={cardTitle[option.id]} 
-              dropdownOptions={dropdownOptions} 
-              attributeBasedDropdowns={attributeBasedDropdowns} 
-              chartData={cardData[option.id] || defaultChartData}
-              onFilterChange={onFilterChange}
-              cardKey={option.id}
-              loadingStatusChart={loadingChart[option.id]}
-              loadingStatusTable={loadingTable[option.id]}
-              apiEndPoints={endpointMapping}
-              cardMapping={card4Mapping}
-              apiEndPointsTable={tableEndPoints}
-              dataAvailableStatus={dataAvailable[option.id]}
-              category="Students"
-              subtype = "r1"
-              tableInfo={tableData[option.id]} 
-             tableHeadings={tableHeadings} 
-             attributeHeading={attributeNameValue[option.id]}
+               key={option.id}
+               title={cardTitle[option.id]} 
+               dropdownOptions={dropdownOptions} 
+               attributeBasedDropdowns={attributeBasedDropdowns} 
+               chartData={cardData[option.id] || defaultChartData}
+               onFilterChange={onFilterChange}
+               cardKey={option.id}
+               loadingStatusChart={loadingChart[option.id]}
+               loadingStatusTable={loadingTable[option.id]}
+               apiEndPoints={endpointMapping}
+               cardMapping={cardMapping}
+               dataAvailableStatus={dataAvailable[option.id]}
+               category="Students"
+               subtype = "r1"
+               tableInfo={tableData[option.id]} 
+               tableHeadings={tableHeadings} 
+               attributeHeading={attributeNameValue[option.id]}
               
             />
           </Grid>

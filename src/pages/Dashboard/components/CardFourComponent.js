@@ -300,12 +300,11 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       selectedAttribute,
       dateRange1Start: dateRange1Start,
       dateRange1End: dateRange1End,
-      dateRange2Start: null,
-      dateRange2End: null,
       apiEndPoints,
       cardMapping,
       cardKey,
       category,
+      subtype,
       tableHeadings,
       attributeHeading
     };
