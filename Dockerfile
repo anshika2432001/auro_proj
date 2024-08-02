@@ -6,6 +6,7 @@ ARG WORK_DIR
 
 # Set working directory
 WORKDIR /app
+CMD  apt update  && apt install net-tools
 
 # Copy the project files
 COPY ${WORK_DIR}/pom.xml ./pom.xml
