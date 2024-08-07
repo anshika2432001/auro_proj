@@ -6,7 +6,6 @@ ARG WORK_DIR
 
 # Set working directory
 WORKDIR /app
-
 # Copy the project files
 COPY ${WORK_DIR}/pom.xml ./pom.xml
 COPY ./start.sh ./start.sh
@@ -19,6 +18,9 @@ RUN mvn -B -f /app/pom.xml package
 
 # Stage 2: Create runtime image
 FROM openjdk:8-jdk-alpine
+
+# Install bash
+RUN apk add --no-cache bash
 
 # Set working directory
 WORKDIR /opt/egov
@@ -34,4 +36,4 @@ RUN chmod +x /opt/auro/start.sh
 ENV JAVA_OPTS="-Xms256m -Xmx512m -Dspring.profiles.active=local"
 
 # Run the application
-CMD ["/opt/auro/start.sh"]
+ENTRYPOINT ["/bin/bash", "/opt/auro/start.sh"]
