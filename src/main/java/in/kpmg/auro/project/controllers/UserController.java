@@ -5,6 +5,8 @@ import in.kpmg.auro.project.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -48,6 +50,11 @@ public class UserController {
     @PostMapping("/role-access-fetch")
     public ApiResponse2<?> roleAccessGrant(@RequestBody UserDto dto){
         return userServices.roleAccessGrantService(dto);
+    }
+
+    @PostMapping("/update-role-access")
+    public ApiResponse2<?> updateRoleAccess(@RequestBody List<RoleAccessGrantDto> dto){
+        return userServices.updateRoleAccessService(dto);
     }
 
 }

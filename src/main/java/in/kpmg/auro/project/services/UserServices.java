@@ -2,10 +2,7 @@ package in.kpmg.auro.project.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import in.kpmg.auro.project.config.AesUtil;
-import in.kpmg.auro.project.dtos.ApiResponse2;
-import in.kpmg.auro.project.dtos.ForgotPasswordDto;
-import in.kpmg.auro.project.dtos.OtpDto;
-import in.kpmg.auro.project.dtos.UserDto;
+import in.kpmg.auro.project.dtos.*;
 import in.kpmg.auro.project.model.OtpDetailsMst;
 import in.kpmg.auro.project.model.RoleAccessGrantsMst;
 import in.kpmg.auro.project.model.RoleMst;
@@ -235,11 +232,29 @@ public class UserServices {
 
     public ApiResponse2<?> roleAccessGrantService(UserDto dto) {
 
+        try{
+            List<RoleAccessGrantsMst> roleAccessGrantsMstList= accessGrantsRepo.findByRoleId(dto.getRoleId());
+            return  new ApiResponse2<>(true, "Role Based Access Fetch",roleAccessGrantsMstList, HttpStatus.OK.value());
+        } catch (Exception e){
+            return  new ApiResponse2<>(true, "Facing Problem While Fetching Data...",null, HttpStatus.BAD_REQUEST.value());
+        }
+    }
 
-        List<RoleAccessGrantsMst> roleAccessGrantsMstList= accessGrantsRepo.findAll();
+    public ApiResponse2<?> updateRoleAccessService(List<RoleAccessGrantDto> dto) {
 
-
-        return  new ApiResponse2<>(true, "Role Based Access Fetch",roleAccessGrantsMstList, HttpStatus.OK.value());
+        try{
+            for (RoleAccessGrantDto dataDto: dto){
+                Optional<RoleAccessGrantsMst> existingData= accessGrantsRepo.findByRoleIdAndDashboardName(dataDto.getRoleId(), dataDto.getDashboardName());
+                if (existingData.isPresent()){
+                    RoleAccessGrantsMst data= existingData.get();
+                    data.setGrantAccess(dataDto.getGrantAccess());
+                    accessGrantsRepo.save(data);
+                }
+            }
+            return  new ApiResponse2<>(true, "Access Updated Successfully","", HttpStatus.OK.value());
+        } catch (Exception e){
+            return  new ApiResponse2<>(true, "Facing Problem While Updating Data...",null, HttpStatus.BAD_REQUEST.value());
+        }
 
     }
 }

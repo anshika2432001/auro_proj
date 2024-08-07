@@ -7,10 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoleAccessGrantsRepo extends JpaRepository<RoleAccessGrantsMst, String> {
+    List<RoleAccessGrantsMst> findByRoleId(Integer roleId);
 
-//    List<RoleAccessGrantsMst> findByRoleId(Integer roleId);
 
+    Optional<RoleAccessGrantsMst> findByRoleIdAndDashboardName(Integer roleId, String dashboardName);
 }
