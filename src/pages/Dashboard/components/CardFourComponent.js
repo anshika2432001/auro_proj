@@ -26,7 +26,7 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const defaultStateId = 7; 
-  
+  const [quizNames, setQuizNames] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
   const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
@@ -35,10 +35,34 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const initialFilters = attributeBasedDropdowns[title.id]
-  ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
-  : {};
+  const defaultSubject = "Maths";
+  const defaultGrade = 11;
+  const defaultQuizName = "All";
+
+  const initializeFilters = (id) => {
+    if ((id === 12 || id === 13) && subtype == "r1") {
+      return {
+        Subject: defaultSubject,
+        Grade: defaultGrade,
+        "Quiz Names": defaultQuizName,
+      };
+    }
+    else{
+      return attributeBasedDropdowns[id]
+      ? attributeBasedDropdowns[id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+      : {};
+
+    }
+
+  
+  };
+
+  const initialFilters = initializeFilters(title.id);
   const [selectedFilters, setSelectedFilters] = useState({ ...initialFilters, 'State': { id: defaultStateId, name: 'Default State Name' } });
+  // const initialFilters = attributeBasedDropdowns[title.id]
+  // ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+  // : {};
+  // const [selectedFilters, setSelectedFilters] = useState({ ...initialFilters, 'State': { id: defaultStateId, name: 'Default State Name' } });
   const [districtOptions, setDistrictOptions] = useState([]);
   const chartRef = useRef(null);
 
@@ -107,6 +131,14 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       state_id: districtObj.state_id
     }));
   };
+
+  const mapSchoolType = (schoolTypes) => {
+    return schoolTypes.map(schoolTypeObj => schoolTypeObj.school_type);
+  };
+
+  const mapQuizNames = (quizNames) => {
+    return quizNames.map(quizNamesObj => quizNamesObj.quiz_name);
+  };
  
   //filter dropdown options
   const attributeOptions = {
@@ -126,9 +158,10 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
     "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
-    "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+    "School Type": filterOptions ? (filterOptions.schoolType ? ['All', ...mapSchoolType(filterOptions.schoolType)] : ['All']) : ['All'],
     "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "Quiz Names": quizNames ? quizNames: ['All'],
   
   };
 
@@ -142,15 +175,19 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
     
     const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), { 'State': defaultStateId }));
+    const initialFilters = initializeFilters(title.id);
+    setSelectedFilters({...initialFilters,  'State': defaultStateId });
   }, [title, attributeBasedDropdowns]);
 
  
 
   useEffect(() => {
    //by default set a state for which graph is shown
+   const initialFilters = initializeFilters(title.id);
     setSelectedFilters({ ...initialFilters, 'State': defaultStateId });
+    if(title.id == 12 || title.id == 13){
+      handleQuizNames(title.id)
+    }
   }, [filterOptions,selectedAttribute]);
 
 
@@ -172,8 +209,33 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
 
   //handle attribute change function
   const handleAttributeChange = (event, value) => {
-   
-  setSelectedAttribute(value.id);
+    if ((value.id === 12 || value.id === 13) && subtype == "r1" ) {
+      setSelectedAttribute(value.id);
+  const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+  setDropdowns(newDropdowns);
+  
+  //let newFilters = {};
+  const updatedFilters = {
+    Subject: defaultSubject,
+    Grade: defaultGrade,
+    "Quiz Names": defaultQuizName,
+    State: defaultStateId
+  };
+  // newDropdowns.forEach((dropdown) => {
+  //   if (dropdown === 'State') {
+  //     newFilters[dropdown] = defaultStateId;
+  //   } else {
+  //     newFilters[dropdown] = 'All';
+  //   }
+  // });
+  // newFilters['State'] = defaultStateId;
+  handleQuizNames(value.id);
+  setSelectedFilters(updatedFilters);
+  onFilterChange(value.id, updatedFilters, cardKey);
+
+    }
+    else{
+      setSelectedAttribute(value.id);
   const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
   setDropdowns(newDropdowns);
   
@@ -188,7 +250,32 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
   newFilters['State'] = defaultStateId;
   setSelectedFilters(newFilters);
   onFilterChange(value.id, newFilters, cardKey);
+
+    }
+   
+  
   };
+
+  const handleQuizNames= async (value)=> {
+    try {
+      const response = await axios.post("/fetch-topics", {
+        subject: defaultSubject,
+        grade: defaultGrade,
+      });
+      if(value == 12){
+      const topicNames = response.data.result.topTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+      }
+      else if(value == 13){
+        const topicNames = response.data.result.weakTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+
+      }
+    } catch (error) {
+      console.error('Error fetching topics:', error);
+    }
+
+  }
 
 //add more dropdown function
   const handleAddDropdown = (event, value) => {
@@ -306,7 +393,8 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       category,
       subtype,
       tableHeadings,
-      attributeHeading
+      attributeHeading,
+      quizNames
     };
 
     // Store the params in localStorage or sessionStorage
@@ -328,22 +416,14 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       });
     }
   };
-  const selectedFiltersWithNames = Object.fromEntries(
-    Object.entries(selectedFilters).map(([key, value]) => {
-      const options = attributeOptions[key];
-      const selectedOption = options.find(option => (typeof option === 'object' ? option.id === value : option === value));
-      return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
-    })
-  );
-
-const stateValue = selectedFiltersWithNames['State'];
+  
 
 
 
 
 
   const exportAsPDF = () => {
-    pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start,dateRange1End,"","",attributeHeading,cardKey)
+    pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype, dateRange1Start,dateRange1End,"","",attributeHeading,cardKey)
     setAnchorEl(null);
   
   };
@@ -351,7 +431,7 @@ const stateValue = selectedFiltersWithNames['State'];
  
 
   const exportAsExcel = () => {
-    excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start,dateRange1End,"","",attributeHeading,cardKey)
+    excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype, dateRange1Start,dateRange1End,"","",attributeHeading,cardKey)
     setAnchorEl(null);
 
 }
@@ -364,8 +444,8 @@ const stateValue = selectedFiltersWithNames['State'];
     setAnchorEl(null);
   };
 
-  const headers = getCsvHeaders(title,category,cardKey);
-const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,tableInfo,attributeHeading,dateRange1Start,dateRange1End,"","",cardKey);
+  const headers = getCsvHeaders(title,category,subtype,cardKey);
+const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,subtype,tableInfo,attributeHeading,dateRange1Start,dateRange1End,"","",cardKey);
 
 
 
@@ -375,19 +455,19 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
     <Card className='mini-card'>
       <Typography 
         variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', top: '0',
-          zIndex: 10 , borderRadius: '4px', position:"sticky", color: '#fff' }}
+        sx={{ backgroundColor: '#DBEDFF', padding: '8px', top: '0',
+          zIndex: 10 , position:"sticky", color: '#082f68',borderBottom: '1px solid #082f68', }}
       >
         {`${title.value} (REGION VS PAN INDIA)`}
       </Typography>
-      <CardContent>
+      <CardContent sx={{padding:"12px",height: '500px', overflowY: 'scroll',}}>
         <Autocomplete
           options={dropdownOptions}
           getOptionLabel={(option) => option.value}
           value={dropdownOptions.find(option => option.id === selectedAttribute)}
           onChange={handleAttributeChange}
           renderInput={(params) => <TextField {...params} label="Select Attribute" size="small" />}
-          sx={{ marginY: 2 }}
+          sx={{ marginTop: 1,marginBottom: 2 }}
         />
         <Grid container rowSpacing={2} columnSpacing={1}>
           {dropdowns.map((dropdownLabel, index) => (
@@ -425,9 +505,9 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
           )}
         </Grid>
 
-        <Grid container columnSpacing={0.5} marginTop={0.5}>
+        <Grid container columnSpacing={0.5} rowSpacing={2} marginTop={0.5}>
           <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="h6"  mb={4}>Date Range </Typography>
+            <Typography variant="body1" color='#082f68'  mt={1}><b>Date Range </b></Typography>
            </Grid>
               <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -455,13 +535,13 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
                   />
                 </LocalizationProvider>
               </Grid>
-              {((loadingStatusTable || loadingStatusChart) && tableInfo.length == 0) ?(
+              {((loadingStatusTable || loadingStatusChart) ) ?(
                 <>
-              <Grid item xs={12} sm={5} md={5} lg={5} >
-            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>
+              <Grid item xs={12} sm={4} md={4} lg={4} >
+            <Button  sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>
             </Grid>
              <Grid item xs={12} sm={3} md={3} lg={3} >
-             <Button  variant='contained' disabled={true} sx={{m:0}}>Export</Button>
+             <Button   disabled={true} sx={{m:0}}>Export</Button>
              </Grid> 
              </>
              ):(
@@ -471,11 +551,11 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
               ):(
 
               <>
-              <Grid item xs={12} sm={5} md={5} lg={5} >
-              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View Table</Button>
+              <Grid item xs={12} sm={4} md={4} lg={4} >
+              <Button  className='card-button'  onClick={()=> viewDetailsPage()}>View Table</Button>
               </Grid>
               <Grid item xs={12} sm={3} md={3} lg={3} >
-              <Button  variant='contained' sx={{m:0}} onClick={handleClick}>Export</Button>
+              <Button  className='card-button' onClick={handleClick}>Export</Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={exportAsPDF}>Export as PDF</MenuItem>
         <MenuItem onClick={exportAsExcel}>Export as Excel</MenuItem>
@@ -499,7 +579,7 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
           </Grid>
 
         
-      </CardContent>
+      
       {loadingStatusChart ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
@@ -538,29 +618,41 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
               },
             
               tooltip: {
-                  callbacks: {
-                      label: function(context) {
-                          let label = context.dataset.label || '';
-                          if (label) {
-                                label += ': ';
-                            }
-                            let dataPoint = "";
-                            if(context.dataset.dataStudent){
-                              dataPoint = context.dataset.dataStudent[context.dataIndex]
-                              const customValue1 = dataPoint;
-                              label +=`${context.parsed.y}, No of Students: ${customValue1}`;
-                              return label;
-                            }
-                            else{
-                              label +=`${context.parsed.y}`
-                              return label;
-                            }
-                           
-                          
+                callbacks: {
+                    label: function(context) {
+                        let label = context.dataset.label || '';
+                        if (label) {
+                              label += ': ';
+                          }
+                          let dataPoint = "";
+                          let dataPoint1 = "";
+                          let dataPoint2 = "";
+                          console.log(context.dataset)
+                          if(context.dataset.dataStudent){
+                            dataPoint = context.dataset.dataStudent[context.dataIndex]
+                            const customValue1 = dataPoint;
+                            label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                            return label;
+                          }
+                          else if(context.dataset.dataAvg && context.dataset.dataImprovement){
+                            dataPoint1 = context.dataset.dataImprovement[context.dataIndex]
+                            dataPoint2 = context.dataset.dataAvg[context.dataIndex]
+                            const customValue1 = dataPoint1;
+                            const customValue2 = dataPoint2;
+                            label +=`${context.parsed.y}, Number of Students: ${customValue1},Average Score: ${customValue2}`;
+                            return label;
+
+                          }
+                          else{
+                            label +=`${context.parsed.y}`
+                            return label;
+                          }
                          
-                      }
-                  }
-              }
+                        
+                       
+                    }
+                }
+            }
           }
           }}
             plugins={[linePosition]}
@@ -570,6 +662,7 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
      )}
      </>
       )}
+      </CardContent>
     </Card>
  );
 }

@@ -8,15 +8,14 @@ const roles = [
 ];
 
 const tableData = [
-  { access: 'Dashboard', view: false, edit: false, download: false },
-  { access: 'Student Learning Outcomes(R1)', view: false, edit: false, download: false },
-  { access: 'Student School Attributes(R2)', view: false, edit: false, download: false },
-  { access: 'Student School Attributes(R3)', view: false, edit: false, download: false },
-  { access: 'Teacher Attributes', view: false, edit: false, download: false },
-  { access: 'Student Career Growth Outlook(R4)', view: false, edit: false, download: false },
-  { access: 'School Infrastructure', view: false, edit: false, download: false },
-  { access: 'Parental and Household Engagement', view: false, edit: false, download: false },
-  { access: 'Budget State', view: false, edit: false, download: false }
+  { access: 'Student Learning Outcomes(R1)',  grantAccess: false },
+  { access: 'Student School Attributes(R2)',  grantAccess: false },
+  { access: 'Student School Attributes(R3)',  grantAccess: false },
+  { access: 'Teacher Attributes',  grantAccess: false },
+  { access: 'Student Career Growth Outlook(R4)',  grantAccess: false },
+  { access: 'School Infrastructure',  grantAccess: false },
+  { access: 'Parental and Household Engagement',  grantAccess: false },
+  { access: 'Budget State',  grantAccess: false }
 ];
 
 const UserManagement = () => {
@@ -50,16 +49,10 @@ const UserManagement = () => {
           <TableHead>
             <TableRow>
             <TableCell className="TableHeading">
-            <b>Access Grant</b>
+            <b>Dashboard</b>
             </TableCell>
             <TableCell className="TableHeading">
-            <p className="HeadingData">View</p> 
-            </TableCell>
-            <TableCell className="TableHeading">
-            <p className="HeadingData">Edit</p>
-            </TableCell>
-            <TableCell className="TableHeading">
-            <p className="HeadingData">Download</p>
+            <p className="HeadingData">Grant Access</p>
             </TableCell>
             </TableRow>
           </TableHead>
@@ -69,22 +62,11 @@ const UserManagement = () => {
                  <TableCell className="BodyBorder">
                 {row.access}
                     </TableCell>
-                    <TableCell className="BodyBorder">
-                    <p className="TableData"><Checkbox
-                    checked={row.view}
-                    onChange={handleCheckboxChange(index, 'view')}
-                  /></p>
-                </TableCell>
+                   
                 <TableCell className="BodyBorder">
                 <p className="TableData"><Checkbox
-                    checked={row.edit}
-                    onChange={handleCheckboxChange(index, 'edit')}
-                  /></p>
-                </TableCell>
-                <TableCell className="BodyBorder">
-                <p className="TableData"><Checkbox
-                    checked={row.download}
-                    onChange={handleCheckboxChange(index, 'download')}
+                    checked={row.grantAccess}
+                    onChange={handleCheckboxChange(index, 'grantAccess')}
                   /></p>
                 </TableCell>
               </TableRow>

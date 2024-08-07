@@ -1,7 +1,7 @@
 import React from 'react';
 import * as XLSX from 'xlsx';
 
-const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start, dateRange1End, dateRange2Start, dateRange2End, attributeHeading, cardKey) => {
+const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype, dateRange1Start, dateRange1End, dateRange2Start, dateRange2End, attributeHeading, cardKey) => {
     console.log(category)
     const selectedFiltersWithNames = Object.fromEntries(
         Object.entries(selectedFilters).map(([key, value]) => {
@@ -60,7 +60,7 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
     let dataRows;
 
     if (cardKey == 4) {
-        if (category === "Teachers" || category === "Parents") {
+        if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
             headerData = [
                 [
                     { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -116,9 +116,11 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
             ]);
         }
     } else {
-        if (category === "Teachers" || category === "Parents") {
+        if (category === "Teachers" || category === "Parents"  || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
             headerData = [
                 [
+                    { v: 'State', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+                    { v: 'District', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: `${attributeHeading}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: `${dateRange1Start.format("DD/MM/YYYY")} - ${dateRange1End.format("DD/MM/YYYY")}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: `${dateRange1Start.format("DD/MM/YYYY")} - ${dateRange1End.format("DD/MM/YYYY")}`, s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -129,6 +131,8 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
                 ],
                 [
                     { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+                    { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
+                    { v: '', s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: tableHeadings[0], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: tableHeadings[1], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
                     { v: tableHeadings[2], s: { alignment: { horizontal: 'center' }, font: { bold: true } } },
@@ -138,6 +142,8 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
                 ]
             ];
             dataRows = tableInfo.map(row => [
+                row.stateDataValue,
+                row.districtDataValue,
                 row.attributes,
                 row.dateRange1TotalValue,
                 row.dateRange1StudentValue,
@@ -198,7 +204,7 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
 
                // Add cell merges to the worksheet
                if(cardKey == 4){
-                if (category === "Teachers" || category === "Parents") {
+                if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
                     ws['!merges'] = [
                       { s: { r: headerStartRow, c: 1 }, e: { r: headerStartRow, c: 3 } }, // Merge cells for "Date Range 1"
                       { s: { r: headerStartRow, c: 4 }, e: { r: headerStartRow, c: 6 } }  // Merge cells for "Date Range 2"
@@ -212,7 +218,7 @@ const ExcelExport = (title, selectedFilters, attributeOptions, tableInfo, tableH
 
                }
                else{
-                if (category === "Teachers" || category === "Parents") {
+                if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
                     ws['!merges'] = [
                       { s: { r: headerStartRow, c: 3 }, e: { r: headerStartRow, c: 5 } }, // Merge cells for "Date Range 1"
                       { s: { r: headerStartRow, c: 6 }, e: { r: headerStartRow, c: 8 } }  // Merge cells for "Date Range 2"

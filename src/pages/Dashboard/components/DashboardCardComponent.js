@@ -232,12 +232,12 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     <Card className='mini-card'>
       <Typography 
         variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', top: '0',
-          zIndex: 10 , borderRadius: '4px', position:"sticky", color: '#fff' }}
+        sx={{ backgroundColor: '#DBEDFF', padding: '8px', top: '0',
+          zIndex: 10 , position:"sticky", color: '#082f68',borderBottom: '1px solid #082f68', }}
       >
         {title.value} 
       </Typography>
-      <CardContent>
+      <CardContent sx={{padding:"12px",height: '400px', overflowY: 'scroll',}}>
        
         <Grid container rowSpacing={2} columnSpacing={1}>
           {dropdowns.map((dropdownLabel, index) => (
@@ -277,7 +277,7 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
 
         <Grid container columnSpacing={0.5} marginTop={2}>
           <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="h6"  mb={4}>Date Range </Typography>
+            <Typography variant="h6" color='#082f68' mb={2}>Date Range </Typography>
            </Grid>
               <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -309,7 +309,7 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
           </Grid>
 
         
-      </CardContent>
+    
       
       {loadingStatus ? (
   <Box sx={{ display: "flex", alignItems: 'center', justifyContent: "center", width: '100%', pb: 2, mt: 2 }}>
@@ -385,7 +385,7 @@ const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     <Typography variant="body1" color="error">No data available for the chart.</Typography>
   )
 )}
-
+  </CardContent>
     </Card>
 );
 }

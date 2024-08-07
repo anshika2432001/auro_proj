@@ -91,7 +91,19 @@ export const ColorModeContextProvider = ({ children }) => {
                 borderRadius: 5,
                 marginTop: "10px",
                 marginBottom: "10px",
+
+                "&.card-button":{
+                margin:0,
+  border:"1px solid #082f68",
+  fontSize:"12px" ,
+  fontWeight:"bold",
+  color:"#082f68" ,
+  backgroundColor: '#DBEDFF',
+  fontFamily: "Inter",
+
               },
+              },
+              
               contained: {
                
                 padding: "4px 20px 4px 20px",
@@ -161,10 +173,10 @@ export const ColorModeContextProvider = ({ children }) => {
                   padding: "0px",
                   borderRadius: "5px",
                   position: 'relative',
-                  overflow: 'hidden',
-                 
-                  height: '500px',
-                  overflowY: 'scroll',
+                  // overflow: 'hidden',
+                  border: '1px solid #082f68',
+                  // height: '500px',
+                  // overflowY: 'scroll',
                 },
                 "&.mini-card1": {
                   maxWidth: 400,

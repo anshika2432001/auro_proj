@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useNavigate } from "react-router-dom";
-import AuroLogo1 from '../../../images/AuroLogo1.png'
+import AuroLogoDarkBlue from '../../../images/AuroLogo-darkBlue.jpg'
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LightMode from '@mui/icons-material/LightMode';
@@ -146,14 +146,15 @@ export default function PersistentDrawerLeft() {
             aria-label="open drawer"
             onClick={handleDrawerClose}
             edge="start"
-            sx={{ mr: 2, ...(!open && { display: "none" }) }}
+            sx={{ mr: 1, ...(!open && { display: "none" }) }}
           >
             <ChevronLeftIcon />
           </IconButton>
+          <img src={AuroLogoDarkBlue} alt="Logo" height="40" width="180" />
 
-          <Typography variant="h6" noWrap component="div">
+          {/* <Typography variant="h6" noWrap component="div">
             Public Data Dashboard
-          </Typography>
+          </Typography> */}
 
           <Box sx={{ flexGrow: 1 }} />
 
@@ -201,7 +202,7 @@ export default function PersistentDrawerLeft() {
       >
         <DrawerHeader sx={{ backgroundColor: "white!important" }}>
           <Box mr={10}>
-            <img src={AuroLogo1} alt="Logo" height="40" />
+            <Typography variant="h5" color="#082f68"><b>Public Data Dashboard</b></Typography>
           </Box>
         </DrawerHeader>
         <Divider />

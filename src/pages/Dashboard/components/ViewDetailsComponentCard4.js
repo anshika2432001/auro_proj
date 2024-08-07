@@ -34,6 +34,7 @@ import { CSVLink } from "react-csv";
 import { getCsvDataRows, getCsvHeaders } from './CsvExport';
 import excelExport from './ExcelExport';
 import pdfExport from './PdfExport';
+import AuroLogoDarkBlue from '../../../images/AuroLogo-darkBlue.jpg'
 
 const defaultChartDataCard4 = {
   labels: [],
@@ -41,8 +42,8 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       barThickness: 30,
@@ -52,8 +53,8 @@ const defaultChartDataCard4 = {
     {
       label: 'No of Students (Pan India)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -63,7 +64,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -73,7 +74,34 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
+
+const defaultChartDataCard4PercentageImprovement = {
+  labels: [],
+  datasets: [
+    
+    {
+      label: '',
+      type: 'line',
+      borderColor: '#75C57F',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Percentage Improvement (Pan India)',
+      type: 'line',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -127,7 +155,9 @@ const ViewDetailsComponentCard4 = () => {
  category,
  subtype,
  tableHeadings,
- attributeHeading
+ attributeHeading,
+ quizNames
+
 } = data || {};
 
 const [dateRange1StartValue, setDateRange1StartValue] = useState(null);
@@ -318,7 +348,6 @@ setLoading(true)
     });
       const newTableData = labelsData.map(label => ({
         attributes: label,
-        attributes: label,
       dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
       dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
       dateRange2TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
@@ -342,7 +371,83 @@ setLoading(true)
       }
   
 
-    }else{
+    }
+    else if(category == "Students" && subtype == "r1" &&  (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10 )){
+      if(apiEndPoints != undefined){
+        const endpoint = apiEndPoints[selectedAttribute.id];
+        const res = await axios.post(endpoint, payload);
+        if(res.data.status && res.data.statusCode == 200){
+          if(res.data.result.dataStateOne == 0 && res.data.result.dataNation == 0){
+              setDataAvailableChart(true)
+              setLoading(false);
+          }
+          else{
+            setDataAvailableChart(false)
+            setLoading(false);
+            const result = res.data.result;
+          
+              const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,avgKeyImprovement1,avgKeyImprovement2 } = cardMapping[selectedAttribute.id];
+              
+          
+              const allLabels = new Set([
+                ...result.dataStateOne.map(item => item[labelKey]),
+                ...result.dataNation.map(item => item[labelKey])
+              ]);
+              console.log(avgKey1)
+              const labelsData = Array.from(allLabels);
+              const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+           const dataOneAvg = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+          const dataOneAvgImprovement = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement1] || 0;
+            return parseFloat(value.toFixed(2));
+          }); 
+        
+           const dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+           const dataTwoAvg = labelsData.map(label => {
+            const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+          const  dataTwoAvgImprovement = labelsData.map(label => {
+            const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKeyImprovement2] || 0;
+            return parseFloat(value.toFixed(2));
+          }); 
+          console.log(dataOne)
+          console.log(dataOneAvg)
+          
+
+          const newTableData = labelsData.map(label => ({
+            attributes: label,
+            dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+            dateRange1StudentValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement1] || 0).toFixed(2)),
+            dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+            dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+            dateRange2StudentValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKeyImprovement2] || 0).toFixed(2)),
+            dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+          }));
+              
+          setChartData({
+            
+            labels: labelsData,
+             datasets: createDatasetsPercentageImprovement(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement,stateName),
+       
+        });
+console.log(newTableData)
+        setTableData(newTableData)
+
+          }
+         
+          
+        }else{
+          console.log("error")
+        }
+      }
+
+    }
+    
+    else{
       console.log(apiEndPoints)
       if(apiEndPoints != undefined){
 
@@ -407,12 +512,20 @@ setLoading(true)
   }
 };
 
+console.log(chartData)
+
 const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,stateName) => [
   { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})`,dataStudent:dataOneStudent || [] },
     { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || []},
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
+
+  const createDatasetsPercentageImprovement = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement,stateName) => [
+    
+      { ...defaultChartDataCard4PercentageImprovement.datasets[0], data: dataOneAvgImprovement || [],dataAvg: dataOneAvg || [],dataImprovement:dataOne || [],label: `Percentage Improvement (${stateName})` },
+      { ...defaultChartDataCard4PercentageImprovement.datasets[1], data: dataTwoAvgImprovement || [],dataAvg: dataTwoAvg || [],dataImprovement:dataTwo || [] },
+    ];
 
 const createDatasetsCard5 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,stateName) => [
     { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})` },
@@ -531,6 +644,10 @@ const mapDistricts = (districts) => {
   }));
 };
 
+const mapSchoolType = (schoolTypes) => {
+  return schoolTypes.map(schoolTypeObj => schoolTypeObj.school_type);
+};
+
 //filter dropdown options
 const attributeOptions = {
   "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
@@ -549,9 +666,10 @@ const attributeOptions = {
   "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
   "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
-  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+  "School Type": filterOptions ? (filterOptions.schoolType ? ['All', ...mapSchoolType(filterOptions.schoolType)] : ['All']) : ['All'],
   "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Quiz Names": quizNames ? quizNames: ['All'],
   
 };
 
@@ -649,21 +767,15 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
   }
   };
 
-const selectedFiltersWithNames = Object.fromEntries(
-  Object.entries(selectedFilters).map(([key, value]) => {
-    const options = attributeOptions[key];
-    const selectedOption = options.find(option => (typeof option === 'object' ? option.id === value : option === value));
-    return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
-  })
-);
+
 
 const exportAsPDF = ()=> {
-  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,subtype, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
 }
 
 const exportAsExcel = () => {
-  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,subtype,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
   
 };
@@ -676,20 +788,22 @@ const exportAsCSV = () => {
   setAnchorEl(null);
 };
 
-const headers = getCsvHeaders(selectedAttribute,category,cardKey);
-const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptions,category,tableData,attributeHeading,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,cardKey);
+const headers = getCsvHeaders(selectedAttribute,category,subtype,cardKey);
+const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptions,category,subtype,tableData,attributeHeading,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,cardKey);
 
 
 
 
 
-
+console.log(tableHeadings)
+console.log(category,subtype,selectedAttribute.id)
 
   return (
     <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>
       <CardContent>
       <Grid container rowSpacing={1} columnSpacing={1}>
-      <Grid item xs={12} sm={12} md={12} lg={12} sx={{ backgroundColor: '#0948a6', padding: '8px', display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: 2 }}>
+      <Grid item xs={12} sm={12} md={12} lg={12} sx={{ backgroundColor: '#082f68', padding: '8px', display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: 2 }}>
+      <img src={AuroLogoDarkBlue} alt="Logo" height="40" />
   <Typography 
     variant="h4" 
     sx={{ color: '#fff' }}
@@ -734,10 +848,10 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
 </Grid>
 
 <Grid container spacing={2} mb={2} mt={2}>
-          <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="body1"  mt={1}><b>Date Range 1:</b></Typography>
+<Grid item xs={12} sm={2} md={2} lg={2} >
+            <Typography variant="body1"  mt={1} ml={1} color='#082f68'><b>Date Range 1:</b></Typography>
             </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+            <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -750,7 +864,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+              <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -846,35 +960,47 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
                 },
               
                 tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                  label += ': ';
-                              }
-                              let dataPoint = "";
-                              if(context.dataset.dataStudent){
-                                dataPoint = context.dataset.dataStudent[context.dataIndex]
-                                const customValue1 = dataPoint;
-                                label +=`${context.parsed.y}, No of Students: ${customValue1}`;
-                                return label;
-                              }
-                              else{
-                                label +=`${context.parsed.y}`
-                                return label;
-                              }
-                             
-                            
+                  callbacks: {
+                      label: function(context) {
+                          let label = context.dataset.label || '';
+                          if (label) {
+                                label += ': ';
+                            }
+                            let dataPoint = "";
+                            let dataPoint1 = "";
+                            let dataPoint2 = "";
+                            console.log(context.dataset)
+                            if(context.dataset.dataStudent){
+                              dataPoint = context.dataset.dataStudent[context.dataIndex]
+                              const customValue1 = dataPoint;
+                              label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                              return label;
+                            }
+                            else if(context.dataset.dataAvg && context.dataset.dataImprovement){
+                              dataPoint1 = context.dataset.dataImprovement[context.dataIndex]
+                              dataPoint2 = context.dataset.dataAvg[context.dataIndex]
+                              const customValue1 = dataPoint1;
+                              const customValue2 = dataPoint2;
+                              label +=`${context.parsed.y}, Number of Students: ${customValue1},Average Score: ${customValue2}`;
+                              return label;
+
+                            }
+                            else{
+                              label +=`${context.parsed.y}`
+                              return label;
+                            }
                            
-                        }
-                    }
-                }
+                          
+                         
+                      }
+                  }
+              }
             }
             }}
 
             plugins={[linePosition]}
           />
-      {/* <Chart type="bar" data={chartData} options={{ responsive: true }} /> */}
+      
     </div>
   </div>
 
@@ -895,7 +1021,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
           <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-           {(category == "Teachers" || category=="Parents") ? (
+           {(category == "Teachers" || category=="Parents" || (category=="Students" && subtype =="r1" && (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10))) ? (
  <TableContainer component={Paper}>
  <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
    <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

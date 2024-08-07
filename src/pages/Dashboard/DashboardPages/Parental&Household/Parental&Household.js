@@ -79,10 +79,10 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Parents (Purple)',
+      label: 'No of Teachers (Green)',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       dataStudent: [],
@@ -91,10 +91,10 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Parents (Blue)',
+      label: 'No of Teachers (Blue)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -103,9 +103,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Purple)',
+      label: 'Average score (Green)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -115,7 +115,7 @@ const defaultChartData = {
     {
       label: 'Average score (Blue)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -132,8 +132,8 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       dataStudent: [],
@@ -142,10 +142,10 @@ const defaultChartDataCard4 = {
       order: 2,
     },
     {
-      label: 'No of Parents (Pan India)',
+      label: 'No of Teachers (Pan India)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -156,7 +156,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -166,7 +166,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -175,6 +175,7 @@ const defaultChartDataCard4 = {
     },
   ],
 };
+
 
 //table headings
 const tableHeadings = [

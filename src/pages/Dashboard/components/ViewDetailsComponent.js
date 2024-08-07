@@ -6,6 +6,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from 'dayjs';
 import { Chart } from "react-chartjs-2";
+import AuroLogoDarkBlue from '../../../images/AuroLogo-darkBlue.jpg'
 import {
   Typography,
   Table,
@@ -81,17 +82,18 @@ const ViewDetailsComponent = () => {
  category,
  subtype,
  tableHeadings,
- attributeHeading
+ attributeHeading,
+ quizNames
 } = data || {};
 
 const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: `No of ${category} (Purple)`,
+      label: 'No of Students (Green)',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       barThickness: 30,
@@ -99,10 +101,10 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: `No of ${category} (Blue)`,
+      label: 'No of Students (Blue)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -110,9 +112,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Purple)',
+      label: 'Average score (Green)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -122,7 +124,33 @@ const defaultChartData = {
     {
       label: 'Average score (Blue)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
+const defaultChartDataPercentageImprovement = {
+  labels: [],
+  datasets: [
+    
+    {
+      label: 'Percentage Improvement (Green)',
+      type: 'line',
+      borderColor: '#75C57F',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Percentage Improvement (Blue)',
+      type: 'line',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -185,6 +213,7 @@ setLoadingChart(true)
       transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
       subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+      quizName: value ? ((value['Quiz Names'] && value['Quiz Names'] !== 'All') ? value['Quiz Names'] : null) : null,
       schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
       stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) : null,
       districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
@@ -331,6 +360,65 @@ setLoadingChart(true)
     }
       
     }
+    else if(category == "Students" && subtype == "r1" &&  (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10 )){
+      if(apiEndPoints != undefined){
+        const endpoint = apiEndPoints[selectedAttribute.id];
+        const res = await axios.post(endpoint, payload);
+        if(res.data.status && res.data.statusCode == 200){
+          if(res.data.result.dataStateOne == 0 && res.data.result.dataStateTwo == 0){
+              setDataAvailableChart(true)
+              setLoadingChart(false);
+          }
+          else{
+            setDataAvailableChart(false)
+            setLoadingChart(false);
+            const result = res.data.result;
+          
+              const { key: labelKey, dataOneKey, dataTwoKey, avgKey,avgKeyImprovement } = cardMapping[selectedAttribute.id];
+          
+              const allLabels = new Set([
+                ...result.dataStateOne.map(item => item[labelKey]),
+                ...result.dataStateTwo.map(item => item[labelKey])
+              ]);
+              
+              const labelsData = Array.from(allLabels);
+              const dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+           const dataOneAvg = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+          const dataOneAvgImprovement = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement] || 0;
+            return parseFloat(value.toFixed(2));
+          }); 
+        
+           const dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+           const dataTwoAvg = labelsData.map(label => {
+            const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+          const  dataTwoAvgImprovement = labelsData.map(label => {
+            const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKeyImprovement] || 0;
+            return parseFloat(value.toFixed(2));
+          }); 
+              
+          setChartData({
+            
+            labels: labelsData,
+            datasets: createDatasetsPercentageImprovement(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement),
+       
+        });
+
+          }
+         
+          
+        }else{
+          console.log("error")
+        }
+      }
+
+
+    }
     else{
       if(apiEndPoints != undefined){
         const endpoint = apiEndPoints[selectedAttribute.id];
@@ -405,6 +493,11 @@ const createDatasets1 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
   { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
 ];
 
+const createDatasetsPercentageImprovement = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement) => [
+  { ...defaultChartDataPercentageImprovement.datasets[0], data: dataOneAvgImprovement || [],dataAvg: dataOneAvg || [],dataImprovement:dataOne || [] },
+  { ...defaultChartDataPercentageImprovement.datasets[1], data: dataTwoAvgImprovement || [],dataAvg: dataTwoAvg || [],dataImprovement:dataTwo|| [] },
+];
+
 //set the line chart at its proper position
 const linePosition = {
   id: 'linePosition',
@@ -431,6 +524,7 @@ const fetchTableInfo = async (value)=> {
       transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') :  dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')) : dateRange2EndValue.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
       grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
       subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+      quizName: value ? ((value['Quiz Names'] && value['Quiz Names'] !== 'All') ? value['Quiz Names'] : null) : null,
       schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
       stateId: value ? ((value.State && value.State !== "All") ? value.State :  null) : null,
       districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
@@ -510,7 +604,9 @@ const fetchTableInfo = async (value)=> {
           
         })
 
-          }else{
+          
+          
+      }else{
             newTableData.push({
               stateDataValue: value.state_name,
                 districtDataValue: value.district_name,
@@ -542,6 +638,102 @@ const fetchTableInfo = async (value)=> {
     }
   }
     }
+  else if(category == "Students" && subtype == "r1" &&(selectedAttribute.id == 12 ||selectedAttribute.id == 13  )){
+    if(apiEndPointsTable != undefined){
+      const endpoint = apiEndPointsTable[selectedAttribute.id];
+  const res = await axios.post(endpoint, payload);
+  if(res.data.status && res.data.statusCode == 200){
+    if(res.data.result.dataStateOne.length == 0){
+        setDataAvailableTable(true)
+        setLoadingTable(false);
+    }
+    else{
+      setDataAvailableTable(false)
+      setLoadingTable(false);
+      const result = res.data.result;
+      const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
+      
+         const labelValue = labelKey
+
+      let newTableData = []
+
+      result.dataStateOne.map(value=>{
+        newTableData.push({
+          stateDataValue: value.state_name,
+        districtDataValue: value.district_name,
+        attributes: value[labelValue],
+        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+        dateRange1StudentValue: value.avg_improvement1? (parseFloat((value.avg_improvement1).toFixed(2))) : '0',
+        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+        dateRange2StudentValue: value.avg_improvement2? (parseFloat((value.avg_improvement2).toFixed(2))) : '0',
+
+       
+      
+    })
+  })
+     
+        setTableData(newTableData)
+
+    }
+    
+  }else{
+console.log("error")
+  }
+
+
+    }
+            
+  }
+  else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 10 )){
+    if(apiEndPointsTable != undefined){
+      const endpoint = apiEndPointsTable[selectedAttribute.id];
+  const res = await axios.post(endpoint, payload);
+  if(res.data.status && res.data.statusCode == 200){
+    if(res.data.result.dataStateOne.length == 0){
+        setDataAvailableTable(true)
+        setLoadingTable(false);
+    }
+    else{
+      setDataAvailableTable(false)
+      setLoadingTable(false);
+      const result = res.data.result;
+      const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
+      
+         const labelValue = labelKey
+
+      let newTableData = []
+
+      result.dataStateOne.map(value=>{
+        newTableData.push({
+          stateDataValue: value.state_name,
+        districtDataValue: value.district_name,
+        attributes: value[labelValue],
+        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+        dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
+        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+        dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
+
+       
+      
+    })
+  })
+     console.log(newTableData)
+        setTableData(newTableData)
+
+    }
+    
+  }else{
+console.log("error")
+  }
+
+
+    }
+            
+  }
     else{
       if(apiEndPointsTable != undefined){
         const endpoint = apiEndPointsTable[selectedAttribute.id];
@@ -562,8 +754,6 @@ const fetchTableInfo = async (value)=> {
         let newTableData = []
   
         result.dataStateOne.map(value=>{
-         
-             
           newTableData.push({
             stateDataValue: value.state_name,
             districtDataValue: value.district_name,
@@ -581,8 +771,6 @@ const fetchTableInfo = async (value)=> {
           setTableData(newTableData)
 
       }
-     
-
       
     }else{
 console.log("error")
@@ -592,14 +780,14 @@ console.log("error")
       }
        
   }
-
-
- 
   } catch (error) {
     console.error('Error fetching data:', error);
   }
 
 }
+
+
+
 
 
 
@@ -615,8 +803,10 @@ useEffect(() => {
       setDateRange1EndValue(parsedData.dateRange1End ? dayjs(parsedData.dateRange1End) : null);
       setDateRange2StartValue(parsedData.dateRange2Start ? dayjs(parsedData.dateRange2Start) : null);
       setDateRange2EndValue(parsedData.dateRange2End ? dayjs(parsedData.dateRange2End) : null);
-  
+      
     }
+    
+
     
     // Find the selected attribute name
     if (parsedData.dropdownOptions) {
@@ -699,6 +889,11 @@ const mapDistricts = (districts) => {
   }));
 };
 
+const mapSchoolType = (schoolTypes) => {
+  return schoolTypes.map(schoolTypeObj => schoolTypeObj.school_type);
+};
+
+
 //filter dropdown options
 const attributeOptions = {
   "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
@@ -717,9 +912,10 @@ const attributeOptions = {
   "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
   "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
-  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+  "School Type": filterOptions ? (filterOptions.schoolType ? ['All', ...mapSchoolType(filterOptions.schoolType)] : ['All']) : ['All'],
   "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Quiz Names": quizNames ? quizNames: ['All'],
   
 };
 
@@ -817,20 +1013,14 @@ const handleFilterChange = (dropdownLabel) => (event, value) => {
   }
   };
 
-const selectedFiltersWithNames = Object.fromEntries(
-  Object.entries(selectedFilters).map(([key, value]) => {
-    const options = attributeOptions[key];
-    const selectedOption = options.find(option => (typeof option === 'object' ? option.id === value : option === value));
-    return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
-  })
-);
+
 const exportAsPDF = ()=> {
-  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  pdfExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,subtype,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
 }
 
 const exportAsExcel = () => {
-  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
+  excelExport(selectedAttribute, selectedFilters, attributeOptions, tableData, tableHeadings, category,subtype, dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,attributeHeading,cardKey)
   setAnchorEl(null);
   
 };
@@ -843,8 +1033,8 @@ const exportAsCSV = () => {
   setAnchorEl(null);
 };
 
-const headers = getCsvHeaders(selectedAttribute,category,cardKey);
-const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptions,category,tableData,attributeHeading,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,cardKey);
+const headers = getCsvHeaders(selectedAttribute,category,subtype,cardKey);
+const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptions,category,subtype,tableData,attributeHeading,dateRange1StartValue,dateRange1EndValue,dateRange2StartValue,dateRange2EndValue,cardKey);
 
 
 
@@ -852,7 +1042,8 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
     <Card sx={{margin:"20px 30px",borderRadius:5,padding:0,boxShadow:10}}>
       <CardContent>
       <Grid container rowSpacing={1} columnSpacing={1}>
-      <Grid item xs={12} sm={12} md={12} lg={12} sx={{ backgroundColor: '#0948a6', padding: '8px', display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: 2 }}>
+      <Grid item xs={12} sm={12} md={12} lg={12} sx={{ backgroundColor: '#082f68', padding: '8px', display: "flex", justifyContent: "space-between", alignItems: "center", borderRadius: 2 }}>
+      <img src={AuroLogoDarkBlue} alt="Logo" height="40" />
   <Typography 
     variant="h4" 
     sx={{ color: '#fff' }}
@@ -898,10 +1089,11 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
 </Grid>
 
 <Grid container spacing={2} mb={2} mt={2}>
-          <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="body1"  mt={1}><b>Date Range 1:</b></Typography>
+  
+          <Grid item xs={12} sm={2} md={2} lg={2} textAlign="right">
+            <Typography variant="body1"  mt={1} color='#082f68'><b>Date Range 1:</b></Typography>
             </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+              <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -914,7 +1106,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+              <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -930,11 +1122,11 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
            
           
 
-          <Grid item xs={12} sm={3} md={3} lg={3} >
+          <Grid item xs={12} sm={2} md={2} lg={2} textAlign="right">
             <Typography variant="body1"  mt={1}><b>Date Range 2:</b></Typography>
             </Grid>
 
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+              <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="Start Date"
@@ -947,7 +1139,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
                   />
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
+              <Grid item xs={12} sm={2} md={2} lg={2}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     label="End Date"
@@ -967,7 +1159,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
 
       <Grid container spacing={2}>
   {existingFilterKeys.map((dropdownLabel, index) => (
-    <Grid item xs={12} sm={4} key={index}>
+    <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
       <Autocomplete
         options={attributeOptions[dropdownLabel] || []}
         getOptionLabel={(option) => typeof option === 'object' ? option.name : option}
@@ -1039,29 +1231,41 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
                 },
               
                 tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                  label += ': ';
-                              }
-                              let dataPoint = "";
-                              if(context.dataset.dataStudent){
-                                dataPoint = context.dataset.dataStudent[context.dataIndex]
-                                const customValue1 = dataPoint;
-                                label +=`${context.parsed.y}, No of Students: ${customValue1}`;
-                                return label;
-                              }
-                              else{
-                                label +=`${context.parsed.y}`
-                                return label;
-                              }
-                             
-                            
+                  callbacks: {
+                      label: function(context) {
+                          let label = context.dataset.label || '';
+                          if (label) {
+                                label += ': ';
+                            }
+                            let dataPoint = "";
+                            let dataPoint1 = "";
+                            let dataPoint2 = "";
+                            console.log(context.dataset)
+                            if(context.dataset.dataStudent){
+                              dataPoint = context.dataset.dataStudent[context.dataIndex]
+                              const customValue1 = dataPoint;
+                              label +=`${context.parsed.y}, No of Students: ${customValue1}`;
+                              return label;
+                            }
+                            else if(context.dataset.dataAvg && context.dataset.dataImprovement){
+                              dataPoint1 = context.dataset.dataImprovement[context.dataIndex]
+                              dataPoint2 = context.dataset.dataAvg[context.dataIndex]
+                              const customValue1 = dataPoint1;
+                              const customValue2 = dataPoint2;
+                              label +=`${context.parsed.y}, Number of Students: ${customValue1},Average Score: ${customValue2}`;
+                              return label;
+
+                            }
+                            else{
+                              label +=`${context.parsed.y}`
+                              return label;
+                            }
                            
-                        }
-                    }
-                }
+                          
+                         
+                      }
+                  }
+              }
             }
             }}
 
@@ -1088,7 +1292,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == "Teachers" || category=="Parents") ? (
+          {(category == "Teachers" || category=="Parents" || (category=="Students" && subtype =="r1" && (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10))) ? (
             <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
               <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

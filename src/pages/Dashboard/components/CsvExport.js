@@ -1,7 +1,7 @@
 // CsvData.js
-export const getCsvHeaders = (title, category, cardKey) => {
+export const getCsvHeaders = (title, category,subtype, cardKey) => {
     if(cardKey == 4){
-        if (category === "Teachers" || category === "Parents") {
+        if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
             return [
               { label: '', key: 'attributes' },
               { label: '', key: 'dateRange1TotalValue' },
@@ -22,8 +22,10 @@ export const getCsvHeaders = (title, category, cardKey) => {
           }
 
     }else{
-        if (category === "Teachers" || category === "Parents") {
+        if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
             return [
+              { label: '', key: 'stateDataValue' },
+              { label: '', key: 'districtDataValue' },
               { label: '', key: 'attributes' },
               { label: '', key: 'dateRange1TotalValue' },
               { label: '', key: 'dateRange1StudentValue' },
@@ -32,7 +34,9 @@ export const getCsvHeaders = (title, category, cardKey) => {
               { label: '', key: 'dateRange2StudentValue' },
               { label: '', key: 'dateRange2AvgValue' }
             ];
-          } else {
+          }
+          
+          else {
             return [
               { label: '', key: 'stateDataValue' },
               { label: '', key: 'districtDataValue' },
@@ -48,14 +52,18 @@ export const getCsvHeaders = (title, category, cardKey) => {
     
   };
   
-  export const getCsvDataRows = (title,selectedFilters,attributeOptions, category, tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,cardKey) => {
-    console.log(tableInfo)
+  export const getCsvDataRows = (title,selectedFilters,attributeOptions,category,subtype, tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,cardKey) => {
+    console.log(selectedFilters)
+    console.log(attributeOptions)
     const selectedFiltersWithNames = Object.fromEntries(
         Object.entries(selectedFilters).map(([key, value]) => {
-         
+     
             const options = attributeOptions[key];
+           
+            if(options != undefined){
           const selectedOption = options.find(option => (typeof option === 'object' ? option.id === value : option === value));
           return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
+            }
 
         
           
@@ -68,11 +76,11 @@ export const getCsvHeaders = (title, category, cardKey) => {
         return { attributes:  `${key}: ${value}`, dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
         
       });
+      console.log(filterRows)
     
     let titleRow = {};
     let emptyRow = {};
     let headerValue = {};
-    let emptyRow1 = {};
     let dateRangeRow = {};
     if(cardKey == 4){
         if (category === "Teachers" || category === "Parents") {
@@ -81,6 +89,12 @@ export const getCsvHeaders = (title, category, cardKey) => {
             emptyRow = { attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
             headerValue = {attributes: `${attributeHeading}`, dateRange1TotalValue: 'State Total Stakeholder Value', dateRange1StudentValue: 'State Total Students Value', dateRange1AvgValue: 'State Avg Students Value', dateRange2TotalValue: 'Pan India Total Stakeholder Value', dateRange2StudentValue: 'Pan India Total Students Value', dateRange2AvgValue: 'Pan India Avg Students Value'}
             
+        }
+        else if(category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10)){
+          titleRow = { attributes: title.value, dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            dateRangeRow = { attributes: 'Date Range 1', dateRange1TotalValue: `${dateRange1Start.format("DD/MM/YYYY")}-${dateRange1End.format("DD/MM/YYYY")}`, dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            emptyRow = { attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            headerValue = {attributes: `${attributeHeading}`, dateRange1TotalValue: 'State Total Stakeholder Value', dateRange1StudentValue: 'State Percentage Improvement Value', dateRange1AvgValue: 'State Avg Students Value', dateRange2TotalValue: 'Pan India Total Stakeholder Value', dateRange2StudentValue: 'Pan India Percentage Improvement Value', dateRange2AvgValue: 'Pan India Avg Students Value'}
         }
        else{
             titleRow = { attributes: title.value, dateRange1TotalValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2AvgValue: '' };
@@ -93,12 +107,19 @@ export const getCsvHeaders = (title, category, cardKey) => {
     }
     else{
         if (category === "Teachers" || category === "Parents") {
-            titleRow = { attributes: title.value, dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
-            dateRangeRow = { attributes: 'Date Range 1', dateRange1TotalValue: `${dateRange1Start.format("DD/MM/YYYY")}-${dateRange1End.format("DD/MM/YYYY")}`, dateRange1StudentValue: '', dateRange1AvgValue: 'Date Range 2', dateRange2TotalValue: `${dateRange2Start.format("DD/MM/YYYY")}-${dateRange2End.format("DD/MM/YYYY")}`, dateRange2StudentValue: '', dateRange2AvgValue: '' };
-            emptyRow = { attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
-            headerValue = {attributes: `${attributeHeading}`, dateRange1TotalValue: 'Date Range 1 Total Stakeholder Value', dateRange1StudentValue: 'Date Range 1 Total Students Value', dateRange1AvgValue: 'Date Range 1 Avg Students Value', dateRange2TotalValue: 'Date Range 2 Total Stakeholder Value', dateRange2StudentValue: 'Date Range 2 Total Students Value', dateRange2AvgValue: 'Date Range 2 Avg Students Value'}
+            titleRow = { stateDataValue: title.value,districtDataValue: '',attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            dateRangeRow = {stateDataValue:'Date Range 1',districtDataValue:`${dateRange1Start.format("DD/MM/YYYY")}-${dateRange1End.format("DD/MM/YYYY")}`, attributes: '', dateRange1TotalValue: 'Date Range 2', dateRange1StudentValue: `${dateRange2Start.format("DD/MM/YYYY")}-${dateRange2End.format("DD/MM/YYYY")}`, dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            emptyRow = { stateDataValue:'',districtDataValue:'', attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+            headerValue = {stateDataValue: 'State',districtDataValue: 'District',attributes: `${attributeHeading}`, dateRange1TotalValue: 'Date Range 1 Total Stakeholder Value', dateRange1StudentValue: 'Date Range 1 Total Students Value', dateRange1AvgValue: 'Date Range 1 Avg Students Value', dateRange2TotalValue: 'Date Range 2 Total Stakeholder Value', dateRange2StudentValue: 'Date Range 2 Total Students Value', dateRange2AvgValue: 'Date Range 2 Avg Students Value'}
             
         }
+        else if (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10)) {
+          titleRow = {stateDataValue: title.value,districtDataValue: '',attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+          dateRangeRow = {stateDataValue:'Date Range 1',districtDataValue:`${dateRange1Start.format("DD/MM/YYYY")}-${dateRange1End.format("DD/MM/YYYY")}`, attributes: '', dateRange1TotalValue: 'Date Range 2', dateRange1StudentValue: `${dateRange2Start.format("DD/MM/YYYY")}-${dateRange2End.format("DD/MM/YYYY")}`, dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+          emptyRow = { stateDataValue:'',districtDataValue:'', attributes: '', dateRange1TotalValue: '', dateRange1StudentValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2StudentValue: '', dateRange2AvgValue: '' };
+          headerValue = {stateDataValue: 'State',districtDataValue: 'District',attributes: `${attributeHeading}`, dateRange1TotalValue: 'Date Range 1 Total Stakeholder Value', dateRange1StudentValue: 'Date Range 1 Percentage Improvement', dateRange1AvgValue: 'Date Range 1 Avg Students Value', dateRange2TotalValue: 'Date Range 2 Total Stakeholder Value', dateRange2StudentValue: 'Date Range 2 Percentage Improvement', dateRange2AvgValue: 'Date Range 2 Avg Students Value'}
+          
+      }
         else{
             titleRow = { stateDataValue: title.value,districtDataValue: '',attributes: '', dateRange1TotalValue: '', dateRange1AvgValue: '', dateRange2TotalValue: '', dateRange2AvgValue: '' };
             dateRangeRow = {stateDataValue:'Date Range 1',districtDataValue:`${dateRange1Start.format("DD/MM/YYYY")}-${dateRange1End.format("DD/MM/YYYY")}`, attributes: '', dateRange1TotalValue: 'Date Range 2',  dateRange1AvgValue: `${dateRange2Start.format("DD/MM/YYYY")}-${dateRange2End.format("DD/MM/YYYY")}`, dateRange2TotalValue:'' , dateRange2StudentValue: '', dateRange2AvgValue: '' };
@@ -114,7 +135,7 @@ export const getCsvHeaders = (title, category, cardKey) => {
     // Generate the data rows
     if(cardKey == 4){
         const dataRows = tableInfo.map(row => {
-            if (category === "Teachers" || category === "Parents") {
+            if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
               return {
                 attributes: row.attributes,
                 dateRange1TotalValue: row.dateRange1TotalValue,
@@ -136,13 +157,15 @@ export const getCsvHeaders = (title, category, cardKey) => {
           });
         
           // Return the combined rows
-          return [titleRow,emptyRow1,dateRangeRow, emptyRow,headerValue, ...dataRows];
+          return [titleRow,emptyRow,dateRangeRow, emptyRow,...filterRows,emptyRow,headerValue,emptyRow, ...dataRows];
 
     }
     else{
         const dataRows = tableInfo.map(row => {
-            if (category === "Teachers" || category === "Parents") {
+            if (category === "Teachers" || category === "Parents" || (category=="Students" && subtype =="r1" && (title.id == 12 || title.id == 13 || title.id == 10))) {
               return {
+                stateDataValue: row.stateDataValue,
+                districtDataValue: row.districtDataValue,
                 attributes: row.attributes,
                 dateRange1TotalValue: row.dateRange1TotalValue,
                 dateRange1StudentValue: row.dateRange1StudentValue,
@@ -163,9 +186,7 @@ export const getCsvHeaders = (title, category, cardKey) => {
               };
             } 
           });
-          console.log(selectedFiltersWithNames)
-          console.log(filterRows)
-          console.log(dataRows)
+          
         
           // Return the combined rows
           return [titleRow,emptyRow,dateRangeRow, emptyRow,...filterRows,emptyRow,headerValue,emptyRow, ...dataRows];

@@ -21,19 +21,30 @@ const dropdownOptions = [
   { id: 7, value: 'Top Performing Topics' },
   { id: 8, value: 'Weak Performing Topics' },
   { id: 9, value: 'Core-Retake- ( No of Students)' },
-  { id: 10, value: 'Core-Retake- (Average Score)' },
-  { id: 11, value: 'Subject Wise Breakdown - % Improvement' },
-  { id: 12, value: 'Grade wise- % Improvement Score' },
-  { id: 13, value: 'Topic wise breakdown - %Improvement' },
-  { id: 14, value: 'Topic wise breakdown - Student Attempts' }
+  { id: 10, value: 'Core-Retake- Percentage Improvement' },
+  // { id: 11, value: 'Subject Wise Breakdown - % Improvement' },
+  // { id: 12, value: 'Grade wise- % Improvement Score' },
+  // { id: 13, value: 'Topic wise breakdown - %Improvement' },
+  { id: 11, value: 'Topic wise breakdown - Student Attempts' },
+  { id: 12, value: 'Topic wise breakdown - Top Performing Topics' },
+  { id: 13, value: 'Topic wise breakdown - Weak Performing Topics' },
+
+
 ];
 
 //filters based on attribute id
 const commonAttributes = ['State', 'District', 'School', 'Grade', 'Social Group', 'Gender', 'Annual Income', 'Subject', 'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'];
+const commonAttributes1 = ['Subject','Grade','Quiz Names','State', 'District', 'School',  'Social Group', 'Gender', 'Annual Income',  'Mother Education', 'Father Education', 'Age Group', 'CWSN', 'Board of Education', 'School Location', 'School Management', 'School Category', 'School Type'];
 
 const attributeBasedDropdowns = {};
 dropdownOptions.forEach(option => {
-  attributeBasedDropdowns[option.id] = commonAttributes;
+  if(option.id == 12 || option.id == 13){
+    attributeBasedDropdowns[option.id] = commonAttributes1;
+  }
+  else{
+    attributeBasedDropdowns[option.id] = commonAttributes;
+  }
+
 });
 
 
@@ -49,10 +60,12 @@ const endpointMapping = {
   8: '/r1/weak-performing-topics-data',
   9: '/r1/core-retake-practice-stats',
   10: '/r1/core-retake-improvement-stats',
-  11: '/r1/subject-wise-breakdown-improve-stats',
-  12: '/r1/grade-wise-breakdown-improve-stats',
-  13: '/r1/topic-wise-breakdown-improve-stats',
-  14: '/r1/topic-wise-student-attempts-data',
+  // 11: '/r1/subject-wise-breakdown-improve-stats',
+  // 12: '/r1/grade-wise-breakdown-improve-stats',
+  // 13: '/r1/topic-wise-breakdown-improve-stats',
+  11: '/r1/topic-wise-student-attempts-data',
+  12: '/r1/topic-wise-breakdown-top-perform-topics-stats',
+  13: '/r1/topic-wise-breakdown-weak-perform-topics-stats',
 };
 
 const tableEndPoints = {
@@ -66,10 +79,12 @@ const tableEndPoints = {
   8: '/r1/weak-performing-topics-table',
   9: '/r1/core-retake-practice-table',
   10: '/r1/core-retake-improvement-table',
-  11: '/r1/subject-wise-breakdown-improve-table',
-  12: '/r1/grade-wise-breakdown-improve-table',
-  13: '/r1/topic-wise-breakdown-improve-table',
-  14: '/r1/topic-wise-student-attempts-table',
+  // 11: '/r1/subject-wise-breakdown-improve-table',
+  // 12: '/r1/grade-wise-breakdown-improve-table',
+  // 13: '/r1/topic-wise-breakdown-improve-table',
+  11: '/r1/topic-wise-student-attempts-table',
+  12: '/r1/topic-wise-breakdown-top-perform-topics-table',
+  13: '/r1/topic-wise-breakdown-weak-perform-topics-table',
 }
 
 //default chart data for first 3 cards
@@ -77,10 +92,10 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Purple)',
+      label: 'No of Students (Green)',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       barThickness: 30,
@@ -90,8 +105,8 @@ const defaultChartData = {
     {
       label: 'No of Students (Blue)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -99,9 +114,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Purple)',
+      label: 'Average score (Green)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -111,7 +126,7 @@ const defaultChartData = {
     {
       label: 'Average score (Blue)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -120,7 +135,58 @@ const defaultChartData = {
     },
   ],
 };
-
+//default chart data for key 12 and 13
+const defaultChartDataPercentageImprovement = {
+  labels: [],
+  datasets: [
+    // {
+    //   label: 'No of Students (Purple)',
+    //   type: 'bar',
+    //   backgroundColor: 'rgba(185,102,220,1)',
+    //   borderColor: 'rgba(185,102,220,1)',
+    //   borderWidth: 2,
+    //   data: [],
+    //   barThickness: 30,
+    //   borderRadius: 5,
+    //   order: 2,
+    // },
+    // {
+    //   label: 'No of Students (Blue)',
+    //   type: 'bar',
+    //   backgroundColor: 'rgba(68,198,212,1)',
+    //   borderColor: 'rgba(68,198,212,1)',
+    //   borderWidth: 2,
+    //   borderRadius: 5,
+    //   data: [],
+    //   barThickness: 30,
+    //   order: 2,
+    // },
+    {
+      label: 'Percentage Improvement (Green)',
+      type: 'line',
+      borderColor: '#75C57F',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      dataAvg: [],
+      dataImprovement: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Percentage Improvement (Blue)',
+      type: 'line',
+      borderColor: '#51B6F9',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      dataAvg: [],
+      dataImprovement: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
 //default chart data for region vs panIndia card(fourth card)
 const defaultChartDataCard4 = {
   labels: [],
@@ -128,8 +194,8 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: 'rgba(185,102,220,1)',
-      borderColor: 'rgba(185,102,220,1)',
+      backgroundColor: '#ACE9B4',
+      borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
       barThickness: 30,
@@ -139,8 +205,8 @@ const defaultChartDataCard4 = {
     {
       label: 'No of Students (Pan India)',
       type: 'bar',
-      backgroundColor: 'rgba(68,198,212,1)',
-      borderColor: 'rgba(68,198,212,1)',
+      backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
       borderWidth: 2,
       borderRadius: 5,
       data: [],
@@ -150,7 +216,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -160,7 +226,34 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
-      borderColor: 'rgba(177,185,192,1)',
+      borderColor: '#51B6F9',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+  ],
+};
+
+const defaultChartDataPercentageImprovementCard4 = {
+  labels: [],
+  datasets: [
+    
+    {
+      label: '',
+      type: 'line',
+      borderColor: '#75C57F',
+      borderWidth: 4,
+      fill: false,
+      data: [],
+      spanGaps: true,
+      order: 1,
+    },
+    {
+      label: 'Percentage Improvement (Pan India)',
+      type: 'line',
+      borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
       data: [],
@@ -172,20 +265,20 @@ const defaultChartDataCard4 = {
 
 
 //table headings
-const tableHeadings = [
-  
-  'Number of Students', 
-  'Average Score of Students',
-  'Number of Students', 
-  'Average Score of Students'
-];
+// const tableHeadings = [
+
+//   'Number of Students',
+//   'Average Score of Students',
+//   'Number of Students',
+//   'Average Score of Students'
+// ];
 
 const StudentSchoolAttributes_R1 = () => {
    const titleId = useParams();
    const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
-
+const [tableHeadings,setTableHeadings]= useState([])
   const defaultDateRange1Start = dayjs('2024-01-01');
   const defaultDateRange1End = dayjs('2024-01-31');
   const defaultDateRange2Start = dayjs('2024-03-01');
@@ -194,7 +287,7 @@ const StudentSchoolAttributes_R1 = () => {
   let defaultEndDateRange1= defaultDateRange1End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   let defaultStartDateRange2= defaultDateRange2Start.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
   let defaultEndDateRange2= defaultDateRange2End.format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-  
+
   const [loadingChart,setLoadingChart]=useState({
     0: false,
     1: false,
@@ -244,7 +337,7 @@ const StudentSchoolAttributes_R1 = () => {
     2: [],
     3: [],
     4: [],
-    
+
 });
 const [attributeNameValue, setAttributeNameValue] = useState({
   0: "",
@@ -252,7 +345,7 @@ const [attributeNameValue, setAttributeNameValue] = useState({
   2: "",
   3: "",
   4: "",
-  
+
 });
 
 
@@ -262,15 +355,15 @@ useEffect(() => {
   fetchData(3, filters[3],3);
   fetchTableInfo(3, filters[3],3)
   fetchData(4, filters[4],4);
-  
-  
+
+
 }, []);
 
 
   useEffect(() => {
-    
+
     if(titleId.id && [1, 2, 3, 4].includes(Number(titleId.id))){
-     
+
     fetchData(1, filters[1],1);
      fetchTableInfo(1, filters[1],1)
     setCardTitle(prevCardTitle => ({
@@ -279,19 +372,21 @@ useEffect(() => {
     }));
     }
     else{
-     
+
       setCardTitle(prevCardTitle => ({
         ...prevCardTitle,
         1: dropdownOptions[Number(titleId.id)-1]
-         
+
       }));
       fetchData(titleId.id, filters[titleId.id],1);
        fetchTableInfo(titleId.id, filters[titleId.id],1);
     }
+
     
-     fetchTableData(); 
-   
-    
+
+     fetchTableData();
+
+
   }, [titleId.id]);
 
 
@@ -300,20 +395,43 @@ useEffect(() => {
   const fetchTableData = () => {
     const firstOption = dropdownOptions[Number(titleId.id)-1];
       fetchTableInfo(firstOption.id, filters[firstOption.id], 0);
-    
-    
+
+
   };
 
   const fetchTableInfo = async (key, value,cardKey) => {
+    if(key == 12 ||key ==13 || key == 10){
+      setTableHeadings(
+        [
+            'Number of Students',
+            'Percenatge Improvement',
+            'Average Score of Students',
+            'Number of Students',
+            'Percenatge Improvement',
+            'Average Score of Students',
+          ]
+      )
+    }
+    else{
+      setTableHeadings(
+        [
+            'Number of Students',
+            'Average Score of Students',
+            'Number of Students',
+            'Average Score of Students'
+          ]
+      )
+
+    }
     setLoadingTable(prevValue => ({
       ...prevValue,
       [cardKey]: true,
     }));
 
-    
+
         const endpoint = tableEndPoints[key];
-      
-      
+
+
 
     try {
       let payload = {
@@ -321,8 +439,9 @@ useEffect(() => {
         transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1 : defaultEndDateRange1) : defaultEndDateRange1,
         transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2 : (cardKey==4)? null: defaultStartDateRange2) : (cardKey==4)? null: defaultStartDateRange2,
         transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2 : (cardKey==4)? null: defaultEndDateRange2) : defaultEndDateRange2,
-        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
-        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : (key==12 || key == 13)? 11: null) : (key==12 || key == 13)? 11: null,
+        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : (key==12 || key == 13)? "Maths": null) : (key==12 || key == 13)? "Maths": null,
+        quizName: value ? ((value['Quiz Names'] && value['Quiz Names'] !== 'All') ? value['Quiz Names'] : null) : null,
         schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
         stateId: value ? ((value.State && value.State !== "All") ? value.State : (cardKey==4)? 7: null) : (cardKey==4)? 7: null,
         districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
@@ -343,21 +462,21 @@ useEffect(() => {
         payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
-     
-      
+
+
       const res = await axios.post(endpoint, payload);
-       
+
        if(res.data.status && res.data.statusCode == 200){
         setLoadingTable(prevValue => ({
           ...prevValue,
           [cardKey]: false,
         }));
-        
+
           const result = res.data.result;
-          
+
           if(cardKey != 4){
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,"table",cardKey,result);
-              
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement] = parseResultData(key,"table",cardKey,result);
+              console.log(attributeName)
         setTableData(prevData => ({
           ...prevData,
           [cardKey]: newTableData,
@@ -366,9 +485,9 @@ useEffect(() => {
           ...prevData,
           [cardKey]: attributeName,
         }));
-       
+
       }
-      
+
     }
     else{
       console.log("error")
@@ -380,7 +499,7 @@ useEffect(() => {
         ...prevValue,
         [cardKey]: true,
       }));
-      
+
     }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -394,17 +513,40 @@ useEffect(() => {
       }));
     }
   };
-  
+
 
   //fetch card details function
   const fetchData = async (key, value,cardKey) => {
+    if(key == 12 ||key ==13 || key == 10){
+      setTableHeadings(
+        [
+            'Number of Students',
+            'Percenatge Improvement',
+            'Average Score of Students',
+            'Number of Students',
+            'Percenatge Improvement',
+            'Average Score of Students',
+          ]
+      )
+    }
+    else{
+      setTableHeadings(
+        [
+            'Number of Students',
+            'Average Score of Students',
+            'Number of Students',
+            'Average Score of Students'
+          ]
+      )
+
+    }
     setLoadingChart(prevValue => ({
       ...prevValue,
       [cardKey]: true,
     }));
 
         const endpoint = endpointMapping[key];
-      
+
 
     try {
       let payload = {
@@ -412,8 +554,9 @@ useEffect(() => {
         transactionDateTo1: value ? (value.endDateRange1 ? value.endDateRange1 : defaultEndDateRange1) : defaultEndDateRange1,
         transactionDateFrom2: value ? (value.startDateRange2 ? value.startDateRange2 : (cardKey==4)? null: defaultStartDateRange2) : (cardKey==4)? null: defaultStartDateRange2,
         transactionDateTo2: value ? (value.endDateRange2 ? value.endDateRange2 : (cardKey==4)? null: defaultEndDateRange2) : defaultEndDateRange2,
-        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : null) : null,
-        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : null) : null,
+        grades: value ? ((value.Grade && value.Grade !== 'All') ? value.Grade : (key==12 || key == 13)? 11: null) : (key==12 || key == 13)? 11: null,
+        subject: value ? ((value.Subject && value.Subject !== 'All') ? value.Subject : (key==12 || key == 13)? "Maths": null) : (key==12 || key == 13)? "Maths": null,
+        quizName: value ? ((value['Quiz Names'] && value['Quiz Names'] !== 'All') ? value['Quiz Names'] : null) : null,
         schoolLocation: value ? ((value['School Location'] && value['School Location'] !== 'All') ? value['School Location'] : null) : null,
         stateId: value ? ((value.State && value.State !== "All") ? value.State : (cardKey==4)? 7: null) : (cardKey==4)? 7: null,
         districtId: value ? ((value.District && value.District !== "All") ? value.District : null) : null,
@@ -434,10 +577,10 @@ useEffect(() => {
         payload.ageFrom = ageRange[0] ? parseInt(ageRange[0], 10) : null;
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
-     
-      
+
+
       const res = await axios.post(endpoint, payload);
-       
+
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({
           ...prevValue,
@@ -449,48 +592,76 @@ useEffect(() => {
         }));
           const result = res.data.result;
           if(cardKey == 4){
-           
+
                const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
                const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement] = parseResultDataCard4(key,cardKey, result);
+              if(key == 12 || key == 13 || key == 10){
+                setCardData(prevCardData => ({
+                  ...prevCardData,
+                  [cardKey]: {
+                    labels: labelsData,
+                    datasets: createDatasetsPercentageImprovementCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement,defaultStateName),
+                  }
+                 }));
+
+              }
+              else{
+                setCardData(prevCardData => ({
+                  ...prevCardData,
+                  [cardKey]: {
+                    labels: labelsData,
+                    datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
+                  }
+                 }));
+
+              }
+
               
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultDataCard4(key,cardKey, result);
-             
-              setCardData(prevCardData => ({
-                ...prevCardData,
-                [cardKey]: {
-                  labels: labelsData,
-                  datasets: createDatasetsCard4(dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName),
-                }
-               }));
-               
+
                setTableData(prevData => ({
                 ...prevData,
                 [cardKey]: newTableData,
               }));
-           
+
               setAttributeNameValue(prevData => ({
                 ...prevData,
                 [cardKey]: attributeName,
               }));
-               
+
           }
           else{
-              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName] = parseResultData(key,"card",cardKey,result);
-              setCardData(prevCardData => ({
-              ...prevCardData,
-              [cardKey]: {
-              labels: labelsData,
-              datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
-          }
-        }));
-       
+              const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement] = parseResultData(key,"card",cardKey,result);
+              if(key == 12 || key == 13 || key == 10){
+                setCardData(prevCardData => ({
+                  ...prevCardData,
+                  [cardKey]: {
+                  labels: labelsData,
+                  datasets: createDatasetsPercentageImprovement(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement),
+              }
+            }));
+
+              }
+              else{
+                setCardData(prevCardData => ({
+                  ...prevCardData,
+                  [cardKey]: {
+                  labels: labelsData,
+                  datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg),
+              }
+            }));
+
+              }
+
+
         setAttributeNameValue(prevData => ({
           ...prevData,
           [cardKey]: attributeName,
         }));
-       
+
       }
-      
+
     }
     else{
       console.log("error")
@@ -502,7 +673,7 @@ useEffect(() => {
         ...prevValue,
         [cardKey]: true,
       }));
-      
+
     }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -530,24 +701,31 @@ useEffect(() => {
       7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
       8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region',attributeName:'Quiz Attempt' },
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_improvement_region',attributeName:'Quiz Attempt' },
-      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Subject' },
-      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Grade' },
-      13: { key: 'topic_name', dataOneKey: 'num_students_state',dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
-      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',avgKeyImprovement: 'avg_improvement_region',attributeName:'Quiz Attempt' },
+      // 11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Subject' },
+      // 12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Grade' },
+      // 13: { key: 'topic_name', dataOneKey: 'num_students_state',dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
+      11: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
+      12: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',avgKeyImprovement: 'avg_improvement',attributeName:'Quiz Attempt' },
+      13: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',avgKeyImprovement: 'avg_improvement',attributeName:'Quiz Attempt' },
     };
-   
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey,attributeName } = mappings[key];
-    setCardMapping(mappings)
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey,avgKeyImprovement,attributeName } = mappings[key];
+
     let labelsData = [];
     let dataOne = [];
     let dataOneAvg = [];
+    let dataOneAvgImprovement = [];
     let dataTwo = [];
     let dataTwoAvg = [];
+    let dataTwoAvgImprovement = [];
     let newTableData = [];
+    let attributeNameVal="";
     if(type == "card"){
       if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
+        
+        attributeNameVal = attributeName
+        setCardMapping(mappings)
         if(result.dataStateOne.length == 0){
           setDataAvailable(prevValue => ({
             ...prevValue,
@@ -568,7 +746,7 @@ useEffect(() => {
           dataOneAvg = labelsData.map(label => {
             const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
             return parseFloat(value.toFixed(2));
-          }); 
+          });
            dataTwo = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
          dataTwoAvg = labelsData.map(label => {
           const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
@@ -578,7 +756,53 @@ useEffect(() => {
         }
 
       }
+      else if(key == 12 || key == 13 || key == 10){
+       
+        attributeNameVal = attributeName
+        setCardMapping(mappings)
+        if(result.dataStateOne.length == 0 && result.dataStateTwo.length == 0){
+          setDataAvailable(prevValue => ({
+            ...prevValue,
+            [cardKey]: true,
+          }));
+
+        }else{
+          setDataAvailable(prevValue => ({
+            ...prevValue,
+            [cardKey]: false,
+          }));
+
+          const allLabels = new Set([
+            ...result.dataStateOne.map(item => item[labelKey]),
+            ...result.dataStateTwo.map(item => item[labelKey])
+          ]);
+          labelsData = Array.from(allLabels);
+          dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+          dataOneAvg = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+          dataOneAvgImprovement = labelsData.map(label => {
+            const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement] || 0;
+            return parseFloat(value.toFixed(2));
+          });
+           dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+         dataTwoAvg = labelsData.map(label => {
+          const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
+          return parseFloat(value.toFixed(2));
+        });
+        dataTwoAvgImprovement = labelsData.map(label => {
+          const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKeyImprovement] || 0;
+          return parseFloat(value.toFixed(2));
+        });
+
+        }
+
+      }
       else{
+        
+        attributeNameVal = attributeName
+        setCardMapping(mappings)
         if(result.dataStateOne.length == 0 && result.dataStateTwo.length == 0){
           setDataAvailable(prevValue => ({
             ...prevValue,
@@ -590,23 +814,23 @@ useEffect(() => {
             ...prevValue,
             [cardKey]: false,
           }));
-        
-         
+
+
 
         const allLabels = new Set([
           ...result.dataStateOne.map(item => item[labelKey]),
           ...result.dataStateTwo.map(item => item[labelKey])
         ]);
-      
-       
-    
+
+
+
          labelsData = Array.from(allLabels);
          dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
          dataOneAvg = labelsData.map(label => {
           const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey] || 0;
           return parseFloat(value.toFixed(2));
         });
-      
+
          dataTwo = labelsData.map(label => result.dataStateTwo.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
          dataTwoAvg = labelsData.map(label => {
           const value = result.dataStateTwo.find(item => item[labelKey] === label)?.[avgKey] || 0;
@@ -616,10 +840,10 @@ useEffect(() => {
         }
 
       }
-     
+
     }
-    
-     
+
+
 if(type == "table"){
   if(result.dataStateOne.length == 0){
     setDataAvailable(prevValue => ({
@@ -634,29 +858,76 @@ if(type == "table"){
     [cardKey]: false,
   }));
   const labelValue = mappings[key].key
+  if(key == 12 || key ==13 ){
+    result.dataStateOne.map(value=>{
 
-     result.dataStateOne.map(value=>{
-       
-           
-            newTableData.push({
-              stateDataValue: value.state_name,
-              districtDataValue: value.district_name,
-              attributes: value[labelValue],
-              dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-              dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-              dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-              dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
 
-           
-          
-        })
-      })
- 
+      newTableData.push({
+        stateDataValue: value.state_name,
+        districtDataValue: value.district_name,
+        attributes: value[labelValue],
+        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+        dateRange1StudentValue: value.avg_improvement1? (parseFloat((value.avg_improvement1).toFixed(2))) : '0',
+        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+        dateRange2StudentValue: value.avg_improvement2? (parseFloat((value.avg_improvement2).toFixed(2))) : '0',
+
+
+
+  })
+})
+
+  }
+  else if( key == 10){
+    result.dataStateOne.map(value=>{
+
+
+      newTableData.push({
+        stateDataValue: value.state_name,
+        districtDataValue: value.district_name,
+        attributes: value[labelValue],
+        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+        dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
+        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+        dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
+
+
+
+  })
+})
+
+  }
+  else{
+    result.dataStateOne.map(value=>{
+
+
+      newTableData.push({
+        stateDataValue: value.state_name,
+        districtDataValue: value.district_name,
+        attributes: value[labelValue],
+        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+
+
+
+  })
+})
+
+  }
+
+
+
 }
- 
+
     }
-   
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName];
+    console.log(attributeNameVal)
+
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement];
   };
 
   //parse region vs pan India card details
@@ -671,22 +942,26 @@ if(type == "table"){
       7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
       8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_pan_india',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india',attributeName:'Quiz Attempt'},
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students',avgKey1: 'avg_improvement_region', avgKey2: 'avg_improvement_nation',attributeName:'Quiz Attempt' },
-      11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Subject' },
-      12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Grade' },
-      13: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
-      14: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',avgKeyImprovement1: 'avg_improvement_region',avgKeyImprovement2: 'avg_improvement_nation',attributeName:'Quiz Attempt' },
+      // 11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Subject' },
+      // 12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Grade' },
+      // 13: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
+      11: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },
+      12: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',avgKeyImprovement1: 'avg_improvement',avgKeyImprovement2: 'avg_improvement',attributeName:'Quiz Attempt' },
+      13: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',avgKeyImprovement: 'avg_improvement',attributeName:'Quiz Attempt' },
     };
 
-    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,attributeName } = mappings[key];
+    const { key: labelKey, dataOneKey, dataTwoKey, avgKey1,avgKey2,avgKeyImprovement1,avgKeyImprovement2,attributeName } = mappings[key];
     setCard4Mapping(mappings)
     let labelsData = [];
     let dataOne = [];
     let dataOneAvg = [];
+    let dataOneAvgImprovement = [];
     let dataTwo = [];
     let dataTwoAvg = [];
     let newTableData = [];
-    
+    let dataTwoAvgImprovement = [];
+
     if(key == 5 || key == 6 || key == 7 || key == 8 || key == 14){
       if(result.dataStateOne.length == 0){
         setDataAvailable(prevValue => ({
@@ -710,7 +985,7 @@ if(type == "table"){
         dataOneAvg = labelsData.map(label => {
           const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
           return parseFloat(value.toFixed(2));
-        }); 
+        });
          dataTwo = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
        dataTwoAvg = labelsData.map(label => {
         const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey2] || 0;
@@ -725,7 +1000,59 @@ if(type == "table"){
       }));
 
       }
-     
+
+
+    }
+    else if(key == 12 || key == 13 || key == 10){
+
+      if(result.dataStateOne.length == 0  && result.dataNation.length == 0){
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: true,
+        }));
+      }
+      else{
+
+        setDataAvailable(prevValue => ({
+          ...prevValue,
+          [cardKey]: false,
+        }));
+
+        const allLabels = new Set([
+          ...result.dataStateOne.map(item => item[labelKey]),
+          ...result.dataNation.map(item => item[labelKey])
+        ]);
+
+       labelsData = Array.from(allLabels);
+         dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
+        dataOneAvg = labelsData.map(label => {
+          const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
+          return parseFloat(value.toFixed(2));
+        });
+        dataOneAvgImprovement = labelsData.map(label => {
+          const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement1] || 0;
+          return parseFloat(value.toFixed(2));
+        });
+         dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
+       dataTwoAvg = labelsData.map(label => {
+        const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+      dataTwoAvgImprovement = labelsData.map(label => {
+        const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKeyImprovement2] || 0;
+        return parseFloat(value.toFixed(2));
+      });
+       newTableData = labelsData.map(label => ({
+        attributes: label,
+        dateRange1TotalValue: result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0,
+        dateRange1AvgValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0).toFixed(2)),
+        dateRange1StudentValue: parseFloat((result.dataStateOne.find(item => item[labelKey] === label)?.[avgKeyImprovement1] || 0).toFixed(2)),
+        dateRange2TotalValue: result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0,
+        dateRange2AvgValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0).toFixed(2)),
+        dateRange2StudentValue: parseFloat((result.dataNation.find(item => item[labelKey] === label)?.[avgKeyImprovement2] || 0).toFixed(2)),
+      }));
+
+      }
 
     }
     else{
@@ -746,13 +1073,13 @@ if(type == "table"){
           ...result.dataStateOne.map(item => item[labelKey]),
           ...result.dataNation.map(item => item[labelKey])
         ]);
-      
+
        labelsData = Array.from(allLabels);
          dataOne = labelsData.map(label => result.dataStateOne.find(item => item[labelKey] === label)?.[dataOneKey] || 0);
         dataOneAvg = labelsData.map(label => {
           const value = result.dataStateOne.find(item => item[labelKey] === label)?.[avgKey1] || 0;
           return parseFloat(value.toFixed(2));
-        }); 
+        });
          dataTwo = labelsData.map(label => result.dataNation.find(item => item[labelKey] === label)?.[dataTwoKey] || 0);
        dataTwoAvg = labelsData.map(label => {
         const value = result.dataNation.find(item => item[labelKey] === label)?.[avgKey2] || 0;
@@ -767,15 +1094,15 @@ if(type == "table"){
       }));
 
       }
-    
+
 
     }
-  
-    
-   
- 
-  
-    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName];
+
+
+
+
+
+    return [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg,newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement];
   };
 
   //datasets creation for first three cards based on default chart data
@@ -786,6 +1113,11 @@ if(type == "table"){
     { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
   ];
 
+  const createDatasetsPercentageImprovement = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement) => [
+    { ...defaultChartDataPercentageImprovement.datasets[0], data: dataOneAvgImprovement || [],dataAvg: dataOneAvg || [],dataImprovement:dataOne || [] },
+    { ...defaultChartDataPercentageImprovement.datasets[1], data: dataTwoAvgImprovement || [],dataAvg: dataTwoAvg || [],dataImprovement:dataTwo || [] },
+  ];
+
   //datasets creation for region vs panIndia card(4TH CARD) based on default chart data
   const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,defaultStateName) => [
     { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of Students (${defaultStateName})`, },
@@ -794,9 +1126,15 @@ if(type == "table"){
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
 
+  const createDatasetsPercentageImprovementCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneAvgImprovement,dataTwoAvgImprovement,defaultStateName) => [
+    { ...defaultChartDataPercentageImprovementCard4.datasets[0], data: dataOneAvgImprovement || [],dataAvg: dataOneAvg || [],dataImprovement:dataOne || [],label: `Percentage Improvement (${defaultStateName})` },
+    { ...defaultChartDataPercentageImprovementCard4.datasets[1], data: dataTwoAvgImprovement || [],dataAvg: dataTwoAvg || [],dataImprovement:dataTwo || [] },
+  ];
+
   //callback function when filter or attribute is changed
   const onFilterChange = (key, value,cardKey) => {
-   
+   console.log(key)
+   console.log(value)
     setFilters(prevFilters => ({
       ...prevFilters,
       [key]: value,
@@ -809,7 +1147,7 @@ if(type == "table"){
     }));
     if(cardKey == 4){
       fetchData(key, value,cardKey);
-      
+
     }
     else if(cardKey == 0){
       fetchTableInfo(key, value,cardKey);
@@ -818,12 +1156,12 @@ if(type == "table"){
       fetchData(key, value,cardKey);
       fetchTableInfo(key, value,cardKey);
     }
-     
+
   };
 
-console.log(cardData)
+console.log(attributeNameValue)
 
-  
+
     return (
     <div>
       <h2>Student R1 Attributes</h2>
@@ -831,11 +1169,11 @@ console.log(cardData)
       {dropdownOptions.slice(0, 4).map((option, index) => (
         option.id != 4 ? (
           <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
-            <CardComponent 
+            <CardComponent
              key={option.id}
-             title={cardTitle[option.id]} 
-             dropdownOptions={dropdownOptions} 
-             attributeBasedDropdowns={attributeBasedDropdowns} 
+             title={cardTitle[option.id]}
+             dropdownOptions={dropdownOptions}
+             attributeBasedDropdowns={attributeBasedDropdowns}
              chartData={cardData[option.id] || defaultChartData}
              onFilterChange={onFilterChange}
              cardKey={option.id}
@@ -847,45 +1185,45 @@ console.log(cardData)
              dataAvailableStatus={dataAvailable[option.id]}
              category="Students"
              subtype = "r1"
-             tableInfo={tableData[option.id]} 
-             tableHeadings={tableHeadings} 
+             tableInfo={tableData[option.id]}
+             tableHeadings={tableHeadings}
              attributeHeading={attributeNameValue[option.id]}
-              
+
             />
           </Grid>
          ):(
               <Grid item xs={12} sm={6} md={6} lg={6} key={option.id}>
-            <CardFourComponent 
+            <CardFourComponent
                key={option.id}
-               title={cardTitle[option.id]} 
-               dropdownOptions={dropdownOptions} 
-               attributeBasedDropdowns={attributeBasedDropdowns} 
+               title={cardTitle[option.id]}
+               dropdownOptions={dropdownOptions}
+               attributeBasedDropdowns={attributeBasedDropdowns}
                chartData={cardData[option.id] || defaultChartData}
                onFilterChange={onFilterChange}
                cardKey={option.id}
                loadingStatusChart={loadingChart[option.id]}
                loadingStatusTable={loadingTable[option.id]}
                apiEndPoints={endpointMapping}
-               cardMapping={cardMapping}
+               cardMapping={card4Mapping}
                dataAvailableStatus={dataAvailable[option.id]}
                category="Students"
                subtype = "r1"
-               tableInfo={tableData[option.id]} 
-               tableHeadings={tableHeadings} 
+               tableInfo={tableData[option.id]}
+               tableHeadings={tableHeadings}
                attributeHeading={attributeNameValue[option.id]}
-              
+
             />
           </Grid>
          )
         ))}
-       
+
         <Grid item xs={12}>
-          <TableComponent 
+          <TableComponent
           titleId={titleId.id}
-          dropdownOptions={dropdownOptions} 
-          attributeBasedDropdowns={attributeBasedDropdowns} 
-          tableInfo={tableData[0]} 
-          tableHeadings={tableHeadings} 
+          dropdownOptions={dropdownOptions}
+          attributeBasedDropdowns={attributeBasedDropdowns}
+          tableInfo={tableData[0]}
+          tableHeadings={tableHeadings}
           onFilterChange={onFilterChange}
           tableKey={0}
           loadingStatusTable={loadingTable[0]}

@@ -13,11 +13,13 @@ import pdfExport from './PdfExport';
 import excelExport from './ExcelExport';
 import { getCsvDataRows, getCsvHeaders } from './CsvExport';
 import { CSVLink } from "react-csv";
+import axios from '../../../utils/axios';
 
 
 
 function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,tableInfo,tableHeadings,onFilterChange,tableKey,loadingStatusTable,dataAvailableStatus,category,subtype,attributeHeading }) {
-  console.log(attributeHeading)
+  console.log(titleId)
+  console.log(dropdownOptions)
   
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   
@@ -31,11 +33,29 @@ function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,table
   const tableData = tableInfo; 
   const [dropdowns, setDropdowns] = useState(attributeBasedDropdowns[selectedAttribute] || []);
   const [availableFilters, setAvailableFilters] = useState([]);
+  const [quizNames, setQuizNames] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const initialFilters = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}) : {};
-  const [selectedFilters, setSelectedFilters] = useState(initialFilters);
+  const defaultSubject = "Maths";
+  const defaultGrade = 11;
+  const defaultQuizName = "All";
+  const initializeFilters = (id) => {
+    if ((id === 12 || id === 13) && subtype === 'r1') {
+      return {
+        Subject: defaultSubject,
+        Grade: defaultGrade,
+        'Quiz Names': defaultQuizName,
+      };
+    } else {
+      return attributeBasedDropdowns[id]
+        ? attributeBasedDropdowns[id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+        : {};
+    }
+  };
+
+  const [selectedFilters, setSelectedFilters] = useState(initializeFilters(titleId));
   const [districtOptions, setDistrictOptions] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  console.log(selectedFilters)
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -101,6 +121,14 @@ const mapDistricts = (districts) => {
   }));
 };
 
+const mapSchoolType = (schoolTypes) => {
+  return schoolTypes.map(schoolTypeObj => schoolTypeObj.school_type);
+};
+
+const mapQuizNames = (quizNames) => {
+  return quizNames.map(quizNamesObj => quizNamesObj.quiz_name);
+};
+
 //filter dropdowns
 const attributeOptions = {
   "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
@@ -119,9 +147,10 @@ const attributeOptions = {
   "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
   "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
   "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
-  "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
-    "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
-    "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "School Type": filterOptions ? (filterOptions.schoolType ? ['All', ...mapSchoolType(filterOptions.schoolType)] : ['All']) : ['All'],
+  "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+  "Quiz Names": quizNames ? quizNames: ['All'],
 };
 
 
@@ -129,19 +158,23 @@ useEffect(() => {
   setSelectedAttribute(initialAttribute); // Update selectedAttribute when titleId changes
   let titleValue = dropdownOptions.find(option => option.id === initialAttribute)
   setTitle(titleValue)
+  if(initialAttribute == 12 || initialAttribute == 13){
+    handleQuizNames(initialAttribute)
+  }
+  setSelectedFilters(initializeFilters(selectedAttribute));
+ 
 }, [titleId]);
 
   useEffect(() => {
     const newDropdowns = attributeBasedDropdowns ? attributeBasedDropdowns[selectedAttribute]?.slice(0, 3) : [];
     setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
+    if(initialAttribute == 12 || initialAttribute == 13){
+      handleQuizNames(initialAttribute)
+    }
+    setSelectedFilters(initializeFilters(selectedAttribute));
+    // setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
   }, [attributeBasedDropdowns, selectedAttribute]);
 
-  // useEffect(() => {
-  //   const usedFilters = new Set(dropdowns);
-  //   setAvailableFilters(Object.keys(attributeBasedDropdowns[selectedAttribute]).filter(option => !usedFilters.has(option)));
- 
-  // }, [dropdowns]);
 
  
 
@@ -151,17 +184,56 @@ useEffect(() => {
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  const handleQuizNames= async (value)=> {
+    try {
+      const response = await axios.post("/fetch-topics", {
+        subject: defaultSubject,
+        grade: defaultGrade,
+      });
+      if(value == 12){
+      const topicNames = response.data.result.topTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+      }
+      else if(value == 13){
+        const topicNames = response.data.result.weakTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+
+      }
+    } catch (error) {
+      console.error('Error fetching topics:', error);
+    }
+
+  }
+
   //attribute change function
-  const handleAttributeChange = (event, value) => {
-    console.log(value)
-    setSelectedAttribute(value.id);
-    let titleValue = dropdownOptions.find(option => option.id === value.id)
-  setTitle(titleValue)
-    const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
-    setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-    onFilterChange(value.id,{ ...selectedFilters },tableKey)
+  const handleAttributeChange = async (event, value) => {
+    if ((value.id === 12 || value.id === 13) && subtype == "r1" ) {
+      const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+      setDropdowns(newDropdowns);
+  
+      const updatedFilters = {
+        Subject: defaultSubject,
+        Grade: defaultGrade,
+        "Quiz Names": defaultQuizName,
+      };
+  
+      handleQuizNames(value.id);
+  
+      setSelectedAttribute(value.id);
+      setSelectedFilters(updatedFilters);
+      onFilterChange(value.id, updatedFilters, tableKey);
+    } else {
+      const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+      setDropdowns(newDropdowns);
+  
+      const updatedFilters = newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {});
+      setSelectedFilters(updatedFilters);
+      setSelectedAttribute(value.id);
+      onFilterChange(value.id, updatedFilters, tableKey);
+    }
   };
+
+  console.log(quizNames)
 
   //add more dropdowns
   const handleAddDropdown = (event, value) => {
@@ -175,7 +247,11 @@ useEffect(() => {
 
   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
-    
+    console.log(list)
+    console.log(value)
+    console.log(key)
+  
+    if(value != undefined && list != undefined){
     if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
       if (typeof value === 'object') {
@@ -203,6 +279,7 @@ useEffect(() => {
     }
   
   }
+}
   };
 
   //filter change function
@@ -267,16 +344,10 @@ useEffect(() => {
       default:
         break;
     }
-    setSelectedFilters(newFilters);
+    // setSelectedFilters(newFilters);
     onFilterChange(selectedAttribute, newFilters,tableKey);
   };
-  const selectedFiltersWithNames = Object.fromEntries(
-    Object.entries(selectedFilters).map(([key, value]) => {
-      const options = attributeOptions[key];
-      const selectedOption = options.find(option => (typeof option === 'object' ? option.id === value : option === value));
-      return [key, typeof selectedOption === 'object' ? selectedOption.name : selectedOption];
-    })
-  );
+  
 
   
 
@@ -284,13 +355,13 @@ useEffect(() => {
 
   const exportAsPDF = () => {
 
-    pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,tableKey)
+    pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype, dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,tableKey)
     setAnchorEl(null);
     
     };
   
     const exportAsExcel = () => {
-      excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,tableKey)
+      excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,tableKey)
       setAnchorEl(null);
       
     };
@@ -304,13 +375,13 @@ useEffect(() => {
   
   
   
-  const headers = getCsvHeaders(title,category,tableKey);
-  const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,tableKey);
+  const headers = getCsvHeaders(title,category,subtype,tableKey);
+  const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,subtype,tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,tableKey);
 
   return (
     <Card className='dashboard-card'>
      
-        <Typography variant="h6" sx={{ backgroundColor: '#0948a6', padding: '8px', borderRadius: '4px', mb: 2,color: '#fff',  }}>
+        <Typography variant="h6" sx={{ backgroundColor: '#DBEDFF', padding: '8px', borderRadius: '4px', mb: 2,color: '#082f68',border: '1px solid #082f68'  }}>
           Table Format Details
         </Typography>
         <CardContent>
@@ -367,10 +438,10 @@ useEffect(() => {
               <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Typography
-                  variant="subtitle1"
+                  variant="body1" color='#082f68' mb={1}
                 
                 >
-                  Date Range 1:
+                  <b>Date Range 1:</b>
                 </Typography>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6} lg={6}>
@@ -405,10 +476,10 @@ useEffect(() => {
               <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Typography
-                  variant="subtitle1"
+                  variant="body1" color='#082f68' mb={1}
                 
                 >
-                  Date Range 2:
+                  <b>Date Range 2:</b>
                 </Typography>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6} lg={6}>
@@ -445,7 +516,7 @@ useEffect(() => {
                 <>
               
              <Grid item xs={12} sm={2} md={2} lg={2} >
-            <Button  variant='contained' disabled={true} sx={{mt:4.5}}>Export</Button>
+            <Button  disabled={true} sx={{mt:4.5}}>Export</Button>
             </Grid> 
             </>
              ):(
@@ -457,7 +528,7 @@ useEffect(() => {
               <>
               
               <Grid item xs={12} sm={2} md={2} lg={2} >
-              <Button  variant='contained' sx={{mt:4.5}} onClick={handleClick}>Export</Button>
+              <Button  variant='contained' sx={{mt:4.5,border:"1px solid #082f68",fontSize:"12px" ,fontWeight:"bold",color:"#082f68" ,backgroundColor: '#DBEDFF',fontFamily: "Inter"}} onClick={handleClick}>Export</Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={exportAsPDF}>Export as PDF</MenuItem>
         <MenuItem onClick={exportAsExcel}>Export as Excel</MenuItem>
@@ -492,7 +563,7 @@ useEffect(() => {
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == "Teachers" || category=="Parents") ? (
+          {(category == "Teachers" || category=="Parents" || (category=="Students" && subtype =="r1" && (titleId == 12 || titleId == 13))) ? (
             <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

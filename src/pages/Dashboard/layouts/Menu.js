@@ -92,24 +92,34 @@ export const menu = [
         pageLink: '/studentR1Attributes/10',
         view: <StudentSchoolAttributes_R1 />,
       },
+      // {
+      //   title: "Subject Wise Breakdown - % Improvement",
+      //   pageLink: '/studentR1Attributes/11',
+      //   view: <StudentSchoolAttributes_R1  />,
+      // },
+      // {
+      //   title: "Grade wise- % Improvement Score",
+      //   pageLink: '/studentR1Attributes/12',
+      //   view: <StudentSchoolAttributes_R1  />,
+      // },
+      // {
+      //   title: "Topic wise breakdown - %Improvement",
+      //   pageLink: '/studentR1Attributes/13',
+      //   view: <StudentSchoolAttributes_R1  />,
+      // },
       {
-        title: "Subject Wise Breakdown - % Improvement",
+        title: "Topic wise breakdown - Student Attempts",
         pageLink: '/studentR1Attributes/11',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Grade wise- % Improvement Score",
+        title: "Topic wise breakdown - Top Performing Topics",
         pageLink: '/studentR1Attributes/12',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topic wise breakdown - %Improvement",
+        title: "Topic wise breakdown - Weak Performing Topics",
         pageLink: '/studentR1Attributes/13',
-        view: <StudentSchoolAttributes_R1  />,
-      },
-      {
-        title: "Topic wise breakdown - Student Attempts",
-        pageLink: '/studentR1Attributes/14',
         view: <StudentSchoolAttributes_R1  />,
       },
     ],

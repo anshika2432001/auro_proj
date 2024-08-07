@@ -4,6 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Chart } from 'react-chartjs-2';
+import axios from '../../../utils/axios';
 import dayjs from 'dayjs';
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -23,12 +24,13 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatusChart,loadingStatusTable,apiEndPoints,apiEndPointsTable,cardMapping,dataAvailableStatus,category,subtype,tableInfo,tableHeadings,attributeHeading }) {
 console.log(loadingStatusChart,loadingStatusTable)
-console.log(dataAvailableStatus)
+console.log(chartData)
 const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
   const navigate = useNavigate();
   const csvLinkRef = useRef(null);
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
+  const [quizNames, setQuizNames] = useState([]);
   const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
   const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));
   const [dateRange2Start, setDateRange2Start] = useState(dayjs('2024-03-01'));
@@ -38,9 +40,29 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   const [dropdowns, setDropdowns] = useState(initialDropdowns);
   const [availableFilters, setAvailableFilters] = useState([]);
   const [showAddMore, setShowAddMore] = useState(true);
-  const initialFilters = attributeBasedDropdowns[title.id]
-  ? attributeBasedDropdowns[title.id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
-  : {};
+  const defaultSubject = "Maths";
+  const defaultGrade = 11;
+  const defaultQuizName = "All";
+
+  const initializeFilters = (id) => {
+    if ((id == 12 || id == 13) && subtype == "r1") {
+      return {
+        Subject: defaultSubject,
+        Grade: defaultGrade,
+        "Quiz Names": defaultQuizName,
+      };
+    }
+    else{
+      return attributeBasedDropdowns[id]
+      ? attributeBasedDropdowns[id].slice(0, 3).reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {})
+      : {};
+
+    }
+
+  
+  };
+
+  const initialFilters = initializeFilters(title.id);
   const [selectedFilters, setSelectedFilters] = useState(initialFilters);
   const [districtOptions, setDistrictOptions] = useState([]);
   const chartRef = useRef(null);
@@ -64,6 +86,9 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   };
   const mapSubjects = (subjects) => {
     return subjects.map(subjectObj => subjectObj.subject);
+  };
+  const mapSchoolType = (schoolTypes) => {
+    return schoolTypes.map(schoolTypeObj => schoolTypeObj.school_type);
   };
   const mapAgeGroups = (ageGroups) => {
     return ageGroups.map(ageGroupObj => ageGroupObj.age_group);
@@ -110,6 +135,9 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     }));
   };
  
+  const mapQuizNames = (quizNames) => {
+    return quizNames.map(quizNamesObj => quizNamesObj.quiz_name);
+  };
   //filter dropdown options
   const attributeOptions = {
     "State": filterOptions ? (filterOptions.states ? [{ id: 'All', name: 'All' }, ...mapStateNames(filterOptions.states)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
@@ -128,9 +156,10 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     "School Location": filterOptions ? (filterOptions.schoolLocation ?  [{ id: 'All', name: 'All' }, ...mapSchoolLocation(filterOptions.schoolLocation)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "School Management": filterOptions ? (filterOptions.schoolManagement ? [{ id: 'All', name: 'All' }, ...mapSchoolManagement(filterOptions.schoolManagement)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }], 
     "School Category": filterOptions ? (filterOptions.schoolLocation ? ['All', ...mapSchoolLocation(filterOptions.schoolLocation)] : ['All']) : ['All'],
-    "School Type": ['All', 'Girls', 'Boys', 'Co-Ed'],
+    "School Type": filterOptions ? (filterOptions.schoolType ? ['All', ...mapSchoolType(filterOptions.schoolType)] : ['All']) : ['All'],
     "Qualification": filterOptions ? (filterOptions.qualificationTeachers ? [{ id: 'All', name: 'All' }, ...mapQualification(filterOptions.qualificationTeachers)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
     "Mode of Employment": filterOptions ? (filterOptions.modeOfEmploymentTeacher ? [{ id: 'All', name: 'All' }, ...mapEmployment(filterOptions.modeOfEmploymentTeacher)] : [{ id: 'All', name: 'All' }]) : [{ id: 'All', name: 'All' }],
+    "Quiz Names": quizNames ? quizNames: ['All'],
     
   };
 
@@ -138,18 +167,25 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   useEffect(() => {
     
     setSelectedAttribute(title.id); 
+    const initialFilters = initializeFilters(title.id);
+    setSelectedFilters(initialFilters);
+    if(title.id == 12 || title.id == 13){
+      handleQuizNames(title.id)
+    }
    
   }, [title.id]);
 
  
  
 //updated selectedAttribute and filters based on title and attributeBasedDropdowns
-  useEffect(() => {
-     setSelectedAttribute(title.id);
-    const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
-    setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-  }, [title, attributeBasedDropdowns]);
+useEffect(() => {
+  setSelectedAttribute(title.id);
+  const newDropdowns = attributeBasedDropdowns[title.id] ? attributeBasedDropdowns[title.id].slice(0, 3) : [];
+  setDropdowns(newDropdowns);
+
+  const initialFilters = initializeFilters(title.id);
+  setSelectedFilters(initialFilters);
+}, [title, attributeBasedDropdowns]);
 
 
 //show avaialable filters in the dropdown which are not used or selected till now
@@ -159,14 +195,56 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
     setAvailableFilters(Object.keys(attributeOptions).filter(option => !usedFilters.has(option)));
   }, [dropdowns]);
 
+  const handleQuizNames= async (value)=> {
+    try {
+      const response = await axios.post("/fetch-topics", {
+        subject: defaultSubject,
+        grade: defaultGrade,
+      });
+      if(value == 12){
+      const topicNames = response.data.result.topTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+      }
+      else if(value == 13){
+        const topicNames = response.data.result.weakTopicNames;
+      setQuizNames(['All', ...mapQuizNames(topicNames)]);
+
+      }
+    } catch (error) {
+      console.error('Error fetching topics:', error);
+    }
+
+  }
+
   //handle attribute change function
-  const handleAttributeChange = (event, value) => {
-    setSelectedAttribute(value.id);
-    const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
-    setDropdowns(newDropdowns);
-    setSelectedFilters(newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {}));
-    onFilterChange(value.id, { ...selectedFilters },cardKey);
+  const handleAttributeChange = async (event, value) => {
+    if ((value.id === 12 || value.id === 13) && subtype == "r1" ) {
+      const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+      setDropdowns(newDropdowns);
+      
+  
+      const updatedFilters = {
+        Subject: defaultSubject,
+        Grade: defaultGrade,
+        "Quiz Names": defaultQuizName,
+      };
+  
+      handleQuizNames(value.id);
+  
+      setSelectedAttribute(value.id);
+      setSelectedFilters(updatedFilters);
+      onFilterChange(value.id, updatedFilters, cardKey);
+    } else {
+      const newDropdowns = attributeBasedDropdowns[value.id] ? attributeBasedDropdowns[value.id].slice(0, 3) : [];
+      setDropdowns(newDropdowns);
+  
+      const updatedFilters = newDropdowns.reduce((acc, curr) => ({ ...acc, [curr]: 'All' }), {});
+      setSelectedFilters(updatedFilters);
+      setSelectedAttribute(value.id);
+      onFilterChange(value.id, updatedFilters, cardKey);
+    }
   };
+console.log(quizNames)
 
   //add more dropdown function
   const handleAddDropdown = (event, value) => {
@@ -179,6 +257,9 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   
   //select values for dropdowns that will be visible
   const getValueFromList = (list, value, key) => {
+    console.log(list)
+    console.log(value)
+    console.log(key)
    
     if(value != null){
     if (key === 'School Management' || key === 'Board of Education') {
@@ -210,8 +291,7 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
   };
 
    //filter change function
-  const handleFilterChange = (dropdownLabel) => (event, value) => {
-   
+   const handleFilterChange = (dropdownLabel) => (event, value) => {
     let selectedValue = value;
     let newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
   
@@ -220,28 +300,22 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       newFilters = { 
         ...selectedFilters, 
         [dropdownLabel]: selectedValue, 
-         'District': 'All' 
+        'District': 'All' 
       };
   
-      
       const filteredDistricts = filterOptions.districts.filter(district => district.state_id === selectedValue);
       setDistrictOptions([{ id: 'All', name: 'All' }, ...mapDistricts(filteredDistricts)]);
-  
-      
-    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN' || dropdownLabel === 'Qualification'|| dropdownLabel === 'Mode of Employment' ) {
+    } else if (dropdownLabel === 'District' || dropdownLabel === 'Social Group' || dropdownLabel === 'School Location' || dropdownLabel === 'Gender' || dropdownLabel === 'CWSN' || dropdownLabel === 'Qualification'|| dropdownLabel === 'Mode of Employment') {
       selectedValue = value && value.id ? value.id : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
-    }
-    else if (dropdownLabel === 'School Management' ||  dropdownLabel === 'Board of Education') {
+    } else if (dropdownLabel === 'School Management' || dropdownLabel === 'Board of Education') {
       selectedValue = value && value.name ? value.name : null;
       newFilters = { ...selectedFilters, [dropdownLabel]: selectedValue };
     }
-   
   
     setSelectedFilters(newFilters);
-    onFilterChange(selectedAttribute, newFilters,cardKey);
+    onFilterChange(selectedAttribute, newFilters, cardKey);
   };
-
   //date range change function
   const handleDateRangeChange = (dateRangeName, startDate, endDate) => {
     let newFilters = {};
@@ -295,7 +369,8 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
       category,
       subtype,
       tableHeadings,
-      attributeHeading
+      attributeHeading,
+      quizNames
       
     };
 
@@ -326,13 +401,13 @@ const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
 
 const exportAsPDF = () => {
 
-  pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,cardKey)
+  pdfExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,cardKey)
   setAnchorEl(null);
   
   };
 
   const exportAsExcel = () => {
-    excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category, dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,cardKey)
+    excelExport(title, selectedFilters, attributeOptions, tableInfo, tableHeadings, category,subtype, dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,attributeHeading,cardKey)
     setAnchorEl(null);
     
   };
@@ -346,67 +421,67 @@ const exportAsPDF = () => {
 
 
 
-const headers = getCsvHeaders(title,category,cardKey);
-const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,cardKey);
+const headers = getCsvHeaders(title,category,subtype,cardKey);
+const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,subtype,tableInfo,attributeHeading,dateRange1Start,dateRange1End,dateRange2Start,dateRange2End,cardKey);
 
 console.log(dataRows)
   return (
     <Card className='mini-card'>
       <Typography 
         variant="h6" 
-        sx={{ backgroundColor: '#0948a6', padding: '8px', top: '0',
-          zIndex: 10 , position:"sticky", color: '#fff' }}
+        sx={{ backgroundColor: '#DBEDFF', padding: '8px', top: '0',
+          zIndex: 10 , position:"sticky", color: '#082f68',borderBottom: '1px solid #082f68', }}
       >
         {title.value}
       </Typography>
-      <CardContent sx={{padding:"12px"}}>
+      <CardContent sx={{padding:"12px",height: '500px', overflowY: 'scroll',}}>
         <Autocomplete
           options={dropdownOptions}
           getOptionLabel={(option) => option.value}
           value={dropdownOptions.find(option => option.id === selectedAttribute) || null}
           onChange={handleAttributeChange}
           renderInput={(params) => <TextField {...params} label="Select Attribute" size="small" />}
-          sx={{ marginY: 2 }}
+          sx={{ marginTop: 1,marginBottom: 2 }}
         />
         <Grid container rowSpacing={2} columnSpacing={1}>
-          {dropdowns.map((dropdownLabel, index) => (
-            <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
-              <Autocomplete
-  options={attributeOptions[dropdownLabel] || []}
-  getOptionLabel={(option) => typeof option === 'object' ? option.name : option}
- value={getValueFromList(attributeOptions[dropdownLabel], selectedFilters[dropdownLabel],dropdownLabel)}
-  onChange={handleFilterChange(dropdownLabel)}
-  renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
-/>
-            </Grid>
-          ))}
-          {attributeBasedDropdowns[selectedAttribute] && attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
-            <Grid item xs={12} sm={4} md={4} lg={4}>
-              <IconButton
-                onClick={() => setShowAddMore(false)}
-                color="primary"
-                aria-label="add more filters"
-                sx={{ p: 0, m: 0 }}
-              >
-                <AddCircleIcon />
-              </IconButton>
-            </Grid>
-          )}
-          {!showAddMore && (
-            <Grid item xs={12} sm={4} md={4} lg={4}>
-              <Autocomplete
-                options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute]?.includes(option))}
-                getOptionLabel={(option) => option}
-                onChange={handleAddDropdown}
-                renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
-              />
-            </Grid>
-          )}
-        </Grid>
+  {dropdowns.map((dropdownLabel, index) => (
+    <Grid item xs={12} sm={4} md={4} lg={4} key={index}>
+      <Autocomplete
+        options={attributeOptions[dropdownLabel] || []}
+        getOptionLabel={(option) => typeof option === 'object' ? option.name : option}
+        value={getValueFromList(attributeOptions[dropdownLabel], selectedFilters[dropdownLabel], dropdownLabel)}
+        onChange={handleFilterChange(dropdownLabel)}
+        renderInput={(params) => <TextField {...params} label={`${dropdownLabel}`} size="small" />}
+      />
+    </Grid>
+  ))}
+  {attributeBasedDropdowns[selectedAttribute] && attributeBasedDropdowns[selectedAttribute].length > 3 && showAddMore && (
+    <Grid item xs={12} sm={4} md={4} lg={4}>
+      <IconButton
+        onClick={() => setShowAddMore(false)}
+        color="primary"
+        aria-label="add more filters"
+        sx={{ p: 0, m: 0 }}
+      >
+        <AddCircleIcon />
+      </IconButton>
+    </Grid>
+  )}
+  {!showAddMore && (
+    <Grid item xs={12} sm={4} md={4} lg={4}>
+      <Autocomplete
+        options={availableFilters.filter(option => attributeBasedDropdowns[selectedAttribute]?.includes(option))}
+        getOptionLabel={(option) => option}
+        onChange={handleAddDropdown}
+        renderInput={(params) => <TextField {...params} label="Add Filter" size="small" />}
+      />
+    </Grid>
+  )}
+</Grid>
 
         <Grid container columnSpacing={0.5} rowSpacing={2} marginTop={0.5}>
           <Grid item xs={12} sm={3} md={3} lg={3}>
-            <Typography variant="body1"  mt={1}><b>Date Range 1:</b></Typography>
+            <Typography variant="body1" color='#082f68' mt={1}><b>Date Range 1:</b></Typography>
             </Grid>
               <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -438,7 +513,7 @@ console.log(dataRows)
           
 
           <Grid item xs={12} sm={3} md={3} lg={3} >
-            <Typography variant="body1"  mt={1}><b>Date Range 2:</b></Typography>
+            <Typography variant="body1" color='#082f68' mt={1}><b>Date Range 2:</b></Typography>
             </Grid>
               <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -469,11 +544,11 @@ console.log(dataRows)
             
               {((loadingStatusTable || loadingStatusChart)) ?(
                 <>
-              <Grid item xs={12} sm={5} md={5} lg={5} >
-            <Button  variant='contained' sx={{m:0}} disabled={true} onClick={()=> viewDetailsPage()}>View Table</Button>
+              <Grid item xs={12} sm={4} md={4} lg={4} >
+            <Button   disabled={true} sx={{m:0}} onClick={()=> viewDetailsPage()}>View Table</Button>
             </Grid>
              <Grid item xs={12} sm={3} md={3} lg={3} >
-            <Button  variant='contained' disabled={true} sx={{m:0}}>Export</Button>
+            <Button   disabled={true} sx={{m:0}}>Export</Button>
             </Grid> 
             </>
              ):(
@@ -483,11 +558,11 @@ console.log(dataRows)
               ):(
 
               <>
-              <Grid item xs={12} sm={5} md={5} lg={5} >
-              <Button  variant='contained' sx={{m:0}}  onClick={()=> viewDetailsPage()}>View Table</Button>
+              <Grid item xs={12} sm={4} md={4} lg={4} >
+              <Button  className='card-button'  onClick={()=> viewDetailsPage()}>View Table</Button>
               </Grid>
               <Grid item xs={12} sm={3} md={3} lg={3} >
-              <Button  variant='contained' sx={{m:0}} onClick={handleClick}>Export</Button>
+              <Button  className='card-button'  onClick={handleClick}>Export</Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem onClick={exportAsPDF}>Export as PDF</MenuItem>
         <MenuItem onClick={exportAsExcel}>Export as Excel</MenuItem>
@@ -510,7 +585,7 @@ console.log(dataRows)
              )}
             
         </Grid>
-      </CardContent>
+     
       {loadingStatusChart ?(
         <Box sx={{ display: "flex", alignItems:'center', justifyContent: "center", width:'100%',pb:2,mt:2 }}>
         <CircularProgress />
@@ -555,11 +630,23 @@ console.log(dataRows)
                                   label += ': ';
                               }
                               let dataPoint = "";
+                              let dataPoint1 = "";
+                              let dataPoint2 = "";
+                              console.log(context.dataset)
                               if(context.dataset.dataStudent){
                                 dataPoint = context.dataset.dataStudent[context.dataIndex]
                                 const customValue1 = dataPoint;
                                 label +=`${context.parsed.y}, No of Students: ${customValue1}`;
                                 return label;
+                              }
+                              else if(context.dataset.dataAvg && context.dataset.dataImprovement){
+                                dataPoint1 = context.dataset.dataImprovement[context.dataIndex]
+                                dataPoint2 = context.dataset.dataAvg[context.dataIndex]
+                                const customValue1 = dataPoint1;
+                                const customValue2 = dataPoint2;
+                                label +=`${context.parsed.y}, Number of Students: ${customValue1},Average Score: ${customValue2}`;
+                                return label;
+
                               }
                               else{
                                 label +=`${context.parsed.y}`
@@ -581,6 +668,7 @@ console.log(dataRows)
     )}
     </>
      )}
+      </CardContent>
     </Card>
  );
 }
