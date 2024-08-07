@@ -1713,18 +1713,20 @@ public class MasterServicesR1 {
                 ") sub\n" +
                 "GROUP BY\n" +
                 "\tquiz_range\n" +
+                "HAVING\n" +
+                "\tquiz_range < 21\n" +
                 "ORDER BY\n" +
-                "\tquiz_range\n" +
-                "LIMIT 12;\n");
+                "\tquiz_range;\n");
 
         query2.append("GROUP BY\n" +
                 "\t\ted.user_id\n" +
                 ") sub\n" +
                 "GROUP BY\n" +
                 "\tquiz_range\n" +
+                "HAVING\n" +
+                "\tquiz_range < 21\n" +
                 "ORDER BY\n" +
-                "\tquiz_range\n" +
-                "LIMIT 12;\n");
+                "\tquiz_range;\n");
 
 
         queryNation.append("GROUP BY\n" +
@@ -1732,9 +1734,10 @@ public class MasterServicesR1 {
                 ") sub\n" +
                 "GROUP BY\n" +
                 "\tquiz_range\n" +
+                "HAVING\n" +
+                "\tquiz_range < 21\n" +
                 "ORDER BY\n" +
-                "\tquiz_range\n" +
-                "LIMIT 12;\n");
+                "\tquiz_range;");
 
 
         System.out.println(parameters);
@@ -3340,7 +3343,11 @@ public class MasterServicesR1 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tquiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students_region,\n" +
                 "    AVG(ed.score) AS avg_score_region\n" +
                 "FROM\n" +
@@ -3368,9 +3375,13 @@ public class MasterServicesR1 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tquiz_attempt,\n" +
-                "    COUNT(DISTINCT ed.user_id) AS num_students_pan_india,\n" +
-                "    AVG(ed.score) AS avg_score_pan_india\n" +
+                "\tCASE\n" +
+                "\t\tWHEN quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
+                "    COUNT(DISTINCT ed.user_id) AS num_students_region,\n" +
+                "    AVG(ed.score) AS avg_score_region\n" +
                 "FROM\n" +
                 "\texam_details ed\n" +
                 "JOIN\n" +
@@ -3676,16 +3687,20 @@ public class MasterServicesR1 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\ted.quiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN ed.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN ed.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN ed.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement_region\n" +
                 "FROM\n" +
                 "\texam_details ed\n" +
-                "JOIN\n" +
+                "LEFT JOIN\n" +
                 "\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "JOIN\n" +
                 "\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -3710,16 +3725,20 @@ public class MasterServicesR1 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\ted.quiz_attempt,\n" +
-                "\tCOUNT(DISTINCT ed.user_id) AS num_students_nation,\n" +
-                "    AVG(ed.score) AS avg_score_nation,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN ed.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN ed.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN ed.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
+                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
-                "       ELSE NULL\n" +
-                "\tEND) AS avg_improvement_nation\n" +
+                "        ELSE 0\n" +
+                "\tEND) AS avg_improvement_region\n" +
                 "FROM\n" +
                 "\texam_details ed\n" +
-                "JOIN\n" +
+                "LEFT JOIN\n" +
                 "\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "JOIN\n" +
                 "\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -5166,24 +5185,28 @@ public class MasterServicesR1 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tsubquery.quiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "    AVG(subquery.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM(\n" +
                 "\tSELECT\n" +
                 "\t\ted.user_id,\n" +
                 "        ed.score,\n" +
                 "        ed.quiz_attempt,\n" +
-                "        ed_prev.score AS prev_score,\n" +
+                "        COALESCE(ed_prev.score, 0) AS prev_score,\n" +
                 "        sd.state_id,\n" +
                 "        sd.district_id\n" +
                 "\tFROM\n" +
                 "\t\texam_details ed\n" +
-                "\tJOIN\n" +
+                "\tLEFT JOIN\n" +
                 "\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\tJOIN\n" +
                 "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -5210,24 +5233,26 @@ public class MasterServicesR1 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tsubquery.quiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "    AVG(subquery.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM(\n" +
                 "\tSELECT\n" +
                 "\t\ted.user_id,\n" +
                 "        ed.score,\n" +
                 "        ed.quiz_attempt,\n" +
-                "        ed_prev.score AS prev_score,\n" +
-                "        sd.state_id,\n" +
-                "        sd.district_id\n" +
+                "        COALESCE(ed_prev.score, 0) AS prev_score\n" +
                 "\tFROM\n" +
                 "\t\texam_details ed\n" +
-                "\tJOIN\n" +
+                "\tLEFT JOIN\n" +
                 "\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\tJOIN\n" +
                 "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -5497,18 +5522,18 @@ public class MasterServicesR1 {
 
         query.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;\n");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
         query2.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;\n");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
         queryNation.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
 
 
@@ -5534,24 +5559,28 @@ public class MasterServicesR1 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT\n" +
-                "\tsubquery.quiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "    AVG(subquery.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM(\n" +
                 "\tSELECT\n" +
                 "\t\ted.user_id,\n" +
                 "        ed.score,\n" +
                 "        ed.quiz_attempt,\n" +
-                "        ed_prev.score AS prev_score,\n" +
+                "        COALESCE(ed_prev.score, 0) AS prev_score,\n" +
                 "        sd.state_id,\n" +
                 "        sd.district_id\n" +
                 "\tFROM\n" +
                 "\t\texam_details ed\n" +
-                "\tJOIN\n" +
+                "\tLEFT JOIN\n" +
                 "\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\tJOIN\n" +
                 "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -5578,24 +5607,26 @@ public class MasterServicesR1 {
         StringBuilder query2 = new StringBuilder(query);
 
         StringBuilder queryNation = new StringBuilder("SELECT\n" +
-                "\tsubquery.quiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "    AVG(subquery.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM(\n" +
                 "\tSELECT\n" +
                 "\t\ted.user_id,\n" +
                 "        ed.score,\n" +
                 "        ed.quiz_attempt,\n" +
-                "        ed_prev.score AS prev_score,\n" +
-                "        sd.state_id,\n" +
-                "        sd.district_id\n" +
+                "        COALESCE(ed_prev.score, 0) AS prev_score\n" +
                 "\tFROM\n" +
                 "\t\texam_details ed\n" +
-                "\tJOIN\n" +
+                "\tLEFT JOIN\n" +
                 "\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\tJOIN\n" +
                 "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -5865,18 +5896,18 @@ public class MasterServicesR1 {
 
         query.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;\n");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
         query2.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;\n");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
         queryNation.append("\tLIMIT 2000000\n" +
                 ") AS subquery\n" +
-                "GROUP BY subquery.quiz_attempt\n" +
-                "ORDER BY subquery.quiz_attempt;");
+                "GROUP BY quiz_attempt\n" +
+                "ORDER BY FIELD(quiz_attempt, 'Core', 'Retake 1', 'Retake 2');\n");
 
 
 
@@ -11007,7 +11038,11 @@ public class MasterServicesR1 {
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
-                "\tquiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -11179,7 +11214,11 @@ public class MasterServicesR1 {
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
-                "\tquiz_attempt,\n" +
+                "\tCASE\n" +
+                "\t\tWHEN quiz_attempt = 1 THEN 'Core'\n" +
+                "        WHEN quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "        WHEN quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\tEND AS quiz_attempt,\n" +
                 "    COUNT(DISTINCT ed.user_id) AS num_students,\n" +
                 "    AVG(ed.score) AS avg_score\n" +
                 "FROM\n" +
@@ -11363,12 +11402,8 @@ public class MasterServicesR1 {
                 "    subquery1.state_name,\n" +
                 "    subquery1.district_id,\n" +
                 "    subquery1.district_name,\n" +
-                "    subquery1.quiz_attempt AS quiz_attempt,\n" +
-                "    subquery1.num_students AS num_students_date1,\n" +
-                "    subquery1.avg_score AS average_score_date1,\n" +
+                "    subquery1.quiz_attempt,\n" +
                 "    subquery1.avg_improvement AS average_improvement_date1,\n" +
-                "    subquery2.num_students AS num_students_date2,\n" +
-                "    subquery2.avg_score AS average_score_date2,\n" +
                 "    subquery2.avg_improvement AS average_improvement_date2\n" +
                 "FROM (\n" +
                 "    SELECT \n" +
@@ -11376,26 +11411,26 @@ public class MasterServicesR1 {
                 "        main_subquery.state_name,\n" +
                 "        main_subquery.district_id,\n" +
                 "        main_subquery.district_name,\n" +
-                "        main_subquery.quiz_attempt,\n" +
-                "        main_subquery.num_students AS num_students,\n" +
-                "        main_subquery.avg_score AS avg_score,\n" +
+                "        CASE\n" +
+                "\t\t\tWHEN main_subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "            WHEN main_subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "            WHEN main_subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\tEND AS quiz_attempt,\n" +
                 "        main_subquery.avg_improvement AS avg_improvement\n" +
                 "FROM (\n" +
                 "\tSELECT\n" +
-                "\tsd.state_id,\n" +
+                "\ted.quiz_attempt,\n" +
+                "    sd.state_id,\n" +
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
-                "\ted.quiz_attempt,\n" +
-                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
-                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM\n" +
                 "\texam_details ed\n" +
-                "JOIN\n" +
+                "LEFT JOIN\n" +
                 "\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "JOIN\n" +
                 "\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -11543,8 +11578,8 @@ public class MasterServicesR1 {
         }
 
 
-        query.append("\tGROUP BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
-                "\tORDER BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
+        query.append("\tGROUP BY sd.state_id, sd.district_id, quiz_attempt\n" +
+                "\tORDER BY sd.state_id, sd.district_id, quiz_attempt\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -11555,26 +11590,26 @@ public class MasterServicesR1 {
                 "        main_subquery.state_name,\n" +
                 "        main_subquery.district_id,\n" +
                 "        main_subquery.district_name,\n" +
-                "        main_subquery.quiz_attempt,\n" +
-                "        main_subquery.num_students AS num_students,\n" +
-                "        main_subquery.avg_score AS avg_score,\n" +
+                "        CASE\n" +
+                "\t\t\tWHEN main_subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "            WHEN main_subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "            WHEN main_subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\tEND AS quiz_attempt,\n" +
                 "        main_subquery.avg_improvement AS avg_improvement\n" +
                 "    FROM (\n" +
                 "        SELECT\n" +
-                "\tsd.state_id,\n" +
+                "\ted.quiz_attempt,\n" +
+                "    sd.state_id,\n" +
                 "    stm.state_name,\n" +
                 "    sd.district_id,\n" +
                 "    sdm.district_name,\n" +
-                "\ted.quiz_attempt,\n" +
-                "\tCOUNT(DISTINCT ed.user_id) AS num_students,\n" +
-                "    AVG(ed.score) AS avg_score,\n" +
                 "    AVG(CASE\n" +
                 "\t\tWHEN ed.quiz_attempt IN (2,3) THEN (ed.score - ed_prev.score) / ed_prev.score * 100\n" +
-                "        ELSE NULL\n" +
+                "        ELSE 0\n" +
                 "\tEND) AS avg_improvement\n" +
                 "FROM\n" +
                 "\texam_details ed\n" +
-                "JOIN\n" +
+                "lEFT JOIN\n" +
                 "\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "JOIN\n" +
                 "\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -11723,8 +11758,8 @@ public class MasterServicesR1 {
         }
 
 
-        query.append("\tGROUP BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
-                "\tORDER BY sd.state_id, sd.district_id, ed.quiz_attempt\n" +
+        query.append("\tGROUP BY sd.state_id, sd.district_id, quiz_attempt\n" +
+                "\tORDER BY sd.state_id, sd.district_id, quiz_attempt\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -13057,12 +13092,16 @@ public class MasterServicesR1 {
                 "            subquery.state_name,\n" +
                 "            subquery.district_id,\n" +
                 "            subquery.district_name,\n" +
-                "\t\t\tsubquery.quiz_attempt,\n" +
+                "\t\t\tCASE\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\t\tEND AS quiz_attempt,\n" +
                 "\t\t\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "\t\t\tAVG(subquery.score) AS avg_score,\n" +
                 "\t\t\tAVG(CASE\n" +
                 "\t\t\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "\t\t\t\tELSE NULL\n" +
+                "\t\t\t\tELSE 0\n" +
                 "\t\t\tEND) AS avg_improvement\n" +
                 "\t\tFROM(\n" +
                 "\t\tSELECT\n" +
@@ -13076,7 +13115,7 @@ public class MasterServicesR1 {
                 "            sdm.district_name\n" +
                 "\t\tFROM\n" +
                 "\t\t\texam_details ed\n" +
-                "\t\tJOIN\n" +
+                "\t\tLEFT JOIN\n" +
                 "\t\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\t\tJOIN\n" +
                 "\t\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -13235,7 +13274,7 @@ public class MasterServicesR1 {
         query.append("\t\tLIMIT 2000000\n" +
                 "\t) AS subquery\n" +
                 "\tGROUP BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
-                "\tORDER BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
+                "\tORDER BY FIELD(subquery.quiz_attempt, 'Core', 'Retake 1', 'Retake 2'), subquery.state_id, subquery.district_id\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -13256,12 +13295,16 @@ public class MasterServicesR1 {
                 "            subquery.state_name,\n" +
                 "            subquery.district_id,\n" +
                 "            subquery.district_name,\n" +
-                "\t\t\tsubquery.quiz_attempt,\n" +
+                "\t\t\tCASE\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\t\tEND AS quiz_attempt,\n" +
                 "\t\t\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "\t\t\tAVG(subquery.score) AS avg_score,\n" +
                 "\t\t\tAVG(CASE\n" +
                 "\t\t\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "\t\t\t\tELSE NULL\n" +
+                "\t\t\t\tELSE 0\n" +
                 "\t\t\tEND) AS avg_improvement\n" +
                 "\t\tFROM(\n" +
                 "\t\tSELECT\n" +
@@ -13275,7 +13318,7 @@ public class MasterServicesR1 {
                 "            sdm.district_name\n" +
                 "\t\tFROM\n" +
                 "\t\t\texam_details ed\n" +
-                "\t\tJOIN\n" +
+                "\t\tLEFT JOIN\n" +
                 "\t\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\t\tJOIN\n" +
                 "\t\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -13434,7 +13477,7 @@ public class MasterServicesR1 {
         query.append("\t\tLIMIT 2000000\n" +
                 "\t) AS subquery\n" +
                 "\tGROUP BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
-                "\tORDER BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
+                "\tORDER BY FIELD(subquery.quiz_attempt, 'Core', 'Retake 1', 'Retake 2'), subquery.state_id, subquery.district_id\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -13487,12 +13530,16 @@ public class MasterServicesR1 {
                 "            subquery.state_name,\n" +
                 "            subquery.district_id,\n" +
                 "            subquery.district_name,\n" +
-                "\t\t\tsubquery.quiz_attempt,\n" +
+                "\t\t\tCASE\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\t\tEND AS quiz_attempt,\n" +
                 "\t\t\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "\t\t\tAVG(subquery.score) AS avg_score,\n" +
                 "\t\t\tAVG(CASE\n" +
                 "\t\t\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "\t\t\t\tELSE NULL\n" +
+                "\t\t\t\tELSE 0\n" +
                 "\t\t\tEND) AS avg_improvement\n" +
                 "\t\tFROM(\n" +
                 "\t\tSELECT\n" +
@@ -13506,7 +13553,7 @@ public class MasterServicesR1 {
                 "            sdm.district_name\n" +
                 "\t\tFROM\n" +
                 "\t\t\texam_details ed\n" +
-                "\t\tJOIN\n" +
+                "\t\tLEFT JOIN\n" +
                 "\t\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\t\tJOIN\n" +
                 "\t\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -13665,7 +13712,7 @@ public class MasterServicesR1 {
         query.append("\t\tLIMIT 2000000\n" +
                 "\t) AS subquery\n" +
                 "\tGROUP BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
-                "\tORDER BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
+                "\tORDER BY FIELD(subquery.quiz_attempt, 'Core', 'Retake 1', 'Retake 2'), subquery.state_id, subquery.district_id\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
@@ -13686,12 +13733,16 @@ public class MasterServicesR1 {
                 "            subquery.state_name,\n" +
                 "            subquery.district_id,\n" +
                 "            subquery.district_name,\n" +
-                "\t\t\tsubquery.quiz_attempt,\n" +
+                "\t\t\tCASE\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 1 THEN 'Core'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 2 THEN 'Retake 1'\n" +
+                "\t\t\t\tWHEN subquery.quiz_attempt = 3 THEN 'Retake 2'\n" +
+                "\t\t\tEND AS quiz_attempt,\n" +
                 "\t\t\tCOUNT(DISTINCT subquery.user_id) AS num_students,\n" +
                 "\t\t\tAVG(subquery.score) AS avg_score,\n" +
                 "\t\t\tAVG(CASE\n" +
                 "\t\t\t\tWHEN subquery.quiz_attempt IN (2,3) THEN (subquery.score - subquery.prev_score) / subquery.prev_score * 100\n" +
-                "\t\t\t\tELSE NULL\n" +
+                "\t\t\t\tELSE 0\n" +
                 "\t\t\tEND) AS avg_improvement\n" +
                 "\t\tFROM(\n" +
                 "\t\tSELECT\n" +
@@ -13705,7 +13756,7 @@ public class MasterServicesR1 {
                 "            sdm.district_name\n" +
                 "\t\tFROM\n" +
                 "\t\t\texam_details ed\n" +
-                "\t\tJOIN\n" +
+                "\t\tLEFT JOIN\n" +
                 "\t\t\texam_details ed_prev ON ed.user_id = ed_prev.user_id AND ed.quiz_attempt = ed_prev.quiz_attempt+1\n" +
                 "\t\tJOIN\n" +
                 "\t\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
@@ -13864,7 +13915,7 @@ public class MasterServicesR1 {
         query.append("\t\tLIMIT 2000000\n" +
                 "\t) AS subquery\n" +
                 "\tGROUP BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
-                "\tORDER BY subquery.quiz_attempt, subquery.state_id, subquery.district_id\n" +
+                "\tORDER BY FIELD(subquery.quiz_attempt, 'Core', 'Retake 1', 'Retake 2'), subquery.state_id, subquery.district_id\n" +
                 "    ) AS main_subquery\n" +
                 "    GROUP BY \n" +
                 "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
