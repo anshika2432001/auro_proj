@@ -8,17 +8,15 @@ export const STATUSES = Object.freeze({
 });
 
 // Thunk
-export const userLogin = createAsyncThunk('login/api', async ({request,successCb}) => {
-   
-    const res = await axios.post('/auth/authenticate',{request});
-    console.log(res)
+export const userLogin = createAsyncThunk('login/api', async (request) => {
+    const res = await axios.post('/auth/authenticate', request);
     return res.data; // Return only the data
 });
 
 const loginUserSlice = createSlice({
     name: 'userLogin',
     initialState: {
-        data: [],
+        data: {},
         status: STATUSES.IDLE,
     },
     extraReducers: (builder) => {
@@ -36,6 +34,6 @@ const loginUserSlice = createSlice({
     },
 });
 
- export const { setLoginType, setStatus } = loginUserSlice.actions;
+export const { setLoginType, setStatus } = loginUserSlice.actions;
 
 export default loginUserSlice.reducer;
