@@ -98,9 +98,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
-                .antMatchers("/user/**","/auth/**","/budget-state-data","/fund-allocated","/budget-filter",
-                        "/dashboard-stats-data","/filter-dropdowns","/fetch-topics","/fetch-weak-perform-topics",
-                        "/dashboard/**","/r1/**","/r2/**","/r3/**","/r4/**","/parent-household/**","/teacher/**")
+                .antMatchers("/user/**","/auth/authenticate","/filter-dropdowns")
                 .permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
