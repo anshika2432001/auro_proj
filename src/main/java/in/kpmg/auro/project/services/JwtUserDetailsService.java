@@ -102,7 +102,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         userDto.setUserId(userData.getUserId());
         userDto.setEmail(userData.getEmail());
         userDto.setUserName(userData.getName());
-//        userDto.setMobileNo(userData.getMobileNo());
+        userDto.setMobileNo(userData.getMobileNo());
         userDto.setRoleId(userData.getRoleId());
         Map detailsMap= objectMapper.readValue(userData.getRoleTypeDetails(),Map.class);
         userDto.setRoleTypeDetails(detailsMap);

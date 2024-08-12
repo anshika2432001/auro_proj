@@ -12752,6 +12752,29 @@ public class MasterServicesR1 {
         Map<String, Object> response = new HashMap<>();
 
         StringBuilder query = new StringBuilder("SELECT \n" +
+                "    subquery1.state_id,\n" +
+                "    subquery1.state_name,\n" +
+                "    subquery1.district_id,\n" +
+                "    subquery1.district_name,\n" +
+                "    subquery1.quiz_attempt,\n" +
+                "    subquery1.num_students AS num_students_date1,\n" +
+                "    subquery1.avg_score AS average_score_date1,\n" +
+                "    subquery1.avg_improvement AS avg_improvement1,\n" +
+                "    subquery2.num_students AS num_students_date2,\n" +
+                "    subquery2.avg_score AS average_score_date2,\n" +
+                "    subquery2.avg_improvement AS avg_improvement2\n" +
+                "FROM (\n" +
+                "    SELECT \n" +
+                "\t\tmain_subquery.state_id,\n" +
+                "        main_subquery.state_name,\n" +
+                "        main_subquery.district_id,\n" +
+                "        main_subquery.district_name,\n" +
+                "        main_subquery.quiz_attempt,\n" +
+                "        main_subquery.num_students AS num_students,\n" +
+                "        main_subquery.avg_score AS avg_score,\n" +
+                "        main_subquery.avg_improvement\n" +
+                "    FROM (\n" +
+                "\t\tSELECT \n" +
                 "    state_id,\n" +
                 "    state_name,\n" +
                 "    district_id,\n" +
@@ -13082,7 +13105,7 @@ public class MasterServicesR1 {
 
         }
 
-        query.append("\t GROUP BY \n" +
+        query.append("\tGROUP BY \n" +
                 "        quiz_attempt_name\n" +
                 "                                ORDER BY \n" +
                 "                                FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
@@ -13251,7 +13274,7 @@ public class MasterServicesR1 {
 
 
 
-        query.append("\t GROUP BY \n" +
+        query.append("\tGROUP BY \n" +
                 "        quiz_attempt_name\n" +
                 "                                                                                        ORDER BY \n" +
                 "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
@@ -13416,7 +13439,7 @@ public class MasterServicesR1 {
 
         }
 
-        query.append("\t GROUP BY \n" +
+        query.append("\tGROUP BY \n" +
                 "        quiz_attempt_name\n" +
                 "                                                                                        ORDER BY \n" +
                 "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
@@ -13592,8 +13615,873 @@ public class MasterServicesR1 {
                 "HAVING\n" +
                 "\tstate_name IS NOT NULL\n" +
                 "ORDER BY \n" +
-                "    state_id, district_id, FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2');");
+                "    state_id, district_id, FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "    ) AS main_subquery\n" +
+                "    GROUP BY \n" +
+                "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
+                ") AS subquery1\n" +
+                "LEFT JOIN (\n" +
+                "    SELECT \n" +
+                "\t\tmain_subquery.state_id,\n" +
+                "        main_subquery.state_name,\n" +
+                "        main_subquery.district_id,\n" +
+                "        main_subquery.district_name,\n" +
+                "        main_subquery.quiz_attempt,\n" +
+                "        main_subquery.num_students AS num_students,\n" +
+                "        main_subquery.avg_score AS avg_score,\n" +
+                "        main_subquery.avg_improvement\n" +
+                "    FROM (\n" +
+                "\t\tSELECT \n" +
+                "    state_id,\n" +
+                "    state_name,\n" +
+                "    district_id,\n" +
+                "    district_name,\n" +
+                "    quiz_attempt_name as quiz_attempt,\n" +
+                "    num_students,\n" +
+                "    avg_score,\n" +
+                "    CASE \n" +
+                "        WHEN quiz_attempt_name = 'core' THEN 0\n" +
+                "        WHEN quiz_attempt_name = 'retake 1' THEN ((avg_score - (SELECT avg_score FROM (SELECT \n" +
+                "        CASE \n" +
+                "            WHEN ed.quiz_attempt = 1 THEN 'core'\n" +
+                "            WHEN ed.quiz_attempt = 2 THEN 'retake 1'\n" +
+                "            WHEN ed.quiz_attempt = 3 THEN 'retake 2'\n" +
+                "        END AS quiz_attempt_name,\n" +
+                "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "        AVG(ed.score) AS avg_score\n" +
+                "    FROM \n" +
+                "        exam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
+                "\tJOIN\n" +
+                "\t\tuser_master um ON sd.user_id = um.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "\t\tAND sw.amount_status IN ('2','4','5') \n");
 
+
+
+        if (payloadDto.getTransactionDateFrom2() != null
+                && payloadDto.getTransactionDateTo2()!= null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add(payloadDto.getTransactionDateFrom2());
+            parameters.add(payloadDto.getTransactionDateTo2());
+        }
+
+        if (payloadDto.getTransactionDateFrom2() == null
+                && payloadDto.getTransactionDateTo2() == null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add("2023-12-01");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters.add(current);
+        }
+
+
+
+        if (payloadDto.getGrades()!=null){
+            query.append("\t\tAND sm.grade = ?\n");
+            parameters.add(payloadDto.getGrades());
+
+
+        }
+
+        if (payloadDto.getSubject() != null){
+            query.append("\t\tAND ed.subject = ? \n");
+            parameters.add(payloadDto.getSubject());
+
+
+        }
+
+
+        if (payloadDto.getSchoolLocation() !=null){
+            query.append("\t\tAND sed.school_location = ? \n");
+            parameters.add(payloadDto.getSchoolLocation());
+
+        }
+
+        if (payloadDto.getStateId() !=null){
+            query.append("\tAND sd.state_id = ? \n");
+            parameters.add(payloadDto.getStateId());
+
+        }
+
+        if (payloadDto.getDistrictId() != null){
+            query.append("\tAND sd.district_id = ? \n");
+            parameters.add(payloadDto.getDistrictId());
+
+        }
+
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND sd.gender = ? \n");
+            parameters.add(payloadDto.getGender());
+
+
+        }
+
+        if (payloadDto.getSocialGroup() !=null){
+            query.append("\tAND sed.social_group = ? \n");
+            parameters.add(payloadDto.getSocialGroup());
+
+
+        }
+
+        if (payloadDto.getCwsn() != null){
+            query.append("\tAND sed.cwsn = ? \n");
+            parameters.add(payloadDto.getCwsn());
+
+
+        }
+
+        if (payloadDto.getEducationBoard() !=null){
+            query.append("\tAND sd.education_board = ? \n");
+            parameters.add(payloadDto.getEducationBoard());
+
+
+        }
+
+        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
+            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
+            parameters.add(payloadDto.getAgeFrom());
+            parameters.add(payloadDto.getAgeTo());
+
+        }
+
+        if (payloadDto.getSchoolManagement() != null){
+            query.append("\tAND sd.school_management = ? \n");
+            parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
+
+        if (payloadDto.getChildMotherQualification() !=null){
+            query.append("\tAND ped.child_mother_qualification = ? \n");
+            parameters.add(payloadDto.getChildMotherQualification());
+
+        }
+
+        if (payloadDto.getChildFatherQualification() !=null){
+
+            query.append("\tAND ped.child_father_qualification = ? \n");
+            parameters.add(payloadDto.getChildFatherQualification());
+
+        }
+
+        if (payloadDto.getHouseholdId() != null ){
+            query.append("\tAND ped.household_income = ? \n");
+            parameters.add(payloadDto.getHouseholdId());
+
+        }
+
+        query.append("\tGROUP BY \n" +
+                "        quiz_attempt_name\n" +
+                "                                                                                        ORDER BY \n" +
+                "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "                                                                                        ) AS inner_query \n" +
+                "                                                                                        WHERE quiz_attempt_name = 'core')) / (SELECT avg_score FROM (SELECT \n" +
+                "        sd.state_id,\n" +
+                "        stm.state_name,\n" +
+                "        sd.district_id,\n" +
+                "        sdm.district_name,\n" +
+                "        CASE \n" +
+                "            WHEN ed.quiz_attempt = 1 THEN 'core'\n" +
+                "            WHEN ed.quiz_attempt = 2 THEN 'retake 1'\n" +
+                "            WHEN ed.quiz_attempt = 3 THEN 'retake 2'\n" +
+                "        END AS quiz_attempt_name,\n" +
+                "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "        AVG(ed.score) AS avg_score\n" +
+                "    FROM \n" +
+                "        exam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
+                "\tJOIN\n" +
+                "\t\tuser_master um ON sd.user_id = um.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "\t\tAND sw.amount_status IN ('2','4','5')\n");
+
+
+
+        if (payloadDto.getTransactionDateFrom2() != null
+                && payloadDto.getTransactionDateTo2()!= null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add(payloadDto.getTransactionDateFrom2());
+            parameters.add(payloadDto.getTransactionDateTo2());
+        }
+
+        if (payloadDto.getTransactionDateFrom2() == null
+                && payloadDto.getTransactionDateTo2() == null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add("2023-12-01");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters.add(current);
+        }
+
+
+
+        if (payloadDto.getGrades()!=null){
+            query.append("\t\tAND sm.grade = ?\n");
+            parameters.add(payloadDto.getGrades());
+
+
+        }
+
+        if (payloadDto.getSubject() != null){
+            query.append("\t\tAND ed.subject = ? \n");
+            parameters.add(payloadDto.getSubject());
+
+
+        }
+
+
+        if (payloadDto.getSchoolLocation() !=null){
+            query.append("\t\tAND sed.school_location = ? \n");
+            parameters.add(payloadDto.getSchoolLocation());
+
+        }
+
+        if (payloadDto.getStateId() !=null){
+            query.append("\tAND sd.state_id = ? \n");
+            parameters.add(payloadDto.getStateId());
+
+        }
+
+        if (payloadDto.getDistrictId() != null){
+            query.append("\tAND sd.district_id = ? \n");
+            parameters.add(payloadDto.getDistrictId());
+
+        }
+
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND sd.gender = ? \n");
+            parameters.add(payloadDto.getGender());
+
+
+        }
+
+        if (payloadDto.getSocialGroup() !=null){
+            query.append("\tAND sed.social_group = ? \n");
+            parameters.add(payloadDto.getSocialGroup());
+
+
+        }
+
+        if (payloadDto.getCwsn() != null){
+            query.append("\tAND sed.cwsn = ? \n");
+            parameters.add(payloadDto.getCwsn());
+
+
+        }
+
+        if (payloadDto.getEducationBoard() !=null){
+            query.append("\tAND sd.education_board = ? \n");
+            parameters.add(payloadDto.getEducationBoard());
+
+
+        }
+
+        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
+            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
+            parameters.add(payloadDto.getAgeFrom());
+            parameters.add(payloadDto.getAgeTo());
+
+        }
+
+        if (payloadDto.getSchoolManagement() != null){
+            query.append("\tAND sd.school_management = ? \n");
+            parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
+
+        if (payloadDto.getChildMotherQualification() !=null){
+            query.append("\tAND ped.child_mother_qualification = ? \n");
+            parameters.add(payloadDto.getChildMotherQualification());
+
+        }
+
+        if (payloadDto.getChildFatherQualification() !=null){
+
+            query.append("\tAND ped.child_father_qualification = ? \n");
+            parameters.add(payloadDto.getChildFatherQualification());
+
+        }
+
+        if (payloadDto.getHouseholdId() != null ){
+            query.append("\tAND ped.household_income = ? \n");
+            parameters.add(payloadDto.getHouseholdId());
+
+        }
+
+        query.append("\t GROUP BY \n" +
+                "        quiz_attempt_name\n" +
+                "                                                                                        ORDER BY \n" +
+                "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "                                                                                        ) AS inner_query \n" +
+                "                                                                                        WHERE quiz_attempt_name = 'retake 1')) * 100\n" +
+                "        WHEN quiz_attempt_name = 'retake 2' THEN ((avg_score - (SELECT avg_score FROM (SELECT \n" +
+                "        sd.state_id,\n" +
+                "        stm.state_name,\n" +
+                "        sd.district_id,\n" +
+                "        sdm.district_name,\n" +
+                "        CASE \n" +
+                "            WHEN ed.quiz_attempt = 1 THEN 'core'\n" +
+                "            WHEN ed.quiz_attempt = 2 THEN 'retake 1'\n" +
+                "            WHEN ed.quiz_attempt = 3 THEN 'retake 2'\n" +
+                "        END AS quiz_attempt_name,\n" +
+                "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "        AVG(ed.score) AS avg_score\n" +
+                "    FROM \n" +
+                "        exam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
+                "\tJOIN\n" +
+                "\t\tuser_master um ON sd.user_id = um.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "\t\tAND sw.amount_status IN ('2','4','5') \n");
+
+
+
+        if (payloadDto.getTransactionDateFrom2() != null
+                && payloadDto.getTransactionDateTo2()!= null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add(payloadDto.getTransactionDateFrom2());
+            parameters.add(payloadDto.getTransactionDateTo2());
+        }
+
+        if (payloadDto.getTransactionDateFrom2() == null
+                && payloadDto.getTransactionDateTo2() == null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add("2023-12-01");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters.add(current);
+        }
+
+
+
+        if (payloadDto.getGrades()!=null){
+            query.append("\t\tAND sm.grade = ?\n");
+            parameters.add(payloadDto.getGrades());
+
+
+        }
+
+        if (payloadDto.getSubject() != null){
+            query.append("\t\tAND ed.subject = ? \n");
+            parameters.add(payloadDto.getSubject());
+
+
+        }
+
+
+        if (payloadDto.getSchoolLocation() !=null){
+            query.append("\t\tAND sed.school_location = ? \n");
+            parameters.add(payloadDto.getSchoolLocation());
+
+        }
+
+        if (payloadDto.getStateId() !=null){
+            query.append("\tAND sd.state_id = ? \n");
+            parameters.add(payloadDto.getStateId());
+
+        }
+
+        if (payloadDto.getDistrictId() != null){
+            query.append("\tAND sd.district_id = ? \n");
+            parameters.add(payloadDto.getDistrictId());
+
+        }
+
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND sd.gender = ? \n");
+            parameters.add(payloadDto.getGender());
+
+
+        }
+
+        if (payloadDto.getSocialGroup() !=null){
+            query.append("\tAND sed.social_group = ? \n");
+            parameters.add(payloadDto.getSocialGroup());
+
+
+        }
+
+        if (payloadDto.getCwsn() != null){
+            query.append("\tAND sed.cwsn = ? \n");
+            parameters.add(payloadDto.getCwsn());
+
+
+        }
+
+        if (payloadDto.getEducationBoard() !=null){
+            query.append("\tAND sd.education_board = ? \n");
+            parameters.add(payloadDto.getEducationBoard());
+
+
+        }
+
+        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
+            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
+            parameters.add(payloadDto.getAgeFrom());
+            parameters.add(payloadDto.getAgeTo());
+
+        }
+
+        if (payloadDto.getSchoolManagement() != null){
+            query.append("\tAND sd.school_management = ? \n");
+            parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
+
+        if (payloadDto.getChildMotherQualification() !=null){
+            query.append("\tAND ped.child_mother_qualification = ? \n");
+            parameters.add(payloadDto.getChildMotherQualification());
+
+        }
+
+        if (payloadDto.getChildFatherQualification() !=null){
+
+            query.append("\tAND ped.child_father_qualification = ? \n");
+            parameters.add(payloadDto.getChildFatherQualification());
+
+        }
+
+        if (payloadDto.getHouseholdId() != null ){
+            query.append("\tAND ped.household_income = ? \n");
+            parameters.add(payloadDto.getHouseholdId());
+
+        }
+
+        query.append("\t GROUP BY \n" +
+                "        quiz_attempt_name\n" +
+                "                                                                                        ORDER BY \n" +
+                "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "                                                                                        ) AS inner_query \n" +
+                "                                                                                        WHERE quiz_attempt_name = 'core')) / (SELECT avg_score FROM (SELECT \n" +
+                "        sd.state_id,\n" +
+                "        stm.state_name,\n" +
+                "        sd.district_id,\n" +
+                "        sdm.district_name,\n" +
+                "        CASE \n" +
+                "            WHEN ed.quiz_attempt = 1 THEN 'core'\n" +
+                "            WHEN ed.quiz_attempt = 2 THEN 'retake 1'\n" +
+                "            WHEN ed.quiz_attempt = 3 THEN 'retake 2'\n" +
+                "        END AS quiz_attempt_name,\n" +
+                "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "        AVG(ed.score) AS avg_score\n" +
+                "    FROM \n" +
+                "        exam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
+                "\tJOIN\n" +
+                "\t\tuser_master um ON sd.user_id = um.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "\t\tAND sw.amount_status IN ('2','4','5') \n");
+
+
+
+        if (payloadDto.getTransactionDateFrom2() != null
+                && payloadDto.getTransactionDateTo2()!= null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add(payloadDto.getTransactionDateFrom2());
+            parameters.add(payloadDto.getTransactionDateTo2());
+        }
+
+        if (payloadDto.getTransactionDateFrom2() == null
+                && payloadDto.getTransactionDateTo2() == null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add("2023-12-01");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters.add(current);
+        }
+
+
+
+        if (payloadDto.getGrades()!=null){
+            query.append("\t\tAND sm.grade = ?\n");
+            parameters.add(payloadDto.getGrades());
+
+
+        }
+
+        if (payloadDto.getSubject() != null){
+            query.append("\t\tAND ed.subject = ? \n");
+            parameters.add(payloadDto.getSubject());
+
+
+        }
+
+
+        if (payloadDto.getSchoolLocation() !=null){
+            query.append("\t\tAND sed.school_location = ? \n");
+            parameters.add(payloadDto.getSchoolLocation());
+
+        }
+
+        if (payloadDto.getStateId() !=null){
+            query.append("\tAND sd.state_id = ? \n");
+            parameters.add(payloadDto.getStateId());
+
+        }
+
+        if (payloadDto.getDistrictId() != null){
+            query.append("\tAND sd.district_id = ? \n");
+            parameters.add(payloadDto.getDistrictId());
+
+        }
+
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND sd.gender = ? \n");
+            parameters.add(payloadDto.getGender());
+
+
+        }
+
+        if (payloadDto.getSocialGroup() !=null){
+            query.append("\tAND sed.social_group = ? \n");
+            parameters.add(payloadDto.getSocialGroup());
+
+
+        }
+
+        if (payloadDto.getCwsn() != null){
+            query.append("\tAND sed.cwsn = ? \n");
+            parameters.add(payloadDto.getCwsn());
+
+
+        }
+
+        if (payloadDto.getEducationBoard() !=null){
+            query.append("\tAND sd.education_board = ? \n");
+            parameters.add(payloadDto.getEducationBoard());
+
+
+        }
+
+        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
+            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
+            parameters.add(payloadDto.getAgeFrom());
+            parameters.add(payloadDto.getAgeTo());
+
+        }
+
+        if (payloadDto.getSchoolManagement() != null){
+            query.append("\tAND sd.school_management = ? \n");
+            parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
+
+        if (payloadDto.getChildMotherQualification() !=null){
+            query.append("\tAND ped.child_mother_qualification = ? \n");
+            parameters.add(payloadDto.getChildMotherQualification());
+
+        }
+
+        if (payloadDto.getChildFatherQualification() !=null){
+
+            query.append("\tAND ped.child_father_qualification = ? \n");
+            parameters.add(payloadDto.getChildFatherQualification());
+
+        }
+
+        if (payloadDto.getHouseholdId() != null ){
+            query.append("\tAND ped.household_income = ? \n");
+            parameters.add(payloadDto.getHouseholdId());
+
+        }
+
+        query.append("\t GROUP BY \n" +
+                "        quiz_attempt_name\n" +
+                "                                                                                        ORDER BY \n" +
+                "                                                                                            FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "                                                                                        ) AS inner_query \n" +
+                "                                                                                        WHERE quiz_attempt_name = 'retake 2')) * 100\n" +
+                "    END AS avg_improvement\n" +
+                "FROM (\n" +
+                "    SELECT \n" +
+                "        sd.state_id,\n" +
+                "        stm.state_name,\n" +
+                "        sd.district_id,\n" +
+                "        sdm.district_name,\n" +
+                "        CASE \n" +
+                "            WHEN ed.quiz_attempt = 1 THEN 'core'\n" +
+                "            WHEN ed.quiz_attempt = 2 THEN 'retake 1'\n" +
+                "            WHEN ed.quiz_attempt = 3 THEN 'retake 2'\n" +
+                "        END AS quiz_attempt_name,\n" +
+                "        COUNT(DISTINCT ed.user_id) AS num_students,\n" +
+                "        AVG(ed.score) AS avg_score\n" +
+                "    FROM \n" +
+                "        exam_details ed\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_wallet sw ON ed.eklavvya_exam_id = sw.eklavvya_exam_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_master sm ON ed.user_id = sm.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_extra_data sed ON ed.user_id = sed.user_id\n" +
+                "\tJOIN\n" +
+                "\t\tstudent_demographic sd ON ed.user_id = sd.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_master stm ON sd.state_id = stm.state_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tstate_district_master sdm ON sd.district_id = sdm.district_id\n" +
+                "\tJOIN\n" +
+                "\t\tuser_master um ON sd.user_id = um.user_id\n" +
+                "\tLEFT JOIN\n" +
+                "\t\tparent_extra_data ped ON um.parent_id = ped.user_id\n" +
+                "\tWHERE\n" +
+                "\t\ted.attempted = 1\n" +
+                "\t\tAND sw.amount_status IN ('2','4','5') \n");
+
+
+
+        if (payloadDto.getTransactionDateFrom2() != null
+                && payloadDto.getTransactionDateTo2()!= null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add(payloadDto.getTransactionDateFrom2());
+            parameters.add(payloadDto.getTransactionDateTo2());
+        }
+
+        if (payloadDto.getTransactionDateFrom2() == null
+                && payloadDto.getTransactionDateTo2() == null){
+            query.append("\t\tAND (STR_TO_DATE(SUBSTRING(ed.exam_compelete,1,8), '%Y%m%d') BETWEEN ? AND ? ) \n");
+            parameters.add("2023-12-01");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String current= currentDate.format(formatter);
+            parameters.add(current);
+        }
+
+
+
+        if (payloadDto.getGrades()!=null){
+            query.append("\t\tAND sm.grade = ?\n");
+            parameters.add(payloadDto.getGrades());
+
+
+        }
+
+        if (payloadDto.getSubject() != null){
+            query.append("\t\tAND ed.subject = ? \n");
+            parameters.add(payloadDto.getSubject());
+
+
+        }
+
+
+        if (payloadDto.getSchoolLocation() !=null){
+            query.append("\t\tAND sed.school_location = ? \n");
+            parameters.add(payloadDto.getSchoolLocation());
+
+        }
+
+        if (payloadDto.getStateId() !=null){
+            query.append("\tAND sd.state_id = ? \n");
+            parameters.add(payloadDto.getStateId());
+
+        }
+
+        if (payloadDto.getDistrictId() != null){
+            query.append("\tAND sd.district_id = ? \n");
+            parameters.add(payloadDto.getDistrictId());
+
+        }
+
+        if (payloadDto.getGender() !=null){
+            query.append("\tAND sd.gender = ? \n");
+            parameters.add(payloadDto.getGender());
+
+
+        }
+
+        if (payloadDto.getSocialGroup() !=null){
+            query.append("\tAND sed.social_group = ? \n");
+            parameters.add(payloadDto.getSocialGroup());
+
+
+        }
+
+        if (payloadDto.getCwsn() != null){
+            query.append("\tAND sed.cwsn = ? \n");
+            parameters.add(payloadDto.getCwsn());
+
+
+        }
+
+        if (payloadDto.getEducationBoard() !=null){
+            query.append("\tAND sd.education_board = ? \n");
+            parameters.add(payloadDto.getEducationBoard());
+
+
+        }
+
+        if (payloadDto.getAgeFrom() !=null && payloadDto.getAgeTo() != null){
+            query.append("\tAND timestampdiff(YEAR, sd.dob, CURDATE()) BETWEEN ? and ? \n");
+            parameters.add(payloadDto.getAgeFrom());
+            parameters.add(payloadDto.getAgeTo());
+
+        }
+
+        if (payloadDto.getSchoolManagement() != null){
+            query.append("\tAND sd.school_management = ? \n");
+            parameters.add(payloadDto.getSchoolManagement());
+
+        }
+
+        if (payloadDto.getSchoolCategory() !=null){
+            query.append("\tAND sed.school_category = ? \n");
+            parameters.add(payloadDto.getSchoolCategory());
+
+        }
+
+        if (payloadDto.getSchoolType() !=null){
+            query.append("\tAND sed.school_type = ? \n");
+            parameters.add(payloadDto.getSchoolType());
+
+        }
+
+
+        if (payloadDto.getChildMotherQualification() !=null){
+            query.append("\tAND ped.child_mother_qualification = ? \n");
+            parameters.add(payloadDto.getChildMotherQualification());
+
+        }
+
+        if (payloadDto.getChildFatherQualification() !=null){
+
+            query.append("\tAND ped.child_father_qualification = ? \n");
+            parameters.add(payloadDto.getChildFatherQualification());
+
+        }
+
+        if (payloadDto.getHouseholdId() != null ){
+            query.append("\tAND ped.household_income = ? \n");
+            parameters.add(payloadDto.getHouseholdId());
+
+        }
+
+        query.append("\t GROUP BY \n" +
+                "        sd.state_id, sd.district_id, quiz_attempt_name\n" +
+                ") AS subquery\n" +
+                "HAVING\n" +
+                "\tstate_name IS NOT NULL\n" +
+                "ORDER BY \n" +
+                "    state_id, district_id, FIELD(quiz_attempt_name, 'core', 'retake 1', 'retake 2')\n" +
+                "    ) AS main_subquery\n" +
+                "    GROUP BY \n" +
+                "        main_subquery.quiz_attempt, main_subquery.state_id, main_subquery.district_id\n" +
+                ") AS subquery2\n" +
+                "ON subquery1.state_id = subquery2.state_id AND subquery1.district_id = subquery2.district_id AND subquery1.quiz_attempt = subquery2.quiz_attempt\n" +
+                "HAVING\n" +
+                "\tsubquery1.state_name IS NOT NULL\n" +
+                "ORDER BY \n" +
+                "    subquery1.state_id, subquery1.district_id, subquery1.quiz_attempt;");
 
         System.out.println(parameters);
         System.out.println(query);
