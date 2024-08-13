@@ -42,7 +42,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -51,7 +51,7 @@ const defaultChartDataCard4 = {
       order: 2,
     },
     {
-      label: 'No of Students (Pan India)',
+      label: '',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -64,6 +64,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -74,6 +75,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -91,6 +93,7 @@ const defaultChartDataCard4PercentageImprovement = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -101,6 +104,7 @@ const defaultChartDataCard4PercentageImprovement = {
     {
       label: 'Percentage Improvement (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -260,7 +264,11 @@ setLoading(true)
     if(category == "Teachers" || category == "Parents"){
       if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
     if(res.data.status && res.data.statusCode == 200){
       if(res.data.result.dataStateOne.length == 0 && res.data.result.dataNation.length == 0){
         setDataAvailableChart(true)
@@ -319,7 +327,11 @@ setLoading(true)
     else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 5 || selectedAttribute.id == 6 || selectedAttribute.id == 7 || selectedAttribute.id == 8 || selectedAttribute.id == 14)){
       if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(res.data.status && res.data.statusCode == 200){
         if(res.data.result.dataStateOne.length == 0){
             setDataAvailableChart(true)
@@ -375,7 +387,11 @@ setLoading(true)
     else if(category == "Students" && subtype == "r1" &&  (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10 )){
       if(apiEndPoints != undefined){
         const endpoint = apiEndPoints[selectedAttribute.id];
-        const res = await axios.post(endpoint, payload);
+        const res = await axios.post(endpoint, payload,{
+          headers: {
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+      });
         if(res.data.status && res.data.statusCode == 200){
           if(res.data.result.dataStateOne == 0 && res.data.result.dataNation == 0){
               setDataAvailableChart(true)
@@ -452,7 +468,11 @@ console.log(newTableData)
       if(apiEndPoints != undefined){
 
       const endpoint = apiEndPoints[selectedAttribute.id];
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(res.data.status && res.data.statusCode == 200){
         if(res.data.result.dataStateOne.length == 0 && res.data.result.dataNation.length == 0){
           setDataAvailableChart(true)
@@ -516,7 +536,7 @@ console.log(chartData)
 
 const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,stateName) => [
   { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})`,dataStudent:dataOneStudent || [] },
-    { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || []},
+    { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [],label: `No of ${category} (Pan India)`},
     { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
     { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
   ];
@@ -529,7 +549,7 @@ const createDatasetsCard4 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStu
 
 const createDatasetsCard5 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,stateName) => [
     { ...defaultChartDataCard4.datasets[0], data: dataOne || [],label: `No of ${category} (${stateName})` },
-      { ...defaultChartDataCard4.datasets[1], data: dataTwo || []},
+      { ...defaultChartDataCard4.datasets[1], data: dataTwo || [],label: `No of ${category} (Pan India)`},
       { ...defaultChartDataCard4.datasets[2], data: dataOneAvg || [],label: `Average score (${stateName})` },
       { ...defaultChartDataCard4.datasets[3], data: dataTwoAvg || [] },
     ];

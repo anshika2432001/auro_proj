@@ -9,8 +9,20 @@ export const STATUSES = Object.freeze({
 
 // Thunk
 export const userLogin = createAsyncThunk('login/api', async (request) => {
+    console.log(request)
     const res = await axios.post('/auth/authenticate', request);
-    return res.data; // Return only the data
+    console.log(res)
+
+    
+    if(res.data){
+        localStorage.setItem('token',res.data?.token)
+    localStorage.setItem('userName',res.data?.userdetails.user.userName)
+    localStorage.setItem('email',res.data?.userdetails.user.email)
+    localStorage.setItem('roleId',res.data?.userdetails.roleMap.roleId)
+    localStorage.setItem('roleName',res.data?.userdetails.roleMap.roleName)
+        return res.data; 
+    }
+    
 });
 
 const loginUserSlice = createSlice({

@@ -21,7 +21,7 @@ function TableComponent({titleId, dropdownOptions, attributeBasedDropdowns,table
   console.log(titleId)
   console.log(dropdownOptions)
   
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   
   const initialAttribute = dropdownOptions.length > 0 ? dropdownOptions[Number(titleId)-1].id : '';
   const [selectedAttribute, setSelectedAttribute] = useState(initialAttribute);
@@ -189,7 +189,11 @@ useEffect(() => {
       const response = await axios.post("/fetch-topics", {
         subject: defaultSubject,
         grade: defaultGrade,
-      });
+      },{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(value == 12){
       const topicNames = response.data.result.topTopicNames;
       setQuizNames(['All', ...mapQuizNames(topicNames)]);
@@ -563,7 +567,7 @@ useEffect(() => {
  <Typography variant="body1" color="error">No data available for the table.</Typography>
         ):(
           <>
-          {(category == "Teachers" || category=="Parents" || (category=="Students" && subtype =="r1" && (titleId == 12 || titleId == 13))) ? (
+          {(category == "Teachers" || category=="Parents" || (category=="Students" && subtype =="r1" && (titleId == 12 || titleId == 10 || titleId == 13))) ? (
             <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650, mt: 2 }} aria-label="simple table">
           <TableHead sx={{ backgroundColor: '#f0f0f0' }}>

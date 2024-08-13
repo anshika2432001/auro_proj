@@ -24,7 +24,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatusChart,loadingStatusTable,apiEndPoints,cardMapping,dataAvailableStatus,category,subtype,tableInfo,tableHeadings,attributeHeading }) {
 
   const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const defaultStateId = 7; 
   const [quizNames, setQuizNames] = useState([]);
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
@@ -261,7 +261,11 @@ function CardFourComponent({ title, dropdownOptions, attributeBasedDropdowns, ch
       const response = await axios.post("/fetch-topics", {
         subject: defaultSubject,
         grade: defaultGrade,
-      });
+      },{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(value == 12){
       const topicNames = response.data.result.topTopicNames;
       setQuizNames(['All', ...mapQuizNames(topicNames)]);
@@ -614,7 +618,8 @@ const dataRows = getCsvDataRows(title,selectedFilters,attributeOptions,category,
               },
               plugins: {
                 legend: {
-                display: true
+                display: true,
+                position: 'bottom'
               },
             
               tooltip: {

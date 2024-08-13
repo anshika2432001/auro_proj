@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 
 import filterSliceReducer from './filterSlice';
+import roleDropdownSliceReducer from './roleDropdownSlice';
 import loginUserSliceReducer from './loginUserSlice';
 
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     
     filterDropdown: filterSliceReducer,
     loginUser: loginUserSliceReducer,
+    roleDropdown: roleDropdownSliceReducer,
 
     
   },
@@ -23,3 +25,5 @@ export const store = configureStore({
       serializableCheck: false
     })
 })
+
+export default store;

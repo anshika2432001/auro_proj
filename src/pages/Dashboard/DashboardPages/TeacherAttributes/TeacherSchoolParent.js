@@ -10,10 +10,10 @@ import {  useSelector } from "react-redux";
 
 //attribute dropdown options
 const dropdownOptions = [
-  { id: 1, value: 'Frequency of parent teacher meetings for each group' },
+  { id: 1, value: 'Frequency of parent teacher meetings for each grade' },
   { id: 2, value: 'Number of CSRs engaged with school in last academic year' },
-  { id: 3, value: 'School with SMCs' },
-  { id: 4, value: 'Functional SMCs' },
+  { id: 3, value: 'Schools with SMCs' },
+  { id: 4, value: 'Schools with functional SMCs' },
   { id: 5, value: 'School registered on Vidyanjali portal' },
   
 ];
@@ -47,9 +47,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Teachers (Green)',
+      label: 'No of Teachers-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -59,7 +59,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Teachers (Blue)',
+      label: 'No of Teachers-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -71,8 +71,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -81,8 +82,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -100,7 +102,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -124,6 +126,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -134,6 +137,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -158,7 +162,7 @@ const tableHeadings = [
 
 const TeacherSchoolParent = () => {
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
  
@@ -312,7 +316,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
    
    
     
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
      
      if(res.data.status && res.data.statusCode == 200){
       setLoadingTable(prevValue => ({
@@ -392,7 +400,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
      
      
 
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({

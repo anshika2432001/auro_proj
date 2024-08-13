@@ -20,6 +20,7 @@ const PdfExport = (
   cardKey
 ) => {
   const currentDate = new Date().toLocaleDateString();
+  const userName = localStorage.getItem('userName')
   const doc = new jsPDF();
   const selectedFiltersWithNames = Object.fromEntries(
     Object.entries(selectedFilters).map(([key, value]) => {
@@ -194,7 +195,7 @@ const PdfExport = (
       const footerY = pageHeight - 10;
 
       doc.setFontSize(10);
-      doc.text(`Downloaded by: Anshika`, 10, footerY);
+      doc.text(`Downloaded by: ${userName}`, 10, footerY);
       doc.text(`Date:  ${currentDate}`, pageWidth / 2, footerY, null, null, 'center');
       doc.text(`Page ${doc.internal.getNumberOfPages()}`, pageWidth - 10, footerY, null, null, 'right');
     }
@@ -208,7 +209,7 @@ const PdfExport = (
 
   // Add the disclaimer text at the end
   const disclaimerText =
-    'The data provided is intended solely for educational purposes and not for commercial use. Any modifications or repurposing require prior permission, and proper citation of the study and website is mandatory';
+    'Disclaimer: The data provided is intended solely for educational purposes and not for commercial use. Any modifications or repurposing require prior permission, and proper citation of the study and website is mandatory';
   const splitDisclaimerText = doc.splitTextToSize(disclaimerText, 180);
   doc.text(splitDisclaimerText, 10, endY + 10);
 

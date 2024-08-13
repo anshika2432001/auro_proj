@@ -44,7 +44,11 @@ const BudgetState = () => {
   //get budget details function
   const getBudgetInfo = async () => {
     try {
-      const res = await axios.get('/budget-state-data');
+      const res = await axios.get('/budget-state-data',{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       const result = res.data.result;
 console.log(result)
       const processedChartData = processChartData(result);
@@ -71,8 +75,8 @@ console.log(result)
           {
             label: option.value,
             type: 'bar',
-            backgroundColor: 'rgba(185,102,220,1)',
-            borderColor: 'rgba(185,102,220,1)',
+            backgroundColor: '#D7ECFB',
+      borderColor: '#7ECCFF',
             borderWidth: 2,
             data: option.id === 1 ? fundsAllocatedData
                 : option.id === 2 ? publicExpenditureData
@@ -118,7 +122,11 @@ console.log(result)
       stateName: filterValue
     };
     try {
-      const res = await axios.post('/budget-filter', payload);
+      const res = await axios.post('/budget-filter', payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       const result = res.data.result;
 
       const filteredChartData = processChartDataForFilter(result, attributeId);
@@ -140,7 +148,11 @@ console.log(result)
   };
  
   try {
-    const res = await axios.post('/budget-filter', payload);
+    const res = await axios.post('/budget-filter', payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
     const result = res.data.result;
 
 const newTableData = processTableDataForFilter(result, attributeId);

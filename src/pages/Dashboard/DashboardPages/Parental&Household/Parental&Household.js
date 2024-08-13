@@ -12,19 +12,19 @@ import {  useSelector } from "react-redux";
 const dropdownOptions = [
   { id: 1, value: 'Immigrant background (i.e one or both parents born in another state) ' },
   { id: 2, value: 'Household with at least one member who completed Std XII' },
-  { id: 3, value: 'Parents monthly spend on childs education' },
-  { id: 4, value: 'Household has internet connection' },
-  { id: 5, value: 'Mothers level of Education' },
+  { id: 3, value: "Parents monthly spend on child's education" },
+  { id: 4, value: 'Household with internet connection' },
+  { id: 5, value: "Mother's level of Education" },
   { id: 6, value: 'Average income of household' },
   { id: 7, value: 'Households with at least one member who knows how to operate a computer' },
   { id: 8, value: 'House type ' },
-  { id: 9, value: '% Households which have other reading material (activity books, reading books, puzzles, newspaper)' },
+  { id: 9, value: '% households with access to other reading material (activity books, reading books, puzzles, newspaper)' },
   { id: 10, value: "Father's level of education" },
-  { id: 11, value: 'Household has electricity connection ' },
-  { id: 12, value: 'I (or another adult in the home) read(s) with my child every day or nearly every day' },
-  { id: 13, value: 'My child’s teacher and I communicate with each other at least once a month (in person or by notes, text, email, phone, etc.)' },
-  { id: 14, value: 'I expect my child will graduate from high school ' },
-  { id: 15, value: 'I expect my child will go to college one day' },
+  { id: 11, value: 'Household with electricity connection ' },
+  { id: 12, value: 'No. of adult/parents who read with child everyday or nearly everyday' },
+  { id: 13, value: 'No. of parents who communicate wth teacher at least once a month (in person or by notes, text, email, phone, etc.)' },
+  { id: 14, value: 'No. of parents expecting their children to graduate from high school' },
+  { id: 15, value: 'No. of parents expecting their children to graduate from college' },
 
 ];
 
@@ -79,9 +79,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Teachers (Green)',
+      label: 'No of Parents-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -91,7 +91,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Teachers (Blue)',
+      label: 'No of Parents-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -103,8 +103,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -113,8 +114,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -132,7 +134,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -156,6 +158,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -166,6 +169,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -190,7 +194,7 @@ const tableHeadings = [
 
 const ParentalandHousehold = () => {
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
  
@@ -352,7 +356,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
       payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
     }
    
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
      
      if(res.data.status && res.data.statusCode == 200){
       setLoadingTable(prevValue => ({
@@ -441,7 +449,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
      
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
       if(res.data.status && res.data.statusCode == 200){
        setLoadingChart(prevValue => ({

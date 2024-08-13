@@ -12,22 +12,22 @@ import { useSelector } from "react-redux";
 
 //attribute dropdown options
 const dropdownOptions = [
-  { id: 1, value: 'Subject Wise Breakdown - Average Score' },
-  { id: 2, value: 'Gradewise - Average Score' },
-  { id: 3, value: 'Microscholarship Quizzes - Average Score' },
+  { id: 1, value: 'Average score as per subject' },
+  { id: 2, value: 'Average score as per grade' },
+  { id: 3, value: 'Average Score on microscholarship quiz' },
   { id: 4, value: 'Total Quiz Attempted' },
-  { id: 5, value: 'Topic wise breakdown - Average Score' },
-  { id: 6, value: 'Topic wise breakdown - No. of Microscholarship Quizzes' },
+  { id: 5, value: 'Average score as per topic' },
+  { id: 6, value: 'Total Microscholarship Quizzes' },
   { id: 7, value: 'Top Performing Topics' },
   { id: 8, value: 'Weak Performing Topics' },
-  { id: 9, value: 'Core-Retake- ( No of Students)' },
-  { id: 10, value: 'Core-Retake- Percentage Improvement' },
+  { id: 9, value: 'No of Students in core & retake quizzes' },
+  { id: 10, value: '% Improvement in Average score - Core & Retake' },
   // { id: 11, value: 'Subject Wise Breakdown - % Improvement' },
   // { id: 12, value: 'Grade wise- % Improvement Score' },
   // { id: 13, value: 'Topic wise breakdown - %Improvement' },
-  { id: 11, value: 'Topic wise breakdown - Student Attempts' },
-  { id: 12, value: 'Topic wise breakdown - Top Performing Topics' },
-  { id: 13, value: 'Topic wise breakdown - Weak Performing Topics' },
+  { id: 11, value: 'Student Attempts as per topic' },
+  { id: 12, value: '% Improvement as per topic - Top Performing' },
+  { id: 13, value: '% Improvement as per topic - Weak Performing' },
 
 
 ];
@@ -92,9 +92,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Green)',
+      label: 'No of Students-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -103,7 +103,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Students (Blue)',
+      label: 'No of Students-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -114,8 +114,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -124,8 +125,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -162,8 +164,9 @@ const defaultChartDataPercentageImprovement = {
     //   order: 2,
     // },
     {
-      label: 'Percentage Improvement (Green)',
+      label: 'Percentage Improvement-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -174,8 +177,9 @@ const defaultChartDataPercentageImprovement = {
       order: 1,
     },
     {
-      label: 'Percentage Improvement (Blue)',
+      label: 'Percentage Improvement-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -194,7 +198,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -216,6 +220,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -226,6 +231,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -243,6 +249,7 @@ const defaultChartDataPercentageImprovementCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -253,6 +260,7 @@ const defaultChartDataPercentageImprovementCard4 = {
     {
       label: 'Percentage Improvement (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -275,7 +283,7 @@ const defaultChartDataPercentageImprovementCard4 = {
 
 const StudentSchoolAttributes_R1 = () => {
    const titleId = useParams();
-   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+   const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
 const [tableHeadings,setTableHeadings]= useState([])
@@ -464,7 +472,11 @@ useEffect(() => {
       }
 
 
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
 
        if(res.data.status && res.data.statusCode == 200){
         setLoadingTable(prevValue => ({
@@ -579,7 +591,11 @@ useEffect(() => {
       }
 
 
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
 
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({
@@ -595,6 +611,7 @@ useEffect(() => {
 
                const stateValue = value ? ((value.State && value.State !== "All") ? value.State :  7): 7
                const defaultStateName = filterOptions ? (filterOptions.states ? (filterOptions.states.find(state => state.state_id === stateValue).state_name) : ""):"";
+               
 
               const [labelsData, dataOne, dataOneAvg, dataTwo, dataTwoAvg, newTableData,attributeName,dataOneAvgImprovement,dataTwoAvgImprovement] = parseResultDataCard4(key,cardKey, result);
               if(key == 12 || key == 13 || key == 10){
@@ -701,7 +718,7 @@ useEffect(() => {
       7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
       8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'avg_score_state',attributeName:'Topic Name' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_region', avgKey: 'avg_score_region',attributeName:'Quiz Attempt' },
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',avgKeyImprovement: 'avg_improvement_region',attributeName:'Quiz Attempt' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey: 'avg_score',avgKeyImprovement: 'avg_improvement',attributeName:'Quiz Attempt' },
       // 11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Subject' },
       // 12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Grade' },
       // 13: { key: 'topic_name', dataOneKey: 'num_students_state',dataTwoKey: 'num_students_state', avgKey: 'percent_improvement_second_state',attributeName:'Topic Name' },
@@ -858,7 +875,7 @@ if(type == "table"){
     [cardKey]: false,
   }));
   const labelValue = mappings[key].key
-  if(key == 12 || key ==13 ){
+  if(key == 12 || key ==13 || key ==10 ){
     result.dataStateOne.map(value=>{
 
 
@@ -879,27 +896,27 @@ if(type == "table"){
 })
 
   }
-  else if( key == 10){
-    result.dataStateOne.map(value=>{
+//   else if( key == 10){
+//     result.dataStateOne.map(value=>{
 
 
-      newTableData.push({
-        stateDataValue: value.state_name,
-        districtDataValue: value.district_name,
-        attributes: value[labelValue],
-        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-        dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
-        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
-        dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
+//       newTableData.push({
+//         stateDataValue: value.state_name,
+//         districtDataValue: value.district_name,
+//         attributes: value[labelValue],
+//         dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+//         dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+//         dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
+//         dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+//         dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+//         dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
 
 
 
-  })
-})
+//   })
+// })
 
-  }
+//   }
   else{
     result.dataStateOne.map(value=>{
 
@@ -942,7 +959,7 @@ if(type == "table"){
       7: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation',avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
       8: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'avg_score_state', avgKey2: 'avg_score_nation',attributeName:'Topic Name' },
       9: { key: 'quiz_attempt', dataOneKey: 'num_students_region', dataTwoKey: 'num_students_pan_india',avgKey1: 'avg_score_region', avgKey2: 'avg_score_pan_india',attributeName:'Quiz Attempt'},
-      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',avgKeyImprovement1: 'avg_improvement_region',avgKeyImprovement2: 'avg_improvement_nation',attributeName:'Quiz Attempt' },
+      10: { key: 'quiz_attempt', dataOneKey: 'num_students', dataTwoKey: 'num_students', avgKey1: 'avg_score',avgKey2: 'avg_score',avgKeyImprovement1: 'avg_improvement',avgKeyImprovement2: 'avg_improvement',attributeName:'Quiz Attempt' },
       // 11: { key: 'subject', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Subject' },
       // 12: { key: 'grade', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Grade' },
       // 13: { key: 'topic_name', dataOneKey: 'num_students_state', dataTwoKey: 'num_students_nation', avgKey1: 'percent_improvement_second_state',avgKey2: 'percent_improvement_second_nation',attributeName:'Topic Name' },

@@ -10,15 +10,15 @@ import {  useSelector } from "react-redux";
 
 //attribute dropdown options
 const dropdownOptions = [
-  { id: 1, value: 'Pre-Primary School' },
-  { id: 2, value: 'Student Strength of the Classroom' },
-  { id: 3, value: 'Types of Student Clubs' },
-  { id: 4, value: 'Academic Stream' },
-  { id: 5, value: 'Student with access to Bank Account/ UPI' },
-  { id: 6, value: 'Students engagement in extra curricular activities in school' },
-  { id: 7, value: 'Children whose first or home language is the same as that in the school ' },
+  { id: 1, value: 'Pre-Primary school type' },
+  { id: 2, value: 'Student strength in classroom' },
+  { id: 3, value: 'Types of students clubs' },
+  { id: 4, value: 'Academic stream' },
+  { id: 5, value: 'Student with access to bank account/ UPI' },
+  { id: 6, value: 'Students engagement in extracurricular activities in school' },
+  { id: 7, value: 'Children with same first/home language at home and school' },
   { id: 8, value: 'Social Group' },
-  { id: 9, value: 'No. of Students in leadership positions in school clubs in the school ' },
+  { id: 9, value: 'Students in leadership positions in school clubs' },
 ];
 
 //filters based on attribute id
@@ -54,9 +54,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Green)',
+      label: 'No of Students-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -65,7 +65,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Students (Blue)',
+      label: 'No of Students-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -76,8 +76,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -86,8 +87,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -105,7 +107,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -127,6 +129,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -137,6 +140,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -161,7 +165,7 @@ const tableHeadings = [
 
 const StudentSchoolAttributes_R2 = () => {
   const titleId = useParams();
-   const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+   const filterOptions = useSelector((state) => state.filterDropdown.data);
    const [cardMapping,setCardMapping] = useState('');
    const [card4Mapping,setCard4Mapping]= useState('');
   
@@ -321,7 +325,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingTable(prevValue => ({
@@ -411,7 +419,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({

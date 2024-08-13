@@ -11,7 +11,9 @@ baseURL: "http://localhost:8091/auro",   //Local url
 
 API.interceptors.request.use(
     config => {
-      config.headers["Authorization"] = `Bearer ${localStorage.getItem('token')}`;
+      if(config.headers.Authorization){
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+      }
       return config;
     },
     error => {

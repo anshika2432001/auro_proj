@@ -23,10 +23,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 function CardComponent({ title, dropdownOptions, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatusChart,loadingStatusTable,apiEndPoints,apiEndPointsTable,cardMapping,dataAvailableStatus,category,subtype,tableInfo,tableHeadings,attributeHeading }) {
-console.log(loadingStatusChart,loadingStatusTable)
-console.log(chartData)
+
 const chartWidth = chartData.labels.length <= 3 ? '400px' : '800px';
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+   const filterOptions = useSelector((state) => state.filterDropdown.data);
   const navigate = useNavigate();
   const csvLinkRef = useRef(null);
   const [selectedAttribute, setSelectedAttribute] = useState(title.id);
@@ -200,7 +199,11 @@ useEffect(() => {
       const response = await axios.post("/fetch-topics", {
         subject: defaultSubject,
         grade: defaultGrade,
-      });
+      },{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(value == 12){
       const topicNames = response.data.result.topTopicNames;
       setQuizNames(['All', ...mapQuizNames(topicNames)]);
@@ -619,7 +622,14 @@ console.log(dataRows)
               },
               plugins: {
                   legend: {
-                  display: true
+                  display: true,
+                  position: 'bottom',
+                  labels: {
+                    boxWidth: 20, // Width of the legend box
+                    padding: 10,  // Padding between legend items
+                    usePointStyle: false,
+                    maxWidth: 300, // Width at which legends wrap
+                  },
                 },
               
                 tooltip: {

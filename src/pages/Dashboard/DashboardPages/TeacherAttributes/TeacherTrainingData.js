@@ -10,16 +10,16 @@ import {  useSelector } from "react-redux";
 
 //attribute dropdown options
 const dropdownOptions = [
-  { id: 1, value: '% Of teachers trained on Continuous and Comprehensive Evaluation (CCE) and Classroom Based Assessment' },
-  { id: 2, value: '% of teachers are satisfied with trainings held during the academic year by school/ Education Dept' },
-  { id: 3, value: 'Nature of employment of teachers in the school' },
-  { id: 4, value: 'Time spent by teacher on school related activities' },
-  { id: 5, value: 'Teachers have a platform in school to share their best practices with each other and to brainstorm challenges faced during teaching' },
-  { id: 6, value: 'Time spent by teacher in mandatory training actually' },
-  { id: 7, value: '% of Teachers who are aware about pedagogical methodologies in' },
-  { id: 8, value: 'Training needs of the teacher (10 options)' },
-  { id: 9, value: 'Periodicity of formative assessment in school (8 options)' },
-  { id: 10, value: 'Schools having full access to and are utilising Teaching Resources provided by the SCERT/ DIETs  ' },
+  { id: 1, value: '% of teachers trained on CCE and Classroom based assessment' },
+  { id: 2, value: '% of teachers satisfied with the trainings held during the academic year by School/ Education Dept' },
+  { id: 3, value: 'Type of teacher employment in school' },
+  { id: 4, value: 'Time spent by teacher in a week on school related activities' },
+  { id: 5, value: 'No. of teachers with access to platform in school to share their best practices and challenges' },
+  { id: 6, value: 'Time spent by teacher in mandatory training annually' },
+  { id: 7, value: '% of teachers aware about pedagogical methodologies' },
+  { id: 8, value: 'Training needs of the teacher' },
+  { id: 9, value: 'Periodicity of formative assessments in school' },
+  { id: 10, value: 'Schools with access to and are utilising SCRET / DIETs teaching resources' },
   
   
 ];
@@ -57,9 +57,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Teachers (Green)',
+      label: 'No of Teachers-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -69,7 +69,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Teachers (Blue)',
+      label: 'No of Teachers-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -81,8 +81,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -91,8 +92,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -110,7 +112,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -134,6 +136,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -144,6 +147,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -168,7 +172,7 @@ const tableHeadings = [
 
 const TeacherTrainingData = () => {
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
  
@@ -318,7 +322,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
         
       };
 
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
      
      if(res.data.status && res.data.statusCode == 200){
       setLoadingTable(prevValue => ({
@@ -398,7 +406,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
      
      
 
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({

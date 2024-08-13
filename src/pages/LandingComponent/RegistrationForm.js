@@ -7,12 +7,18 @@ import { Checkbox, FormControlLabel } from "@mui/material";
 import AlertConfirm from "react-alert-confirm";
 import { useSnackbar } from "../uiComponents/Snackbar";
 import "react-alert-confirm/lib/style.css";
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const [agree, setAgree] = useState(false);
   const [roleTypeId, setRoleTypeId] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const roleTypeDropdown = [
     { value: "Government", id: 1 },
@@ -31,7 +37,8 @@ const RegistrationForm = () => {
     .required('Required')
     .typeError('Must be a number')
     .test('len', 'Must be exactly 10 digits', val => val && val.toString().length === 10),
-    password: Yup.string().required('Required'),
+    password: Yup.string().required('Required')
+    .min(8, 'Password must be at least 8 characters long'),
     roleTypeId: Yup.number().required('Required'),
     designation: Yup.string().required('Required'),
   });
@@ -77,7 +84,7 @@ const RegistrationForm = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("Form submitted with values:", values);
-      navigate("/otpVerify");
+      // navigate("/otpVerify");
     },
   });
 
@@ -127,10 +134,58 @@ const RegistrationForm = () => {
   };
 
   const submitFormData = async (values) => {
-    console.log(values);
-    navigate("/otpVerify");
+
+    let roleTypeDetails = {};
+
+    switch (values.roleTypeId) {
+      case 1: // Government
+        roleTypeDetails = {
+          department: values.department,
+          ministry: values.ministry,
+          designation: values.designation,
+        };
+        break;
+      case 2: // Policy Makers
+        roleTypeDetails = {
+          companyName: values.companyName,
+          companyUrl: values.companyUrl,
+          designation: values.designation,
+        };
+        break;
+      default: // Other role types
+        roleTypeDetails = {
+          companyName: values.companyName,
+          designation: values.designation,
+        };
+        break;
+    }
+  
+    let payload = {
+      userName: values.name,
+      email: values.email,
+      password: values.password,
+      mobileNo: values.mobileNo,
+      roleId: values.roleTypeId,
+      roleTypeDetails: roleTypeDetails,
+    };
+    if(payload){
+      navigate("/otpVerify",{
+        state:{
+          payload:payload
+        }
+      });
+    }
+   
   };
   console.log(formik.values.roleTypeId)
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <div>
@@ -174,7 +229,11 @@ const RegistrationForm = () => {
               label="Mobile Number"
               name="mobileNo"
               type="tel"
-              inputProps={{ maxLength: 10 }}
+              inputProps={{ 
+                maxLength: 10, 
+                
+              }}
+              inputMode="numeric" 
               value={formik.values.mobileNo}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -189,7 +248,7 @@ const RegistrationForm = () => {
                 <TextField
                   label="Password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -198,6 +257,20 @@ const RegistrationForm = () => {
                   fullWidth
                   margin="normal"
                   required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6} lg={6}>

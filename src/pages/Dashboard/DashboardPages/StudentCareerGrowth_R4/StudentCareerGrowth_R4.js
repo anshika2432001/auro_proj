@@ -11,13 +11,13 @@ import {  useSelector } from "react-redux";
 //attribute dropdown options
 const dropdownOptions = [
   { id: 1, value: 'Students taking vocational courses' },
-  { id: 2, value: 'Students who want to access internship' },
+  { id: 2, value: 'No. of students who want internship' },
   { id: 3, value: 'Students likely to attend higher education' },
-  { id: 4, value: 'Number of students who are confident that they have knowledge of career options' },
+  { id: 4, value: 'Students confidence on knowledge of career options' },
   { id: 5, value: 'Student career domains' },
-  { id: 6, value: 'Students confident in the communication skills, problem solving, team building' },
-  { id: 7, value: 'Number of students accessing preparatory classes for higher education (college)' },
-  { id: 8, value: 'Students who want to access vocational courses ' },
+  { id: 6, value: 'Students confident in the following skills- communication skills, problem solving, team building' },
+  { id: 7, value: 'No. of students accessing preparatory classes for higher education (college)' },
+  { id: 8, value: 'No. of students who want access to vocational courses' },
   
 ];
 
@@ -55,9 +55,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Green)',
+      label: 'No of Students-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -66,7 +66,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Students (Blue)',
+      label: 'No of Students-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -77,8 +77,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -87,8 +88,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -106,7 +108,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -128,6 +130,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -138,6 +141,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -160,7 +164,7 @@ const tableHeadings = [
 const StudentCareerGrowth_R4 = () => {
 
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
 
@@ -321,7 +325,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingTable(prevValue => ({
@@ -411,7 +419,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({

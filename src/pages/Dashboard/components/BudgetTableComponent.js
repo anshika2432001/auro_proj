@@ -162,22 +162,28 @@ function BudgetTableComponent({ dropdownOptions, attributeBasedDropdowns, tableI
                   </Grid>
                   <Grid item xs={3} sm={3} md={3} lg={3}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="Start Date"
-                        value={dateRange1Start}
-                        onChange={(newValue) => setDateRange1Start(newValue)}
-                        renderInput={(params) => <TextField {...params} size="small" />}
-                      />
+                    <DatePicker
+                    label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1Start}
+                    onChange={(newValue) => setDateRange1Start(newValue)}
+                    maxDate={dateRange1End}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
                     </LocalizationProvider>
                   </Grid>
                   <Grid item xs={3} sm={3} md={3} lg={3}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="End Date"
-                        value={dateRange1End}
-                        onChange={(newValue) => setDateRange1End(newValue)}
-                        renderInput={(params) => <TextField {...params} size="small" />}
-                      />
+                    <DatePicker
+                    label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1End}
+                    onChange={(newValue) => setDateRange1End(newValue)}
+                    minDate={dateRange1Start}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
                     </LocalizationProvider>
                   </Grid>
                 </Grid>

@@ -6,28 +6,34 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { useNavigate } from "react-router-dom";
+import {  useLocation } from 'react-router-dom';
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import axios from '../../utils/axios';
 
 const OtpVerification = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const location = useLocation();
+
   const [open, setOpen] = useState(false);
   const { showSnackbar } = useSnackbar();
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [otp, setOtp] = useState('');
+let regPayload = ""
+  console.log(location.state.payload)
+  if(location.state.payload){
+    regPayload = location.state.payload
+  }
+  console.log(regPayload)
+  const [emailValue, setEmailValue] = useState(regPayload.email);
 
   const handleClose = () => {
     setOpen(false);
     navigate("/");
   };
 
-  const validationSchemaMobile = Yup.object({
-    mobileNumber: Yup.number()
-      .required('Required')
-      .typeError('Must be a number')
-      .test('len', 'Must be exactly 10 digits', val => val && val.toString().length === 10),
-  });
+  // const validationSchemaEmail = Yup.object({
+  //   emailId: Yup.string().required('Required').email("Invalid email address format"),
+  // });
 
   const validationSchemaOtp = Yup.object({
     otp: Yup.string()
@@ -35,15 +41,15 @@ const OtpVerification = () => {
       .required('OTP is required'),
   });
 
-  const formikMobile = useFormik({
-    initialValues: {
-      mobileNumber: '',
-    },
-    validationSchema: validationSchemaMobile,
-    onSubmit: (values) => {
-      handleSendOtp(values);
-    },
-  });
+  // const formikEmail = useFormik({
+  //   initialValues: {
+  //     emailId: '',
+  //   },
+  //   validationSchema: validationSchemaEmail,
+  //   onSubmit: (values) => {
+  //     handleSendOtp(values);
+  //   },
+  // });
 
   const formikOtp = useFormik({
     initialValues: {
@@ -55,25 +61,75 @@ const OtpVerification = () => {
     },
   });
 
-  const handleSendOtp = (values) => {
-    // Simulate sending OTP
-    setStep(2);
-    showSnackbar("Otp sent successfully", "success");
-  };
-
-  const handleVerifyOtp = (values) => {
-    // Simulate OTP verification
-    if (values.otp === '123456') {
-      setOpen(true);
-      showSnackbar("Registration Successful", "success");
-    } else {
-      showSnackbar("Invalid Otp. Please Try Again", "warning");
+  const handleSendOtp = async () => {
+   
+    const payload = {
+      email: emailValue
+    };
+    try {
+      const res = await axios.post("/user/send-otp", payload);
+      if (res.data.status === true && res.data.statusCode === 200) {
+        showSnackbar(res.data.message, "success");
+        setStep(2);
+      } else {
+        showSnackbar(res.data.message, "warning");
+      }
+    } catch (error) {
+      console.log(error);
+      showSnackbar("Error", "error");
     }
   };
 
-  const handleResendOtp = () => {
-    // Simulate resending OTP
-    showSnackbar("OTP resend successfully", "warning");
+  const handleVerifyOtp = async (values) => {
+    const payload = {
+      otp: values.otp,
+      email: emailValue  
+    };
+    try {
+      const res = await axios.post("/user/verify-otp", payload);
+      if (res.data.status === true && res.data.statusCode === 200) {
+        showSnackbar(res.data.message, "success");
+        if(res.data.result == true){
+          try{
+
+      const res = await axios.post("/user/new-user-registration", regPayload);
+      console.log(res)
+      if(res.data.status == true && res.data.statusCode == 200){
+        showSnackbar(res.data.message, "success");
+        setOpen(true);
+      }
+      else{
+        showSnackbar(res.data.message, "warning");
+      }
+    }catch(error){
+      console.log(error)
+      showSnackbar("Error", "error");
+    }
+        }
+        
+      } else {
+        showSnackbar(res.data.message, "warning");
+      }
+    } catch (error) {
+      console.log(error);
+      showSnackbar("Error", "error");
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      const payload = { email: emailValue };
+      const res = await axios.post("/user/resend-otp", payload);
+      if (res.data.status === true && res.data.statusCode === 200) {
+        showSnackbar(res.data.message, "success");
+        setStep(2);
+      } else {
+        showSnackbar(res.data.message, "warning");
+      }
+    } catch (error) {
+      console.log(error);
+      showSnackbar("Error", "error");
+    }
   };
 
   return (
@@ -81,36 +137,37 @@ const OtpVerification = () => {
       <Card className='mini-card1'>
         <CardContent>
           <Typography variant="h4" gutterBottom textAlign="center">OTP Verification</Typography>
-
-          <form onSubmit={formikMobile.handleSubmit}>
-            <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
-              <Grid item xs={12} sm={12} md={12} lg={12}>
-                <TextField
-                  label="Mobile Number"
-                  name="mobileNumber"
-                  type="tel"
-                  inputProps={{ maxLength: 10 }}
-                  value={formikMobile.values.mobileNumber}
-                  onChange={formikMobile.handleChange}
-                  onBlur={formikMobile.handleBlur}
-                  fullWidth
-                  margin="normal"
-                  error={formikMobile.touched.mobileNumber && Boolean(formikMobile.errors.mobileNumber)}
-                  helperText={formikMobile.touched.mobileNumber && formikMobile.errors.mobileNumber}
-                  required
-                />
-              </Grid>
-              {step === 1 && (
-                <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
-                  <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }}>Send OTP</Button>
+          {step === 1 && (
+          
+              <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                   label="Email Id"
+                   value={emailValue}
+                   fullWidth
+                   margin="normal"
+                   disabled  
+                  />
                 </Grid>
-              )}
-            </Grid>
-          </form>
+                <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
+                  <Button variant="contained" type="submit" sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }} onClick={()=> handleSendOtp()}>Send OTP</Button>
+                </Grid>
+              </Grid>
+            
+          )}
 
           {step === 2 && (
             <form onSubmit={formikOtp.handleSubmit}>
               <Grid container direction="row" rowSpacing={0} columnSpacing={2}>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                  <TextField
+                    label="Email Id"
+                    value={emailValue}
+                    fullWidth
+                    margin="normal"
+                    disabled  
+                  />
+                </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
                   <TextField
                     label="Enter OTP"

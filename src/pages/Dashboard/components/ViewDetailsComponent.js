@@ -90,9 +90,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Green)',
+      label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -101,7 +101,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Students (Blue)',
+      label: '',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -112,8 +112,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -122,8 +123,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -138,8 +140,9 @@ const defaultChartDataPercentageImprovement = {
   datasets: [
     
     {
-      label: 'Percentage Improvement (Green)',
+      label: 'Percentage Improvement-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -148,8 +151,9 @@ const defaultChartDataPercentageImprovement = {
       order: 1,
     },
     {
-      label: 'Percentage Improvement (Blue)',
+      label: 'Percentage Improvement-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -258,7 +262,11 @@ setLoadingChart(true)
     if(category == "Teachers" || category == "Parents"){
       if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
     if(res.data.status && res.data.statusCode == 200){
       if( res.data.result.dataStateOne.length == 0 && res.data.result.dataStateTwo.length == 0 ){
         setDataAvailableChart(true)
@@ -294,7 +302,7 @@ setLoadingChart(true)
       setChartData({
         
         labels: labelsData,
-        datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent),
+        datasets: createDatasets(dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,category),
    
     });
       
@@ -312,7 +320,11 @@ setLoadingChart(true)
     else if(category == "Students" && subtype == "r1" &&  (selectedAttribute.id == 5 || selectedAttribute.id == 6 || selectedAttribute.id == 7 || selectedAttribute.id == 8 || selectedAttribute.id == 14)){
       if(apiEndPoints != undefined){
       const endpoint = apiEndPoints[selectedAttribute.id];
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
       if(res.data.status && res.data.statusCode == 200){
         if(res.data.status.dataStateOne.length == 0){
             setDataAvailableChart(true)
@@ -363,7 +375,11 @@ setLoadingChart(true)
     else if(category == "Students" && subtype == "r1" &&  (selectedAttribute.id == 12 || selectedAttribute.id == 13 || selectedAttribute.id == 10 )){
       if(apiEndPoints != undefined){
         const endpoint = apiEndPoints[selectedAttribute.id];
-        const res = await axios.post(endpoint, payload);
+        const res = await axios.post(endpoint, payload,{
+          headers: {
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+      });
         if(res.data.status && res.data.statusCode == 200){
           if(res.data.result.dataStateOne == 0 && res.data.result.dataStateTwo == 0){
               setDataAvailableChart(true)
@@ -422,7 +438,11 @@ setLoadingChart(true)
     else{
       if(apiEndPoints != undefined){
         const endpoint = apiEndPoints[selectedAttribute.id];
-        const res = await axios.post(endpoint, payload);
+        const res = await axios.post(endpoint, payload,{
+          headers: {
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+      });
         if(res.data.status && res.data.statusCode == 200){
           if(res.data.result.dataStateOne == 0 && res.data.result.dataStateTwo == 0){
               setDataAvailableChart(true)
@@ -479,16 +499,17 @@ setLoadingChart(true)
 };
 
 
-const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent) => [
-  { ...defaultChartData.datasets[0], data: dataOne || [],dataStudent:dataOneStudent || [] },
-  { ...defaultChartData.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [] },
+const createDatasets = (dataOne, dataTwo, dataOneAvg, dataTwoAvg,dataOneStudent,dataTwoStudent,category) => [
+  
+  { ...defaultChartData.datasets[0], data: dataOne || [],dataStudent:dataOneStudent || [],label: `No of ${category}-Date Range 1` },
+  { ...defaultChartData.datasets[1], data: dataTwo || [],dataStudent:dataTwoStudent || [],label: `No of ${category}-Date Range 2` },
   { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
   { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
 ];
 
 const createDatasets1 = (dataOne, dataTwo, dataOneAvg, dataTwoAvg) => [
-  { ...defaultChartData.datasets[0], data: dataOne || [] },
-  { ...defaultChartData.datasets[1], data: dataTwo || [] },
+  { ...defaultChartData.datasets[0], data: dataOne || [],label: 'No of Students-Date Range 1' },
+  { ...defaultChartData.datasets[1], data: dataTwo || [],label: 'No of Students-Date Range 2' },
   { ...defaultChartData.datasets[2], data: dataOneAvg || [] },
   { ...defaultChartData.datasets[3], data: dataTwoAvg || [] },
 ];
@@ -569,7 +590,11 @@ const fetchTableInfo = async (value)=> {
     if(category == "Teachers" || category == "Parents"){
       if(apiEndPointsTable != undefined){
       const endpoint = apiEndPointsTable[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
     console.log(res)
     if(res.data.status && res.data.statusCode == 200){
       if(res.data.result.dataStateOne.length == 0){
@@ -638,10 +663,14 @@ const fetchTableInfo = async (value)=> {
     }
   }
     }
-  else if(category == "Students" && subtype == "r1" &&(selectedAttribute.id == 12 ||selectedAttribute.id == 13  )){
+  else if(category == "Students" && subtype == "r1" &&(selectedAttribute.id == 12 ||selectedAttribute.id == 13 || selectedAttribute.id == 10  )){
     if(apiEndPointsTable != undefined){
       const endpoint = apiEndPointsTable[selectedAttribute.id];
-  const res = await axios.post(endpoint, payload);
+  const res = await axios.post(endpoint, payload,{
+    headers: {
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+    }
+});
   if(res.data.status && res.data.statusCode == 200){
     if(res.data.result.dataStateOne.length == 0){
         setDataAvailableTable(true)
@@ -686,58 +715,66 @@ console.log("error")
     }
             
   }
-  else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 10 )){
-    if(apiEndPointsTable != undefined){
-      const endpoint = apiEndPointsTable[selectedAttribute.id];
-  const res = await axios.post(endpoint, payload);
-  if(res.data.status && res.data.statusCode == 200){
-    if(res.data.result.dataStateOne.length == 0){
-        setDataAvailableTable(true)
-        setLoadingTable(false);
-    }
-    else{
-      setDataAvailableTable(false)
-      setLoadingTable(false);
-      const result = res.data.result;
-      const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
+//   else if(category == "Students" && subtype == "r1" && (selectedAttribute.id == 10 )){
+//     if(apiEndPointsTable != undefined){
+//       const endpoint = apiEndPointsTable[selectedAttribute.id];
+//   const res = await axios.post(endpoint, payload,{
+//     headers: {
+//         Authorization:`Bearer ${localStorage.getItem('token')}`
+//     }
+// });
+//   if(res.data.status && res.data.statusCode == 200){
+//     if(res.data.result.dataStateOne.length == 0){
+//         setDataAvailableTable(true)
+//         setLoadingTable(false);
+//     }
+//     else{
+//       setDataAvailableTable(false)
+//       setLoadingTable(false);
+//       const result = res.data.result;
+//       const { key: labelKey, dataOneKey, dataTwoKey,dataThreeKey, avgKey } = cardMapping[selectedAttribute.id];
       
-         const labelValue = labelKey
+//          const labelValue = labelKey
 
-      let newTableData = []
+//       let newTableData = []
 
-      result.dataStateOne.map(value=>{
-        newTableData.push({
-          stateDataValue: value.state_name,
-        districtDataValue: value.district_name,
-        attributes: value[labelValue],
-        dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
-        dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
-        dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
-        dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
-        dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
-        dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
+//       result.dataStateOne.map(value=>{
+//         newTableData.push({
+//           stateDataValue: value.state_name,
+//         districtDataValue: value.district_name,
+//         attributes: value[labelValue],
+//         dateRange1TotalValue: value.num_students_date1? value.num_students_date1: 0,
+//         dateRange1AvgValue: value.average_score_date1? (parseFloat((value.average_score_date1).toFixed(2))) : '0',
+//         dateRange1StudentValue: value.average_improvement_date1? (parseFloat((value.average_improvement_date1).toFixed(2))) : '0',
+//         dateRange2TotalValue: value.num_students_date2? value.num_students_date2: '0',
+//         dateRange2AvgValue: value.average_score_date2 ? (parseFloat((value.average_score_date2).toFixed(2))) : '0',
+//         dateRange2StudentValue: value.average_improvement_date2? (parseFloat((value.average_improvement_date2).toFixed(2))) : '0',
 
        
       
-    })
-  })
-     console.log(newTableData)
-        setTableData(newTableData)
+//     })
+//   })
+//      console.log(newTableData)
+//         setTableData(newTableData)
 
-    }
+//     }
     
-  }else{
-console.log("error")
-  }
+//   }else{
+// console.log("error")
+//   }
 
 
-    }
+//     }
             
-  }
+//   }
     else{
       if(apiEndPointsTable != undefined){
         const endpoint = apiEndPointsTable[selectedAttribute.id];
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
     if(res.data.status && res.data.statusCode == 200){
       if(res.data.result.dataStateOne.length == 0){
           setDataAvailableTable(true)
@@ -1227,7 +1264,7 @@ const dataRows = getCsvDataRows(selectedAttribute,selectedFilters,attributeOptio
               },
               plugins: {
                   legend: {
-                  display: true
+                  display: true,
                 },
               
                 tooltip: {

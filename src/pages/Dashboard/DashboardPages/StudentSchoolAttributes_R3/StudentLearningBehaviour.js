@@ -10,12 +10,12 @@ import { useSelector } from "react-redux";
 
 //attribute dropdown options
 const dropdownOptions = [
-  { id: 1, value: 'Hours of individual study/practice per day' },
-  { id: 2, value: 'Student learning style preferences' },
-  { id: 3, value: 'Student preferences collaborative learning style preferences' },
-  { id: 4, value: 'Paid Private Tuition Hours' },
-  { id: 5, value: 'Children who read other materials in addition to textbooks' },
-  { id: 6, value: 'Paid Private Tuition - Subject studied' },
+  { id: 1, value: 'Hours of individual study per day (does not include tuition hours)' },
+  { id: 2, value: 'Student learning style' },
+  { id: 3, value: 'Student preferences on collaborative learning style' },
+  { id: 4, value: 'Hours of paid private tuition' },
+  { id: 5, value: 'Students reading extra materials other than textbooks' },
+  { id: 6, value: 'Subjects studied in paid private tuition' },
   
 ];
 
@@ -51,9 +51,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Students (Green)',
+      label: 'No of Students-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -62,7 +62,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Students (Blue)',
+      label: 'No of Students-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -73,8 +73,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -83,8 +84,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -102,7 +104,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -124,6 +126,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -134,6 +137,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -156,7 +160,7 @@ const tableHeadings = [
 const StudentLearningBehaviour = () => {
 
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
  
@@ -316,7 +320,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingTable(prevValue => ({
@@ -406,7 +414,11 @@ useEffect(() => {
       }
      
       
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
        if(res.data.status && res.data.statusCode == 200){
         setLoadingChart(prevValue => ({

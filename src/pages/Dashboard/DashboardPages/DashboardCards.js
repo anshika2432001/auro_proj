@@ -136,7 +136,11 @@ const DashboardCards = () => {
       }
 
       if(cardKey == 2){
-        const res = await axios.get(endpoint);
+        const res = await axios.get(endpoint,{
+          headers: {
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+      });
        
         if(res.data.status && res.data.statusCode == 200){
          setLoading(prevValue => ({
@@ -158,7 +162,11 @@ const DashboardCards = () => {
 
       }
       else{
-        const res = await axios.post(endpoint, payload);
+        const res = await axios.post(endpoint, payload,{
+          headers: {
+              Authorization:`Bearer ${localStorage.getItem('token')}`
+          }
+      });
        
         if(res.data.status && res.data.statusCode == 200){
          setLoading(prevValue => ({

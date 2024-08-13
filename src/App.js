@@ -30,6 +30,7 @@ import ParentSchoolAttribute from './pages/Dashboard/DashboardPages/Parental&Hou
 import ViewDetailsComponent from './pages/Dashboard/components/ViewDetailsComponent';
 import ViewDetailsComponentCard4 from './pages/Dashboard/components/ViewDetailsComponentCard4';
 import UserManagement from './pages/Dashboard/DashboardPages/UserManagement';
+import ProfilePage from './pages/Dashboard/layouts/ProfilePage';
 
 function App() {
   
@@ -68,6 +69,7 @@ function App() {
               <Route path="/parentSchoolAttribute/:id" element={<ParentSchoolAttribute />} />
               <Route path="/userManagement" element={<UserManagement />} />
               <Route path="/budgetState" element={<BudgetState />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Route>
             <Route path="/viewDetailsPage" element={<ViewDetailsComponent />} />
             <Route path="/viewDetailsPageCard4" element={<ViewDetailsComponentCard4 />} />

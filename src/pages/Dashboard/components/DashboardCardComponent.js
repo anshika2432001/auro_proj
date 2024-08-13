@@ -16,8 +16,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 
 function DashboardCardComponent({ title, attributeBasedDropdowns, chartData,onFilterChange,cardKey,loadingStatus }) {
-
-const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+ const filterOptions = useSelector((state) => state.filterDropdown.data);
+console.log(filterOptions)
 const [selectedAttribute, setSelectedAttribute] = useState(title.id);
 const [dateRange1Start, setDateRange1Start] = useState(dayjs('2024-01-01'));
 const [dateRange1End, setDateRange1End] = useState(dayjs('2024-01-31'));

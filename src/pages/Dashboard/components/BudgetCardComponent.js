@@ -93,16 +93,14 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
 
   return (
     <Card className='mini-card'>
-      <Typography
-        variant="h6"
-        sx={{
-          backgroundColor: '#0948a6', padding: '8px', top: '0',
-          zIndex: 10, borderRadius: '4px', position: "sticky", color: '#fff',
-        }}
+      <Typography 
+        variant="h6" 
+        sx={{ backgroundColor: '#DBEDFF', padding: '8px', top: '0',
+          zIndex: 10 , position:"sticky", color: '#082f68',borderBottom: '1px solid #082f68', }}
       >
         {title}
       </Typography>
-      <CardContent>
+      <CardContent sx={{padding:"12px",height: '400px', overflowY: 'scroll',}}>
         <Autocomplete
           options={dropdownOptions}
           getOptionLabel={(option) => option.value}
@@ -165,21 +163,27 @@ function BudgetCardComponent({ title, selectedAttribute, dropdownOptions, attrib
           <Grid item xs={12} sm={4.25} md={4.25} lg={4.25}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="Start Date"
-                value={dateRange1Start}
-                onChange={(newValue) => setDateRange1Start(newValue)}
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
+                    label="Start Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1Start}
+                    onChange={(newValue) => setDateRange1Start(newValue)}
+                    maxDate={dateRange1End}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={12} sm={4.25} md={4.25} lg={4.25}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                label="End Date"
-                value={dateRange1End}
-                onChange={(newValue) => setDateRange1End(newValue)}
-                renderInput={(params) => <TextField {...params} fullWidth />}
-              />
+                    label="End Date"
+                     format="DD/MM/YYYY"
+                     slotProps={{ textField: { size: "small" } }}
+                    value={dateRange1End}
+                    onChange={(newValue) => setDateRange1End(newValue)}
+                    minDate={dateRange1Start}
+                    renderInput={(params) => <TextField {...params} size="small" fullWidth />}
+                  />
             </LocalizationProvider>
           </Grid>
         </Grid>

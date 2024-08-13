@@ -11,12 +11,12 @@ import {  useSelector } from "react-redux";
 //attribute dropdown options
 const dropdownOptions = [
   { id: 1, value: 'Frequency of parent teacher meetings' },
-  { id: 2, value: 'Schools having lack of parental support in students learning' },
-  { id: 3, value: 'Schools provide guidance on how parents can support children in learning' },
-  { id: 4, value: '% of schools, where parents have been made aware of learning levels through PTM, Letters, discussion forums' },
-  { id: 5, value: 'Schools informed parents about school activity' },
-  { id: 6, value: 'I attend parent-teacher conferences' },
-  { id: 7, value: 'I regularly participate in events at my childs school' }
+  { id: 2, value: 'Schools with lack of parental support in students learning' },
+  { id: 3, value: "Schools provide guidance on parental support for child's learning" },
+  { id: 4, value: "% of schools informing parents on child's learning levels" },
+  { id: 5, value: '% of schools informing parents on school activity' },
+  { id: 6, value: 'No. of parents attending parent-teacher conferences' },
+  { id: 7, value: 'No. of parents participating in school events regularly' }
 ];
 
 //filters based on attribute id
@@ -52,9 +52,9 @@ const defaultChartData = {
   labels: [],
   datasets: [
     {
-      label: 'No of Teachers (Green)',
+      label: 'No of Parents-Date Range 1',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -64,7 +64,7 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'No of Teachers (Blue)',
+      label: 'No of Parents-Date Range 2',
       type: 'bar',
       backgroundColor: '#D7ECFB',
       borderColor: '#7ECCFF',
@@ -76,8 +76,9 @@ const defaultChartData = {
       order: 2,
     },
     {
-      label: 'Average score (Green)',
+      label: 'Average score-Date Range 1',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -86,8 +87,9 @@ const defaultChartData = {
       order: 1,
     },
     {
-      label: 'Average score (Blue)',
+      label: 'Average score-Date Range 2',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -105,7 +107,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'bar',
-      backgroundColor: '#ACE9B4',
+      backgroundColor: '#CDFFCD',
       borderColor: '#73D57F',
       borderWidth: 2,
       data: [],
@@ -129,6 +131,7 @@ const defaultChartDataCard4 = {
     {
       label: '',
       type: 'line',
+      backgroundColor: '#75C57F',
       borderColor: '#75C57F',
       borderWidth: 4,
       fill: false,
@@ -139,6 +142,7 @@ const defaultChartDataCard4 = {
     {
       label: 'Average score (Pan India)',
       type: 'line',
+      backgroundColor: '#51B6F9',
       borderColor: '#51B6F9',
       borderWidth: 4,
       fill: false,
@@ -162,7 +166,7 @@ const tableHeadings = [
 
 const ParentSchoolAttribute = () => {
   const titleId = useParams();
-  const filterOptions = useSelector((state) => state.filterDropdown.data.result);
+  const filterOptions = useSelector((state) => state.filterDropdown.data);
   const [cardMapping,setCardMapping] = useState('');
   const [card4Mapping,setCard4Mapping]= useState('');
  
@@ -323,7 +327,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
       payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
     }
    
-    const res = await axios.post(endpoint, payload);
+    const res = await axios.post(endpoint, payload,{
+      headers: {
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+  });
      
      if(res.data.status && res.data.statusCode == 200){
       setLoadingTable(prevValue => ({
@@ -412,7 +420,11 @@ const fetchTableInfo = async (key, value,cardKey) => {
         payload.ageTo = ageRange[1] ? parseInt(ageRange[1], 10) : null;
       }
      
-      const res = await axios.post(endpoint, payload);
+      const res = await axios.post(endpoint, payload,{
+        headers: {
+            Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+    });
        
       if(res.data.status && res.data.statusCode == 200){
        setLoadingChart(prevValue => ({

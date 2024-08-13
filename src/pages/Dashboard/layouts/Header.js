@@ -108,6 +108,7 @@ export default function PersistentDrawerLeft() {
   const [open, setOpen] = React.useState(!isMobile);
   const [dark, setDark] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const userName = localStorage.getItem('userName')
   const openE1 = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -115,9 +116,15 @@ export default function PersistentDrawerLeft() {
   };
 
   const handleClose = () => {
+    localStorage.clear();
     setAnchorEl(null);
     navigate("/");
   };
+
+  const handleProfile = ()=> {
+    navigate("/profile");
+    setAnchorEl(null);
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -126,6 +133,7 @@ export default function PersistentDrawerLeft() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -159,6 +167,7 @@ export default function PersistentDrawerLeft() {
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Typography sx={{mt:2}}>{userName}</Typography>
             <IconButton
               size="large"
               aria-label="show more"
@@ -178,8 +187,7 @@ export default function PersistentDrawerLeft() {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleProfile}>My Profile</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Toolbar>

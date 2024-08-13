@@ -1,5 +1,6 @@
 import { Route, Navigate, Routes } from "react-router-dom";
-import React, { lazy, Suspense } from "react";
+import React, {useState, lazy, Suspense } from "react";
+import axios from '../../../utils/axios';
 
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import DashboardSharpIcon from "@mui/icons-material/DashboardSharp";
@@ -43,17 +44,17 @@ export const menu = [
     title: "Student Learning Outcomes(R1)",
     items: [
       {
-        title: "Subject Wise Breakdown - Average Score",
+        title: "Average score as per subject",
         pageLink: '/studentR1Attributes/1',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Gradewise - Average Score",
+        title: "Average score as per grade",
         pageLink: '/studentR1Attributes/2',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Microscholarship Quizzes - Average Score",
+        title: "Average Score on microscholarship quiz",
         pageLink: '/studentR1Attributes/3',
         view: <StudentSchoolAttributes_R1  />,
       },
@@ -63,12 +64,12 @@ export const menu = [
         view: <StudentSchoolAttributes_R1 />,
       },
       {
-        title: "Topic wise breakdown - Average Score",
+        title: "Average score as per topic",
         pageLink: '/studentR1Attributes/5',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topic wise breakdown - No. of Microscholarship Quizzes",
+        title: "Total Microscholarship Quizzes",
         pageLink: '/studentR1Attributes/6',
         view: <StudentSchoolAttributes_R1  />,
       },
@@ -83,12 +84,12 @@ export const menu = [
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Core-Retake- ( No of Students)",
+        title: "No of Students in core & retake quizzes",
         pageLink: '/studentR1Attributes/9',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Core-Retake- (Average Score)",
+        title: "% Improvement in Average score - Core & Retake",
         pageLink: '/studentR1Attributes/10',
         view: <StudentSchoolAttributes_R1 />,
       },
@@ -108,17 +109,17 @@ export const menu = [
       //   view: <StudentSchoolAttributes_R1  />,
       // },
       {
-        title: "Topic wise breakdown - Student Attempts",
+        title: "Student Attempts as per topic",
         pageLink: '/studentR1Attributes/11',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topic wise breakdown - Top Performing Topics",
+        title: "% Improvement as per topic - Top Performing",
         pageLink: '/studentR1Attributes/12',
         view: <StudentSchoolAttributes_R1  />,
       },
       {
-        title: "Topic wise breakdown - Weak Performing Topics",
+        title: "% Improvement as per topic - Weak Performing",
         pageLink: '/studentR1Attributes/13',
         view: <StudentSchoolAttributes_R1  />,
       },
@@ -128,52 +129,52 @@ export const menu = [
   },
   {
     icon: <AccountBalanceIcon sx={{color:"white"}}/>,
-    title: "Student - School Attributes(R2)",
+    title: "Student School Attributes(R2)",
     items: [
       {
         
-            title: "Pre-Primary School",
+            title: "Pre-Primary school type",
             pageLink: '/studentR2Attributes/1',
             view: <StudentSchoolAttributes_R2 />,
           },
           {
-            title: "Student Strength of the Classroom",
+            title: "Student strength in classroom",
             pageLink: '/studentR2Attributes/2',
             view: <StudentSchoolAttributes_R2 />,
           },
           {
-            title: "Types of Student Clubs",
+            title: "Types of student's clubs",
             pageLink: '/studentR2Attributes/3',
             view: <StudentSchoolAttributes_R2 />,
           },
         {
-          title: "Academic Stream",
+          title: "Academic stream",
           pageLink: '/studentR2Attributes/4',
           view: <StudentSchoolAttributes_R2 />,
         },
       {
-        title: "Student with access to Bank Account/ UPI",
+        title: "Student with access to bank account/ UPI",
         pageLink: '/studentR2Attributes/5',
             view: <StudentSchoolAttributes_R2 />,
       },
       {
-        title: "Students engagement in extra curricular activities in school",
+        title: "Students engagement in extracurricular activities in school",
         pageLink: '/studentR2Attributes/6',
             view: <StudentSchoolAttributes_R2 />,
       },
       {
-        title: "Children whose first or home language is the same as that in the school ",
+        title: "Children with same first/home language at home and school",
         pageLink: '/studentR2Attributes/7',
         view: <StudentSchoolAttributes_R2 />,
       },
 
       {
-        title: "Social Groups",
+        title: "Social Group",
         pageLink: '/studentR2Attributes/8',
         view: <StudentSchoolAttributes_R2 />,
       }, 
       {
-        title: "No. of Students in leadership positions in school clubs in the school ",
+        title: "Students in leadership positions in school clubs",
         pageLink: '/studentR2Attributes/9',
         view: <StudentSchoolAttributes_R2 />,
       }, 
@@ -187,37 +188,37 @@ export const menu = [
     title: "Student School Attributes(R3)",
     items: [
       {
-        title: "Student Learning Behaviours",
+        title: "Student-R3-Learning Behaviours",
         pageLink: '/studentLearningBehaviours',
         view: <StudentLearningBehaviour />,
         items: [
           {
-            title: "Hours of individual study/practice per day",
+            title: "Hours of individual study per day (does not include tuition hours)",
         pageLink: '/studentLearningBehaviours/1',
         view: <StudentLearningBehaviour />,
           },
           {
-            title: "Student learning style preferences",
+            title: "Student learning style",
         pageLink: '/studentLearningBehaviours/2',
         view: <StudentLearningBehaviour />,
           },
           {
-            title: "Student preferences collaborative learning style preferences",
+            title: "Student preferences on collaborative learning style",
         pageLink: '/studentLearningBehaviours/3',
         view: <StudentLearningBehaviour />,
           },
         {
-          title: "Paid Private Tuition Hours",
+          title: "Hours of paid private tuition",
         pageLink: '/studentLearningBehaviours/4',
         view: <StudentLearningBehaviour />,
         },
       {
-        title: "Children who read other materials in addition to textbooks",
+        title: "Students reading extra materials other than textbooks",
         pageLink: '/studentLearningBehaviours/5',
         view: <StudentLearningBehaviour />,
       },
       {
-        title: "Paid Private Tuition - Subject studied",
+        title: "Subjects studied in paid private tuition",
         pageLink: '/studentLearningBehaviours/6',
         view: <StudentLearningBehaviour />,
       }
@@ -231,12 +232,12 @@ export const menu = [
         view: <StudentInternetBehaviourPatterns />,
         items: [
           {
-            title: "Student hours spent on mobile phones - social/entertainment",
+            title: "Hours spent on mobile phones for social/entertainment",
             pageLink: '/studentInternetBehaviours/1',
             view: <StudentInternetBehaviourPatterns />,
           },
           {
-            title: "Children having access to digital devices at home",
+            title: "Students with access to digital devices at home",
             pageLink: '/studentInternetBehaviours/2',
             view: <StudentInternetBehaviourPatterns />,
           },
@@ -251,7 +252,7 @@ export const menu = [
           view: <StudentInternetBehaviourPatterns />,
         },
       {
-        title: "Students who have one or more social media accounts",
+        title: "Students with one or more social media accounts",
         pageLink: '/studentInternetBehaviours/5',
         view: <StudentInternetBehaviourPatterns />,
       },
@@ -261,7 +262,7 @@ export const menu = [
         view: <StudentInternetBehaviourPatterns />,
       },
       {
-        title: "Student hours spent on mobile phones - study",
+        title: "Hours spent on mobile phones for study",
         pageLink: '/studentInternetBehaviours/7',
         view: <StudentInternetBehaviourPatterns />,
       }
@@ -284,12 +285,12 @@ export const menu = [
         view: <Teacher_Attributes />,
         items: [
           {
-            title: "Teacher - Grade",
+            title: "Grades taught by teacher",
             pageLink: '/teacher_Attributes/1',
             view: <Teacher_Attributes />,
           },
           {
-            title: "Teacher - Number of classes ratio",
+            title: "No. of classes taught by teacher",
             pageLink: '/teacher_Attributes/2',
             view: <Teacher_Attributes />,
           },
@@ -299,27 +300,27 @@ export const menu = [
             view: <Teacher_Attributes />,
           },
         {
-          title: "Teacher - Subject",
+          title: "No. of subjects taught by teacher",
           pageLink: '/teacher_Attributes/4',
           view: <Teacher_Attributes />,
         },
       {
-        title: "Average Teacher Salary",
+        title: "Average teacher salary",
         pageLink: '/teacher_Attributes/5',
         view: <Teacher_Attributes />,
       },
       {
-        title: "Teacher - Pupil Ratio/6",
-        pageLink: '/teacher_Attributes',
+        title: "Teacher - pupil ratio",
+        pageLink: '/teacher_Attributes/6',
         view: <Teacher_Attributes />,
       },
       {
-        title: "Qualification of Teacher",
+        title: "Qualification of teacher",
         pageLink: '/teacher_Attributes/7',
         view: <Teacher_Attributes />,
       },
       {
-        title: "No. of Teachers in School",
+        title: "No. of teachers in school",
         pageLink: '/teacher_Attributes/8',
         view: <Teacher_Attributes />,
       }
@@ -333,27 +334,27 @@ export const menu = [
         view: <TeacherTrainingData />,
         items: [
           {
-            title: "Teachers trained on CCE and Classroom based assessment",
+            title: "% of teachers trained on CCE and Classroom based assessment",
             pageLink: '/teacherTrainingData/1',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Teachers satisfied with trainings by School/ Education Dept",
+            title: "% of teachers satisfied with the trainings held during the academic year by School/ Education Dept",
             pageLink: '/teacherTrainingData/2',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Nature of employment of teachers",
+            title: "Type of teacher employment in school",
             pageLink: '/teacherTrainingData/3',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Time Spent by teacher on school related activities weekly",
+            title: "Time spent by teacher in a week on school related activities",
             pageLink: '/teacherTrainingData/4',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Teachers with platform to share best practices",
+            title: "No. of teachers with access to platform in school to share their best practices and challenges",
             pageLink: '/teacherTrainingData/5',
             view: <TeacherTrainingData />,
           },
@@ -363,12 +364,12 @@ export const menu = [
             view: <TeacherTrainingData />,
           },
           {
-            title: "Teachers aware in pedagogical methodologies",
+            title: "% of teachers aware about pedagogical methodologies",
             pageLink: '/teacherTrainingData/7',
             view: <TeacherTrainingData />,
           },
           {
-            title: "Teacher needs of the teacher",
+            title: "Training needs of the teacher",
             pageLink: '/teacherTrainingData/8',
             view: <TeacherTrainingData />,
           },
@@ -379,7 +380,7 @@ export const menu = [
         view: <TeacherTrainingData />,
       },
       {
-        title: "Schools utilising teaching resources by the SCRET / DIETs",
+        title: "Schools with access to and are utilising SCRET / DIETs teaching resources",
         pageLink: '/teacherTrainingData/10',
         view: <TeacherTrainingData />,
       },
@@ -393,12 +394,12 @@ export const menu = [
         view: <TeacherSchoolParent />,
         items: [
           {
-            title: "Frequency of parent teacher meetings",
+            title: "Frequency of parent teacher meetings for each grade",
             pageLink: '/teacherSchoolParent/1',
             view: <TeacherSchoolParent />,
           },
           {
-            title: "CSRs engaged with school in last academic year",
+            title: "Number of CSRs engaged with school in last academic year",
             pageLink: '/teacherSchoolParent/2',
             view: <TeacherSchoolParent />,
           },
@@ -408,12 +409,12 @@ export const menu = [
             view: <TeacherSchoolParent />,
           },
           {
-            title: "Functional SMCs",
+            title: "Schools with functional SMCs",
             pageLink: '/teacherSchoolParent/4',
             view: <TeacherSchoolParent />,
           },
         {
-          title: "Schools registered on Vidyanjali portal =",
+          title: "School registered on Vidyanjali portal",
           pageLink: '/teacherSchoolParent/5',
           view: <TeacherSchoolParent />,
         },
@@ -441,7 +442,7 @@ export const menu = [
             view: <StudentCareerGrowth_R4 />,
           },
           {
-            title: "Students who want to access internship",
+            title: "No. of students who want internship",
             pageLink: '/studentCareerGrowth/2',
             view: <StudentCareerGrowth_R4 />,
           },
@@ -451,7 +452,7 @@ export const menu = [
             view: <StudentCareerGrowth_R4 />,
           },
         {
-          title: "Number of students who are confident that they have knowledge of career options",
+          title: "Students confidence on knowledge of career options",
           pageLink: '/studentCareerGrowth/4',
           view: <StudentCareerGrowth_R4 />,
         },
@@ -461,17 +462,17 @@ export const menu = [
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Students confident in the communication skills, problem solving, team building",
+        title: "Students confident in the following skills- communication skills, problem solving, team building",
         pageLink: '/studentCareerGrowth/6',
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Number of students accessing preparatory classes for higher education (college)",
+        title: "No. of students accessing preparatory classes for higher education (college)",
         pageLink: '/studentCareerGrowth/7',
         view: <StudentCareerGrowth_R4 />,
       },
       {
-        title: "Students who want to access vocational courses",
+        title: "No. of students who want access to vocational courses",
         pageLink: '/studentCareerGrowth/8',
         view: <StudentCareerGrowth_R4 />,
       },
@@ -506,7 +507,7 @@ export const menu = [
   },
   {
     icon: <PeopleAltIcon sx={{color:"white"}}/>,
-    title: "Parental & Household Engagement",
+    title: "Parental and Household Engagement",
     items: [
       {
         title: "Parental - Student - Household Attributes",
@@ -514,7 +515,7 @@ export const menu = [
         view: <ParentalandHousehold />,
         items: [
           {
-            title: "Immigrant background (i.e one or both parents born in another state)",
+            title: "Immigrant background (i.e one or both parents born in another state) ",
             pageLink: '/parentalAndHousehold/1',
             view: <ParentalandHousehold />,
           },
@@ -524,17 +525,17 @@ export const menu = [
             view: <ParentalandHousehold />,
           },
           {
-            title: "Parents monthly spend on childs education",
+            title: "Parents monthly spend on child's education",
             pageLink: '/parentalAndHousehold/3',
             view: <ParentalandHousehold />,
           },
         {
-          title: "Household has internet connection",
+          title: "Household with internet connection",
           pageLink: '/parentalAndHousehold/4',
           view: <ParentalandHousehold />,
         },
       {
-        title: "Mothers level of Education",
+        title: "Mother's level of Education",
         pageLink: '/parentalAndHousehold/5',
         view: <ParentalandHousehold />,
       },
@@ -554,7 +555,7 @@ export const menu = [
         view: <ParentalandHousehold />,
       },
       {
-        title: "% Households which have other reading material (activity books, reading books, puzzles, newspaper)",
+        title: "% households with access to other reading material (activity books, reading books, puzzles, newspaper)",
         pageLink: '/parentalAndHousehold/9',
         view: <ParentalandHousehold />,
       },
@@ -565,27 +566,27 @@ export const menu = [
         view: <ParentalandHousehold />,
       },
       {
-        title: "Household has electricity connection ",
+        title: "Household with electricity connection  ",
         pageLink: '/parentalAndHousehold/11',
         view: <ParentalandHousehold />,
       },
       {
-        title: "I (or another adult in the home) read(s) with my child every day or nearly every day",
+        title: "No. of adult/parents who read with child everyday or nearly everyday",
         pageLink: '/parentalAndHousehold/12',
         view: <ParentalandHousehold />,
       },
       {
-        title: "My child’s teacher and I communicate with each other at least once a month (in person or by notes, text, email, phone, etc.)",
+        title: "No. of parents who communicate wth teacher at least once a month (in person or by notes, text, email, phone, etc.)",
         pageLink: '/parentalAndHousehold/13',
         view: <ParentalandHousehold />,
       },
       {
-        title: "I expect my child will graduate from high school",
+        title: "No. of parents expecting their children to graduate from high school",
         pageLink: '/parentalAndHousehold/14',
         view: <ParentalandHousehold />,
       },
       {
-        title: "I expect my child will go to college one day",
+        title: "No. of parents expecting their children to graduate from college",
         pageLink: '/parentalAndHousehold/15',
         view: <ParentalandHousehold />,
       },
@@ -608,32 +609,32 @@ export const menu = [
         view: <ParentSchoolAttribute />,
           },
           {
-            title: "Schools having lack of parental support in students learning",
+            title: "Schools with lack of parental support in students learning",
             pageLink: '/parentSchoolAttribute/2',
         view: <ParentSchoolAttribute />,
           },
           {
-            title: "Schools provide guidance on how parents can support children in learning",
+            title: "Schools provide guidance on parental support for child's learning",
             pageLink: '/parentSchoolAttribute/3',
         view: <ParentSchoolAttribute />,
           },
         {
-          title: "% of schools, where parents have been made aware of learning levels through PTM, Letters, discussion forums",
+          title: "% of schools informing parents on child's learning levels",
           pageLink: '/parentSchoolAttribute/4',
         view: <ParentSchoolAttribute />,
         },
       {
-        title: "Schools informed parents about school activity",
+        title: "% of schools informing parents on school activity",
         pageLink: '/parentSchoolAttribute/5',
         view: <ParentSchoolAttribute />,
       },
       {
-        title: "I attend parent-teacher conferences",
+        title: "No. of parents attending parent-teacher conferences",
         pageLink: '/parentSchoolAttribute/6',
         view: <ParentSchoolAttribute />,
       },
       {
-        title: "I regularly participate in events at my childs school",
+        title: "No. of parents participating in school events regularly",
         pageLink: '/parentSchoolAttribute/7',
         view: <ParentSchoolAttribute />,
       },
@@ -657,15 +658,15 @@ export const menu = [
     
 
   },
-  {
-    icon: <PersonIcon sx={{color:"white"}}/>,
-    title: "User Management",
-    pageLink: '/userManagement',
-    view: <UserManagement />,
+  // {
+  //   icon: <PersonIcon sx={{color:"white"}}/>,
+  //   title: "User Management",
+  //   pageLink: '/userManagement',
+  //   view: <UserManagement />,
     
     
 
-  },
+  // },
   
 ];
 
@@ -709,6 +710,30 @@ const generateRoutes = () => {
 };
 
 export const AppRoutes = () => {
+  const selectedRoleId = localStorage.getItem('roleId');
+  const [data, setData] = useState([]);
+
+  const fetchRoleBasedDashboards = async () => {
+    let payload = {
+      "roleId": selectedRoleId,
+    };
+    try {
+      const res = await axios.post("/user/role-access-fetch", payload);
+      if (res.data.status === true && res.data.statusCode === 200) {
+        const fetchedData = res.data.result.map(item => ({
+          access: item.dashboardName,
+          grantAccess: item.grantAccess === 1
+        }));
+        setData(fetchedData);
+        
+      } else {
+        console.log(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
   // return (
   //   // <Suspense fallback={<div>Loading...</div>}>
   //   //   <Routes>

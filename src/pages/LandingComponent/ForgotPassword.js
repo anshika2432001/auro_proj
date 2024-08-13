@@ -4,10 +4,13 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Login from './Login';
 import { useSnackbar } from "../uiComponents/Snackbar";
+import axios from '../../utils/axios';
 
 const ForgotPassword = () => {
     const [step, setStep] = useState(1);
+    const [emailValue, setEmailValue] = useState('');
     const [isLoginDialogVisible, setLoginDialogVisible] = useState(false);
+    const [verifyOtpStatus, setVerifyOtpStatus] = useState(false);
     const { showSnackbar } = useSnackbar();
     const toggleLoginDialog = () => {
         setLoginDialogVisible(!isLoginDialogVisible);
@@ -29,9 +32,12 @@ const ForgotPassword = () => {
         }),
         onSubmit: (values) => {
             console.log('OTP sent to:', values.emailOrPhone);
-            setStep(2);
+            handleSendOtp(values);
+            // setStep(2);
         },
     });
+
+
 
     const formikOtp = useFormik({
         initialValues: { otp: '' },
@@ -41,13 +47,8 @@ const ForgotPassword = () => {
                 .matches(/^\d{6}$/, 'Invalid OTP'),
         }),
         onSubmit: (values) => {
-            console.log('OTP entered:', values.otp);
-            // Simulate OTP verification here
-            if (values.otp === '123456') {
-                setStep(3);
-            } else {
-                alert('Invalid OTP');
-            }
+            handleVerifyOtp(values);
+            
         },
     });
 
@@ -63,13 +64,90 @@ const ForgotPassword = () => {
         }),
         onSubmit: (values) => {
             console.log('New password set:', values.newPassword);
-            setStep(4);
+            handleResetPassword(values);
+           
         },
     });
 
-    const handleResendOtp = () => {
+    const handleSendOtp = async (values) => {
+        setEmailValue(values.emailOrPhone)
+        const payload = {
+          email: values.emailOrPhone
+        };
+        try {
+          const res = await axios.post("/user/send-otp", payload);
+          if (res.data.status === true && res.data.statusCode === 200) {
+            showSnackbar(res.data.message, "success");
+            setStep(2);
+          } else {
+            showSnackbar(res.data.message, "warning");
+          }
+        } catch (error) {
+          console.log(error);
+          showSnackbar("Error", "error");
+        }
+      };
+
+      const handleVerifyOtp = async (values) => {
+        const payload = {
+          otp: values.otp,
+          email: emailValue  
+        };
+        try {
+          const res = await axios.post("/user/verify-otp", payload);
+          console.log(res)
+          if (res.data.status === true && res.data.statusCode === 200) {
+            showSnackbar(res.data.message, "success");
+            if(res.data.result == true){
+                setVerifyOtpStatus(res.data.result)
+                setStep(3);
+            }
+            
+          } else {
+            showSnackbar(res.data.message, "warning");
+          }
+        } catch (error) {
+          console.log(error);
+          showSnackbar("Error", "error");
+        }
+      };
+
+      const handleResetPassword = async (values) => {
+        const payload = {
+          email: emailValue ,
+          pass: values.confirmPassword,
+          status: verifyOtpStatus
+        };
+        try {
+          const res = await axios.post("/user/forgot-password", payload);
+          console.log(res)
+          if (res.data.status === true && res.data.statusCode === 200) {
+            showSnackbar(res.data.message, "success");
+            setStep(4);
+            
+          } else {
+            showSnackbar(res.data.message, "warning");
+          }
+        } catch (error) {
+          console.log(error);
+          showSnackbar("Error", "error");
+        }
+      };
+    const handleResendOtp = async() => {
  
-        showSnackbar("OTP resend successfully", "warning");
+        try {
+            const payload = { email: emailValue };
+            const res = await axios.post("/user/resend-otp", payload);
+            if (res.data.status === true && res.data.statusCode === 200) {
+              showSnackbar(res.data.message, "success");
+              setStep(2);
+            } else {
+              showSnackbar(res.data.message, "warning");
+            }
+          } catch (error) {
+            console.log(error);
+            showSnackbar("Error", "error");
+          }
       };
 
     return (
@@ -123,21 +201,10 @@ const ForgotPassword = () => {
                                             type="submit"
                                             sx={{ background: 'linear-gradient(to right,#4772D9, #2899DB,#70CCE2)' }}
                                         >
-                                            {step === 1 ? 'Submit' : 'Verify OTP'}
+                                            {step === 1 ? 'Send OTP' : 'Verify OTP'}
                                         </Button>
                                     </Grid>
-                                    {/* {step === 2 && (
-                                        <Grid item xs={12} sm={12} md={12} lg={12} textAlign="center">
-                                            <Button
-                                                variant="text"
-                                                onClick={() => {
-                                                    console.log('Resend OTP');
-                                                }}
-                                            >
-                                                Resend OTP
-                                            </Button>
-                                        </Grid>
-                                    )} */}
+                                    
                                 </Grid>
                             </form>
                             </CardContent>
@@ -146,6 +213,7 @@ const ForgotPassword = () => {
                         )}
                  
                 {step === 3 && (
+                    
                     <Card className='mini-card1'>
                         <CardContent>
                             <Typography variant="h4" gutterBottom textAlign="center">Reset Password</Typography>
