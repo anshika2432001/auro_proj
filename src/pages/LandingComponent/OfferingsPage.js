@@ -46,43 +46,50 @@ const OfferingsPage = () =>{
               Our Offerings
             </Typography>
             <Typography variant="body2"  >
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.
+            All- encompassing data on education indicators with interactive data visualization and accessibility through user-friendly dashboards to aid comparative analysis and benchmarking of educational practices and policies.
             </Typography>
             <Grid container spacing={2} sx={{mt:2}}>
               <Grid item xs={6}>
                 <Typography variant="h6" display="flex" flexDirection="column">
                   <BarChartIcon sx={{color:"#4772D9"}}/>
-                  Real Time Data
+                  Comprehensive data analysis
                 </Typography>
                 <Typography variant="body2" >
-                  Content for Real Time section.
+                •	Extensive datasets on education indicators, including measurements of learning outcomes and competencies
+•	Analysis and assessment of trends, contextual factors, and educational practices and learning environment attributes
+
                 </Typography>
               </Grid>
               <Grid item xs={6} >
                 <Typography variant="h6" display="flex" flexDirection="column">
                   <DashboardOutlinedIcon sx={{color:"#4772D9"}}/>
-                  Dashboard
+                  Data Visualization and Accessibility
                 </Typography>
                 <Typography variant="body2">
-                  Content for Dashboard section.
+                •	Interactive visualizations and user-friendly data dashboards
+•	Regular updates and data refreshes
+•	Collaboration and partnerships to enhance data collection, analysis, and interpretation.
+
                 </Typography>
               </Grid>
               <Grid item xs={6} >
                 <Typography variant="h6" display="flex" flexDirection="column">
                   <LockClockOutlinedIcon sx={{color:"#4772D9"}}/>
-                  Safety Security
+                  Comparative Analysis and Benchmarking
                 </Typography>
                 <Typography variant="body2">
-                  Content for Safety Security section.
+                •	Benchmarking and comparison of educational practices and policies
+•	Evaluation of effectiveness of schools and education systems
+
                 </Typography>
               </Grid>
               <Grid item xs={6} >
                 <Typography variant="h6" display="flex" flexDirection="column">
                   <LocationOnOutlinedIcon sx={{color:"#4772D9"}}/>
-                  Heading
+                  Data Reporting 
                 </Typography>
                 <Typography variant="body2">
-                  Content for Heading section.
+                Tailored reports providing insights into state of learning, learning outcomes and educational contexts of students in the country.
                 </Typography>
               </Grid>
             </Grid>

@@ -45,10 +45,18 @@ const HomePage = () => {
             {/* Left side */}
             <Grid item xs={12} sm={6} lg={6} md={6} sx={{ pt: "30px", pb: "30px", pr: "50px" }}>
               <Typography variant="h1">
-                A Captivating Heading will be placed here.
+              Welcome to Public Data Dashboard on Education
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ mt: 3, color: "white" }}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.
+              The Education Dashboard, developed by Sri-Aurobindo Society, offers easy access to comprehensive country wide data on education indicators. Its objective is to offer timely and extensive public good data to support the identification of priorities and inform data-driven strategies, policies, and actions focused on emerging areas where children require support. It highlights critical themes in education, including: 
+•	Student Learning Outcomes 
+•	Student Learning Behavior
+•	Career Growth
+•	Teacher Attributes
+•	School Infrastructure
+•	State Education Budget And 
+•	Parent-Community Engagement
+
               </Typography>
               <Button variant="contained" onClick={handleRegisterForm} sx={{ backgroundColor: "white", color: "#2899DB", mt: 3 }}>
                 Register Now
