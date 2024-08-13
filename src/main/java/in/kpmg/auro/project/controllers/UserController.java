@@ -57,4 +57,8 @@ public class UserController {
         return userServices.updateRoleAccessService(dto);
     }
 
+    @PostMapping("/update-password")
+    public ApiResponse2<?> updatePassword(@RequestBody UpdatePasswordDto dto){
+        return userServices.updatePasswordService(dto);
+    }
 }

@@ -2,6 +2,7 @@ package in.kpmg.auro.project.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import in.kpmg.auro.project.config.AesUtil;
+import in.kpmg.auro.project.controllers.AuthController;
 import in.kpmg.auro.project.dtos.*;
 import in.kpmg.auro.project.model.OtpDetailsMst;
 import in.kpmg.auro.project.model.RoleAccessGrantsMst;
@@ -11,9 +12,18 @@ import in.kpmg.auro.project.repo.OtpDetailsRepo;
 import in.kpmg.auro.project.repo.RoleAccessGrantsRepo;
 import in.kpmg.auro.project.repo.RoleRepo;
 import in.kpmg.auro.project.repo.UserRepo;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import java.sql.Timestamp;
@@ -257,4 +267,63 @@ public class UserServices {
         }
 
     }
+
+    public ApiResponse2<?> updatePasswordService(UpdatePasswordDto dto) {
+
+        try{
+
+            Optional<UserMst> checkForData = userRepo.findById(dto.getUserId());
+            if (checkForData.isPresent()){
+
+                UserMst data= checkForData.get();
+
+                AesUtil aes = new AesUtil();
+                String actualPass = aes.decrypt(data.getPassword());
+                System.out.println("actualPass :: "+actualPass);
+                System.out.println("SALT :: "+ dto.getNewPassword2());
+                String hashedPassword = getSecurePassword(actualPass, dto.getNewPassword2());
+                System.out.println("HASH :: "+hashedPassword);
+                if (!hashedPassword.equals(dto.getCurrentPassword())) {
+                    return  new ApiResponse2<>(false, "Invalid Current Password. Please Check...",null, HttpStatus.NOT_FOUND.value());
+                }
+                System.out.println("pass");
+                System.out.println("new pass"+aes.decrypt(dto.getNewPassword()));
+
+//                data.setPassword(dto.getNewPassword());
+//                userRepo.save(data);
+
+
+
+            }else {
+                return  new ApiResponse2<>(false, "User Not Found...",null, HttpStatus.NOT_FOUND.value());
+
+            }
+
+
+
+
+
+            return  new ApiResponse2<>(true, "Password Updated Successfully","", HttpStatus.OK.value());
+        } catch (Exception e){
+            return  new ApiResponse2<>(true, "Facing Problem While Updating Password...",null, HttpStatus.BAD_REQUEST.value());
+        }
+
+    }
+
+    public static String getSecurePassword(String password, String salt) throws InvalidKeyException {
+
+        String generatedPassword = null;
+        try {
+            Mac sha256HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretkey = new SecretKeySpec(salt.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            sha256HMAC.init(secretkey);
+
+            generatedPassword = Hex.encodeHexString(sha256HMAC.doFinal(password.getBytes(StandardCharsets.UTF_8)));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
+
+
 }
