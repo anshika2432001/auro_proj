@@ -55,7 +55,7 @@ const OfferingsPage = () =>{
                   Comprehensive data analysis
                 </Typography>
                 <Typography variant="body2" >
-                •	Extensive datasets on education indicators, including measurements of learning outcomes and competencies
+                •	Extensive datasets on education indicators, including measurements of learning outcomes and competencies<br></br>
 •	Analysis and assessment of trends, contextual factors, and educational practices and learning environment attributes
 
                 </Typography>
@@ -66,8 +66,8 @@ const OfferingsPage = () =>{
                   Data Visualization and Accessibility
                 </Typography>
                 <Typography variant="body2">
-                •	Interactive visualizations and user-friendly data dashboards
-•	Regular updates and data refreshes
+                •	Interactive visualizations and user-friendly data dashboards<br></br>
+•	Regular updates and data refreshes<br></br>
 •	Collaboration and partnerships to enhance data collection, analysis, and interpretation.
 
                 </Typography>
@@ -78,7 +78,7 @@ const OfferingsPage = () =>{
                   Comparative Analysis and Benchmarking
                 </Typography>
                 <Typography variant="body2">
-                •	Benchmarking and comparison of educational practices and policies
+                •	Benchmarking and comparison of educational practices and policies<br></br>
 •	Evaluation of effectiveness of schools and education systems
 
                 </Typography>
@@ -89,7 +89,7 @@ const OfferingsPage = () =>{
                   Data Reporting 
                 </Typography>
                 <Typography variant="body2">
-                Tailored reports providing insights into state of learning, learning outcomes and educational contexts of students in the country.
+                • Tailored reports providing insights into state of learning, learning outcomes and educational contexts of students in the country.
                 </Typography>
               </Grid>
             </Grid>

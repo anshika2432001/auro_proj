@@ -49,13 +49,15 @@ const HomePage = () => {
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ mt: 3, color: "white" }}>
               The Education Dashboard, developed by Sri-Aurobindo Society, offers easy access to comprehensive country wide data on education indicators. Its objective is to offer timely and extensive public good data to support the identification of priorities and inform data-driven strategies, policies, and actions focused on emerging areas where children require support. It highlights critical themes in education, including: 
-•	Student Learning Outcomes 
-•	Student Learning Behavior
-•	Career Growth
-•	Teacher Attributes
-•	School Infrastructure
-•	State Education Budget And 
-•	Parent-Community Engagement
+              <ul>
+                <li>Student Learning Outcomes</li>
+                <li>Student Learning Behavior</li>
+                <li>Career Growth</li>
+                <li>Teacher Attributes</li>
+                <li>School Infrastructure</li>
+                <li>State Education Budget And </li>
+                <li>Parent-Community Engagement</li>
+              </ul>
 
               </Typography>
               <Button variant="contained" onClick={handleRegisterForm} sx={{ backgroundColor: "white", color: "#2899DB", mt: 3 }}>
@@ -79,7 +81,7 @@ const HomePage = () => {
             </Grid>
             {/* Right side */}
             <Grid item xs={12} sm={6} lg={6} md={6}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', height: "400px" }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', height: "600px" }}>
                 <Box
                   component="img"
                   src={Image1}
