@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardContent, Avatar, Typography, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Card, CardContent, Avatar, Typography, Box, Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 
 const ProfilePage = () => {
   const user = {
@@ -9,9 +9,36 @@ const ProfilePage = () => {
     profileImage: 'https://via.placeholder.com/150' // Replace with actual image URL
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
+  };
+
+  const handleChangePassword = () => {
+    if (newPassword !== confirmNewPassword) {
+      alert("New password and confirmation do not match.");
+      return;
+    }
+    // Add your logic here to handle password change
+    // Example: You can send the password change request to your server
+    console.log({ oldPassword, newPassword });
+    handleCloseDialog();
+  };
+
   return (
-    
-      <Card >
+    <Box>
+      <Card>
         <CardContent sx={{ textAlign: 'center' }}>
           <Avatar
             alt={user.name}
@@ -27,9 +54,52 @@ const ProfilePage = () => {
           <Typography variant="body2" color="text.secondary">
             Role: {user.role}
           </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ marginTop: 3 }}
+            onClick={handleOpenDialog}
+          >
+            Change Password
+          </Button>
         </CardContent>
       </Card>
-    
+
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Change Password</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Old Password"
+            type="password"
+            fullWidth
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="New Password"
+            type="password"
+            fullWidth
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Confirm New Password"
+            type="password"
+            fullWidth
+            value={confirmNewPassword}
+            onChange={(e) => setConfirmNewPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleChangePassword} color="primary">Save</Button>
+        </DialogActions>
+      </Dialog>
+    </Box>
   );
 };
 
