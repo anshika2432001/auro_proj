@@ -30,7 +30,7 @@ const ProfilePage = () => {
       alert("New password and confirmation do not match.");
       return;
     }
-    // Add your logic here to handle password change
+    
     // Example: You can send the password change request to your server
     console.log({ oldPassword, newPassword });
     handleCloseDialog();
