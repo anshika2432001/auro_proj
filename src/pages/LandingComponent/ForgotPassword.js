@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import Login from './Login';
 import { useSnackbar } from "../uiComponents/Snackbar";
 import axios from '../../utils/axios';
+import CryptoJS from 'crypto-js';
+
 
 const ForgotPassword = () => {
     const [step, setStep] = useState(1);
@@ -69,6 +71,20 @@ const ForgotPassword = () => {
         },
     });
 
+    const encryptPass = (pass)=>{
+
+        const key = "498aa575016fedc2";
+        const iv = CryptoJS.enc.Utf8.parse("498aa575016fedc2")
+        const securePass = CryptoJS.AES.encrypt(pass,CryptoJS.enc.Utf8.parse(key),{
+          iv:iv,
+          mode: CryptoJS.mode.CBC,
+          padding: CryptoJS.pad.Pkcs7
+        }).toString();
+        return securePass; 
+    
+      };
+     
+
     const handleSendOtp = async (values) => {
         setEmailValue(values.emailOrPhone)
         const payload = {
@@ -115,7 +131,7 @@ const ForgotPassword = () => {
       const handleResetPassword = async (values) => {
         const payload = {
           email: emailValue ,
-          pass: values.confirmPassword,
+          pass: encryptPass(values.confirmPassword),
           status: verifyOtpStatus
         };
         try {

@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CryptoJS from 'crypto-js';
 
 
 const RegistrationForm = () => {
@@ -133,6 +134,19 @@ const RegistrationForm = () => {
     });
   };
 
+  const encryptPass = (pass)=>{
+
+    const key = "498aa575016fedc2";
+    const iv = CryptoJS.enc.Utf8.parse("498aa575016fedc2")
+    const securePass = CryptoJS.AES.encrypt(pass,CryptoJS.enc.Utf8.parse(key),{
+      iv:iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString();
+    return securePass; 
+
+  };
+ 
   const submitFormData = async (values) => {
 
     let roleTypeDetails = {};
@@ -163,7 +177,7 @@ const RegistrationForm = () => {
     let payload = {
       userName: values.name,
       email: values.email,
-      password: values.password,
+      password: encryptPass(values.password),
       mobileNo: values.mobileNo,
       roleId: values.roleTypeId,
       roleTypeDetails: roleTypeDetails,
