@@ -19,7 +19,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
+import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -27,6 +28,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +64,8 @@ public class UserServices {
             AesUtil aes = new AesUtil();
             newData.setName(dto.getUserName());
             newData.setEmail(dto.getEmail());
-            newData.setPassword(aes.encrypt(dto.getPassword()));
+            String actualPass= decryptPass(dto.getPassword());
+            newData.setPassword(aes.encrypt(actualPass));
             newData.setRoleId(dto.getRoleId());
             newData.setMobileNo(dto.getMobileNo());
             String detailsJson= objectMapper.writeValueAsString(dto.getRoleTypeDetails());
@@ -73,8 +76,24 @@ public class UserServices {
 
             return new ApiResponse2<>(true, "User Registered Successfully", "", HttpStatus.OK.value());
         }catch (Exception e){
+            e.printStackTrace();
             return new ApiResponse2<>(false, "Facing Problem For New Registration", null, HttpStatus.BAD_REQUEST.value());
         }
+
+    }
+
+    private String decryptPass(String password) throws Exception{
+
+        String sk= "498aa575016fedc2";
+        String iv= "498aa575016fedc2";
+
+        IvParameterSpec ivKey = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
+        SecretKeySpec secretKeySpec= new SecretKeySpec(sk.getBytes(StandardCharsets.UTF_8),"AES");
+
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+        cipher.init(Cipher.DECRYPT_MODE,secretKeySpec, ivKey);
+        byte[] decryptBytes= cipher.doFinal(Base64.getDecoder().decode(password));
+        return new String(decryptBytes);
 
     }
 
@@ -213,7 +232,8 @@ public class UserServices {
                     UserMst data= userMst.get();
 
                     AesUtil aes = new AesUtil();
-                    data.setPassword(aes.encrypt(dto.getPass()));
+                    String actualPass= decryptPass(dto.getPass());
+                    data.setPassword(aes.encrypt(actualPass));
 
                     userRepo.save(data);
                 }
@@ -279,28 +299,23 @@ public class UserServices {
 
                 AesUtil aes = new AesUtil();
                 String actualPass = aes.decrypt(data.getPassword());
-                System.out.println("actualPass :: "+actualPass);
-                System.out.println("SALT :: "+ dto.getNewPassword2());
+//                System.out.println("actualPass :: "+actualPass);
+//                System.out.println("SALT :: "+ dto.getNewPassword2());
                 String hashedPassword = getSecurePassword(actualPass, dto.getNewPassword2());
-                System.out.println("HASH :: "+hashedPassword);
+//                System.out.println("HASH :: "+hashedPassword);
                 if (!hashedPassword.equals(dto.getCurrentPassword())) {
                     return  new ApiResponse2<>(false, "Invalid Current Password. Please Check...",null, HttpStatus.NOT_FOUND.value());
                 }
-                System.out.println("pass");
-                System.out.println("new pass"+aes.decrypt(dto.getNewPassword()));
 
-//                data.setPassword(dto.getNewPassword());
-//                userRepo.save(data);
+                String actualNewPass= decryptPass(dto.getNewPassword());
+                data.setPassword(aes.encrypt(actualNewPass));
 
-
+                userRepo.save(data);
 
             }else {
                 return  new ApiResponse2<>(false, "User Not Found...",null, HttpStatus.NOT_FOUND.value());
 
             }
-
-
-
 
 
             return  new ApiResponse2<>(true, "Password Updated Successfully","", HttpStatus.OK.value());
