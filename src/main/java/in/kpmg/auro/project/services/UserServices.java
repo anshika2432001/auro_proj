@@ -195,6 +195,7 @@ public class UserServices {
             return  new ApiResponse2<>(true, "OTP Resend Successfully",true, HttpStatus.OK.value());
 
         }catch (Exception e){
+            e.printStackTrace();
             return  new ApiResponse2<>(false, "Facing Problem While Resending OTP ",false, HttpStatus.BAD_REQUEST.value());
 
         }
@@ -252,7 +253,7 @@ public class UserServices {
 
 
         }catch (Exception e){
-
+            e.printStackTrace();
             return  new ApiResponse2<>(false, "Facing Problem At this Moment...",null, HttpStatus.BAD_REQUEST.value());
 
 
@@ -266,6 +267,7 @@ public class UserServices {
             List<RoleAccessGrantsMst> roleAccessGrantsMstList= accessGrantsRepo.findByRoleId(dto.getRoleId());
             return  new ApiResponse2<>(true, "Role Based Access Fetch",roleAccessGrantsMstList, HttpStatus.OK.value());
         } catch (Exception e){
+            e.printStackTrace();
             return  new ApiResponse2<>(true, "Facing Problem While Fetching Data...",null, HttpStatus.BAD_REQUEST.value());
         }
     }
@@ -283,6 +285,7 @@ public class UserServices {
             }
             return  new ApiResponse2<>(true, "Access Updated Successfully","", HttpStatus.OK.value());
         } catch (Exception e){
+            e.printStackTrace();
             return  new ApiResponse2<>(true, "Facing Problem While Updating Data...",null, HttpStatus.BAD_REQUEST.value());
         }
 
@@ -320,6 +323,7 @@ public class UserServices {
 
             return  new ApiResponse2<>(true, "Password Updated Successfully","", HttpStatus.OK.value());
         } catch (Exception e){
+            e.printStackTrace();
             return  new ApiResponse2<>(true, "Facing Problem While Updating Password...",null, HttpStatus.BAD_REQUEST.value());
         }
 
