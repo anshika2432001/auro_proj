@@ -7,7 +7,7 @@ export const STATUSES = Object.freeze({
     LOADING: 'loading',
 });
 
-// Thunk
+
 export const userLogin = createAsyncThunk('login/api', async (request) => {
     console.log(request)
     const res = await axios.post('/auth/authenticate', request);
