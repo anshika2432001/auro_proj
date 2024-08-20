@@ -19,6 +19,7 @@ export const userLogin = createAsyncThunk('login/api', async (request) => {
     localStorage.setItem('userName',res.data?.userdetails.user.userName)
     localStorage.setItem('email',res.data?.userdetails.user.email)
     localStorage.setItem('roleId',res.data?.userdetails.roleMap.roleId)
+    localStorage.setItem('userId',res.data?.userdetails.user.userId)
     localStorage.setItem('roleName',res.data?.userdetails.roleMap.roleName)
         return res.data; 
     }

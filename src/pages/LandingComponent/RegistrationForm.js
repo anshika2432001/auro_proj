@@ -17,7 +17,7 @@ import CryptoJS from 'crypto-js';
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
-  const [agree, setAgree] = useState(false);
+
   const [roleTypeId, setRoleTypeId] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,6 +42,7 @@ const RegistrationForm = () => {
     .min(8, 'Password must be at least 8 characters long'),
     roleTypeId: Yup.number().required('Required'),
     designation: Yup.string().required('Required'),
+    agree: Yup.boolean().oneOf([true], 'You must accept the terms and conditions').required('Required'),
   });
 
   const validationSchemas = {
@@ -81,6 +82,7 @@ const RegistrationForm = () => {
       ministry: '',
       companyUrl: '',
       designation: '',
+      agree: false,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -89,9 +91,7 @@ const RegistrationForm = () => {
     },
   });
 
-  const handleCheckboxChange = () => {
-    setAgree(true);
-  };
+ 
  
 
   const getValueFromList = (list, value) => {
@@ -394,12 +394,14 @@ const RegistrationForm = () => {
               </Grid>
                )}
               <Grid item xs={12} sm={12} md={12} lg={12}>
-                <FormControlLabel
+              <FormControlLabel
                   control={
                     <Checkbox
                       name="agree"
-                      checked={agree}
-                      onChange={handleCheckboxChange}
+                      checked={formik.values.agree}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      color="primary"
                     />
                   }
                   label="I understand that the Public Data Dashboard is for research purpose, I agree to not republish this data or utilize it for commercial use. For intended research, the platform has to be cited and the organization has to be informed."
