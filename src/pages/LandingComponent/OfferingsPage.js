@@ -54,7 +54,7 @@ const OfferingsPage = () =>{
                   <BarChartIcon sx={{color:"#4772D9"}}/>
                   Comprehensive data analysis
                 </Typography>
-                <Typography variant="body2" >
+                <Typography variant="body1" >
                 •	<b>Extensive datasets</b> on education indicators<br></br>
 •	<b>Analysis</b> of trends, contextual factors, practices and learning environment.
 
@@ -62,10 +62,19 @@ const OfferingsPage = () =>{
               </Grid>
               <Grid item xs={6} >
                 <Typography variant="h6" display="flex" flexDirection="column">
+                  <LocationOnOutlinedIcon sx={{color:"#4772D9"}}/>
+                  Data Reporting 
+                </Typography>
+                <Typography variant="body1">
+                • <b>Tailored reports</b> with detailed insights on state of learning and educational contexts .
+                </Typography>
+              </Grid>
+              <Grid item xs={6} >
+                <Typography variant="h6" display="flex" flexDirection="column">
                   <DashboardOutlinedIcon sx={{color:"#4772D9"}}/>
                   Data Visualization and Accessibility
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1">
                 • <b>Interactive</b> visualizations and <b>user-friendly</b> dashboards<br></br>
 •	Regular <b>updates</b> and data <b>refreshes</b><br></br>
 •	<b>Collaboration</b> to enhance data collection, analysis, and interpretation.
@@ -77,21 +86,13 @@ const OfferingsPage = () =>{
                   <LockClockOutlinedIcon sx={{color:"#4772D9"}}/>
                   Comparative Analysis and Benchmarking
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="body1">
                 •	<b>Benchmarking</b> and <b>comparison</b> of educational practices and policies<br></br>
 •	Evaluation of <b>effectiveness</b> of education systems
 
                 </Typography>
               </Grid>
-              <Grid item xs={6} >
-                <Typography variant="h6" display="flex" flexDirection="column">
-                  <LocationOnOutlinedIcon sx={{color:"#4772D9"}}/>
-                  Data Reporting 
-                </Typography>
-                <Typography variant="body2">
-                • <b>Tailored reports</b> with detailed insights on state of learning and educational contexts .
-                </Typography>
-              </Grid>
+             
             </Grid>
           </Grid>
         </Grid>

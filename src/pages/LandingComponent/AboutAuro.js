@@ -105,7 +105,15 @@ const AboutAuro = () => {
                 About Auro Scholar
               </Typography>
       <Typography variant="body1" component="div">
-      <b>Sri Aurobindo Society</b> started the <b>Auro Scholarships Programme</b> to award monthly <b>Micro-Scholarships to school students in India</b> through the <b>Auro Scholar App</b>. The goal is to provide online scholarship to students to improve their learning outcomes while strengthening academic foundation. Students can take <b>10 min curriculum-based quizzes</b> and get <b>INR 50 scholarship</b> per quiz within <b>24 hours</b> (INR 1,000 for 20 such quizzes).
+      <Typography variant="body1" component="span" color="green" fontWeight="bold">Sri Aurobindo Society</Typography> started the{' '} 
+      <Typography variant="body1" component="span" color="orange" fontWeight="bold">Auro Scholarships Programme</Typography>{' '} to award monthly{' '} 
+      <Typography variant="body1" component="span" color="#2899DB" fontWeight="bold">Micro-Scholarships to school students in India</Typography>{' '}
+      through the{' '}
+      <Typography variant="body1" component="span" color="red" fontWeight="bold">Auro Scholar App</Typography>.
+       The goal is to provide online scholarship to students to improve their learning outcomes while strengthening academic foundation. Students can take{' '} 
+       <Typography variant="body1" component="span" color="green" fontWeight="bold">10 min curriculum-based quizzes</Typography> and get{' '} 
+       <Typography variant="body1" component="span" color="orange" fontWeight="bold">INR 50 scholarship</Typography> per quiz within{' '} 
+       <Typography variant="body1" component="span" color="#2899DB" fontWeight="bold">24 hours</Typography> (INR 1,000 for 20 such quizzes).
 
         {/* Welcome Teachers & Parents, receive learning analytics of students to help improve progress. We provide quizzes across{' '}
         <Typography variant="body1" component="span" color="green">

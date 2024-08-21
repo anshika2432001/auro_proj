@@ -19,7 +19,7 @@ const Benefits = () => {
           Some content explaining the benefits goes here.
         </Typography>
         <Grid container spacing={0} sx={{ mt: 3 }}>
-          <Grid item xs={12} sm={4} md={4} lg={4}>
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{p:1}}>
             <Box  align="center">
               <AccountBalanceIcon sx={{color:"white",pt:"15px"}}/>
             <Typography variant="h4" align="center" color="white">Policy Makers and Research Organizations</Typography>
@@ -28,7 +28,7 @@ const Benefits = () => {
         </Typography>
           </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc' }}>
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{ borderLeft: '1px solid #ccc',p:1 }}>
           <Box  align="center">
               <HandshakeIcon sx={{color:"white",pt:"15px"}}/>
             <Typography variant="h4" align="center" color="white">Government Agencies</Typography>
@@ -37,7 +37,7 @@ const Benefits = () => {
         </Typography>
           </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc' }}>
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{ borderTop: '1px solid #ccc',p:1}}>
           <Box  align="center">
               <CastForEducationIcon sx={{color:"white"}}/>
             <Typography variant="h4" align="center" color="white">Teachers</Typography>
@@ -46,10 +46,10 @@ const Benefits = () => {
         </Typography>
           </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderTop: '1px solid #ccc' }}>
+          <Grid item xs={12} sm={6} md={6} lg={6} sx={{ borderTop: '1px solid #ccc',borderLeft: '1px solid #ccc',p:1 }}>
           <Box  align="center">
               <VolunteerActivismIcon sx={{color:"white"}}/>
-            <Typography variant="h4" align="center" color="white"> 4.	Education Leaders and Administrators</Typography>
+            <Typography variant="h4" align="center" color="white">Education Leaders and Administrators</Typography>
             <Typography variant="body2" align="center" color="white">
             To analyze trends, assess current practices, and evaluate the effectiveness of schools and education systems.
         </Typography>
