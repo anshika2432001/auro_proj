@@ -22,40 +22,40 @@ const Benefits = () => {
           <Grid item xs={12} sm={4} md={4} lg={4}>
             <Box  align="center">
               <AccountBalanceIcon sx={{color:"white",pt:"15px"}}/>
-            <Typography variant="h4" align="center" color="white"> Government Agencies</Typography>
+            <Typography variant="h4" align="center" color="white">Policy Makers and Research Organizations</Typography>
             <Typography variant="body2" align="center" color="white">
-          Some content explaining the benefits goes here.
+            To benchmark and compare educational practices and policies and develop evidence-based policies to improve the overall education system.
         </Typography>
           </Box>
           </Grid>
           <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc' }}>
           <Box  align="center">
               <HandshakeIcon sx={{color:"white",pt:"15px"}}/>
-            <Typography variant="h4" align="center" color="white">Ed Tech Partner Firms</Typography>
+            <Typography variant="h4" align="center" color="white">Government Agencies</Typography>
             <Typography variant="body2" align="center" color="white">
-          Some content explaining the benefits goes here.
+            To monitor educational progress, make data-driven decisions, and allocate resources effectively.
         </Typography>
           </Box>
           </Grid>
           <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc' }}>
           <Box  align="center">
               <CastForEducationIcon sx={{color:"white"}}/>
-            <Typography variant="h4" align="center" color="white">Government Agencies </Typography>
+            <Typography variant="h4" align="center" color="white">Teachers</Typography>
             <Typography variant="body2" align="center" color="white">
-          Some content explaining the benefits goes here.
+            To track learning outcomes, identify areas for improvement, and tailor their teaching strategies. The dashboard can also provide insights into effective teaching practices and help teachers benchmark their performance.
         </Typography>
           </Box>
           </Grid>
           <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderTop: '1px solid #ccc' }}>
           <Box  align="center">
               <VolunteerActivismIcon sx={{color:"white"}}/>
-            <Typography variant="h4" align="center" color="white"> Donors</Typography>
+            <Typography variant="h4" align="center" color="white"> 4.	Education Leaders and Administrators</Typography>
             <Typography variant="body2" align="center" color="white">
-          Some content explaining the benefits goes here.
+            To analyze trends, assess current practices, and evaluate the effectiveness of schools and education systems.
         </Typography>
           </Box>
           </Grid>
-          <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc', borderTop: '1px solid #ccc' }}>
+          {/* <Grid item xs={12} sm={4} md={4} lg={4} sx={{ borderLeft: '1px solid #ccc', borderTop: '1px solid #ccc' }}>
           <Box  align="center">
               <AutoStoriesIcon sx={{color:"white"}}/>
             <Typography variant="h4" align="center" color="white"> Teachers</Typography>
@@ -72,7 +72,7 @@ const Benefits = () => {
           Some content explaining the benefits goes here.
         </Typography>
           </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
       </CardContent>
     </Card>

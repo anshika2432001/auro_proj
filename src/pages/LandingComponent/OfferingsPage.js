@@ -46,7 +46,7 @@ const OfferingsPage = () =>{
               Our Offerings
             </Typography>
             <Typography variant="body2"  >
-            All- encompassing data on education indicators with interactive data visualization and accessibility through user-friendly dashboards to aid comparative analysis and benchmarking of educational practices and policies.
+            Encompasses data on education indicators with interactive data visualization through user-friendly dashboards to aid comparative analysis and benchmarking of educational practices and policies.
             </Typography>
             <Grid container spacing={2} sx={{mt:2}}>
               <Grid item xs={6}>
@@ -55,8 +55,8 @@ const OfferingsPage = () =>{
                   Comprehensive data analysis
                 </Typography>
                 <Typography variant="body2" >
-                •	Extensive datasets on education indicators, including measurements of learning outcomes and competencies<br></br>
-•	Analysis and assessment of trends, contextual factors, and educational practices and learning environment attributes
+                •	<b>Extensive datasets</b> on education indicators<br></br>
+•	<b>Analysis</b> of trends, contextual factors, practices and learning environment.
 
                 </Typography>
               </Grid>
@@ -66,9 +66,9 @@ const OfferingsPage = () =>{
                   Data Visualization and Accessibility
                 </Typography>
                 <Typography variant="body2">
-                •	Interactive visualizations and user-friendly data dashboards<br></br>
-•	Regular updates and data refreshes<br></br>
-•	Collaboration and partnerships to enhance data collection, analysis, and interpretation.
+                • <b>Interactive</b> visualizations and <b>user-friendly</b> dashboards<br></br>
+•	Regular <b>updates</b> and data <b>refreshes</b><br></br>
+•	<b>Collaboration</b> to enhance data collection, analysis, and interpretation.
 
                 </Typography>
               </Grid>
@@ -78,8 +78,8 @@ const OfferingsPage = () =>{
                   Comparative Analysis and Benchmarking
                 </Typography>
                 <Typography variant="body2">
-                •	Benchmarking and comparison of educational practices and policies<br></br>
-•	Evaluation of effectiveness of schools and education systems
+                •	<b>Benchmarking</b> and <b>comparison</b> of educational practices and policies<br></br>
+•	Evaluation of <b>effectiveness</b> of education systems
 
                 </Typography>
               </Grid>
@@ -89,7 +89,7 @@ const OfferingsPage = () =>{
                   Data Reporting 
                 </Typography>
                 <Typography variant="body2">
-                • Tailored reports providing insights into state of learning, learning outcomes and educational contexts of students in the country.
+                • <b>Tailored reports</b> with detailed insights on state of learning and educational contexts .
                 </Typography>
               </Grid>
             </Grid>

@@ -48,14 +48,16 @@ const HomePage = () => {
               Welcome to Public Data Dashboard on Education
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ mt: 3, color: "white" }}>
-              The Education Dashboard, developed by Sri-Aurobindo Society, offers easy access to comprehensive country wide data on education indicators. Its objective is to offer timely and extensive public good data to support the identification of priorities and inform data-driven strategies, policies, and actions focused on emerging areas where children require support. It highlights critical themes in education, including: 
+              The Education Dashboard, developed by Sri Aurobindo Society, offers easy access to comprehensive country wide data on education indicators. The objective is to <b>offer timely</b> and <b>extensive data</b> to support the <b>identification of priorities</b> and inform <b>data-driven strategies, policies, and actions</b> focused on emerging areas where children require support. 
+              The dashboard covers the critical areas in education, including: 
+ 
               <ul>
                 <li>Student Learning Outcomes</li>
                 <li>Student Learning Behavior</li>
                 <li>Career Growth</li>
                 <li>Teacher Attributes</li>
                 <li>School Infrastructure</li>
-                <li>State Education Budget And </li>
+                <li>State Education Budget</li>
                 <li>Parent-Community Engagement</li>
               </ul>
 
