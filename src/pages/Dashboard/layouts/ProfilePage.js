@@ -84,7 +84,7 @@ const toggleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassw
       let payload = {
         currentPassword: hashedCurrentPassword,
         newPassword: encryptedNewPassword,
-        newPassword2: generatedSalt, // Directly use generatedSalt here
+        newPassword2: generatedSalt, 
         userId: localStorage.getItem('userId'),
       };
 

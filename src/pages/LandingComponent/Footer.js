@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Typography, Grid, Link,Box, CardContent,Divider } from '@mui/material';
+import { Card, Typography, Grid, Link, Box, CardContent, Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import AuroLogoDark from '../../images/AuroLogo-dark.jpeg';
 import FacebookLogo from '../../images/Facebook.png';
@@ -9,9 +9,7 @@ import YoutubeLogo from '../../images/YouTube.png';
 import GooglePlayStore from '../../images/GooglePlayStore.png';
 import ApplePlayStore from '../../images/ApplePlayStore.png';
 
-
-const useStyles = makeStyles((theme) => ({
-  
+const useStyles = makeStyles(() => ({
   logo: {
     width: '50px',
     marginRight: 2,
@@ -19,60 +17,54 @@ const useStyles = makeStyles((theme) => ({
   quickLinksHeading: {
     paddingTop: 10,
     paddingBottom: 10,
-    color: "white" 
+    color: "white"
   },
   quickLinks: {
-   '& a': {
-    color: 'white',
-   
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline'
+    '& a': {
+      color: 'white',
+      textDecoration: 'none',
+      '&:hover': {
+        textDecoration: 'underline'
+      }
     }
-   }
   },
   socialMediaIcon: {
-    width:"40px",
-    height:"40px",
-    marginRight:"5px"
+    width: "40px",
+    height: "40px",
+    marginRight: "5px"
   },
   copyright: {
-    display:'flex',
-    justifyContent:'flex-end',
-    
-    color:"white"
+    display: 'flex',
+    justifyContent: 'flex-end',
+    color: "white"
   }
-  
 }));
 
 const Footer = () => {
   const classes = useStyles();
 
   return (
-   
-      <Card sx={{backgroundColor:"#20252C"}}>
-        <CardContent>
+    <Card sx={{ backgroundColor: "#20252C", marginTop: 'auto' }}>
+      <CardContent>
         <Grid container spacing={2} display="flex">
           <Grid item xs={12} sm={4.5} md={4.5} lg={4.5}>
-         
-         
-              <Typography variant="h6">
-                <img src={AuroLogoDark} alt="Logo" height="40" />
-              </Typography>
-           
-            <Typography variant="body2"color="white" sx={{mr:"30px"}}>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.</Typography>
-            <Box sx={{mt:1}}>
-              <Link href="#" target="_blank" sx={{mr:2}}>
-              <img src={GooglePlayStore} alt="GooglePlayStore" />
+            <Typography variant="h6">
+              <img src={AuroLogoDark} alt="Logo" height="40" />
+            </Typography>
+            <Typography variant="body2" color="white" sx={{ mr: "30px" }}>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium eos fuga laborum doloremque. Modi libero nam, fugit quasi quidem aliquam placeat officia possimus ad accusamus inventore eius, nesciunt iure deserunt.
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <Link href="#" target="_blank" sx={{ mr: 2 }}>
+                <img src={GooglePlayStore} alt="GooglePlayStore" />
               </Link>
               <Link href="#" target="_blank">
-              <img src={ApplePlayStore} alt="ApplePlayStore" />
+                <img src={ApplePlayStore} alt="ApplePlayStore" />
               </Link>
-              </Box>
+            </Box>
           </Grid>
           <Grid item xs={12} sm={2.5} md={2.5} lg={2.5}>
-         
-            <Typography variant="h4"  className={classes.quickLinksHeading}>
+            <Typography variant="h4" className={classes.quickLinksHeading}>
               Quick Links
             </Typography>
             <Typography variant="body2" className={classes.quickLinks}>
@@ -86,12 +78,11 @@ const Footer = () => {
             </Typography>
           </Grid>
           <Grid item xs={12} sm={2.5} md={2.5} lg={2.5}>
-         
-          <Typography variant="h4" className={classes.quickLinksHeading}>
+            <Typography variant="h4" className={classes.quickLinksHeading}>
               Links
             </Typography>
-            <Typography variant="body2" className={classes.quickLinks} >
-              <Link href="#" >Blog</Link>
+            <Typography variant="body2" className={classes.quickLinks}>
+              <Link href="#">Blog</Link>
               <br />
               <Link href="#">News</Link>
               <br />
@@ -99,39 +90,37 @@ const Footer = () => {
               <br />
               <Link href="#">Content</Link>
             </Typography>
-       </Grid>
+          </Grid>
           <Grid item xs={12} sm={2.5} md={2.5} lg={2.5}>
-          
-            <Typography variant="h4"  className={classes.quickLinksHeading}>
+            <Typography variant="h4" className={classes.quickLinksHeading}>
               Get in Touch
             </Typography>
-            <Typography variant="body2"color="white">info@example.com</Typography>
-            <Typography variant="body2"color="white">Plot-1201, Vasundhara, Ghaziabad, UttarPradesh,123456</Typography>
-            <Box sx={{mt:1}}>
+            <Typography variant="body2" color="white">info@example.com</Typography>
+            <Typography variant="body2" color="white">Plot-1201, Vasundhara, Ghaziabad, Uttar Pradesh, 123456</Typography>
+            <Box sx={{ mt: 1 }}>
               <Link href="#" target="_blank">
-              <img src={LinkedinLogo} alt="Linkedin" className={classes.socialMediaIcon}/>
+                <img src={LinkedinLogo} alt="Linkedin" className={classes.socialMediaIcon} />
               </Link>
               <Link href="#" target="_blank">
-              <img src={YoutubeLogo} alt="Youtube" className={classes.socialMediaIcon}/>
+                <img src={YoutubeLogo} alt="Youtube" className={classes.socialMediaIcon} />
               </Link>
               <Link href="#" target="_blank">
-              <img src={FacebookLogo} alt="Facebook" className={classes.socialMediaIcon}/>
+                <img src={FacebookLogo} alt="Facebook" className={classes.socialMediaIcon} />
               </Link>
               <Link href="#" target="_blank">
-              <img src={InstagramLogo} alt="Instagram" className={classes.socialMediaIcon}/>
+                <img src={InstagramLogo} alt="Instagram" className={classes.socialMediaIcon} />
               </Link>
             </Box>
           </Grid>
         </Grid>
-        </CardContent>
-        <Divider sx={{ backgroundColor:"#ffff",marginTop:1,marginBottom:1}}/>
-        <Box className={classes.copyright}>
-          <Typography variant="body1">
-            &copy; Copyright 2024, All Rights Reserved
-          </Typography>
-        </Box>
-      </Card>
- 
+      </CardContent>
+      <Divider sx={{ backgroundColor: "#ffff", marginTop: 1, marginBottom: 1 }} />
+      <Box className={classes.copyright}>
+        <Typography variant="body1">
+          &copy; Copyright 2024, All Rights Reserved
+        </Typography>
+      </Box>
+    </Card>
   );
 };
 
