@@ -33,7 +33,7 @@ RUN chmod +x /opt/auro/start.sh
 
 # Set environment variables
 #ENV ENVIRONMENT=development
-ENV JAVA_OPTS="-Xms256m -Xmx512m -Dspring.profiles.active=local"
+ENV JAVA_OPTS="-Xms256m -Xmx256m -Dspring.profiles.active=local"
 
 # Run the application
 ENTRYPOINT ["/bin/bash", "/opt/auro/start.sh"]
